@@ -27,7 +27,7 @@ const Wordle = () => {
         {" "}
         <div className="border-1 border-black w-10 h-10 flex items-center justify-center font-bold text-2xl">
           {guesses.map((guess) => (
-            <Line guess={guess} />
+            <Line key={guess} guess={guess} />
           ))}
         </div>
         <div className="border-1 border-black w-10 h-10 flex items-center justify-center font-bold text-2xl"></div>
