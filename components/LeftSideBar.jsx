@@ -44,7 +44,7 @@ const LeftSideBar = () => {
                 G
               </AvatarFallback>
             </Avatar>
-            <span className="font-semibold">Gurmeet Kaur</span>
+            <span className="font-semibold">Simran Kaur</span>
           </div>
           {[
             {
