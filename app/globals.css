@@ -130,6 +130,21 @@ body {
   padding-top: 500px;
   width: 10px;
 }
+@media (max-width: 767px) {
+  /* Hide scrollbar for Webkit browsers on mobile */
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  /* Optional: overflow styling to ensure content still scrolls */
+  .your-scrollable-div {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 ::-webkit-scrollbar-thumb {
   background-color: #888888;
   border-radius: 5px; /* roundness of the scroll thumb */
