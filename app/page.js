@@ -4,19 +4,19 @@ import LeftSideBar from "@/components/LeftSideBar";
 
 const Home = () => {
   return (
-    <div>
-      <main className="flex justify-between mt-20 px-4 bg-gray-300 dark:bg-black">
+    <>
+      <main className="flex pt-2 justify-between md:px-2 lg:px-4 pl-1 bg-gray-300 dark:bg-black">
         <div className="fixed mt-10 w-1/5 ">
           <LeftSideBar />
         </div>
-        <div className="w-full lg:max-w-1/2 md:max-w-1/2 mx-auto">
+        <div className="w-full lg:max-w-1/2 md:max-w-1/2 mt-16 mx-auto">
           <Wall />
         </div>
         <div className="fixed hidden lg:flex right-3 w-1/5">
           <CoursesBar className="" />
         </div>
       </main>
-    </div>
+    </>
   );
 };
 export default Home;

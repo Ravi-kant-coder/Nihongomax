@@ -17,7 +17,7 @@ const Navbar = () => {
     router.push(path);
   };
   return (
-    <header className="dark:bg-[rgb(55,55,55)] bg-accent shadow-lg py-3 fixed top-0 left-0 right-0 z-50 p-2 mx-auto flex justify-between items-center">
+    <header className="lg:dark:bg-[rgb(55,55,55)] lg:bg-accent bg-gray-300 dark:bg-black lg:shadow-lg py-3 fixed top-0 left-0 right-0 z-50 p-2 mx-auto flex justify-between items-center">
       <div className=" hidden lg:flex">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
