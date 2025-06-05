@@ -28,7 +28,7 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
   };
   return (
     <Card className="dark:bg-[rgb(35,35,35)] mb-2 shadow-md shadow-gray-400 dark:shadow-[rgb(20,20,20)] w-full">
-      <CardContent className="dark:bg-[rgb(65,65,65)] pt-6 pb-2 rounded-lg bg-accent">
+      <CardContent className="dark:bg-[rgb(65,65,65)] pt-6 lg:pb-2 md:pb-2 pb-6 rounded-lg ">
         <div className="flex ">
           <Avatar className="h-9 w-9 cursor-pointer">
             <AvatarImage />
@@ -39,25 +39,27 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
 
           <Dialog open={isPostFormOpen} onOpenChange={setIsPostFormOpen}>
             <div className="w-full px-4 cursor-pointer ">
-              <DialogTrigger className="w-full ">
-                <Input
-                  placeholder="Ask or Answer..."
-                  readOnly
-                  className="rounded-full border-1 border-gray-300 dark:border-gray-500 cursor-pointer h-10 dark:bg-[rgb(75,75,75)]"
-                />
-
-                <div className="flex justify-between">
+              <DialogTrigger className="w-full">
+                <div className="flex items-center">
+                  <Input
+                    placeholder="Ask or Answer..."
+                    readOnly
+                    className="rounded-full border-1 border-gray-300 dark:border-gray-500 cursor-pointer h-10 dark:bg-[rgb(75,75,75)]"
+                  />
+                  <ImageIcon className="h-5 w-5 text-green-500 ml-2 lg:hidden md:hidden " />
+                </div>
+                <div className="lg:flex md:flex md:justify-center hidden lg:justify-between">
                   <div className="px-4 p-2 cursor-pointer rounded-lg flex items-center mt-2 justify-center hover:bg-gray-300 dark:hover:bg-[rgb(36,37,38)] dark:text-white">
                     <ImageIcon className="h-5 w-5 text-green-500 mr-2" />
-                    <span>Photo</span>
+                    <span className="md:hidden lg:flex">Photo</span>
                   </div>
                   <div className="px-4 p-2 hover:bg-gray-300 cursor-pointer rounded-lg flex items-center mt-2 justify-center dark:hover:bg-[rgb(36,37,38)] dark:text-white">
                     <VideoIcon className="h-5 w-5 text-red-500 mr-2" />
-                    <span>Video</span>
+                    <span className="md:hidden lg:flex">Video</span>
                   </div>
                   <div className="px-4 p-2 cursor-pointer rounded-lg flex items-center mt-2 justify-center hover:bg-gray-300 dark:hover:bg-[rgb(36,37,38)] dark:text-white">
                     <Laugh className="h-5 w-5 text-yellow-500 mr-2" />
-                    <span>Emoji</span>
+                    <span className="md:hidden lg:flex">Emoji</span>
                   </div>
                 </div>
               </DialogTrigger>

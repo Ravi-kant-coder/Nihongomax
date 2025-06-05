@@ -18,7 +18,7 @@ const Navbar = () => {
   };
   return (
     <header className="dark:bg-[rgb(55,55,55)] bg-accent shadow-lg py-3 fixed top-0 left-0 right-0 z-50 p-2 mx-auto flex justify-between items-center">
-      <div className="md:flex">
+      <div className=" hidden lg:flex">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
         </a>
@@ -59,7 +59,7 @@ const Navbar = () => {
       <div className="flex md:space-x-4 items-center">
         <Button
           variant="ghost"
-          className="md:hidden text-gray-600 cursor-pointer"
+          className="md:hidden lg:hidden text-gray-600 cursor-pointer"
           // onClick={toggleSidebar}
         >
           <Menu />

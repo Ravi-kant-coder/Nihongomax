@@ -98,7 +98,14 @@ const LeftSideBar = () => {
             },
             {
               id: 8,
-              label: "Get Jobs in India/Japan",
+              label: "Apply for Jobs",
+              navPath: "/",
+              icon: Frame,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 9,
+              label: "For Recruiters",
               navPath: "/",
               icon: Frame,
               className: "mr-4 w-4 h-4",
