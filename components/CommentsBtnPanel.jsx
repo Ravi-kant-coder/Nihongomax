@@ -26,8 +26,8 @@ const CommentsBtnPanel = ({
   commentInputRef,
 }) => {
   return (
-    <div className="md:flex justify-between p-4 items-center dark:bg-[rgb(25,25,25)]">
-      <div className="flex space-x-4 ">
+    <div className="flex flex-col justify-center lg:p-4 p-2 gap-1 items-center dark:bg-[rgb(25,25,25)]">
+      <div className="flex lg:space-x-20 space-x-15 ">
         <Button
           variant="ghost"
           className={`hover:bg-gray-300 cursor-pointer border-1 border-gray-400 flex dark:hover:bg-background items-center  ${
@@ -94,7 +94,7 @@ const CommentsBtnPanel = ({
           </DialogContent>
         </Dialog>
       </div>
-      <div className="flex space-x-4 ml-2 text-sm text-gray-900 dark:text-gray-400">
+      <div className="flex lg:space-x-20 space-x-20 ml-2 text-sm text-gray-900 dark:text-gray-400">
         <Button variant="ghost" size="sm">
           {likes} {likes > 1 ? "likes" : "like"}
         </Button>

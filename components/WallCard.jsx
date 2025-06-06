@@ -71,7 +71,7 @@ const WallCard = ({
       transition={{ type: "spring", stiffness: 1000, duration: 5 }}
       className="bg-white dark:shadow-[rgb(20,20,20)] shadow-gray-400 dark:bg-[rgb(25,25,25)] rounded-md dark:text-gray-300 shadow-lg dark:border-gray-500 overflow-hidden mb-4"
     >
-      <div className="flex items-center justify-between p-2 bg-accent dark:bg-[rgb(25,25,25)] rounded-t-lg">
+      <div className="flex items-center justify-between lg:p-2 bg-accent dark:bg-[rgb(25,25,25)] rounded-t-lg">
         <div className="flex items-center">
           <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
             <Avatar className="cursor-pointer h-10 w-10  mr-3 hover:ring-3 hover:ring-gray-600 hover:ring-offset-1 transition duration-100">
@@ -94,7 +94,7 @@ const WallCard = ({
           </span>
         </div>
       </div>
-      <div className="dark:bg-[rgb(50,50,50)] p-2 py-4 font-lg text-lg bg-gray-200">
+      <div className="dark:bg-[rgb(50,50,50)] p-2 py-4 font-lg lg:text-lg text-sm bg-gray-200">
         <CommentEdit initialComment={initialComment} />
       </div>
       <div>
