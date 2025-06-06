@@ -65,7 +65,7 @@ const StorySection = ({ storyPostsData }) => {
           <Button
             variant="outline"
             size="icon"
-            className="absolute cursor-pointer left-2 top-1/2 transform -translate-y-1/2 bg-gray-400 dark:bg-[rgb(15,15,15)] hover:dark:bg-[rgb(35,35,35)] rounded-full shadow-lg transition-opacity duration-300 ease-in-out dark:border-1 dark:border-white"
+            className="absolute hidden lg:flex cursor-pointer left-2 top-1/2 transform -translate-y-1/2 bg-gray-400 dark:bg-[rgb(15,15,15)] hover:dark:bg-[rgb(35,35,35)] rounded-full shadow-lg transition-opacity duration-300 ease-in-out dark:border-1 dark:border-white"
             onClick={() => scroll("left")}
           >
             <ChevronLeft className="h-5 w-5" />
@@ -77,7 +77,7 @@ const StorySection = ({ storyPostsData }) => {
           <Button
             variant="outline"
             size="icon"
-            className="absolute cursor-pointer right-2 top-1/2 transform -translate-y-1/2 bg-gray-400 rounded-full shadow-lg dark:bg-[rgb(15,15,15)] hover:dark:bg-[rgb(35,35,35)] transition-opacity duration-300 ease-in-out dark:border-1 dark:border-white"
+            className="absolute hidden lg:flex cursor-pointer right-2 top-1/2 transform -translate-y-1/2 bg-gray-400 rounded-full shadow-lg dark:bg-[rgb(15,15,15)] hover:dark:bg-[rgb(35,35,35)] transition-opacity duration-300 ease-in-out dark:border-1 dark:border-white"
             onClick={() => scroll("right")}
           >
             <ChevronRight className="h-5 w-5" />
