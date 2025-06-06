@@ -33,7 +33,7 @@ const Navbar = () => {
           transition={{ type: "spring", stiffness: 300 }}
         >
           <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
-            <div className="hover:bg-black shadow-lg p-2 dark:font-normal px-3 font-semibold rounded-sm font-[Poppins] bg-[rgb(60,60,60)] text-white dark:bg-black">
+            <div className="hover:bg-black shadow-lg lg:p-2 dark:font-normal px-3 text-sm rounded-sm font-[Poppins] bg-[rgb(60,60,60)] text-white dark:bg-black">
               <h1>Nihongomax 7678461209</h1>
             </div>
           </a>
