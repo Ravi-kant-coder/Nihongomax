@@ -8,7 +8,8 @@ import {
   School,
   BriefcaseBusiness,
   Dices,
-  Frame,
+  FileUser,
+  ChartNoAxesCombined,
 } from "lucide-react";
 import useSidebarStore from "../app/store/sidebarStore";
 import { useRouter } from "next/navigation";
@@ -100,14 +101,14 @@ const LeftSideBar = () => {
               id: 8,
               label: "Apply for Jobs",
               navPath: "/",
-              icon: Frame,
+              icon: FileUser,
               className: "mr-4 w-4 h-4",
             },
             {
               id: 9,
               label: "For Recruiters",
               navPath: "/",
-              icon: Frame,
+              icon: ChartNoAxesCombined,
               className: "mr-4 w-4 h-4",
             },
           ].map(({ id, label, icon: Icon, className, navPath }) => (

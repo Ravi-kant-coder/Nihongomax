@@ -9,7 +9,7 @@ const Home = () => {
         <div className="fixed mt-10 w-1/5 ">
           <LeftSideBar />
         </div>
-        <div className="w-full lg:max-w-1/2 md:max-w-1/2 mt-16 mx-auto">
+        <div className="w-full lg:max-w-1/2 md:max-w-1/2 lg:mt-18 md:mt-18 mt-12 mx-auto">
           <Wall />
         </div>
         <div className="fixed hidden lg:flex right-3 w-1/5">

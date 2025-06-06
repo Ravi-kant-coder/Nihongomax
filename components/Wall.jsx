@@ -102,7 +102,7 @@ const storyPostsData = [
 
 const Wall = () => {
   return (
-    <div className=" h-[85vh] overflow-y-scroll pr-1">
+    <div className="pr-1">
       <NewPostForm />
       <StorySection storyPostsData={storyPostsData} />
       {storyPostsData?.map((userDataObj) => (
