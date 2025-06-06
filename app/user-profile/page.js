@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileHeader from "./ProfileHeader";
 import ProfileTabs from "./ProfileTabs";
 import LeftSideBar from "@/components/LeftSideBar";
@@ -38,8 +38,7 @@ const Page = () => {
 
   return (
     <>
-      <LeftSideBar />
-      <div className=" ml-60 p-20">
+      <div className="">
         <ProfileHeader
         // profileData={profileData}
         // setProfileData={setProfileData}

@@ -12,8 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 const UserMenu = () => {
+  const router = useRouter();
+  const handleNavigation = (path, item) => {
+    router.push(path);
+  };
   return (
     <div>
       <DropdownMenu>

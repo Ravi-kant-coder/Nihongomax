@@ -29,12 +29,8 @@ const WallCard = ({
     setShowComments(true);
     setTimeout(() => {
       commentInputRef?.current?.focus();
-    }, 1000);
+    }, 500);
   };
-  // const userPlaceholder = user?.username
-  //   ?.split(" ")
-  //   .map((name) => name[0])
-  //   .join("");
 
   const generateSharedLink = () => {
     return `http://localhost:3000/${userDataObj?._id}`;
@@ -94,7 +90,7 @@ const WallCard = ({
           </span>
         </div>
       </div>
-      <div className="dark:bg-[rgb(50,50,50)] p-2 py-4 font-lg lg:text-lg text-sm bg-gray-200">
+      <div className="dark:bg-[rgb(50,50,50)] p-2 lg:text-md text-sm bg-gray-200">
         <CommentEdit initialComment={initialComment} />
       </div>
       <div>

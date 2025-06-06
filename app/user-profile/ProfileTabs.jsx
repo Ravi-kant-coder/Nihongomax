@@ -18,7 +18,7 @@ const ProfileTabs = ({
         className="w-full"
         onValueChange={setActiveTab}
       >
-        <TabsList className="grid w-full grid-cols-4 dark:bg-black cursor-pointer">
+        <TabsList className="grid w-full  grid-cols-4 dark:bg-black cursor-pointer">
           <TabsTrigger value="posts" className=" cursor-pointer">
             Posts
           </TabsTrigger>

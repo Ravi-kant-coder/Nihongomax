@@ -24,97 +24,90 @@ const ShownComments = ({
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem dolores beatae nihil illum pariatur facere repellat temporibus officia eos suscipit!";
   return (
     <div>
-      <AnimatePresence>
-        {showComments && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <div className="max-w-full m-2 dark:bg-[rgb(35,35,35)] text-sm bg-gray-300 dark:text-gray-300 text-md rounded-md p-2">
-              {/* <VideoComments
+      {showComments && (
+        <>
+          <div className="max-w-full m-2 dark:bg-[rgb(35,35,35)] text-sm bg-gray-300 dark:text-gray-300 text-md rounded-md p-2">
+            {/* <VideoComments
               key={post?.comments?._id}
               comments={post?.comments}
             /> */}
-              <div className="flex items-center">
-                <div className="overflow-hidden rounded">
-                  <Avatar className="cursor-pointer h-8 w-8 mr-3 dark:text-white ">
-                    <AvatarImage
-                      src={userDataObj?.mediaURL}
-                      className="object-cover"
-                    />
-                    <AvatarFallback className="bg-gray-500">
-                      {userDataObj?.user.username[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-                <div className="cursor-pointer hover:underline">
-                  <p>{userDataObj?.user.username.split(" ")[0]} replied...</p>
-                </div>
+            <div className="flex items-center">
+              <div className="overflow-hidden rounded">
+                <Avatar className="cursor-pointer h-8 w-8 mr-3 dark:text-white ">
+                  <AvatarImage
+                    src={userDataObj?.mediaURL}
+                    className="object-cover"
+                  />
+                  <AvatarFallback className="bg-gray-500">
+                    {userDataObj?.user.username[0]}
+                  </AvatarFallback>
+                </Avatar>
               </div>
-              <p>
-                <CommentEdit initialComment={initialComment} />
-              </p>
+              <div className="cursor-pointer hover:underline">
+                <p>{userDataObj?.user.username.split(" ")[0]} replied...</p>
+              </div>
             </div>
+            <p>
+              <CommentEdit initialComment={initialComment} />
+            </p>
+          </div>
 
-            <div className="max-w-full m-2 dark:bg-[rgb(35,35,35)] text-sm bg-gray-300 dark:text-gray-300 text-md rounded-md p-2">
-              {/* <VideoComments
+          <div className="max-w-full m-2 dark:bg-[rgb(35,35,35)] text-sm bg-gray-300 dark:text-gray-300 text-md rounded-md p-2">
+            {/* <VideoComments
               key={post?.comments?._id}
               comments={post?.comments}
             /> */}
-              <div className="flex items-center">
-                <div className="overflow-hidden rounded ">
-                  <Avatar className="cursor-pointer h-8 w-8 mr-3 ">
-                    <AvatarImage
-                      src={userDataObj?.mediaURL}
-                      className="object-cover"
-                    />
-                    <AvatarFallback className="bg-gray-500">
-                      {userDataObj?.user.username[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-                <div className="cursor-pointer hover:underline">
-                  <p>{userDataObj?.user.username.split(" ")[0]} replied...</p>
-                </div>
+            <div className="flex items-center">
+              <div className="overflow-hidden rounded ">
+                <Avatar className="cursor-pointer h-8 w-8 mr-3 ">
+                  <AvatarImage
+                    src={userDataObj?.mediaURL}
+                    className="object-cover"
+                  />
+                  <AvatarFallback className="bg-gray-500">
+                    {userDataObj?.user.username[0]}
+                  </AvatarFallback>
+                </Avatar>
               </div>
-              <p>
-                This is second comment from another person with a long one but
-                unless Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repellendus natus unde repudia? Lorem ipsum dolor sit, amet
-                consectetur adipisicing elit. Vel, odit voluptatibus cumque
-                vitae aspernatur rem iste neque dolore? Ex nemo qui ullam
-                deserunt vero debitis amet quos fugiat autem ea?
-              </p>
+              <div className="cursor-pointer hover:underline">
+                <p>{userDataObj?.user.username.split(" ")[0]} replied...</p>
+              </div>
             </div>
-            <div className="flex items-center p-2 mb-2">
-              <Avatar className="h-10 w-10 rounded mr-3">
-                <AvatarImage />
-                <AvatarFallback className="dark:bg-gray-500">
-                  {userDataObj?.user.username[0]}
-                </AvatarFallback>
-              </Avatar>
-              <Input
-                className="flex-1 mr-2 dark:border-gray-100 border-gray-400"
-                placeholder={`Reply as ${
-                  userDataObj?.user.username.split(" ")[0]
-                }...`}
-                value={commentText}
-                ref={commentInputRef}
-                onChange={(e) => setCommentText(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleCommentSubmit()}
-              />
-              <Button
-                className="cursor-pointer bg-gray-700 hover:bg-black dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
-                onClick={handleCommentSubmit}
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <p>
+              This is second comment from another person with a long one but
+              unless Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Repellendus natus unde repudia? Lorem ipsum dolor sit, amet
+              consectetur adipisicing elit. Vel, odit voluptatibus cumque vitae
+              aspernatur rem iste neque dolore? Ex nemo qui ullam deserunt vero
+              debitis amet quos fugiat autem ea?
+            </p>
+          </div>
+          <div className="flex items-center p-2 mb-2">
+            <Avatar className="h-10 w-10 rounded mr-3">
+              <AvatarImage />
+              <AvatarFallback className="dark:bg-gray-500">
+                {userDataObj?.user.username[0]}
+              </AvatarFallback>
+            </Avatar>
+            <Input
+              className="flex-1 mr-2 dark:border-gray-100 border-gray-400"
+              placeholder={`Reply as ${
+                userDataObj?.user.username.split(" ")[0]
+              }...`}
+              value={commentText}
+              ref={commentInputRef}
+              onChange={(e) => setCommentText(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleCommentSubmit()}
+            />
+            <Button
+              className="cursor-pointer bg-gray-700 hover:bg-black dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
+              onClick={handleCommentSubmit}
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

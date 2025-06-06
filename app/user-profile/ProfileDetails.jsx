@@ -104,24 +104,6 @@ const ProfileDetails = ({
   const tabContent = {
     posts: (
       <div className="flex flex-col lg:flex-row gap-6 ">
-        <div className="w-full lg:w-[70%] space-y-6 mb-4">
-          {userPosts?.map((post) => (
-            <PostsContent
-              key={post?._id}
-              post={post}
-              // isLiked={likePosts.has(post?._id)}
-              // onLike={() => handleLike(post?._id)}
-              // onComment={async (comment) => {
-              //   await handleCommentPost(post?._id, comment.text);
-              //   await fetchUserPost(id);
-              // }}
-              // onShare={async () => {
-              //   await handleSharePost(post?._id);
-              //   await fetchUserPost(id);
-              // }}
-            />
-          ))}
-        </div>
         <div className="w-full lg:w-[30%]">
           <Card>
             <CardContent className="p-6">
@@ -167,6 +149,24 @@ const ProfileDetails = ({
               }
             </CardContent>
           </Card>
+        </div>
+        <div className="w-full lg:w-[70%] space-y-6 mb-4">
+          {userPosts?.map((post) => (
+            <PostsContent
+              key={post?._id}
+              post={post}
+              // isLiked={likePosts.has(post?._id)}
+              // onLike={() => handleLike(post?._id)}
+              // onComment={async (comment) => {
+              //   await handleCommentPost(post?._id, comment.text);
+              //   await fetchUserPost(id);
+              // }}
+              // onShare={async () => {
+              //   await handleSharePost(post?._id);
+              //   await fetchUserPost(id);
+              // }}
+            />
+          ))}
         </div>
       </div>
     ),
