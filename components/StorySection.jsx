@@ -87,4 +87,3 @@ const StorySection = ({ storyPostsData }) => {
     </div>
   );
 };
-export default StorySection;

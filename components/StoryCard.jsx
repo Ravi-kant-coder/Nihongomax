@@ -14,7 +14,7 @@ const createStoryArr = [
 const StoryCard = ({ isAddStory, storyData }) => {
   const handleStoryClick = () => {};
   return (
-    <div className="w-30 h-50 overflow-hidden rounded-md shadow-lg shadow-gray-400 dark:shadow-[rgb(20,20,20)] mb-4">
+    <div className="min-w-[120px] h-[180px]  overflow-hidden rounded-md shadow-lg shadow-gray-400 dark:shadow-[rgb(20,20,20)] mb-4">
       <Card
         className="w-full h-full opacity-90 duration-200 hover:opacity-100 hover:scale-102 object-cover snap-start shrink-0 relative group dark:bg-[rgb(35,35,35)] bg-accent cursor-pointer "
         onClick={isAddStory ? undefined : handleStoryClick}

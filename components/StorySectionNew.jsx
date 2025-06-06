@@ -47,7 +47,7 @@ export default function StorySection() {
 
       <div
         id="story-scroll"
-        className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory space-x-4 px-4 py-2"
+        className="flex lg:overflow-x-hidden scrollbar-hide overflow-x-auto scrollbar-hide snap-x snap-mandatory space-x-4 px-4 py-2"
       >
         {Array.from({ length: 10 }).map((_, idx) => (
           <div
