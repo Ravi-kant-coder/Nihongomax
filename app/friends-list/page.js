@@ -2,14 +2,15 @@
 import React, { useEffect, useState } from "react";
 import LeftSideBar from "@/components/LeftSideBar";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
-import FriendRequest from "./FriendRequest";
+import FriendRequest from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";
+import FriendRequestCard from "./FriendRequestCard";
 // import { userFriendStore } from "@/store/userFriendsStore";
 // import toast from "react-hot-toast";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
-  const friendRequest = [{}];
+  const friendRequests = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
   const friendSuggestion = [{}];
   //   const {
   //     //     followUser,
@@ -42,21 +43,23 @@ const Page = () => {
   //   };
 
   return (
-    <div className="min-h-screen bg-gray-300 dark:bg-[rgb(36,37,38)] ">
-      <LeftSideBar />
-      <main className="ml-0 md:ml-64 mt-16 p-6">
+    <div className="min-h-screen bg-gray-300 dark:bg-[rgb(36,37,38)] lg:flex mt-18">
+      <div className="hidden lg:fixed lg:block">
+        <LeftSideBar />
+      </div>
+      <main className="p-6 bg-gray-200 lg:rounded-lg lg:ml-70 mx-4 lg:mx-0">
         <h1 className="text-2xl font-bold mb-6">Friends Requests</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6  ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6  ">
           {loading ? (
             <FriendCardSkeleton />
-          ) : friendRequest.length === 0 ? (
+          ) : friendRequests.length === 0 ? (
             <NoFriendsMessage
               text="No Friend Requests"
               description="Why not explore Nihongomax and connect with new people?"
             />
           ) : (
-            friendRequest.map((friend) => (
-              <FriendRequest
+            friendRequests.map((friend) => (
+              <FriendRequestCard
                 key={friend._id}
                 friend={friend}
                 loading={loading}

@@ -115,9 +115,9 @@ const ProfileHeader = ({
 
   return (
     <div className="relative">
-      <div className="relative h-64 md:h-80 bg-gray-400 overflow-hidden ">
+      <div className="relative lg:h-80 lg:w-[90vw] mx-auto rounded-lg lg:mt-20 mt-10 h-50 bg-gray-400 overflow-hidden ">
         <img
-          src={"./Horizontal2.jpg"}
+          src={"./Vertical2.jpg"}
           alt="cover"
           className="w-full h-full object-cover"
         />
