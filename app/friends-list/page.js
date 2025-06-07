@@ -10,8 +10,36 @@ import FriendRequestCard from "./FriendRequestCard";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
-  const friendRequests = [{}, {}, {}];
-  const friendSuggestion = [{}, {}, {}];
+  const friendRequests = [
+    { _id: 1, profilePicture: "/Girl.jpg", username: "Gayatri Singhania" },
+    {
+      _id: 2,
+      profilePicture: "/Horizontal1.jpg",
+      username: "Shola aur Shabnam",
+    },
+    {
+      _id: 3,
+      profilePicture: "/Horizontal2.pg",
+      username: "Madhurima",
+    },
+  ];
+  const friendSuggestion = [
+    {
+      _id: 1,
+      profilePicture: "/Girl.jg",
+      username: "Golu chander",
+    },
+    {
+      _id: 2,
+      profilePicture: "/Horizontal1.jpg",
+      username: "Gayatri Singhania",
+    },
+    {
+      _id: 3,
+      profilePicture: "/Horizontal2.jpg",
+      username: "Singhania",
+    },
+  ];
   //   const {
   //     //     followUser,
   //     //     loading,

@@ -73,6 +73,7 @@ const WallCard = ({
             <Avatar className="cursor-pointer h-10 w-10  mr-3 hover:ring-3 hover:ring-gray-600 hover:ring-offset-1 transition duration-100">
               <AvatarImage
                 src={userDataObj?.mediaURL}
+                alt={userDataObj?.username}
                 className="object-cover"
               />
               <AvatarFallback className="bg-gray-400 dark:bg-gray-500">

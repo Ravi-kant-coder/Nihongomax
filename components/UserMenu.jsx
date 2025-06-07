@@ -19,6 +19,7 @@ const UserMenu = () => {
   const handleNavigation = (path, item) => {
     router.push(path);
   };
+  const dunny = { imgsrc: "/Girl.jpg", username: "Phudu" };
   return (
     <div>
       <DropdownMenu>
@@ -31,8 +32,14 @@ const UserMenu = () => {
             className="relative h-10 w-10 rounded-full text-lg cursor-pointer bg-white dark:text-black"
           >
             <Avatar>
-              <AvatarImage />
-              <AvatarFallback>R</AvatarFallback>
+              <AvatarImage
+                className="object-cover"
+                src={dunny?.imgsrc}
+                alt={"byr"}
+              />
+              <AvatarFallback>
+                {dunny?.username.charAt(0).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
@@ -40,10 +47,15 @@ const UserMenu = () => {
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-column space-y-1">
               <div className="flex items-center">
-                <Avatar className="w-8 h-8 mr-2">
-                  <AvatarImage />
-                  <AvatarFallback className="dark:bg-gray-400">
-                    R
+                <Avatar className="cursor-pointer h-8 w-8 hover:ring-3 hover:ring-gray-600 hover:ring-offset-1 transition duration-100 mx-5">
+                  <AvatarImage
+                    src={dunny?.imgsrc}
+                    alt={"byr"}
+                    className="object-cover"
+                  />
+
+                  <AvatarFallback className="bg-pink-400 dark:bg-gray-500 text-xl">
+                    {dunny?.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="">
