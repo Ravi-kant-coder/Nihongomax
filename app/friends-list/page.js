@@ -43,11 +43,11 @@ const Page = () => {
   //   };
 
   return (
-    <div className="min-h-screen bg-gray-300 dark:bg-[rgb(36,37,38)] lg:flex mt-18">
+    <div className="min-h-screen bg-gray-300 dark:bg-[rgb(36,37,38)] lg:flex mt-12 lg:mt-18">
       <div className="hidden lg:fixed lg:block">
         <LeftSideBar />
       </div>
-      <main className="p-6 lg:rounded-lg lg:ml-70 mx-4 lg:mx-0">
+      <main className="lg:p-6 p-2 lg:rounded-lg lg:ml-70 mx-4 lg:mx-0">
         <h1 className="text-2xl font-bold mb-6">
           {friendRequests.length > 0 ? "You Received " : "No "}Friends Requests
         </h1>
