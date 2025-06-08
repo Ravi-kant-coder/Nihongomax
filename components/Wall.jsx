@@ -1,7 +1,7 @@
 "use client";
 import WallCard from "./WallCard";
 import StorySection from "./StorySection";
-import NewPostForm from "./NewPostForm";
+import PostTrigger from "./PostTrigger";
 
 const storyPostsData = [
   {
@@ -103,7 +103,7 @@ const storyPostsData = [
 const Wall = () => {
   return (
     <div className="pr-1">
-      <NewPostForm />
+      <PostTrigger />
       <StorySection storyPostsData={storyPostsData} />
       {storyPostsData?.map((userDataObj) => (
         <WallCard key={userDataObj._id} userDataObj={userDataObj} />

@@ -18,7 +18,7 @@ import { useState } from "react";
 
 // const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 
-const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
+const PostTrigger = ({ isPostFormOpen, setIsPostFormOpen }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [filePreview, setFilePreview] = useState(null);
   const [postContent, setPostContent] = useState("");
@@ -174,4 +174,4 @@ const NewPostForm = ({ isPostFormOpen, setIsPostFormOpen }) => {
   );
 };
 
-export default NewPostForm;
+export default PostTrigger;

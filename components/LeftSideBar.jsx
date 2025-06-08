@@ -8,8 +8,9 @@ import {
   School,
   BriefcaseBusiness,
   Dices,
-  FileUser,
+  Handshake,
   ChartNoAxesCombined,
+  TvMinimalPlay,
 } from "lucide-react";
 import useSidebarStore from "../app/store/sidebarStore";
 import { useRouter } from "next/navigation";
@@ -78,34 +79,41 @@ const LeftSideBar = () => {
             },
             {
               id: 5,
+              label: "Videos",
+              navPath: "/videos",
+              icon: TvMinimalPlay,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 6,
               label: "About Jobs in Japan",
               navPath: "/",
               icon: BriefcaseBusiness,
               className: "mr-4 w-4 h-4",
             },
             {
-              id: 6,
+              id: 7,
               label: "Schools in Japan",
               navPath: "/",
               icon: School,
               className: "mr-4 w-4 h-4",
             },
             {
-              id: 7,
+              id: 8,
               label: "Kanji Games",
               navPath: "/games",
               icon: Dices,
               className: "mr-4 w-4 h-4",
             },
             {
-              id: 8,
+              id: 9,
               label: "Apply for Jobs",
               navPath: "/",
-              icon: FileUser,
+              icon: Handshake,
               className: "mr-4 w-4 h-4",
             },
             {
-              id: 9,
+              id: 10,
               label: "For Recruiters",
               navPath: "/",
               icon: ChartNoAxesCombined,

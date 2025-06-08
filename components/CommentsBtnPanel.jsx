@@ -31,7 +31,7 @@ const CommentsBtnPanel = ({
         <Button
           variant="ghost"
           className={`hover:bg-gray-300 cursor-pointer border-1 border-gray-400 flex dark:hover:bg-background items-center  ${
-            isLiked ? "text-blue-600" : ""
+            isLiked ? "text-red-600" : ""
           }`}
           onClick={onLike}
         >

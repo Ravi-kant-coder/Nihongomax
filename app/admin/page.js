@@ -1,46 +1,47 @@
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Button } from "@/components/ui/button";
-// import { AnimatePresence, motion } from "framer-motion";
-// import { Camera, PenLine, Save, Upload, X } from "lucide-react";
-// import { useRef, useState } from "react";
-// import { Label } from "@/components/ui/label";
-// import { Input } from "@/components/ui/input";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
+"use client";
+import { Lock, LockOpen } from "lucide-react";
+import { useState } from "react";
 
 const Admin = () => {
+  const [isPaid, setIsPaid] = useState(true);
   return (
     <>
-      <div className="m-15">
+      <div className="lg:m-15 lg:mt-20 mt-15 text-sm">
         <div className="overflow-y-auto max-h-150">
-          <table className="w-full border border-gray-300 text-left">
+          <table className=" border border-gray-300 text-left">
             <thead className="sticky top-0 bg-gray-500 z-10 ">
               <tr>
-                <th className="border dark:border-white border-black px-4 py-2">
-                  No.
+                <th className="border dark:border-white text-center border-black py-1">
+                  ID
                 </th>
-                <th className="border dark:border-white border-black px-4 py-2">
-                  Name
+                <th className="border dark:border-white text-center border-black py-1">
+                  Username
                 </th>
-                <th className="border dark:border-white border-black px-4 py-2">
-                  Email
+                <th className="border dark:border-white text-center border-black py-1">
+                  Registered Email
                 </th>
-                <th className="border dark:border-white border-black px-4 py-2">
+                <th className="border dark:border-white text-center border-black  py-1">
                   Role
                 </th>
-                <th className="border dark:border-white border-black px-4 py-2">
+                <th className="border dark:border-white text-center border-black  py-1">
+                  CreatedOn
+                </th>
+                <th className="border dark:border-white text-center border-black  py-1">
+                  PurchasedOn
+                </th>
+                <th className="border dark:border-white text-center border-black  py-1">
+                  ExpiresOn
+                </th>{" "}
+                <th className="border dark:border-white text-center border-black  py-1">
                   Status
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td className="border dark:border-white border-black p-1">1</td>
+                <td className="border dark:border-white border-black p-1">
+                  345
+                </td>
                 <td className="border dark:border-white border-black p-1">
                   Ravi
                 </td>
@@ -51,22 +52,20 @@ const Admin = () => {
                   Admin
                 </td>
                 <td className="border dark:border-white border-black p-1">
-                  Active
-                </td>
-              </tr>
-              <tr>
-                <td className="border dark:border-white border-black p-1">1</td>
-                <td className="border dark:border-white border-black p-1">
-                  Ravi
+                  03-Jun-2025
                 </td>
                 <td className="border dark:border-white border-black p-1">
-                  ravi@example.com
+                  04-Jun-2025
                 </td>
                 <td className="border dark:border-white border-black p-1">
-                  Admin
+                  03-Sep-2025
                 </td>
-                <td className="border dark:border-white border-black p-1">
-                  Active
+                <td className="border dark:border-white border-black p-1 flex justify-center">
+                  {isPaid ? (
+                    <LockOpen color="#006c0f" strokeWidth={2.25} />
+                  ) : (
+                    <Lock color="#ff0000" strokeWidth={2.25} />
+                  )}
                 </td>
               </tr>
             </tbody>

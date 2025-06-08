@@ -75,7 +75,7 @@ const Page = () => {
       <div className="hidden lg:fixed lg:block">
         <LeftSideBar />
       </div>
-      <main className="lg:p-6 p-2 lg:rounded-lg lg:ml-70 mx-4 lg:mx-0">
+      <main className="lg:p-6 p-2 lg:rounded-lg lg:ml-70 mx-4 lg:mx-0 mb-20">
         <h1 className="text-2xl font-bold mb-6">
           {friendRequests.length > 0 ? "You Received " : "No "}Friends Requests
         </h1>

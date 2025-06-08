@@ -18,7 +18,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
         </Avatar>
       </div>
       <div>
-        <h3 className="text-lg font-semibold lg:text-center lg:mb-4 ">
+        <h3 className="text-lg hover:underline cursor-pointer font-semibold lg:text-center lg:mb-4 truncate">
           {friend?.username}
         </h3>
         <div className="flex lg:flex-col lg:justify-between">
@@ -26,13 +26,13 @@ const FriendRequestCard = ({ friend, onAction }) => {
             className="bg-green-300 lg:p-2 p-1 rounded flex justify-evenly items-center hover:bg-green-400 text-black cursor-pointer"
             onClick={() => {}}
           >
-            <UserPlus className="h-4 w-4" /> Confirm
+            <UserPlus className="mr-2 lg:mr-0 h-4 w-4" /> Confirm
           </button>
           <button
-            className="lg:mt-2 lg:ml-0 lg:p-2 p-1 ml-2 cursor-pointer rounded flex justify-evenly items-center hover:bg-gray-900 bg-black text-white"
+            className="lg:mt-2 lg:ml-0 lg:p-2 p-1 ml-2 cursor-pointer rounded flex justify-evenly items-center hover:bg-gray-800 bg-black text-white"
             onClick={() => {}}
           >
-            <UserMinus className="h-4 w-4" /> Delete
+            <UserMinus className="mr-2 lg:mr-0 h-4 w-4" /> Delete
           </button>
         </div>
       </div>

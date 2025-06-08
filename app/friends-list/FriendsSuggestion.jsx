@@ -22,15 +22,15 @@ const FriendSuggestion = ({ friend, onAction }) => {
         </Avatar>
       </div>
       <div>
-        <h3 className="text-lg font-semibold text-center lg:mb-4 ">
+        <h3 className="text-lg hover:underline cursor-pointer font-semibold text-center lg:mb-4 truncate">
           {friend?.username}
         </h3>
         <div className="flex lg:flex-col lg:justify-between">
           <button
-            className="bg-black text-white lg:p-2 p-1 rounded flex justify-evenly items-center hover:bg-green-400 dark:text-black cursor-pointer"
+            className="bg-black text-white lg:p-2 p-1 rounded flex justify-evenly items-center hover:bg-gray-800 dark:text-black cursor-pointer"
             onClick={() => {}}
           >
-            <UserPlus className="h-4 w-4" /> Send Request
+            <UserPlus className="mr-2 lg:mr-0 h-4 w-4" /> Send Request
           </button>
         </div>
       </div>
