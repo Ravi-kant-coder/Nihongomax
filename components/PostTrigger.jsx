@@ -64,7 +64,7 @@ const PostTrigger = ({ isPostFormOpen, setIsPostFormOpen }) => {
                 </div>
               </DialogTrigger>
             </div>
-            <DialogContent className="sm:max-w-[525px] max-h-[90vh] overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)]">
+            <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)]">
               <DialogHeader>
                 <DialogTitle className="text-center">Create Post</DialogTitle>
               </DialogHeader>
