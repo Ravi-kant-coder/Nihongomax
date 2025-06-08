@@ -1,9 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 // import useSidebarStore from "../store/sidebarStore";
 import { useRouter } from "next/navigation";
-import { Home, Users, Menu, Bell, MessageCircle } from "lucide-react";
+import {
+  Home,
+  Users,
+  Menu,
+  Bell,
+  MessageCircle,
+  TvMinimalPlay,
+} from "lucide-react";
 import SearchInNav from "./SearchInNav";
 
 const NavbarBelow = () => {
@@ -21,7 +27,7 @@ const NavbarBelow = () => {
       </div>
       <div className="flex items-center justify-between gap-2 w-1/2 ">
         {[
-          { icon: Home, path: "/", name: "home" },
+          { icon: TvMinimalPlay, path: "/videos", name: "videos" },
           { icon: Users, path: "/friends-list", name: "friends" },
           { icon: MessageCircle, path: "/", name: "messages" },
           { icon: Bell, path: "/", name: "notifications" },
