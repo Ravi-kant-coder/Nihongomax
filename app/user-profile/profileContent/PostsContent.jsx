@@ -74,22 +74,6 @@ const storyPostsData = [
   },
   {
     _id: 9,
-    mediaURL: "/Girl.jpg",
-    mediaType: "image",
-    user: {
-      username: "Yamini Oberoi",
-    },
-  },
-  {
-    _id: 10,
-    mediaURL: "/Circular.jpg",
-    mediaType: "image",
-    user: {
-      username: "Meenakshi Malhotra",
-    },
-  },
-  {
-    _id: 11,
     mediaURL:
       "https://images.pexels.com/photos/2218786/pexels-photo-2218786.jpeg?auto=compress&cs=tinysrgb&w=600",
     mediaType: "image",

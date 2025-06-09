@@ -43,10 +43,10 @@ const WallCardButtons = ({
           </span>
         </div>
       </div>
-      <div className="flex justify-between w-[90%] items-center text-gray-600">
+      <div className="flex justify-between w-full md:w-[90%] items-center text-gray-600">
         <Button
           variant="ghost"
-          className={`hover:bg-gray-300 cursor-pointer border-1 border-gray-300 flex dark:hover:bg-background items-center  ${
+          className={`hover:bg-gray-300 cursor-pointer border flex dark:hover:bg-background items-center  ${
             isLiked ? "text-red-600" : ""
           }`}
           onClick={onLike}
@@ -57,7 +57,7 @@ const WallCardButtons = ({
         <Button
           variant="ghost"
           onClick={handleCommentClick}
-          className=" hover:bg-gray-300 cursor-pointer border-1 border-gray-300 flex items-center dark:hover:bg-background"
+          className=" hover:bg-gray-300 cursor-pointer border flex items-center dark:hover:bg-background"
         >
           <MessageCircle className="mr-1 h-4 w-4" />
           <span>Comment</span>
@@ -66,7 +66,7 @@ const WallCardButtons = ({
           <DialogTrigger asChild>
             <Button
               variant="ghost"
-              className="hover:bg-gray-300 cursor-pointer border-1 border-gray-300 flex items-center dark:hover:bg-background"
+              className="hover:bg-gray-300 cursor-pointer border flex items-center dark:hover:bg-background"
               onClick={onShare}
             >
               <Share2 className="mr-1 h-4 w-4" />
