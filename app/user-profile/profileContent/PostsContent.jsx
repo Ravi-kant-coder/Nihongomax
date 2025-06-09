@@ -1,9 +1,103 @@
 import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import FbCard from "@/components/ExtraComps/FbCard";
+import WallCard from "@/components/WallCard";
 // import PostComments from "@/app/posts/PostComments";
 // import { formateDate } from '@/lib/utils';
-
+const storyPostsData = [
+  {
+    _id: 1,
+    mediaURL: "/Horizontal1.jpg",
+    mediaType: "image",
+    user: {
+      username: "Sangeeta Verma",
+    },
+  },
+  {
+    _id: 2,
+    mediaURL: "/Girl.jpg",
+    mediaType: "image",
+    user: {
+      username: "Ruby Bhatia",
+    },
+  },
+  {
+    _id: 3,
+    mediaURL: "Horizontal2.jpg",
+    mediaType: "image",
+    user: {
+      username: "Pramod Solanki",
+    },
+  },
+  {
+    _id: 4,
+    mediaURL:
+      "https://images.pexels.com/photos/29940495/pexels-photo-29940495/free-photo-of-elegant-fashion-editorial-portrait-in-london-studio.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    mediaType: "image",
+    user: {
+      username: "Mansi Yadav",
+    },
+  },
+  {
+    _id: 5,
+    mediaURL:
+      "https://images.pexels.com/photos/30375728/pexels-photo-30375728/free-photo-of-elegant-black-and-white-wedding-portrait.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    mediaType: "image",
+    user: {
+      username: "Anchal Gupta",
+    },
+  },
+  {
+    _id: 6,
+    mediaURL:
+      "https://images.pexels.com/photos/31890680/pexels-photo-31890680/free-photo-of-woman-in-white-dress-surrounded-by-monstera-leaves.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    mediaType: "image",
+    user: {
+      username: "Bhavna Sharma",
+    },
+  },
+  {
+    _id: 7,
+    mediaURL:
+      "https://images.pexels.com/photos/31649556/pexels-photo-31649556/free-photo-of-elegant-model-in-fashionable-black-attire.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    mediaType: "image",
+    user: {
+      username: "Meenakshi Malhotra",
+    },
+  },
+  {
+    _id: 8,
+    mediaURL:
+      "https://images.pexels.com/photos/31649556/pexels-photo-31649556/free-photo-of-elegant-model-in-fashionable-black-attire.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    mediaType: "image",
+    user: {
+      username: "Priya Wadhwa",
+    },
+  },
+  {
+    _id: 9,
+    mediaURL: "/Girl.jpg",
+    mediaType: "image",
+    user: {
+      username: "Yamini Oberoi",
+    },
+  },
+  {
+    _id: 10,
+    mediaURL: "/Circular.jpg",
+    mediaType: "image",
+    user: {
+      username: "Meenakshi Malhotra",
+    },
+  },
+  {
+    _id: 11,
+    mediaURL:
+      "https://images.pexels.com/photos/2218786/pexels-photo-2218786.jpeg?auto=compress&cs=tinysrgb&w=600",
+    mediaType: "image",
+    user: {
+      username: "Krishna Gupta",
+    },
+  },
+];
 const PostsContent = ({ post, isLiked, onShare, onComment, onLike }) => {
   const [showComments, setShowComments] = useState(false);
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
@@ -47,16 +141,12 @@ const PostsContent = ({ post, isLiked, onShare, onComment, onLike }) => {
     window.open(shareUrl, "_blank");
     setIsShareDialogOpen(false);
   };
-  const username = "Gurmeet Kaur Puniya";
   return (
-    <motion.div
-      key={post?._id}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <FbCard post={post} />
-    </motion.div>
+    <>
+      {storyPostsData?.map((userDataObj) => (
+        <WallCard key={userDataObj._id} userDataObj={userDataObj} />
+      ))}
+    </>
   );
 };
 

@@ -32,7 +32,7 @@ const ProfileTabs = ({
             Photos
           </TabsTrigger>
         </TabsList>
-        <div className="mt-6">
+        <div className="mt-4">
           <ProfileDetails activeTab={activeTab} />
         </div>
       </Tabs>

@@ -34,7 +34,7 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
   // };
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] ">
+      <DialogContent>
         <DialogHeader>Edit Bio</DialogHeader>
         <form>
           <div className="grid gap-4 py-4">

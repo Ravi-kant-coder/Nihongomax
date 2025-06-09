@@ -9,11 +9,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-const comments = 1;
-const likes = 4;
-const shares = 2;
+const comments = 2;
+const likes = 45;
+const shares = 12;
 
-const CommentsBtnPanel = ({
+const WallCardButtons = ({
   isLiked,
   onLike,
   isShareDialogOpen,
@@ -27,10 +27,26 @@ const CommentsBtnPanel = ({
 }) => {
   return (
     <div className="flex flex-col justify-center lg:p-4 p-2 gap-1 items-center dark:bg-[rgb(25,25,25)]">
-      <div className="flex justify-around w-full items-center">
+      <div className="md:mb-5 mb-2 w-[90%] flex justify-between items-center text-sm dark:text-gray-400 text-gray-700">
+        <span className="text-sm border-gray-400 cursor-pointer ">
+          {likes} {likes > 1 ? "likes" : "like"}
+        </span>
+        <div className="flex gap-9">
+          <span
+            className="text-sm   border-gray-400 cursor-pointer "
+            onClick={() => setShowComments(!showComments)}
+          >
+            {comments} {comments > 1 ? "comments" : "comment"}
+          </span>
+          <span className="text-sm border-gray-400 cursor-pointer ">
+            {shares} {shares > 1 ? "shares" : "share"}
+          </span>
+        </div>
+      </div>
+      <div className="flex justify-between w-[90%] items-center text-gray-600">
         <Button
           variant="ghost"
-          className={`hover:bg-gray-300 cursor-pointer border-1 border-gray-400 flex dark:hover:bg-background items-center  ${
+          className={`hover:bg-gray-300 cursor-pointer border-1 border-gray-300 flex dark:hover:bg-background items-center  ${
             isLiked ? "text-red-600" : ""
           }`}
           onClick={onLike}
@@ -41,7 +57,7 @@ const CommentsBtnPanel = ({
         <Button
           variant="ghost"
           onClick={handleCommentClick}
-          className="hover:bg-gray-300 cursor-pointer border-1 border-gray-400 flex items-center dark:hover:bg-background "
+          className=" hover:bg-gray-300 cursor-pointer border-1 border-gray-300 flex items-center dark:hover:bg-background"
         >
           <MessageCircle className="mr-1 h-4 w-4" />
           <span>Comment</span>
@@ -50,7 +66,7 @@ const CommentsBtnPanel = ({
           <DialogTrigger asChild>
             <Button
               variant="ghost"
-              className="hover:bg-gray-300 cursor-pointer border-1 border-gray-400 flex items-center dark:hover:bg-background"
+              className="hover:bg-gray-300 cursor-pointer border-1 border-gray-300 flex items-center dark:hover:bg-background"
               onClick={onShare}
             >
               <Share2 className="mr-1 h-4 w-4" />
@@ -94,24 +110,8 @@ const CommentsBtnPanel = ({
           </DialogContent>
         </Dialog>
       </div>
-      <div className="flex justify-around w-full items-center text-sm text-gray-900 dark:text-gray-400">
-        <Button variant="ghost" size="sm">
-          {likes} {likes > 1 ? "likes" : "like"}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="hover:bg-gray-400 dark:bg-[rgb(10,10,10)] dark:hover:bg-black bg-gray-300 cursor-pointer"
-          onClick={() => setShowComments(!showComments)}
-        >
-          {comments} {comments > 1 ? "comments" : "comment"}
-        </Button>
-        <Button variant="ghost" size="sm">
-          {shares} {shares > 1 ? "shares" : "share"}
-        </Button>
-      </div>
     </div>
   );
 };
 
-export default CommentsBtnPanel;
+export default WallCardButtons;

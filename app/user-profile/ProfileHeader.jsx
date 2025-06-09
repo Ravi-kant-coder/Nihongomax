@@ -7,6 +7,7 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -115,15 +116,17 @@ const ProfileHeader = ({
 
   return (
     <div className="relative">
+      {/* --------------------- Cover Photo & Edit Button---------------------------- */}
+
       <div className="relative lg:h-80 lg:w-[90vw] mx-auto rounded-lg lg:mt-20 mt-10 h-50 bg-gray-400 overflow-hidden ">
         <img
-          src={"./Vertical2.jpg"}
+          src={"./Horizontal2.jpg"}
           alt="cover"
           className="w-full h-full object-cover"
         />
         {
           <Button
-            className="absolute bottom-4 cursor-pointer right-4 flex items-center"
+            className="absolute z-11 bottom-4 cursor-pointer right-4 flex items-center"
             variant="secondary"
             size="sm"
             onClick={() => setIsEditCoverModel(!isEditCoverModel)}
@@ -135,7 +138,9 @@ const ProfileHeader = ({
           </Button>
         }
       </div>
-      {/* profile section */}
+
+      {/*---------------------- Profile section-------------------------- */}
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
         <div className="flex flex-col md:flex-row items-center md:items-end md:space-x-5 ">
           <Avatar className="w-32 h-32 border-4 border-white dark:border-gray-700">
@@ -148,8 +153,8 @@ const ProfileHeader = ({
             </AvatarFallback>
           </Avatar>
 
-          <div className="mt-4 mdLmt-0 text-center md:text-left flex-grow">
-            <h1 className="text-3xl font-bold">Gurmeet Kaur Puniya</h1>
+          <div className="mt-4 mdLmt-0  text-center md:text-left flex-grow">
+            <h1 className="text-3xl  font-bold">Simran Kaur Dilwali</h1>
             <p className="text-gray-800 dark:text-gray-300 font-semibold">
               4k friends
             </p>
@@ -166,7 +171,7 @@ const ProfileHeader = ({
         </div>
       </div>
 
-      {/* edit profile model */}
+      {/*------------------------------Edit profile model-----------------------------*/}
       <AnimatePresence>
         {isEditProfileModel && (
           <motion.div
@@ -216,26 +221,45 @@ const ProfileHeader = ({
                     type="button"
                     variant="outline"
                     size="sm"
-                    // onClick={() => profileImageInputRef.current?.click()}
+                    onClick={() => profileImageInputRef.current?.click()}
                   >
                     <Upload className="h-4 w-4 mr-2" />
                     Change Profile Picture
                   </Button>
                 </div>
                 <div>
-                  <Label htmlFor="username">Username</Label>
+                  <Label className="mb-2" htmlFor="username">
+                    Username
+                  </Label>
+                  <Input id="username" />
                   {/* <Input id="username" {...register("username")} /> */}
                 </div>
                 <div>
-                  <Label htmlFor="dateOfBirth">Date of Birth</Label>
+                  <Label className="mb-2" htmlFor="dateOfBirth">
+                    Date of Birth
+                  </Label>
                   <Input
                     id="dateOfBirth"
                     type="date"
                     // {...register("dateOfBirth")}
                   />
                 </div>
+                <RadioGroup defaultValue="Male">
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="Male" id="r1" />
+                    <Label htmlFor="r1">Male</Label>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="Female" id="r2" />
+                    <Label htmlFor="r2">Female</Label>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <RadioGroupItem value="Other" id="r3" />
+                    <Label htmlFor="r3">Other</Label>
+                  </div>
+                </RadioGroup>
 
-                <div>
+                {/* 
                   <Label htmlFor="gender">Gender</Label>
                   <Select
                   // onValueChange={(value) => setValue("gender", value)}
@@ -258,8 +282,8 @@ const ProfileHeader = ({
                         Other
                       </SelectItem>
                     </SelectContent>
-                  </Select>
-                </div>
+                  </Select> */}
+
                 <Button
                   type="submit"
                   className="w-full dark:bg-black dark:hover:bg-gray-900 hover:bg-gray-600 text-white"

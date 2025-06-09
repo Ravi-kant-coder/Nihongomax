@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CommentEdit from "./CommentEdit";
 import ShownComments from "./ShownComments";
-import CommentsBtnPanel from "./CommentsBtnPanel";
+import WallCardButtons from "./WallCardButtons";
 // import userStore from "@/store/userStore";
 // import { formatDate } from "date-fns";
 // import { comment } from "postcss";
@@ -101,7 +101,8 @@ const WallCard = ({
           alt={"Image is not Available"}
         />
       </div>
-      <CommentsBtnPanel
+
+      <WallCardButtons
         isLiked={isLiked}
         onLike={onLike}
         isShareDialogOpen={isShareDialogOpen}
