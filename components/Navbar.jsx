@@ -8,7 +8,6 @@ import UserMenu from "@/components/UserMenu";
 import {
   Home,
   Users,
-  Menu,
   Bell,
   MessageCircle,
   ChartNoAxesCombined,
@@ -16,6 +15,7 @@ import {
   Handshake,
   School,
   Dices,
+  Briefcase,
 } from "lucide-react";
 import SearchInNav from "./SearchInNav";
 
@@ -27,56 +27,59 @@ const Navbar = () => {
     router.push(path);
   };
   return (
-    <header className="dark:bg-black bg-gray-300 md:shadow-lg py-3 fixed top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
+    <header className="dark:bg-black md:py-4 bg-gray-300 md:shadow-lg fixed top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
       <div className="hidden md:block">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
         </a>
       </div>
-      <div className="flex w-full flex-col md:flex-row gap-4">
-        <SearchInNav />
-        <div className="flex items-center md:w-1/3 justify-between ">
+      <div className="md:flex w-full items-center">
+        <div className="flex justify-between">
+          {" "}
+          <SearchInNav />
           <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
             <div className="text-sm hidden md:block rounded bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]  hover:bg-black md:p-2 p-1 text-white dark:hover:bg-[rgb(35,35,35)]">
-              <h1>Nihongomax 7678461209</h1>
+              <h1> Nihongomax 7678461209</h1>
             </div>
           </a>
-        </div>
-        <div className="flex items-center md:justify-between justify-start">
-          <div className="flex">
-            {[
-              { icon: Home, path: "/", name: "Home" },
-              { icon: Users, path: "/friends", name: "Frnds" },
-              { icon: MessageCircle, path: "/messages", name: "Msgs" },
-              { icon: Bell, path: "/notifications", name: "Ntfctns" },
-              { icon: TvMinimalPlay, path: "/videos", name: "Vids" },
-            ].map(({ icon: Icon, path, name }) => (
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  handleNavigation(path);
-                }}
-                key={name}
-                className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
-              >
-                <div className="flex md:w-12 flex-col items-center justify-center">
-                  <Icon />
-                  <p className="mt-2">{name}</p>
-                </div>{" "}
-              </Button>
-            ))}
+          <div className="md:hidden">
+            <UserMenu />
           </div>
+        </div>{" "}
+        <div className="flex justify-between items-center md:mt-0 mt-2">
+          {[
+            { icon: ChartNoAxesCombined, path: "/recruiters", name: "Rcrutrs" },
+            { icon: Users, path: "/friends", name: "Frnds" },
+            { icon: MessageCircle, path: "/messages", name: "Msgs" },
+            { icon: Bell, path: "/notifications", name: "Ntfctns" },
+            { icon: TvMinimalPlay, path: "/videos", name: "Vids" },
+          ].map(({ icon: Icon, path, name }) => (
+            <Button
+              variant="ghost"
+              onClick={() => {
+                handleNavigation(path);
+              }}
+              key={name}
+              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
+            >
+              <div className="flex md:w-12 flex-col items-center justify-center">
+                <Icon />
+                <p className="mt-2">{name}</p>
+              </div>{" "}
+            </Button>
+          ))}
+
           <div className="md:flex items-center justify-center hidden">
             {[
               { icon: School, path: "/schools", name: "schls" },
               { icon: Handshake, path: "/jobs", name: "Jobs" },
-              { icon: Dices, path: "/games", name: "Games" },
+              { icon: Home, path: "/games", name: "Home" },
               {
                 icon: ChartNoAxesCombined,
                 path: "/recruiters",
                 name: "Rcrutrs",
               },
-              { icon: Menu, path: "/", name: "Menu" },
+              { icon: Briefcase, path: "/jobs-in-japan", name: "Jap Jobs" },
             ].map(({ icon: Icon, path, name }) => (
               <Button
                 variant="ghost"
@@ -93,7 +96,9 @@ const Navbar = () => {
               </Button>
             ))}
           </div>
-          <UserMenu />
+          <div className="hidden md:block">
+            <UserMenu />
+          </div>
         </div>
       </div>
     </header>

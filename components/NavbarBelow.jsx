@@ -7,7 +7,7 @@ import {
   ChartNoAxesCombined,
   Handshake,
   School,
-  Dices,
+  Home,
 } from "lucide-react";
 
 const NavbarBelow = () => {
@@ -22,7 +22,7 @@ const NavbarBelow = () => {
         {[
           { icon: School, path: "/schools", name: "schls" },
           { icon: Handshake, path: "/jobs", name: "Jobs" },
-          { icon: Dices, path: "/games", name: "Games" },
+          { icon: Home, path: "/games", name: "Home" },
           {
             icon: ChartNoAxesCombined,
             path: "/recruiters",
