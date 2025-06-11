@@ -42,7 +42,7 @@ const Navbar = () => {
             </div>
           </a>
         </div>
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center md:justify-between justify-around">
           <div className="flex">
             {[
               { icon: Home, path: "/", name: "Home" },

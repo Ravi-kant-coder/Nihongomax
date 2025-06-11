@@ -1,11 +1,13 @@
+"use client";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 const SearchInNav = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   return (
     <form>
-      <div className="relative">
+      <div className="relative w-1/2 md:w-full">
         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <Input
           className="pl-8 cursor-pointer dark:bg-[rgb(75,75,75)] bg-white rounded-full"
@@ -17,13 +19,21 @@ const SearchInNav = () => {
             <div className="absolute top-full w-full left-0 bg-gray-400 dark:bg-gray-800 border border-gray200 dark:border-gray-700 rounded-md shadow-lg mt-1 z-50">
               <div className="p-2">
                 <div className="flex flex-center space-x-8 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer">
-                  <Search className="absolute text-sm text-gray-600" />
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 ">
                     <Avatar>
                       <AvatarImage />
-                      <AvatarFallback>Z</AvatarFallback>
+                      <AvatarFallback className="text-black">R</AvatarFallback>
                     </Avatar>
-                    <span>Ravi</span>
+                    <span>Ravi kant gupta</span>
+                  </div>
+                </div>
+                <div className="flex flex-center space-x-8 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md cursor-pointer">
+                  <div className="flex items-center gap-2 ">
+                    <Avatar>
+                      <AvatarImage />
+                      <AvatarFallback className="text-black">R</AvatarFallback>
+                    </Avatar>
+                    <span>Ravi kant gupta</span>
                   </div>
                 </div>
               </div>
