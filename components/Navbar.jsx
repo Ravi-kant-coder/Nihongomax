@@ -37,12 +37,12 @@ const Navbar = () => {
         <div className="flex items-center md:w-1/3 justify-between ">
           <SearchInNav />
           <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
-            <div className="text-sm rounded bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]  hover:bg-black p-2 text-white dark:hover:bg-[rgb(35,35,35)]">
+            <div className="md:text-sm text-xs rounded bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]  hover:bg-black p-2 text-white dark:hover:bg-[rgb(35,35,35)]">
               <h1>Nihongomax 7678461209</h1>
             </div>
           </a>
         </div>
-        <div className="flex items-center md:justify-between justify-around">
+        <div className="flex items-center md:justify-between justify-start">
           <div className="flex">
             {[
               { icon: Home, path: "/", name: "Home" },

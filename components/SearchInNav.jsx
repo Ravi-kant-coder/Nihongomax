@@ -7,7 +7,7 @@ const SearchInNav = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   return (
     <form>
-      <div className="relative w-1/2 md:w-full">
+      <div className="relative">
         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <Input
           className="pl-8 cursor-pointer dark:bg-[rgb(75,75,75)] bg-white rounded-full"
