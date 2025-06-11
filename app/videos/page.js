@@ -30,6 +30,21 @@ const videos = [
     description: "Quick revision of essential grammar points for JLPT N5.",
     tags: ["JLPT", "Grammar"],
   },
+  {
+    id: "2t6u53troq8",
+    description: "Quick revision of essential grammar points for JLPT N5.",
+    tags: ["JLPT", "Grammar"],
+  },
+  {
+    id: "TbR_zcCfE3w",
+    description: "Quick revision of essential grammar points for JLPT N5.",
+    tags: ["JLPT", "Grammar"],
+  },
+  {
+    id: "7srgyU9eYXY",
+    description: "Quick revision of essential grammar points for JLPT N5.",
+    tags: ["JLPT", "Grammar"],
+  },
 ];
 
 const tags = [
@@ -55,48 +70,45 @@ export default function YouTubeShowcase() {
       : videos.filter((video) => video.tags.includes(selectedTag));
 
   return (
-    <div className="flex">
-      <div className="hidden lg:block fixed mt-20">
+    <div className="md:flex">
+      <div className="hidden lg:block">
         <LeftSideBar />
       </div>
-      <div className="lg:w-3/4 mx-10 lg:mx-2 mt-20 lg:ml-70 md:ml-60 min-h-screen mb-12">
-        <div className="flex flex-wrap justify-center gap-2 mb-6">
-          {tags.map((tag) => (
-            <button
-              key={tag}
-              onClick={() => setSelectedTag(tag)}
-              className={`px-4 py-1 rounded-full border text-sm lg:text-md
+      <div className="md:fixed md:mt-17 mt-12 z-100 md:bg-gray-300 dark:md:bg-black p-4 rounded md:w-3/4 md:ml-70 flex flex-wrap px-10 md:px-0 justify-center gap-1 md:gap-2 mb-2 md:mb-6">
+        {tags.map((tag) => (
+          <button
+            key={tag}
+            onClick={() => setSelectedTag(tag)}
+            className={`md:px-4 p-1 rounded md:border text-sm lg:text-md
               ${
                 selectedTag === tag
-                  ? "bg-black dark:bg-white dark:text-black text-white cursor-pointer border-1 dark:border-white"
-                  : "bg-white dark:bg-zinc-800 cursor-pointer border-gray-400"
+                  ? "bg-red-600 rounded dark:bg-white px-5 md:px-0 dark:text-black text-white cursor-pointer md:border-1 dark:border-white"
+                  : "bg-white rounded-lg md:rounded dark:bg-zinc-800 px-5 md:px-0 cursor-pointer border-gray-400"
               }`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredVideos.map((video) => (
-            <motion.div
-              key={video.id}
-              whileHover={{ scale: 1.03 }}
-              className="bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden shadow-md transition-all"
-            >
-              <iframe
-                className="w-full aspect-video"
-                src={`https://www.youtube.com/embed/${video.id}`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
-              <div className="p-2">
-                <p>{video.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+      <div className="md:grid md:grid-cols-2 lg:grid-cols-3 md:ml-70 gap-6 md:mt-35 mt-4 mx-auto w-3/4">
+        {filteredVideos.map((video) => (
+          <motion.div
+            key={video.id}
+            whileHover={{ scale: 1.03 }}
+            className="bg-white mb-4 md:mb-0 dark:bg-zinc-800 rounded overflow-hidden shadow-md transition-all"
+          >
+            <iframe
+              className="w-full aspect-video"
+              src={`https://www.youtube.com/embed/${video.id}`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              allowFullScreen
+              loading="lazy"
+            ></iframe>
+            <div className="p-2">
+              <p>{video.description}</p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );

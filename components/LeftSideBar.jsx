@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 const LeftSideBar = () => {
-  const { isSidebarOpen, toggleSidebar } = useSidebarStore();
   const router = useRouter();
 
   const handleNavigation = (path, item) => {
@@ -25,20 +24,14 @@ const LeftSideBar = () => {
   };
 
   return (
-    <aside
-      className={`h-full w-64 p-4 transform transition-transform duration-400 ease-in-out md:translate-x-0 flex flex-col z-50 md:z-0 ${
-        isSidebarOpen
-          ? "translate-x-0 bg-white shadow-lg dark:bg-background"
-          : "-translate-x-full"
-      }`}
-    >
+    <aside className="fixed h-full hidden w-70 p-4 transform transition-transform duration-400 ease-in-out md:translate-x-0 md:flex flex-col z-50 md:z-0">
       <div className="h-full flex flex-col overflow-y-auto">
         <nav className="space-y-4 flex-grow">
           <div
             onClick={() => {
               handleNavigation("/user-profile");
             }}
-            className="flex items-center bg-accent group space-x-2 cursor-pointer dark:bg-[rgb(55,55,55)] dark:hover:bg-[rgb(15,15,15)] hover:bg-white p-1 rounded-md"
+            className="flex mr-2 items-center bg-white group space-x-2 cursor-pointer dark:bg-[rgb(35,35,35)] dark:hover:bg-[rgb(55,55,55)] hover:bg-gray-400 p-2 rounded-md"
           >
             <Avatar className="h-10 w-10">
               <AvatarImage />
@@ -119,11 +112,102 @@ const LeftSideBar = () => {
               icon: ChartNoAxesCombined,
               className: "mr-4 w-4 h-4",
             },
+            {
+              id: 11,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 12,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 13,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 14,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 15,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 16,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 17,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 18,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 19,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 20,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 21,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 22,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
+            {
+              id: 23,
+              label: "For Recruiters",
+              navPath: "/",
+              icon: ChartNoAxesCombined,
+              className: "mr-4 w-4 h-4",
+            },
           ].map(({ id, label, icon: Icon, className, navPath }) => (
             <motion.button
               whileHover={{ y: -5 }}
               transition={{ type: "spring", stiffness: 300 }}
-              className="w-full cursor-pointer dark:font-normal dark:hover:bg-[rgb(55,55,55)] text-sm font-semibold flex items-center justify-start hover:bg-accent p-2 rounded-md"
+              className="w-full cursor-pointer dark:font-normal dark:hover:bg-[rgb(55,55,55)] text-sm font-semibold flex items-center justify-start hover:bg-white p-2 rounded-md"
               onClick={() => {
                 handleNavigation(navPath);
               }}

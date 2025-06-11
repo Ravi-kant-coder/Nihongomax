@@ -19,52 +19,45 @@ const UserMenu = () => {
   const handleNavigation = (path, item) => {
     router.push(path);
   };
-  const dunny = { imgsrc: "/Girl.jpg", username: "Phudu" };
+  const dunny = { imgsrc: "/Gir.jpg", username: "Phudu" };
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger
           asChild
-          className="font-semibold  bg-white cursor-pointer font-[Poppins] hover:rounded-lg dark:hover:bg-white dark:bg-[rgb(36,37,38)] dark:text-white"
+          className="font-semibold cursor-pointer border  border-gray-400 rounded-full"
         >
-          <Button
-            variant="ghost"
-            className="relative h-10 w-10 rounded-full text-lg cursor-pointer bg-white dark:text-black"
-          >
+          <div className="relative cursor-pointer ">
             <Avatar>
               <AvatarImage
-                className="object-cover"
+                className="object-cover "
                 src={dunny?.imgsrc}
                 alt={"byr"}
               />
-              <AvatarFallback>
+              <AvatarFallback className="dark:bg-black">
                 {dunny?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-          </Button>
+          </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-64 z-50" align="end">
+        <DropdownMenuContent className="w-64 z-200" align="end">
           <DropdownMenuLabel className="font-normal">
-            <div className="flex flex-column space-y-1">
+            <div className="flex flex-column">
               <div className="flex items-center">
-                <Avatar className="cursor-pointer h-8 w-8 hover:ring-3 hover:ring-gray-600 hover:ring-offset-1 transition duration-100 mx-5">
+                <Avatar className="cursor-pointer h-8 w-8 mr-4">
                   <AvatarImage
                     src={dunny?.imgsrc}
                     alt={"byr"}
                     className="object-cover"
                   />
 
-                  <AvatarFallback className="bg-pink-400 dark:bg-gray-500 text-xl">
+                  <AvatarFallback className="dark:bg-gray-500 text-xl">
                     {dunny?.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <div className="">
-                  <p className="text-sm font-medium leading-none">
-                    Ravi Kant Gupta
-                  </p>
-                  <p className="text-xs text-gray-600 mt-2 leading-none">
-                    nihongomaxteam@gmail.com
-                  </p>
+                <div className="w-[70%]">
+                  <p className="text-sm font-medium ">Ravi Kant Gupta</p>
+                  <p className="text-xs text-gray-600">nihongomax@gmail.com</p>
                 </div>
               </div>
             </div>

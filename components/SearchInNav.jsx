@@ -8,7 +8,7 @@ const SearchInNav = () => {
       <div className="relative">
         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <Input
-          className="pl-8 w-40 md:w-75 cursor-pointer h-10 dark:bg-[rgb(75,75,75)] bg-white rounded-full"
+          className="pl-8 cursor-pointer dark:bg-[rgb(75,75,75)] bg-white rounded-full"
           placeholder="Search Friends..."
           type="text"
         />

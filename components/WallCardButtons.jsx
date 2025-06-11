@@ -1,5 +1,5 @@
 "use client";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
+import { Heart, MessageCircle, CornerUpRight } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -28,17 +28,17 @@ const WallCardButtons = ({
   return (
     <div className="flex flex-col justify-center lg:p-4 p-2 gap-1 items-center dark:bg-[rgb(25,25,25)]">
       <div className="md:mb-5 mb-2 w-[90%] flex justify-between items-center text-sm dark:text-gray-400 text-gray-700">
-        <span className="text-sm border-gray-400 cursor-pointer ">
+        <span className="text-sm border-gray-400 ">
           {likes} {likes > 1 ? "likes" : "like"}
         </span>
-        <div className="flex gap-9">
+        <div className="flex md:gap-8 gap-2">
           <span
-            className="text-sm   border-gray-400 cursor-pointer "
+            className="text-sm border-gray-400 cursor-pointer "
             onClick={() => setShowComments(!showComments)}
           >
             {comments} {comments > 1 ? "comments" : "comment"}
           </span>
-          <span className="text-sm border-gray-400 cursor-pointer ">
+          <span className="text-sm border-gray-400">
             {shares} {shares > 1 ? "shares" : "share"}
           </span>
         </div>
@@ -51,16 +51,16 @@ const WallCardButtons = ({
           }`}
           onClick={onLike}
         >
-          <Heart className="mr-1 h-4 w-4" />
           <span>Like</span>
+          <Heart className="md:ml-1 h-4 w-4" />
         </Button>
         <Button
           variant="ghost"
           onClick={handleCommentClick}
           className=" hover:bg-gray-300 cursor-pointer border flex items-center dark:hover:bg-background"
         >
-          <MessageCircle className="mr-1 h-4 w-4" />
           <span>Comment</span>
+          <MessageCircle className="md:ml-1 h-4 w-4" />
         </Button>
         <Dialog open={isShareDialogOpen} onOpenChange={setIsShareDialogOpen}>
           <DialogTrigger asChild>
@@ -69,8 +69,8 @@ const WallCardButtons = ({
               className="hover:bg-gray-300 cursor-pointer border flex items-center dark:hover:bg-background"
               onClick={onShare}
             >
-              <Share2 className="mr-1 h-4 w-4" />
               <span>Share</span>
+              <CornerUpRight className="md:ml-1 h-4 w-4" />
             </Button>
           </DialogTrigger>
           <DialogContent>

@@ -3,12 +3,11 @@ import { Button } from "@/components/ui/button";
 // import useSidebarStore from "../store/sidebarStore";
 import { useRouter } from "next/navigation";
 import {
-  Home,
-  Users,
   Menu,
-  Bell,
-  MessageCircle,
-  TvMinimalPlay,
+  ChartNoAxesCombined,
+  Handshake,
+  School,
+  Dices,
 } from "lucide-react";
 import SearchInNav from "./SearchInNav";
 
@@ -19,28 +18,31 @@ const NavbarBelow = () => {
     router.push(path);
   };
   return (
-    <header className="lg:hidden md:hidden lg:dark:bg-[rgb(55,55,55)] lg:h-fit h-12 bg-pink-300 lg:bg-gray-300 dark:bg-black lg:shadow-lg py-3 fixed bottom-0 left-0 right-0 z-50 p-2 mx-auto flex justify-between items-center">
-      <div className=" hidden lg:flex">
-        <div className="relative">
-          <SearchInNav />
-        </div>
-      </div>
-      <div className="flex items-center justify-between gap-2 w-1/2 ">
+    <header className="lg:hidden md:hidden bg-gray-300 h-12 dark:bg-black lg:shadow-lg fixed bottom-0 left-0 right-0 z-50 flex justify-between items-center">
+      <div className="lg:hidden md:hidden flex items-center justify-center">
         {[
-          { icon: TvMinimalPlay, path: "/videos", name: "videos" },
-          { icon: Users, path: "/friends-list", name: "friends" },
-          { icon: MessageCircle, path: "/", name: "messages" },
-          { icon: Bell, path: "/", name: "notifications" },
+          { icon: School, path: "/schools", name: "schls" },
+          { icon: Handshake, path: "/jobs", name: "Jobs" },
+          { icon: Dices, path: "/games", name: "Games" },
+          {
+            icon: ChartNoAxesCombined,
+            path: "/recruiters",
+            name: "Rcrutrs",
+          },
+          { icon: Menu, path: "/", name: "Menu" },
         ].map(({ icon: Icon, path, name }) => (
           <Button
+            variant="ghost"
             onClick={() => {
               handleNavigation(path);
             }}
             key={name}
-            variant="ghost"
-            className="relative hover:shadow-lg hover:bg-white cursor-pointer"
+            className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-black cursor-pointer"
           >
-            <Icon />
+            <div className="flex md:w-12 flex-col items-center justify-center">
+              <Icon />
+              <p className="md:mt-1">{name}</p>
+            </div>{" "}
           </Button>
         ))}
       </div>

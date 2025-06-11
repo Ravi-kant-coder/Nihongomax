@@ -5,14 +5,14 @@ import LeftSideBar from "@/components/LeftSideBar";
 const Home = () => {
   return (
     <>
-      <main className="flex pt-2 justify-between md:px-2 lg:px-4 pl-1 bg-gray-300 dark:bg-black">
-        <div className="fixed mt-10 w-1/5 ">
+      <main className="md:flex dark:bg-black">
+        <div className="md:mt-15 p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
           <LeftSideBar />
         </div>
-        <div className="w-full lg:max-w-1/2 md:max-w-1/2 lg:mt-18 md:mt-18 mt-12 mx-auto">
+        <div className="p-2 lg:max-w-1/2 md:max-w-1/2 md:mt-18 mt-12">
           <Wall />
         </div>
-        <div className="fixed hidden lg:flex right-3 w-1/5">
+        <div className="md:mt-18 hidden md:flex">
           <CoursesBar className="" />
         </div>
       </main>

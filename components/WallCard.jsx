@@ -1,6 +1,5 @@
 "use client";
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CommentEdit from "./CommentEdit";
 import ShownComments from "./ShownComments";
@@ -60,13 +59,7 @@ const WallCard = ({
   };
   const commentInputRef = useRef(null);
   return (
-    <motion.div
-      key={post?._id}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 1000, duration: 5 }}
-      className="bg-white dark:shadow-[rgb(20,20,20)] shadow-gray-400 dark:bg-[rgb(25,25,25)] rounded-md dark:text-gray-300 shadow-lg dark:border-gray-500 overflow-hidden mb-4"
-    >
+    <div className="bg-white dark:bg-[rgb(25,25,25)] dark:shadow-[rgb(20,20,20)] shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg dark:border-gray-500 overflow-hidden mb-4">
       <div className="flex items-center justify-between lg:p-2 bg-accent dark:bg-[rgb(25,25,25)] rounded-t-lg">
         <div className="flex items-center">
           <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
@@ -121,7 +114,7 @@ const WallCard = ({
         setCommentText={setCommentText}
         commentInputRef={commentInputRef}
       />
-    </motion.div>
+    </div>
   );
 };
 
