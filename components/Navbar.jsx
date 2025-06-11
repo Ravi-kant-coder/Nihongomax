@@ -34,10 +34,10 @@ const Navbar = () => {
         </a>
       </div>
       <div className="flex w-full flex-col md:flex-row gap-4">
+        <SearchInNav />
         <div className="flex items-center md:w-1/3 justify-between ">
-          <SearchInNav />
           <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
-            <div className="md:text-sm text-[0.5rem] rounded bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]  hover:bg-black md:p-2 p-1 text-white dark:hover:bg-[rgb(35,35,35)]">
+            <div className="text-sm hidden md:block rounded bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]  hover:bg-black md:p-2 p-1 text-white dark:hover:bg-[rgb(35,35,35)]">
               <h1>Nihongomax 7678461209</h1>
             </div>
           </a>
