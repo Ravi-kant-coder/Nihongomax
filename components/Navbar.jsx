@@ -27,25 +27,25 @@ const Navbar = () => {
     router.push(path);
   };
   return (
-    <header className="bg-gray-300 lg:dark:bg-[rgb(55,55,55)] lg:shadow-lg py-3 fixed top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center">
+    <header className="dark:bg-black bg-gray-300 md:shadow-lg py-3 fixed top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-around">
       <div className="hidden lg:flex">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
         </a>
-
-        <div className="relative">
-          <SearchInNav />
-        </div>
       </div>
-      <div className="flex items-center justify-center gap-4 md:w-3/4">
+
+      <div className="relative">
+        <SearchInNav />
+      </div>
+      <div className="flex items-center md:w-3/4 justify-between ">
         <div>
           <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
-            <div className="text-sm hidden md:flex rounded bg-[rgb(60,60,60)] hover:bg-black p-2 text-white dark:bg-black">
+            <div className="text-sm hidden md:flex rounded bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]  hover:bg-black p-2 text-white dark:hover:bg-[rgb(35,35,35)]">
               <h1>Nihongomax 7678461209</h1>
             </div>
           </a>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-between ">
           {[
             { icon: Home, path: "/", name: "Home" },
             { icon: Users, path: "/friends", name: "Frnds" },
@@ -59,11 +59,11 @@ const Navbar = () => {
                 handleNavigation(path);
               }}
               key={name}
-              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-black cursor-pointer"
+              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
             >
               <div className="flex md:w-12 flex-col items-center justify-center">
                 <Icon />
-                <p className="md:mt-1">{name}</p>
+                <p className="mt-2">{name}</p>
               </div>{" "}
             </Button>
           ))}
@@ -86,17 +86,17 @@ const Navbar = () => {
                 handleNavigation(path);
               }}
               key={name}
-              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-black cursor-pointer"
+              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
             >
               <div className="flex md:w-12 flex-col items-center justify-center">
                 <Icon />
-                <p className="md:mt-1">{name}</p>
+                <p className="mt-2">{name}</p>
               </div>{" "}
             </Button>
           ))}
         </div>
+        <UserMenu />
       </div>
-      <UserMenu />
     </header>
   );
 };

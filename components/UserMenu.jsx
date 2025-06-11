@@ -19,7 +19,7 @@ const UserMenu = () => {
   const handleNavigation = (path, item) => {
     router.push(path);
   };
-  const dunny = { imgsrc: "/Gir.jpg", username: "Phudu" };
+  const dunny = { imgsrc: "/Girl.jpg", username: "Phudu" };
   return (
     <div>
       <DropdownMenu>
