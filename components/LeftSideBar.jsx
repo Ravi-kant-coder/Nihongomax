@@ -24,7 +24,7 @@ const LeftSideBar = () => {
   };
 
   return (
-    <aside className="fixed h-full hidden w-70 p-4 transform transition-transform duration-400 ease-in-out md:translate-x-0 md:flex flex-col z-50 md:z-0">
+    <aside className="fixed h-full hidden w-70 md:p-1 transform transition-transform duration-400 ease-in-out md:translate-x-0 md:flex flex-col z-50 md:z-0">
       <div className="h-full flex flex-col overflow-y-auto">
         <nav className="space-y-4 flex-grow">
           <div
@@ -107,97 +107,6 @@ const LeftSideBar = () => {
             },
             {
               id: 10,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 11,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 12,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 13,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 14,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 15,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 16,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 17,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 18,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 19,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 20,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 21,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 22,
-              label: "For Recruiters",
-              navPath: "/",
-              icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 23,
               label: "For Recruiters",
               navPath: "/",
               icon: ChartNoAxesCombined,

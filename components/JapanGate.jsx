@@ -1,5 +1,5 @@
 const CustomIcon = ({
-  className = "w-8 h-8 text-black dark:text-gray-200 hover:scale-120 ml-4 mr-4 duration-200 transform",
+  className = "w-8 h-8 text-black mx-2 dark:text-gray-200 hover:scale-120 duration-200 transform",
 }) => {
   return (
     <svg

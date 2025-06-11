@@ -25,7 +25,7 @@ const UserMenu = () => {
       <DropdownMenu>
         <DropdownMenuTrigger
           asChild
-          className="font-semibold cursor-pointer border  border-gray-400 rounded-full"
+          className="font-semibold md:ml-20 cursor-pointer border  border-gray-400 rounded-full"
         >
           <div className="relative cursor-pointer ">
             <Avatar>
