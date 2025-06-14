@@ -24,7 +24,7 @@ const LeftSideBar = () => {
   };
 
   return (
-    <aside className="fixed h-full hidden w-70 md:p-1 transform transition-transform duration-400 ease-in-out md:translate-x-0 md:flex flex-col z-50 md:z-0">
+    <aside className="fixed h-full hidden w-70 md:p-1 md:flex flex-col z-50 md:z-0">
       <div className="h-full flex flex-col overflow-y-auto">
         <nav className="space-y-4 flex-grow">
           <div
@@ -59,14 +59,14 @@ const LeftSideBar = () => {
             {
               id: 3,
               label: "Messages",
-              navPath: "/",
+              navPath: "/messages",
               icon: MessageCircle,
               className: "mr-4 w-4 h-4",
             },
             {
               id: 4,
               label: "Notifications",
-              navPath: "/",
+              navPath: "/nifications",
               icon: Bell,
               className: "mr-4 w-4 h-4",
             },
@@ -80,14 +80,14 @@ const LeftSideBar = () => {
             {
               id: 6,
               label: "About Jobs in Japan",
-              navPath: "/",
+              navPath: "/about-jobs",
               icon: BriefcaseBusiness,
               className: "mr-4 w-4 h-4",
             },
             {
               id: 7,
               label: "Schools in Japan",
-              navPath: "/",
+              navPath: "/schools-in-japan",
               icon: School,
               className: "mr-4 w-4 h-4",
             },
@@ -101,14 +101,14 @@ const LeftSideBar = () => {
             {
               id: 9,
               label: "Apply for Jobs",
-              navPath: "/",
+              navPath: "/jobs",
               icon: Handshake,
               className: "mr-4 w-4 h-4",
             },
             {
               id: 10,
               label: "For Recruiters",
-              navPath: "/",
+              navPath: "/recruiters",
               icon: ChartNoAxesCombined,
               className: "mr-4 w-4 h-4",
             },
