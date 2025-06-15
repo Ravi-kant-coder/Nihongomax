@@ -23,27 +23,23 @@ const StoryCard = ({ isAddStory, storyData }) => {
           {isAddStory ? (
             <div className="w-full h-full flex flex-col dark:bg-[rgb(65,65,65)]">
               <div className="relative mx-auto my-auto overflow-hidden ">
-                <Avatar className="w-30 h-30 mt-3">
+                <Avatar className="w-25 h-25">
                   <AvatarImage
                     src={createStoryArr[0]?.imageUrl}
                     className="object-cover"
                   />
-                  <AvatarFallback className="w-full h-full flex justify-center bg-gray-400 items-center text-4xl dark:text-white dark:bg-[rgb(55,55,55)]">
+                  <AvatarFallback className="flex justify-center bg-gray-400 items-center text-4xl dark:text-white dark:bg-black">
                     {createStoryArr[0]?.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>
               <div className="w-full h-1/4 dark:bg-[rgb(65,65,65)] bg-accent border-b flex flex-col items-center justify-center">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="p-0 h-8 w-8 rounded-full hover:bg-background"
-                >
-                  <div className=" cursor-pointer h-8 w-8 rounded-full dark:bg-[rgb(35,35,35)] hover:bg-gray-300 hover:dark:bg-black flex justify-center items-center">
+                <button>
+                  <div className="cursor-pointer h-6 w-6">
                     <Plus />
                   </div>
-                </Button>
-                <p className="text-sm font-semibold dark:text-white mb-2">
+                </button>
+                <p className="text-sm font-semibold dark:text-white mb-4">
                   Create Story
                 </p>
               </div>

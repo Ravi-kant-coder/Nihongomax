@@ -34,10 +34,11 @@ const Navbar = () => {
           <JapanGate />
         </a>
       </div>
-      <div className="md:flex w-full items-center">
-        <div className="flex justify-between">
-          {" "}
-          <SearchInNav />
+      <div className="md:flex w-full items-center justify-between">
+        <div className="flex justify-between mb-5 md:mb-0 ">
+          <div className="lg:mr-5">
+            <SearchInNav />
+          </div>
           <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
             <div className="text-sm hidden md:block rounded bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]  hover:bg-black md:p-2 p-1 text-white dark:hover:bg-[rgb(35,35,35)]">
               <h1> Nihongomax 7678461209</h1>
@@ -66,11 +67,19 @@ const Navbar = () => {
         </div>{" "}
         <div className="flex justify-between items-center md:mt-0 mt-2">
           {[
-            { icon: ChartNoAxesCombined, path: "/recruiters", name: "Rcrutrs" },
-            { icon: BriefcaseBusiness, path: "/about-jobs", name: "Abt Jobs" },
+            {
+              icon: ChartNoAxesCombined,
+              path: "/recruiters",
+              name: "Recruiters",
+            },
             { icon: Handshake, path: "/jobs", name: "Jobs" },
+            {
+              icon: BriefcaseBusiness,
+              path: "/about-jobs",
+              name: "About Jobs",
+            },
             { icon: Dices, path: "/games", name: "Games" },
-            { icon: TvMinimalPlay, path: "/videos", name: "Vids" },
+            { icon: TvMinimalPlay, path: "/videos", name: "Videos" },
           ].map(({ icon: Icon, path, name }) => (
             <Button
               variant="ghost"
@@ -89,11 +98,11 @@ const Navbar = () => {
 
           <div className="md:flex items-center justify-center hidden">
             {[
-              { icon: School, path: "/schools", name: "schls" },
+              { icon: School, path: "/schools", name: "Jap Schools" },
               { icon: Home, path: "/", name: "Home" },
-              { icon: Users, path: "/friends", name: "Frnds" },
-              { icon: Dices, path: "/games", name: "Games" },
-              { icon: MessageCircle, path: "/messages", name: "Msgs" },
+              { icon: Users, path: "/friends", name: "Friends" },
+              { icon: Bell, path: "/notifications", name: "Notifctns" },
+              { icon: MessageCircle, path: "/messages", name: "Messages" },
             ].map(({ icon: Icon, path, name }) => (
               <Button
                 variant="ghost"

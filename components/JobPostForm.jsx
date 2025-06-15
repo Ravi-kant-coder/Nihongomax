@@ -12,7 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // This component is used to create a Job post by Recruiters for students.
 
-const ContactForm = () => {
+const JobPostForm = () => {
   const { createQuery } = useAdminData();
   const [studentName, setStudentName] = useState("");
   const [mobile, setMobile] = useState("");
@@ -151,6 +151,28 @@ const ContactForm = () => {
               </div>
             </div>
           </div>
+          <div className="flex justify-between flex-col h-20 w-full ">
+            <div className="space-y-2 ">
+              <Label className="sr-only" htmlFor="queryName">
+                Username
+              </Label>
+              <Input
+                id="queryName"
+                name="queryNameKey"
+                type="text"
+                placeholder="Enter Job Title"
+                className="dark:border-gray-400 bg-white dark:bg-black"
+                value={studentName}
+                onChange={handleNameChange}
+              />
+              {isNameReq && (
+                <p className="text-red-700 text-xs">Job Title is required.</p>
+              )}
+            </div>
+            <div className="flex flex-col text-xs md:text-sm">
+              {formattedDate}
+            </div>
+          </div>
           <div className="space-y-2 ">
             <Label className="sr-only" htmlFor="mobNumber">
               Mobile
@@ -223,4 +245,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default JobPostForm;
