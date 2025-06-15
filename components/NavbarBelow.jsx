@@ -2,13 +2,7 @@
 import { Button } from "@/components/ui/button";
 // import useSidebarStore from "../store/sidebarStore";
 import { useRouter } from "next/navigation";
-import {
-  Menu,
-  ChartNoAxesCombined,
-  Handshake,
-  School,
-  Home,
-} from "lucide-react";
+import { BookOpen, MessageCircle, School, Home, Users } from "lucide-react";
 
 const NavbarBelow = () => {
   // const { toggleSidebar } = useSidebarStore();
@@ -21,14 +15,14 @@ const NavbarBelow = () => {
       <div className="bg-gray-300 h-15 dark:bg-black  flex justify-around items-center">
         {[
           { icon: School, path: "/schools", name: "schls" },
-          { icon: Handshake, path: "/jobs", name: "Jobs" },
-          { icon: Home, path: "/games", name: "Home" },
+          { icon: Users, path: "/friends", name: "Frnds" },
           {
-            icon: ChartNoAxesCombined,
-            path: "/recruiters",
-            name: "Rcrutrs",
+            icon: MessageCircle,
+            path: "/messages",
+            name: "Msgs",
           },
-          { icon: Menu, path: "/", name: "Menu" },
+          { icon: Home, path: "/", name: "Home" },
+          { icon: BookOpen, path: "/", name: "Study" },
         ].map(({ icon: Icon, path, name }) => (
           <Button
             variant="ghost"

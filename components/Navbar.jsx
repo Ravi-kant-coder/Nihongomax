@@ -16,6 +16,7 @@ import {
   School,
   Dices,
   Briefcase,
+  BriefcaseBusiness,
 } from "lucide-react";
 import SearchInNav from "./SearchInNav";
 
@@ -42,16 +43,33 @@ const Navbar = () => {
               <h1> Nihongomax 7678461209</h1>
             </div>
           </a>
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center justify-center">
+            {[{ icon: Bell, path: "/notifications", name: "Ntfctns" }].map(
+              ({ icon: Icon, path, name }) => (
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    handleNavigation(path);
+                  }}
+                  key={name}
+                  className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
+                >
+                  <div className="flex md:w-12 flex-col items-center justify-center">
+                    <Icon />
+                    <p className="mt-2">{name}</p>
+                  </div>{" "}
+                </Button>
+              )
+            )}
             <UserMenu />
           </div>
         </div>{" "}
         <div className="flex justify-between items-center md:mt-0 mt-2">
           {[
             { icon: ChartNoAxesCombined, path: "/recruiters", name: "Rcrutrs" },
-            { icon: Users, path: "/friends", name: "Frnds" },
-            { icon: MessageCircle, path: "/messages", name: "Msgs" },
-            { icon: Bell, path: "/notifications", name: "Ntfctns" },
+            { icon: BriefcaseBusiness, path: "/about-jobs", name: "Abt Jobs" },
+            { icon: Handshake, path: "/jobs", name: "Jobs" },
+            { icon: Dices, path: "/games", name: "Games" },
             { icon: TvMinimalPlay, path: "/videos", name: "Vids" },
           ].map(({ icon: Icon, path, name }) => (
             <Button
@@ -72,14 +90,10 @@ const Navbar = () => {
           <div className="md:flex items-center justify-center hidden">
             {[
               { icon: School, path: "/schools", name: "schls" },
-              { icon: Handshake, path: "/jobs", name: "Jobs" },
-              { icon: Home, path: "/games", name: "Home" },
-              {
-                icon: ChartNoAxesCombined,
-                path: "/recruiters",
-                name: "Rcrutrs",
-              },
-              { icon: Briefcase, path: "/jobs-in-japan", name: "Jap Jobs" },
+              { icon: Home, path: "/", name: "Home" },
+              { icon: Users, path: "/friends", name: "Frnds" },
+              { icon: Dices, path: "/games", name: "Games" },
+              { icon: MessageCircle, path: "/messages", name: "Msgs" },
             ].map(({ icon: Icon, path, name }) => (
               <Button
                 variant="ghost"

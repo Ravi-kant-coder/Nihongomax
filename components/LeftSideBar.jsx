@@ -114,7 +114,7 @@ const LeftSideBar = () => {
             },
           ].map(({ id, label, icon: Icon, className, navPath }) => (
             <motion.button
-              whileHover={{ y: -5 }}
+              whileHover={{ x: 10 }}
               transition={{ type: "spring", stiffness: 300 }}
               className="w-full cursor-pointer dark:font-normal dark:hover:bg-[rgb(55,55,55)] text-sm font-semibold flex items-center justify-start hover:bg-white p-2 rounded-md"
               onClick={() => {
