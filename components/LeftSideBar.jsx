@@ -31,7 +31,7 @@ const LeftSideBar = () => {
             onClick={() => {
               handleNavigation("/user-profile");
             }}
-            className="flex mr-2 items-center bg-white group space-x-2 cursor-pointer dark:bg-[rgb(35,35,35)] dark:hover:bg-[rgb(55,55,55)] hover:bg-gray-400 p-2 rounded-md"
+            className="flex items-center bg-white group space-x-2 cursor-pointer dark:bg-[rgb(35,35,35)] dark:hover:bg-[rgb(55,55,55)] hover:bg-gray-400 p-1 rounded-md"
           >
             <Avatar className="h-10 w-10">
               <AvatarImage />
@@ -52,7 +52,7 @@ const LeftSideBar = () => {
             {
               id: 2,
               label: "Friends",
-              navPath: "/friends-list",
+              navPath: "/friends",
               icon: Users,
               className: "mr-4 w-4 h-4",
             },
@@ -66,7 +66,7 @@ const LeftSideBar = () => {
             {
               id: 4,
               label: "Notifications",
-              navPath: "/nifications",
+              navPath: "/notifications",
               icon: Bell,
               className: "mr-4 w-4 h-4",
             },
@@ -114,7 +114,7 @@ const LeftSideBar = () => {
             },
           ].map(({ id, label, icon: Icon, className, navPath }) => (
             <motion.button
-              whileHover={{ x: 10 }}
+              whileHover={{ y: -5 }}
               transition={{ type: "spring", stiffness: 300 }}
               className="w-full cursor-pointer dark:font-normal dark:hover:bg-[rgb(55,55,55)] text-sm font-semibold flex items-center justify-start hover:bg-white p-2 rounded-md"
               onClick={() => {

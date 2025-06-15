@@ -78,19 +78,19 @@ const Jobcard = () => {
   // }, [createdAt]);
 
   return (
-    <div className="md:mt-20 mt-25">
+    <div className="md:mt-20 mt-25 mb-20">
       <div className="md:mt-15 p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
         <LeftSideBar />
       </div>
 
       <div className="mx-3 md:ml-60 mb-20 ">
-        <h1 className="md:text-6xl text-xl font-semibold dark:text-[rgb(150,150,150)] text-center ">
+        <h1 className="md:text-5xl text-xl text-gray-800 font-semibold dark:text-[rgb(150,150,150)] text-center ">
           Dear Recruiters, Post JOBS for FREE
           <br />
-          <h2 className="md:text-4xl text-lg md:mt-6">
-            求人情報をご掲載ください。完全に無料です。
-          </h2>
         </h1>
+        <h2 className=" font-semibold text-gray-600 text-center md:text-4xl text-lg md:mt-6">
+          求人情報をご掲載ください。完全に無料です。
+        </h2>
         <h2 className="md:text-2xl text-sm font-semibold dark:text-[rgb(120,120,130)] text-center md:mt-4">
           {" "}
           Show your Job posts to over 10,000 Japanese learners and working

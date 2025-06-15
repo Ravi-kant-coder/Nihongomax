@@ -19,7 +19,8 @@ const JobPostForm = () => {
   const [queryText, setQueryText] = useState("");
   const [submit, setSubmit] = useState(true);
   const [submitted, setSubmitted] = useState("");
-  const [isNameReq, setIsNameReq] = useState(false);
+  const [isCompNameReq, setIsCompNameReq] = useState(false);
+  const [isJobTitleReq, setIsJobTitleReq] = useState(false);
   const [isMobReq, setIsMobReq] = useState(false);
   const [isQueryReq, setIsQueryReq] = useState(false);
   const [invalidMob, setInvalidMob] = useState(false);
@@ -39,7 +40,7 @@ const JobPostForm = () => {
 
     // Frontend code from here
     if (!studentName) {
-      setIsNameReq(true);
+      setIsCompNameReq(true);
       return;
     } else if (!mobile.trim()) {
       setIsMobReq(true);
@@ -84,7 +85,7 @@ const JobPostForm = () => {
       // Capitalize first letter and remove error msg
       if (val.length >= 0) {
         val = val.charAt(0).toUpperCase() + val.slice(1);
-        setIsNameReq(false);
+        setIsCompNameReq(false);
       }
 
       setStudentName(val);
@@ -140,7 +141,7 @@ const JobPostForm = () => {
                   value={studentName}
                   onChange={handleNameChange}
                 />
-                {isNameReq && (
+                {isCompNameReq && (
                   <p className="text-red-700 text-xs">
                     Company's Name is required.
                   </p>
@@ -151,27 +152,22 @@ const JobPostForm = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between flex-col h-20 w-full ">
-            <div className="space-y-2 ">
-              <Label className="sr-only" htmlFor="queryName">
-                Username
-              </Label>
-              <Input
-                id="queryName"
-                name="queryNameKey"
-                type="text"
-                placeholder="Enter Job Title"
-                className="dark:border-gray-400 bg-white dark:bg-black"
-                value={studentName}
-                onChange={handleNameChange}
-              />
-              {isNameReq && (
-                <p className="text-red-700 text-xs">Job Title is required.</p>
-              )}
-            </div>
-            <div className="flex flex-col text-xs md:text-sm">
-              {formattedDate}
-            </div>
+          <div className="flex justify-between flex-col md:w-2/3 ">
+            <Label className="sr-only" htmlFor="queryName">
+              Username
+            </Label>
+            <Input
+              id="queryName"
+              name="queryNameKey"
+              type="text"
+              placeholder="Enter Job Title"
+              className="dark:border-gray-400 bg-white dark:bg-black"
+              value={studentName}
+              onChange={handleNameChange}
+            />
+            {isJobTitleReq && (
+              <p className="text-red-700 text-xs">Job Title is required.</p>
+            )}
           </div>
           <div className="space-y-2 ">
             <Label className="sr-only" htmlFor="mobNumber">
@@ -221,7 +217,7 @@ const JobPostForm = () => {
           )}
           {submit && (
             <Button
-              className="w-full text-[15px] hover:dark:bg-black hover:dark:border-1 hover:dark:border-white dark:bg-gray-400 hover:dark:text-white cursor-pointer"
+              className="w-1/2 text-[15px] hover:dark:bg-black hover:dark:border-1 hover:dark:border-white dark:bg-gray-400 hover:dark:text-white cursor-pointer"
               type="submit"
             >
               <p>Post Job Now</p>
@@ -239,7 +235,7 @@ const JobPostForm = () => {
             </motion.p>
           )}
         </div>
-        <p className="text-center mt-5">You can delete it anytime</p>
+        <p className="mt-2 font-semibold">You can delete it anytime</p>
       </form>
     </div>
   );

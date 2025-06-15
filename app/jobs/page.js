@@ -10,6 +10,7 @@ import {
   Mail,
   Languages,
 } from "lucide-react";
+
 const dummyJobs = [
   {
     jobTitle:
@@ -111,12 +112,14 @@ const Jobcard = () => {
 
   return (
     <>
-      <LeftSideBar />
-      <div className="">
-        <h1 className="md:text-4xl text-xl font-bold dark:text-[rgb(150,150,150)] text-center mt-30 md:mt-20">
-          Apply for JOBS
-        </h1>
-        <div className="flex flex-col mx-3 md:ml-60 mb-20">
+      <div className="md:mt-20 mt-25 mb-20">
+        <div className="p-2">
+          <LeftSideBar />
+        </div>
+        <div className="flex flex-col md:ml-80 mb-20">
+          <h1 className="md:text-4xl text-xl font-bold dark:text-[rgb(150,150,150)] text-center">
+            Apply for JOBS
+          </h1>
           {dummyJobs.map((queryObj) => (
             <div key={queryObj.key} className="md:mx-30 md:my-2">
               <div className="my-2 bg-white dark:bg-[rgb(30,30,30)] rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:border-gray-200">

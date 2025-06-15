@@ -71,55 +71,58 @@ const Page = () => {
   //   };
 
   return (
-    <div className="min-h-screen bg-gray-300 dark:bg-[rgb(36,37,38)] lg:flex mt-12 lg:mt-18">
-      <div className="hidden lg:fixed lg:block">
+    <div className="md:mt-20 mt-25 mb-20">
+      <div className="md:mt-15 p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
         <LeftSideBar />
       </div>
-      <main className="lg:p-6 p-2 lg:rounded-lg lg:ml-70 mx-4 lg:mx-0 mb-20">
-        <h1 className="text-2xl font-bold mb-6">
-          {friendRequests.length > 0 ? "You Received " : "No "}Friends Requests
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {loading ? (
-            <FriendCardSkeleton />
-          ) : friendRequests.length === 0 ? (
-            <NoFriendsMessage
-              text="No Friend Requests"
-              description="Why not explore Nihongomax and connect with new people?"
-            />
-          ) : (
-            friendRequests.map((friend) => (
-              <FriendRequestCard
-                key={friend._id}
-                friend={friend}
-                loading={loading}
-                // onAction={handleAction}
+      <div className="">
+        <main className="lg:p-6 p-2 lg:rounded-lg lg:ml-70 mx-4 lg:mx-0 mb-20">
+          <h1 className="text-2xl font-bold mb-6">
+            {friendRequests.length > 0 ? "You Received " : "No "}Friends
+            Requests
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {loading ? (
+              <FriendCardSkeleton />
+            ) : friendRequests.length === 0 ? (
+              <NoFriendsMessage
+                text="No Friend Requests"
+                description="Why not explore Nihongomax and connect with new people?"
               />
-            ))
-          )}
-        </div>
+            ) : (
+              friendRequests.map((friend) => (
+                <FriendRequestCard
+                  key={friend._id}
+                  friend={friend}
+                  loading={loading}
+                  // onAction={handleAction}
+                />
+              ))
+            )}
+          </div>
 
-        <h1 className="text-2xl font-bold my-6">People you may know</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {loading ? (
-            <FriendCardSkeleton />
-          ) : friendSuggestion.length === 0 ? (
-            <NoFriendsMessage
-              text="No Friends Suggestion"
-              description="Why not explore Nihongomax and connect with new people?"
-            />
-          ) : (
-            friendSuggestion.map((friend) => (
-              <FriendsSuggestion
-                key={friend._id}
-                friend={friend}
-                loading={loading}
-                // onAction={handleAction}
+          <h1 className="text-2xl font-bold my-6">People you may know</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {loading ? (
+              <FriendCardSkeleton />
+            ) : friendSuggestion.length === 0 ? (
+              <NoFriendsMessage
+                text="No Friends Suggestion"
+                description="Why not explore Nihongomax and connect with new people?"
               />
-            ))
-          )}
-        </div>
-      </main>
+            ) : (
+              friendSuggestion.map((friend) => (
+                <FriendsSuggestion
+                  key={friend._id}
+                  friend={friend}
+                  loading={loading}
+                  // onAction={handleAction}
+                />
+              ))
+            )}
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

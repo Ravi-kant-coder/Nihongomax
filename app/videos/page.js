@@ -33,44 +33,46 @@ const YouTubeShowcase = () => {
 
   return (
     <>
-      <div className="md:flex">
-        <div className="hidden lg:block">
+      <div className="md:mt-20 mt-25 mb-20">
+        <div className="p-2">
           <LeftSideBar />
         </div>
-        <div className="md:fixed md:mt-17 mt-12 z-100 md:bg-gray-300 dark:md:bg-black p-4 rounded md:w-3/4 md:ml-70 flex flex-wrap px-10 md:px-0 justify-center gap-1 md:gap-2 mb-2 md:mb-6">
-          {tags.map((tag) => (
-            <button
-              key={tag}
-              onClick={() => setSelectedTag(tag)}
-              className={`md:px-4 p-1 rounded md:border text-sm lg:text-md
+        <div className="flex flex-col md:ml-80 mb-20">
+          <div className="md:fixed z-100 md:bg-gray-300 dark:md:bg-black flex flex-wrap justify-center gap-1 mb-2 md:mb-6">
+            {tags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setSelectedTag(tag)}
+                className={`md:px-4 p-1 rounded md:border text-sm lg:text-md
               ${
                 selectedTag === tag
                   ? "bg-red-600 rounded dark:bg-white px-5 md:px-0 dark:text-black text-white cursor-pointer md:border-1 dark:border-white"
                   : "bg-white rounded-lg md:rounded dark:bg-zinc-800 px-5 md:px-0 cursor-pointer border-gray-400"
               }`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-        <div className="md:grid md:grid-cols-2 lg:grid-cols-3 md:ml-70 gap-6 md:mt-35 mt-4 mx-auto w-3/4">
-          {filteredVideos.map((video) => (
-            <div
-              key={video._id}
-              className="bg-white mb-4 md:mb-0 dark:bg-zinc-800 rounded overflow-hidden shadow-md transition-all"
-            >
-              <iframe
-                className="w-full aspect-video"
-                src={`https://www.youtube.com/embed/${video.studentName}`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                allowFullScreen
-                loading="lazy"
-              ></iframe>
-              <div className="p-2">
-                <p>{video.queryText}</p>
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+          <div className="md:grid md:grid-cols-2 lg:grid-cols-3 md:ml-70 gap-6 md:mt-35 mt-4 mx-auto w-3/4">
+            {filteredVideos.map((video) => (
+              <div
+                key={video._id}
+                className="bg-white mb-4 md:mb-0 dark:bg-zinc-800 rounded overflow-hidden shadow-md transition-all"
+              >
+                <iframe
+                  className="w-full aspect-video"
+                  src={`https://www.youtube.com/embed/${video.studentName}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  allowFullScreen
+                  loading="lazy"
+                ></iframe>
+                <div className="p-2">
+                  <p>{video.queryText}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </>

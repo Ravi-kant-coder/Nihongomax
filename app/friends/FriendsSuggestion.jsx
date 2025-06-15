@@ -21,7 +21,7 @@ const FriendSuggestion = ({ friend, onAction }) => {
           </AvatarFallback>
         </Avatar>
       </div>
-      <div>
+      <div className="pb-1">
         <h3 className="text-lg hover:underline cursor-pointer font-semibold text-center lg:mb-4 truncate">
           {friend?.username}
         </h3>

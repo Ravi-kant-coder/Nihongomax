@@ -17,11 +17,11 @@ const FriendRequestCard = ({ friend, onAction }) => {
           </AvatarFallback>
         </Avatar>
       </div>
-      <div>
-        <h3 className="text-lg hover:underline cursor-pointer font-semibold lg:text-center lg:mb-4 truncate">
+      <div className="pb-1">
+        <h3 className="text-lg hover:underline cursor-pointer font-semibold md:text-center md:mb-4 truncate">
           {friend?.username}
         </h3>
-        <div className="flex lg:flex-col lg:justify-between">
+        <div className="flex md:flex-col md:justify-between">
           <button
             className="bg-green-300 lg:p-2 p-1 rounded flex justify-evenly items-center hover:bg-green-400 text-black cursor-pointer"
             onClick={() => {}}

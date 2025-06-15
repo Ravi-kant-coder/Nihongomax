@@ -78,7 +78,7 @@ const storyPostsData = [
 
 const Wall = () => {
   return (
-    <div className="md:px-10 md:p-1">
+    <div className="md:px-10 md:p-1 mb-20">
       <PostTrigger />
       <StorySection storyPostsData={storyPostsData} />
       {storyPostsData?.map((userDataObj) => (
