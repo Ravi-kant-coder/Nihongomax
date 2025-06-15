@@ -177,15 +177,11 @@ const Jobcard = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <button className="lg:w-1/5 w-1/2 align-center mt-4 bg-gray-400 dark:bg-black cursor-pointer dark:hover:bg-gray-900 hover:bg-gray-600  hover:text-white font-medium py-1 px-4 rounded">
-                    Apply Now
-                  </button>
                   <button
                     onClick={() => setShowModal(true)}
                     className="mt-4 bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2 px-4 rounded font-medium"
                   >
-                    Bhumika, <br />
-                    Delete this Post?
+                    Bhumika, Delete this Post?
                   </button>
                 </div>
               </div>

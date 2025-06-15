@@ -4,6 +4,8 @@ import { useTheme } from "next-themes";
 import JapanGate from "./JapanGate";
 // import useSidebarStore from "../store/sidebarStore";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 import UserMenu from "@/components/UserMenu";
 import {
   Home,
@@ -19,8 +21,11 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 import SearchInNav from "./SearchInNav";
+import MsgBox from "./MsgBox";
 
 const Navbar = () => {
+  const [isMsgsBoxOpen, setIsMsgsBoxOpen] = useState(false);
+
   const { theme, setTheme } = useTheme();
   // const { toggleSidebar } = useSidebarStore();
   const router = useRouter();
@@ -102,7 +107,6 @@ const Navbar = () => {
               { icon: Home, path: "/", name: "Home" },
               { icon: Users, path: "/friends", name: "Friends" },
               { icon: Bell, path: "/notifications", name: "Notifctns" },
-              { icon: MessageCircle, path: "/messages", name: "Messages" },
             ].map(({ icon: Icon, path, name }) => (
               <Button
                 variant="ghost"
@@ -118,12 +122,25 @@ const Navbar = () => {
                 </div>{" "}
               </Button>
             ))}
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setIsMsgsBoxOpen((prev) => !prev);
+              }}
+              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
+            >
+              <div className="flex md:w-12 flex-col items-center justify-center">
+                <MessageCircle />
+                <p className="mt-2">Messages</p>
+              </div>{" "}
+            </Button>
           </div>
           <div className="hidden md:block">
             <UserMenu />
           </div>
         </div>
       </div>
+      {isMsgsBoxOpen && <MsgBox />}
     </header>
   );
 };
