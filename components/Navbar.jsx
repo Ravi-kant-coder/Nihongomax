@@ -4,9 +4,9 @@ import { useTheme } from "next-themes";
 import JapanGate from "./JapanGate";
 // import useSidebarStore from "../store/sidebarStore";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-
 import UserMenu from "@/components/UserMenu";
+import useMsgStore from "@/app/store/useMsgStore";
+
 import {
   Home,
   Users,
@@ -17,15 +17,14 @@ import {
   Handshake,
   School,
   Dices,
-  Briefcase,
   BriefcaseBusiness,
 } from "lucide-react";
 import SearchInNav from "./SearchInNav";
 import MsgBox from "./MsgBox";
 
 const Navbar = () => {
-  const [isMsgsBoxOpen, setIsMsgsBoxOpen] = useState(false);
-
+  // const [isMsgsBoxOpen, setIsMsgsBoxOpen] = useState(false);
+  const { isMsgBoxOpen, toggleMsgBox, unreadCount } = useMsgStore();
   const { theme, setTheme } = useTheme();
   // const { toggleSidebar } = useSidebarStore();
   const router = useRouter();
@@ -124,9 +123,7 @@ const Navbar = () => {
             ))}
             <Button
               variant="ghost"
-              onClick={() => {
-                setIsMsgsBoxOpen((prev) => !prev);
-              }}
+              onClick={toggleMsgBox}
               className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
             >
               <div className="flex md:w-12 flex-col items-center justify-center">
@@ -140,7 +137,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {isMsgsBoxOpen && <MsgBox />}
+      {isMsgBoxOpen && <MsgBox />}
     </header>
   );
 };

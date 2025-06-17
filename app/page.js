@@ -1,6 +1,7 @@
 import Wall from "@/components/Wall";
 import CoursesBar from "@/components/CoursesBar";
 import LeftSideBar from "@/components/LeftSideBar";
+import MsgBox from "@/components/MsgBox";
 
 const Home = () => {
   return (

@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { BookOpen, MessageCircle, School, Home, Users } from "lucide-react";
 import { useState } from "react";
 import MsgBox from "./MsgBox";
+import useMsgStore from "@/app/store/useMsgStore";
 
 const NavbarBelow = () => {
-  const [isMsgsBoxOpen, setIsMsgsBoxOpen] = useState(false);
+  // const [isMsgsBoxOpen, setIsMsgsBoxOpen] = useState(false);
+  const { isMsgBoxOpen, toggleMsgBox, unreadCount } = useMsgStore();
 
   // const { toggleSidebar } = useSidebarStore();
   const router = useRouter();
@@ -37,9 +39,7 @@ const NavbarBelow = () => {
         ))}
         <Button
           variant="ghost"
-          onClick={() => {
-            setIsMsgsBoxOpen((prev) => !prev);
-          }}
+          onClick={toggleMsgBox}
           className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
         >
           <div className="flex md:w-12 flex-col items-center justify-center">
@@ -69,7 +69,6 @@ const NavbarBelow = () => {
       <div className="text-xs rounded bg-gray-300 dark:bg-black dark:text-white text-center">
         <h1>Nihongomax 7678461209</h1>
       </div>
-      {isMsgsBoxOpen && <MsgBox />}
     </div>
   );
 };
