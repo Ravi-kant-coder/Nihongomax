@@ -32,7 +32,7 @@ export const useAdminData = create((set) => ({
         querys: state.querys.filter((query) => query._id !== id),
       }));
     } catch (err) {
-      console.error("Delete wala Error", err);
+      console.error("Error in Delete", err);
     }
   },
 }));

@@ -1,11 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
-// import useSidebarStore from "../store/sidebarStore";
+// import useSidebarStore from "../store/useSidebarStore";
 import { useRouter } from "next/navigation";
 import { BookOpen, MessageCircle, School, Home, Users } from "lucide-react";
-import { useState } from "react";
-import MsgBox from "./MsgBox";
-import useMsgStore from "@/app/store/useMsgStore";
+import useMsgStore from "@/stores/useMsgStore";
 
 const NavbarBelow = () => {
   // const [isMsgsBoxOpen, setIsMsgsBoxOpen] = useState(false);
@@ -45,6 +43,11 @@ const NavbarBelow = () => {
           <div className="flex md:w-12 flex-col items-center justify-center">
             <MessageCircle />
             <p className="mt-2">Messages</p>
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
+                {unreadCount}
+              </span>
+            )}
           </div>{" "}
         </Button>
         {[

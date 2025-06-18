@@ -6,7 +6,7 @@ import MsgChat from "./MsgChat";
 import { X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import SearchInNav from "./SearchInNav";
-import useMsgStore from "@/app/store/useMsgStore";
+import useMsgStore from "@/stores/useMsgStore";
 
 const unreadmsgs = [
   {
@@ -37,12 +37,12 @@ const unreadmsgs = [
   },
 ];
 const MsgBox = () => {
-  // const [showMsgBox, setShowMsgBox] = useState(true);
-  const { isMsgBoxOpen, closeMsgBox, resetUnread } = useMsgStore();
+  const { isMsgBoxOpen, closeMsgBox, resetUnread, incrementUnread } =
+    useMsgStore();
 
-  // useEffect(() => {
-  //   if (isMsgBoxOpen) resetUnread();
-  // }, [isMsgBoxOpen, resetUnread]);
+  useEffect(() => {
+    if (isMsgBoxOpen) resetUnread();
+  }, [isMsgBoxOpen, resetUnread]);
 
   if (!isMsgBoxOpen) return null;
 
@@ -50,17 +50,17 @@ const MsgBox = () => {
     <>
       {isMsgBoxOpen && (
         <motion.div
-          initial={{ y: -500 }}
-          animate={{ y: 0 }}
-          className={`fixed border bg-white dark:bg-black dark:text-white md:bottom-0 rounded-md bottom-18 md:left-40 md:w-1/4 left-2 right-2 md:h-2/3 top-26 overflow-y-auto md:top-auto ${
+          initial={{ y: -500, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className={`fixed bg-white dark:bg-[rgb(40,40,40)] dark:text-white md:bottom-0 rounded-md bottom-18 md:left-40 md:w-1/4 left-2 right-2 md:h-3/4  ${
             isMsgBoxOpen ? "visible" : "invisible"
           }`}
         >
-          <div className="fixed h-15 bg-[rgb(200,200,200)] dark:bg-[rgb(20,20,20)]  z-100 md:w-1/4 w-[95vw] rounded ">
-            <div className="m-4 w-2/3">
+          <div className="z-100 rounded ">
+            <div className="p-4 w-2/3 ">
               <SearchInNav />{" "}
             </div>
-            <div className="flex items-center justify-around">
+            <div className="flex items-center justify-around border-b pb-2 mb-2">
               {unreadmsgs.map((dummymsg, index) => (
                 <div
                   key={dummymsg?.key}
@@ -71,23 +71,21 @@ const MsgBox = () => {
                       src={dummymsg?.imageUrl}
                       className="object-cover"
                     />
-                    <AvatarFallback className="bg-gray-400 dark:bg-gray-500 text-black">
+                    <AvatarFallback className="bg-gray-400 text-2xl dark:bg-gray-500 text-black">
                       {dummymsg?.username.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 </div>
               ))}
             </div>
-            <div>
-              <button
-                onClick={closeMsgBox}
-                className="absolute top-0 right-0 text-black hover:text-gray-700 cursor-pointer dark:text-white dark:hover:text-gray-300"
-              >
-                <X className="w-7 h-7" />
-              </button>
-            </div>
+            <button
+              onClick={closeMsgBox}
+              className="dark:hover:bg-[rgb(20,20,20)] hover:bg-gray-400 hover:text-white dark:hover:text-white text-gray-500 dark:text-[rgb(150,150,150)] cursor-pointer border-2 border-gray-400 dark:border-[rgb(150,150,150)] rounded-full absolute top-2 right-2 z-50"
+            >
+              <X className="w-7 h-7" />
+            </button>
           </div>
-          <div className="space-y-4 md:h-90 h-100 overflow-y-auto top-30 relative dark:border-gray-200">
+          <div className="dark:border-gray-200">
             <MsgChat />
           </div>
         </motion.div>

@@ -1,11 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
 import JapanGate from "./JapanGate";
-// import useSidebarStore from "../store/sidebarStore";
 import { useRouter } from "next/navigation";
 import UserMenu from "@/components/UserMenu";
-import useMsgStore from "@/app/store/useMsgStore";
+// import useSidebarStore from "../store/sidebarStore";
+import useMsgStore from "@/stores/useMsgStore";
+import useNotificationStore from "@/stores/useNotificationStore";
 
 import {
   Home,
@@ -21,18 +21,37 @@ import {
 } from "lucide-react";
 import SearchInNav from "./SearchInNav";
 import MsgBox from "./MsgBox";
+import { useEffect } from "react";
+import NotificationBox from "./NotificationBox";
 
 const Navbar = () => {
-  // const [isMsgsBoxOpen, setIsMsgsBoxOpen] = useState(false);
-  const { isMsgBoxOpen, toggleMsgBox, unreadCount } = useMsgStore();
+  const { isMsgBoxOpen, toggleMsgBox, incrementUnread, unreadCount } =
+    useMsgStore();
+  const {
+    toggleNotificationBox,
+    isNotificationBoxOpen,
+    incrementNotification,
+    unreadNotificationCount,
+  } = useNotificationStore();
   const { theme, setTheme } = useTheme();
+
   // const { toggleSidebar } = useSidebarStore();
   const router = useRouter();
   const handleNavigation = (path, item) => {
     router.push(path);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      useMsgStore.getState().incrementUnread();
+      useNotificationStore.getState().incrementNotification();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <header className="dark:bg-black md:py-4 bg-gray-300 md:shadow-lg fixed top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
+    <header className="dark:bg-black md:py-2 bg-gray-300 md:shadow-lg fixed top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
       <div className="hidden md:block">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
@@ -51,8 +70,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center justify-center">
             {[{ icon: Bell, path: "/notifications", name: "Ntfctns" }].map(
               ({ icon: Icon, path, name }) => (
-                <Button
-                  variant="ghost"
+                <button
                   onClick={() => {
                     handleNavigation(path);
                   }}
@@ -61,9 +79,8 @@ const Navbar = () => {
                 >
                   <div className="flex md:w-12 flex-col items-center justify-center">
                     <Icon />
-                    <p className="mt-2">{name}</p>
                   </div>{" "}
-                </Button>
+                </button>
               )
             )}
             <UserMenu />
@@ -85,8 +102,7 @@ const Navbar = () => {
             { icon: Dices, path: "/games", name: "Games" },
             { icon: TvMinimalPlay, path: "/videos", name: "Videos" },
           ].map(({ icon: Icon, path, name }) => (
-            <Button
-              variant="ghost"
+            <button
               onClick={() => {
                 handleNavigation(path);
               }}
@@ -95,9 +111,8 @@ const Navbar = () => {
             >
               <div className="flex md:w-12 flex-col items-center justify-center">
                 <Icon />
-                <p className="mt-2">{name}</p>
               </div>{" "}
-            </Button>
+            </button>
           ))}
 
           <div className="md:flex items-center justify-center hidden">
@@ -105,10 +120,8 @@ const Navbar = () => {
               { icon: School, path: "/schools", name: "Jap Schools" },
               { icon: Home, path: "/", name: "Home" },
               { icon: Users, path: "/friends", name: "Friends" },
-              { icon: Bell, path: "/notifications", name: "Notifctns" },
             ].map(({ icon: Icon, path, name }) => (
-              <Button
-                variant="ghost"
+              <button
                 onClick={() => {
                   handleNavigation(path);
                 }}
@@ -117,26 +130,44 @@ const Navbar = () => {
               >
                 <div className="flex md:w-12 flex-col items-center justify-center">
                   <Icon />
-                  <p className="mt-2">{name}</p>
                 </div>{" "}
-              </Button>
+              </button>
             ))}
-            <Button
-              variant="ghost"
+            <button
+              onClick={toggleNotificationBox}
+              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
+            >
+              <div className="relative flex md:w-12 flex-col items-center justify-center">
+                <Bell />
+
+                {unreadCount > 0 && (
+                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                    {unreadCount <= 99 ? unreadCount : "99+"}
+                  </span>
+                )}
+              </div>
+            </button>
+            <button
               onClick={toggleMsgBox}
               className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
             >
-              <div className="flex md:w-12 flex-col items-center justify-center">
+              <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <MessageCircle />
-                <p className="mt-2">Messages</p>
-              </div>{" "}
-            </Button>
+
+                {unreadCount > 0 && (
+                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                    {unreadCount <= 99 ? unreadCount : "99+"}
+                  </span>
+                )}
+              </div>
+            </button>
           </div>
           <div className="hidden md:block">
             <UserMenu />
           </div>
         </div>
       </div>
+      {isNotificationBoxOpen && <NotificationBox />}
       {isMsgBoxOpen && <MsgBox />}
     </header>
   );

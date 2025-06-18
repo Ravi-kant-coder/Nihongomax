@@ -12,16 +12,27 @@ import {
   ChartNoAxesCombined,
   TvMinimalPlay,
 } from "lucide-react";
-import useSidebarStore from "../app/store/sidebarStore";
+import useMsgStore from "@/stores/useMsgStore";
+import useNotificationStore from "@/stores/useNotificationStore";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const LeftSideBar = () => {
-  const router = useRouter();
+  const { isMsgBoxOpen, toggleMsgBox, incrementUnread, unreadCount } =
+    useMsgStore();
+  const {
+    toggleNotificationBox,
+    isNotificationBoxOpen,
+    incrementNotification,
+    unreadNotificationCount,
+  } = useNotificationStore();
 
+  const router = useRouter();
   const handleNavigation = (path, item) => {
     router.push(path);
   };
+  const pathname = usePathname();
 
   return (
     <aside className="fixed h-full hidden w-70 md:p-1 md:flex flex-col z-50 md:z-0">
@@ -47,70 +58,104 @@ const LeftSideBar = () => {
               label: "Home",
               navPath: "/",
               icon: Home,
-              className: "mr-4 w-4 h-4",
             },
             {
               id: 2,
               label: "Friends",
               navPath: "/friends",
               icon: Users,
-              className: "mr-4 w-4 h-4",
             },
-            {
-              id: 3,
-              label: "Messages",
-              navPath: "/messages",
-              icon: MessageCircle,
-              className: "mr-4 w-4 h-4",
-            },
-            {
-              id: 4,
-              label: "Notifications",
-              navPath: "/notifications",
-              icon: Bell,
-              className: "mr-4 w-4 h-4",
-            },
+          ].map(({ id, label, icon: Icon, navPath }) => {
+            const isActive = pathname === navPath;
+            return (
+              <motion.button
+                whileHover={{ y: -5 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className={`w-full ${
+                  isActive ? "bg-white text-black" : "bg-transparent"
+                } cursor-pointer dark:font-normal dark:hover:bg-[rgb(55,55,55)] text-sm font-semibold flex items-center justify-start  p-2 rounded-md`}
+                onClick={() => {
+                  handleNavigation(navPath);
+                }}
+                key={id}
+              >
+                <Icon className="mr-4 w-5 h-5" />
+                {label}
+              </motion.button>
+            );
+          })}
+          <motion.button
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="w-full cursor-pointer dark:font-normal dark:hover:bg-[rgb(55,55,55)] text-sm font-semibold flex items-center justify-start hover:bg-white p-2 rounded-md"
+            onClick={toggleMsgBox}
+          >
+            <div className="relative">
+              <div className="flex">
+                <MessageCircle className="mr-4 w-5 h-5" />
+                Messages
+              </div>
+              {unreadCount > 0 && (
+                <span className="absolute -top-4 -right-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  {unreadCount <= 99 ? unreadCount : "99+"}
+                </span>
+              )}
+            </div>
+          </motion.button>
+          <motion.button
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="w-full cursor-pointer dark:font-normal dark:hover:bg-[rgb(55,55,55)] text-sm font-semibold flex items-center justify-start hover:bg-white p-2 rounded-md"
+            onClick={toggleNotificationBox}
+          >
+            <div className="relative">
+              <div className="flex">
+                <Bell className="mr-4 w-5 h-5" />
+                Notifications
+              </div>
+              {unreadCount > 0 && (
+                <span className="absolute -top-4 -right-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  {unreadCount <= 99 ? unreadCount : "99+"}
+                </span>
+              )}
+            </div>
+          </motion.button>
+          {[
             {
               id: 5,
               label: "Videos",
               navPath: "/videos",
               icon: TvMinimalPlay,
-              className: "mr-4 w-4 h-4",
             },
             {
               id: 6,
               label: "About Jobs in Japan",
               navPath: "/about-jobs",
               icon: BriefcaseBusiness,
-              className: "mr-4 w-4 h-4",
             },
             {
               id: 7,
               label: "Schools in Japan",
               navPath: "/schools-in-japan",
               icon: School,
-              className: "mr-4 w-4 h-4",
             },
             {
               id: 8,
               label: "Kanji Games",
               navPath: "/games",
               icon: Dices,
-              className: "mr-4 w-4 h-4",
             },
             {
               id: 9,
               label: "Apply for Jobs",
               navPath: "/jobs",
               icon: Handshake,
-              className: "mr-4 w-4 h-4",
             },
             {
               id: 10,
               label: "For Recruiters",
               navPath: "/recruiters",
               icon: ChartNoAxesCombined,
-              className: "mr-4 w-4 h-4",
             },
           ].map(({ id, label, icon: Icon, className, navPath }) => (
             <motion.button
@@ -122,7 +167,7 @@ const LeftSideBar = () => {
               }}
               key={id}
             >
-              <Icon className={className} />
+              <Icon className="mr-4 w-5 h-5" />
               {label}
             </motion.button>
           ))}
