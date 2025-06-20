@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import StoryCard from "./StoryCard";
+import StoryCard from "../app/StoryCard";
 import { motion } from "framer-motion";
 
 const StorySection = ({ storyPostsData }) => {

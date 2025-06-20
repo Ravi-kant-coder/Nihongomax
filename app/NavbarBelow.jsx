@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 // import useSidebarStore from "../store/useSidebarStore";
 import { useRouter } from "next/navigation";
 import { BookOpen, MessageCircle, School, Home, Users } from "lucide-react";
@@ -21,8 +20,7 @@ const NavbarBelow = () => {
           { icon: School, path: "/schools", name: "schls" },
           { icon: Users, path: "/friends", name: "Frnds" },
         ].map(({ icon: Icon, path, name }) => (
-          <Button
-            variant="ghost"
+          <button
             onClick={() => {
               handleNavigation(path);
             }}
@@ -33,10 +31,9 @@ const NavbarBelow = () => {
               <Icon />
               <p className="mt-2">{name}</p>
             </div>{" "}
-          </Button>
+          </button>
         ))}
-        <Button
-          variant="ghost"
+        <button
           onClick={toggleMsgBox}
           className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
         >
@@ -44,13 +41,12 @@ const NavbarBelow = () => {
             <MessageCircle />
             <p className="mt-2">Messages</p>
           </div>{" "}
-        </Button>
+        </button>
         {[
           { icon: Home, path: "/", name: "Home" },
           { icon: BookOpen, path: "/", name: "Study" },
         ].map(({ icon: Icon, path, name }) => (
-          <Button
-            variant="ghost"
+          <button
             onClick={() => {
               handleNavigation(path);
             }}
@@ -61,7 +57,7 @@ const NavbarBelow = () => {
               <Icon />
               <p className="mt-2">{name}</p>
             </div>{" "}
-          </Button>
+          </button>
         ))}
       </div>{" "}
       <div className="text-xs rounded bg-gray-300 dark:bg-black dark:text-white text-center">

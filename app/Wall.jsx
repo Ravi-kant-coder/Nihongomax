@@ -1,7 +1,7 @@
 "use client";
 import WallCard from "./WallCard";
-import StorySection from "./StorySection";
 import PostTrigger from "./PostTrigger";
+import StorySection from "./StorySection";
 
 const storyPostsData = [
   {
@@ -78,7 +78,7 @@ const storyPostsData = [
 
 const Wall = () => {
   return (
-    <div className="md:px-5 mb-20">
+    <div className="md:px-10 md:p-1 mb-20">
       <PostTrigger />
       <StorySection storyPostsData={storyPostsData} />
       {storyPostsData?.map((userDataObj) => (
