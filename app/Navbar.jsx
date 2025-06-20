@@ -51,7 +51,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <header className="dark:bg-black md:py-2 bg-gray-300 md:shadow-lg fixed top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
+    <header className="sticky dark:bg-black md:py-2 bg-gray-300 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
       <div className="hidden md:block">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
@@ -88,7 +88,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex justify-between items-center md:mt-0 mt-2">
-          <div className="md:flex items-center justify-center hidden">
+          <div className="md:flex items-center justify-center hidden bg-amber-200">
             <button
               onClick={() => {
                 handleNavigation("/");
