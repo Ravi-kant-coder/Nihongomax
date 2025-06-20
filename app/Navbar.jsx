@@ -5,7 +5,6 @@ import { useRouter, usePathname } from "next/navigation";
 // import useSidebarStore from "../store/sidebarStore";
 import useMsgStore from "@/stores/useMsgStore";
 import useNotificationStore from "@/stores/useNotificationStore";
-import { motion } from "framer-motion";
 import {
   Home,
   Users,
@@ -18,13 +17,21 @@ import {
   Dices,
   BriefcaseBusiness,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
 import NotificationBox from "@/app/NotificationBox";
 import SearchInNav from "@/app/SearchInNav";
 import MsgBox from "./MsgBox";
 import UserMenu from "./UserMenu";
+import Spinner from "./Spinner";
 
 const Navbar = () => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const handleNavigation = (path) => {
+    startTransition(() => {
+      router.push(path);
+    });
+  };
   const { isMsgBoxOpen, toggleMsgBox, incrementUnread, unreadCount } =
     useMsgStore();
   const {
@@ -36,10 +43,6 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
 
   // const { toggleSidebar } = useSidebarStore();
-  const router = useRouter();
-  const handleNavigation = (path) => {
-    router.push(path);
-  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -51,12 +54,18 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <header className="sticky dark:bg-black md:py-2 bg-gray-300 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
+    <header className="fixed dark:bg-black md:py-2 bg-gray-300 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
       <div className="hidden md:block">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
         </a>
       </div>
+      {isPending && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm z-[9999] transition-opacity duration-300 opacity-100">
+          <Spinner />
+        </div>
+      )}
+
       <div className="md:flex w-full items-center justify-between">
         <div className="flex justify-between mb-5 md:mb-0 ">
           <div className="lg:mr-5">
@@ -69,21 +78,17 @@ const Navbar = () => {
           </a>
 
           <div className="md:hidden flex items-center justify-center">
-            {[{ icon: Bell, path: "/notifications", name: "Ntfctns" }].map(
-              ({ icon: Icon, path, name }) => (
-                <button
-                  onClick={() => {
-                    handleNavigation(path);
-                  }}
-                  key={name}
-                  className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
-                >
-                  <div className="flex md:w-12 flex-col items-center justify-center">
-                    <Icon />
-                  </div>{" "}
-                </button>
-              )
-            )}
+            <button
+              onClick={() => {
+                handleNavigation("/notifications");
+              }}
+              key={"notfctns"}
+              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
+            >
+              <div className="flex md:w-12 flex-col items-center justify-center">
+                <Bell />
+              </div>{" "}
+            </button>
             <UserMenu />
           </div>
         </div>
@@ -103,6 +108,7 @@ const Navbar = () => {
                 <Home />
               </div>
             </button>
+
             <button
               className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                 pathname === "/friends"

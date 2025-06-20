@@ -3,7 +3,6 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import NavbarBelow from "@/app/NavbarBelow";
 import Navbar from "./Navbar";
-
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -35,7 +34,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <NavbarBelow />
           {children}
-        </ThemeProvider>
+        </ThemeProvider>{" "}
       </body>
     </html>
   );
