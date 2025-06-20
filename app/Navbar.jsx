@@ -27,11 +27,13 @@ import Spinner from "./Spinner";
 const Navbar = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+
   const handleNavigation = (path) => {
     startTransition(() => {
       router.push(path);
     });
   };
+
   const { isMsgBoxOpen, toggleMsgBox, incrementUnread, unreadCount } =
     useMsgStore();
   const {
@@ -51,6 +53,7 @@ const Navbar = () => {
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
+
   const pathname = usePathname();
 
   return (
@@ -60,11 +63,6 @@ const Navbar = () => {
           <JapanGate />
         </a>
       </div>
-      {isPending && (
-        <div className="fixed inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm z-[9999] transition-opacity duration-300 opacity-100">
-          <Spinner />
-        </div>
-      )}
 
       <div className="md:flex w-full items-center justify-between">
         <div className="flex justify-between mb-5 md:mb-0 ">
@@ -204,6 +202,11 @@ const Navbar = () => {
       </div>
       {isNotificationBoxOpen && <NotificationBox />}
       {isMsgBoxOpen && <MsgBox />}
+      {isPending && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm z-[9999] transition-opacity duration-300 opacity-100">
+          <Spinner />
+        </div>
+      )}
     </header>
   );
 };
