@@ -80,7 +80,6 @@ const Navbar = () => {
               onClick={() => {
                 handleNavigation("/notifications");
               }}
-              key={"notfctns"}
               className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
             >
               <div className="flex md:w-12 flex-col items-center justify-center">
@@ -173,6 +172,7 @@ const Navbar = () => {
               path: "/about-jobs",
               name: "About Jobs",
             },
+            { icon: School, path: "/schools-in-japan", name: "Schools" },
             { icon: Dices, path: "/games", name: "Games" },
             { icon: TvMinimalPlay, path: "/videos", name: "Videos" },
           ].map(({ icon: Icon, path, name }) => {
