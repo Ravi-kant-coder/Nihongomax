@@ -1,8 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Users, MessageCircle, LogOutIcon } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 
 import {
   DropdownMenu,
@@ -13,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import ThemeToggle from "@/app/ThemeToggle";
 
 const UserMenu = () => {
   const router = useRouter();
@@ -75,10 +74,10 @@ const UserMenu = () => {
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {
-              handleNavigation("/friends-list");
+              handleNavigation("/friends");
             }}
           >
-            <MessageCircle /> <span className="ml-2">Messages</span>
+            <MessageCircle /> <span className="ml-2">Friends</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">

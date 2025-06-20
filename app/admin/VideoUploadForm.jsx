@@ -1,15 +1,14 @@
 "use client";
 import { useState } from "react";
 import { X, CircleCheckBig } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "../../components/ui/textarea";
 import { useAdminData } from "@/stores/useAdminData";
 
-const VideoUploader = () => {
+const VideoUploadForm = () => {
   const { createQuery } = useAdminData();
   const [showForm, setShowForm] = useState(true);
   const [studentName, setStudentName] = useState("");
@@ -153,4 +152,4 @@ const VideoUploader = () => {
   );
 };
 
-export default VideoUploader;
+export default VideoUploadForm;

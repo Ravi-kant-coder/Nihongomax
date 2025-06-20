@@ -12,7 +12,7 @@ const useNotificationStore = create((set) => ({
         unreadNotificationCount: willOpen ? 0 : state.unreadNotificationCount,
       };
     }),
-
+  closeNotificationBox: () => set({ isNotificationBoxOpen: false }),
   incrementNotification: () =>
     set((state) => ({
       unreadNotificationCount: state.isNotificationBoxOpen

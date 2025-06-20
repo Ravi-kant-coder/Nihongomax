@@ -29,7 +29,7 @@ const Wordle = () => {
       </div>
       <div className="flex flex-col md:ml-70 mb-20">
         <h1 className="md:text-4xl text-xl font-bold dark:text-[rgb(150,150,150)] text-center ">
-          Play Wordle
+          About Jobs in Japan
         </h1>
         <div className="border-2 bg-amber-200 border-black flex items-center justify-center h-[80vh] rounded-3xl">
           <div className="flex space-x-0.5">

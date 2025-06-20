@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import LeftSideBar from "@/components/LeftSideBar";
+import LeftSideBar from "@/app/LeftSideBar";
 import { useAdminData } from "@/stores/useAdminData";
 
 const tags = [
@@ -43,7 +43,7 @@ const YouTubeShowcase = () => {
               <button
                 key={tag}
                 onClick={() => setSelectedTag(tag)}
-                className={`md:px-4 p-1 rounded md:border text-sm lg:text-md
+                className={`md:px-4 p-1 rounded md:border text-sm lg:text-md z-100
               ${
                 selectedTag === tag
                   ? "bg-red-600 rounded dark:bg-white px-5 md:px-0 dark:text-black text-white cursor-pointer md:border-1 dark:border-white"

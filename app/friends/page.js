@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import LeftSideBar from "@/components/LeftSideBar";
+import LeftSideBar from "@/app/LeftSideBar";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import FriendRequest from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";

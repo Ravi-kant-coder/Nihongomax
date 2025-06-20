@@ -4,9 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import CommentEdit from "./CommentEdit";
 import ShownComments from "./ShownComments";
 import WallCardButtons from "./WallCardButtons";
-// import userStore from "@/store/userStore";
-// import { formatDate } from "date-fns";
-// import { comment } from "postcss";
 
 const initialComment =
   "Hi, My name is Sangeeta Verma rem ipsum dolor sit amet consectetur adipisicing elit. Repellendus natus unde repudia?and This is my question どこに行かれる度に上がってしまう。What will be the translation please answer";

@@ -1,5 +1,5 @@
 "use client";
-import VideoUploader from "@/components/VideoUploader";
+import VideoUploadForm from "@/app/admin/VideoUploadForm";
 import { Lock, LockOpen } from "lucide-react";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ const Admin = () => {
     <>
       {/* -----------------------------------Video Uploader Form------------------------------------ */}
       <div className="md:mt-20 mt-25">
-        <VideoUploader />
+        <VideoUploadForm />
       </div>
 
       {/* -----------------------------------User Purchase Data---------------------------------- */}

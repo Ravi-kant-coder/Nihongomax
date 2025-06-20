@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import ProfileHeader from "./ProfileHeader";
 import ProfileTabs from "./ProfileTabs";
-import LeftSideBar from "@/components/LeftSideBar";
+import LeftSideBar from "@/app/LeftSideBar";
 // import { useParams } from "next/navigation";
 // import { fetchUserProfile } from "@/service/user.service";
 

@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import Navbar from "@/components/Navbar";
-import NavbarBelow from "@/components/NavbarBelow";
+import NavbarBelow from "@/app/NavbarBelow";
+import Navbar from "./Navbar";
 
 const poppins = Poppins({
   subsets: ["latin"],

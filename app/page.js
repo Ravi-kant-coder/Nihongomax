@@ -1,7 +1,6 @@
-import Wall from "@/components/Wall";
-import CoursesBar from "@/components/CoursesBar";
-import LeftSideBar from "@/components/LeftSideBar";
-import MsgBox from "@/components/MsgBox";
+import Wall from "@/app/Wall";
+import CoursesBar from "@/app/CoursesBar";
+import LeftSideBar from "@/app/LeftSideBar";
 
 const Home = () => {
   return (

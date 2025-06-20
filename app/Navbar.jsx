@@ -1,12 +1,11 @@
 "use client";
 import { useTheme } from "next-themes";
-import JapanGate from "./JapanGate";
-import { useRouter } from "next/navigation";
-import UserMenu from "@/components/UserMenu";
+import JapanGate from "../app/JapanGate";
+import { useRouter, usePathname } from "next/navigation";
 // import useSidebarStore from "../store/sidebarStore";
 import useMsgStore from "@/stores/useMsgStore";
 import useNotificationStore from "@/stores/useNotificationStore";
-
+import { motion } from "framer-motion";
 import {
   Home,
   Users,
@@ -19,10 +18,11 @@ import {
   Dices,
   BriefcaseBusiness,
 } from "lucide-react";
-import SearchInNav from "./SearchInNav";
-import MsgBox from "./MsgBox";
 import { useEffect } from "react";
-import NotificationBox from "./NotificationBox";
+import NotificationBox from "@/app/NotificationBox";
+import SearchInNav from "@/app/SearchInNav";
+import MsgBox from "./MsgBox";
+import UserMenu from "./UserMenu";
 
 const Navbar = () => {
   const { isMsgBoxOpen, toggleMsgBox, incrementUnread, unreadCount } =
@@ -37,7 +37,7 @@ const Navbar = () => {
 
   // const { toggleSidebar } = useSidebarStore();
   const router = useRouter();
-  const handleNavigation = (path, item) => {
+  const handleNavigation = (path) => {
     router.push(path);
   };
 
@@ -46,9 +46,9 @@ const Navbar = () => {
       useMsgStore.getState().incrementUnread();
       useNotificationStore.getState().incrementNotification();
     }, 5000);
-
     return () => clearTimeout(timer);
   }, []);
+  const pathname = usePathname();
 
   return (
     <header className="dark:bg-black md:py-2 bg-gray-300 md:shadow-lg fixed top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
@@ -67,6 +67,7 @@ const Navbar = () => {
               <h1> Nihongomax 7678461209</h1>
             </div>
           </a>
+
           <div className="md:hidden flex items-center justify-center">
             {[{ icon: Bell, path: "/notifications", name: "Ntfctns" }].map(
               ({ icon: Icon, path, name }) => (
@@ -85,8 +86,77 @@ const Navbar = () => {
             )}
             <UserMenu />
           </div>
-        </div>{" "}
+        </div>
         <div className="flex justify-between items-center md:mt-0 mt-2">
+          <div className="md:flex items-center justify-center hidden">
+            <button
+              onClick={() => {
+                handleNavigation("/");
+              }}
+              className={`md:p-3 w-full cursor-pointer dark:font-normal ${
+                pathname === "/"
+                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  : "bg-transparent"
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+            >
+              <div className="flex md:w-12 flex-col items-center justify-center">
+                <Home />
+              </div>
+            </button>
+            <button
+              className={`md:p-3 w-full cursor-pointer dark:font-normal ${
+                pathname === "/friends"
+                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  : "bg-transparent"
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              onClick={() => {
+                handleNavigation("/friends");
+              }}
+            >
+              <div className="relative flex md:w-12 flex-col items-center justify-center">
+                <Users />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                    {unreadCount <= 99 ? unreadCount : "99+"}
+                  </span>
+                )}
+              </div>
+            </button>
+            <button
+              className={`md:p-3 w-full cursor-pointer dark:font-normal ${
+                isNotificationBoxOpen
+                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  : "bg-transparent"
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              onClick={toggleNotificationBox}
+            >
+              <div className="relative flex md:w-12 flex-col items-center justify-center">
+                <Bell />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                    {unreadCount <= 99 ? unreadCount : "99+"}
+                  </span>
+                )}
+              </div>
+            </button>
+            <button
+              className={`md:p-3 w-full cursor-pointer dark:font-normal ${
+                isMsgBoxOpen
+                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  : "bg-transparent"
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              onClick={toggleMsgBox}
+            >
+              <div className="relative flex md:w-12 flex-col items-center justify-center">
+                <MessageCircle />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                    {unreadCount <= 99 ? unreadCount : "99+"}
+                  </span>
+                )}
+              </div>
+            </button>
+          </div>
           {[
             {
               icon: ChartNoAxesCombined,
@@ -101,67 +171,26 @@ const Navbar = () => {
             },
             { icon: Dices, path: "/games", name: "Games" },
             { icon: TvMinimalPlay, path: "/videos", name: "Videos" },
-          ].map(({ icon: Icon, path, name }) => (
-            <button
-              onClick={() => {
-                handleNavigation(path);
-              }}
-              key={name}
-              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
-            >
-              <div className="flex md:w-12 flex-col items-center justify-center">
-                <Icon />
-              </div>{" "}
-            </button>
-          ))}
-
-          <div className="md:flex items-center justify-center hidden">
-            {[
-              { icon: School, path: "/schools", name: "Jap Schools" },
-              { icon: Home, path: "/", name: "Home" },
-              { icon: Users, path: "/friends", name: "Friends" },
-            ].map(({ icon: Icon, path, name }) => (
+          ].map(({ icon: Icon, path, name }) => {
+            const isActive = pathname === path;
+            return (
               <button
                 onClick={() => {
                   handleNavigation(path);
                 }}
                 key={name}
-                className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
+                className={`md:p-3 w-full cursor-pointer dark:font-normal ${
+                  isActive
+                    ? "bg-white dark:bg-[rgb(55,55,55)]"
+                    : "bg-transparent"
+                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
               >
                 <div className="flex md:w-12 flex-col items-center justify-center">
                   <Icon />
-                </div>{" "}
+                </div>
               </button>
-            ))}
-            <button
-              onClick={toggleNotificationBox}
-              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
-            >
-              <div className="relative flex md:w-12 flex-col items-center justify-center">
-                <Bell />
-
-                {unreadCount > 0 && (
-                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
-                    {unreadCount <= 99 ? unreadCount : "99+"}
-                  </span>
-                )}
-              </div>
-            </button>
-            <button
-              onClick={toggleMsgBox}
-              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
-            >
-              <div className="relative flex md:w-12 flex-col items-center justify-center">
-                <MessageCircle />
-
-                {unreadCount > 0 && (
-                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
-                    {unreadCount <= 99 ? unreadCount : "99+"}
-                  </span>
-                )}
-              </div>
-            </button>
-          </div>
+            );
+          })}
           <div className="hidden md:block">
             <UserMenu />
           </div>

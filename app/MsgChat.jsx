@@ -84,11 +84,11 @@ const MsgChat = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-1">
       {readmsgs.map((dummymsg, index) => (
         <div
           key={dummymsg?.key}
-          className="relative group flex items-center  dark:hover:bg-[rgb(30,30,30)] bg-white dark:bg-[rgb(40,40,40)] rounded-md cursor-pointer hover:bg-gray-200"
+          className="py-1 relative group flex items-center  dark:hover:bg-[rgb(20,20,20)] bg-white dark:bg-[rgb(30,30,30)] rounded-md cursor-pointer hover:bg-gray-200"
         >
           <Avatar className="cursor-pointer h-12 w-12 hover:ring-2 hover:ring-black hover:ring-offset-1 mx-2">
             <AvatarImage src={dummymsg?.imageUrl} className="object-cover" />
@@ -172,7 +172,7 @@ const MsgChat = () => {
       {unreadmsgs.map((dummymsg, index) => (
         <div
           key={dummymsg?.key}
-          className="relative group flex items-center dark:hover:bg-[rgb(30,30,30)] bg-white dark:bg-[rgb(40,40,40)] rounded-md cursor-pointer hover:bg-gray-200"
+          className="py-1 relative group flex items-center dark:hover:bg-[rgb(20,20,20)] bg-white dark:bg-[rgb(30,30,30)] rounded-md cursor-pointer hover:bg-gray-200"
         >
           <Avatar className="cursor-pointer h-12 w-12 hover:ring-2 hover:ring-black hover:ring-offset-1 mx-2">
             <AvatarImage src={dummymsg?.imageUrl} className="object-cover" />

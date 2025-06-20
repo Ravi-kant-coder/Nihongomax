@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// import { useRouter } from "next/navigation";
-
 const Form = () => {
   // const router = useRouter();
   const [username, setUsername] = useState("");

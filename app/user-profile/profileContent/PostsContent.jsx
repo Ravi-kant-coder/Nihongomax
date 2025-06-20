@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import WallCard from "@/components/WallCard";
+import WallCard from "@/app/WallCard";
 // import PostComments from "@/app/posts/PostComments";
 // import { formateDate } from '@/lib/utils';
 const storyPostsData = [

@@ -1,4 +1,4 @@
-const CustomIcon = ({
+const JapanGate = ({
   className = "w-8 h-8 text-black mx-2 dark:text-gray-200 hover:scale-120 duration-200 transform",
 }) => {
   return (
@@ -13,4 +13,4 @@ const CustomIcon = ({
   );
 };
 
-export default CustomIcon;
+export default JapanGate;
