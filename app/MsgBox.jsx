@@ -70,9 +70,12 @@ const MsgBox = () => {
         <motion.div
           initial={{ y: -500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`fixed mx-5 bg-[rgb(160,160,160)] overflow-y-scroll dark:bg-[rgb(30,30,30)] dark:text-white rounded-lg bottom-20 md:left-40 md:w-1/4 left-2 right-2 md:h-3/4  ${
-            isMsgBoxOpen ? "visible" : "invisible"
-          }`}
+          className={`fixed inset-x-2 bottom-20 mx-5 md:left-40 md:w-1/4
+             bg-[rgb(160,160,160)] dark:bg-[rgb(30,30,30)]
+             dark:text-white rounded-lg 
+             overflow-y-auto max-h-[calc(100vh-6rem)] md:h-3/4 "${
+               isMsgBoxOpen ? "visible" : "invisible"
+             }`}
         >
           <div className="z-100 rounded ">
             <div className="p-4 w-2/3 ">
