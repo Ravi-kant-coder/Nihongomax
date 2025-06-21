@@ -22,13 +22,6 @@ const NavbarBelow = () => {
     });
   };
 
-  const {
-    toggleNotificationBox,
-    isNotificationBoxOpen,
-    incrementNotification,
-    unreadNotificationCount,
-  } = useNotificationStore();
-
   useEffect(() => {
     const timer = setTimeout(() => {
       useMsgStore.getState().incrementUnread();
@@ -41,21 +34,20 @@ const NavbarBelow = () => {
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
       {isStudyBoxOpen && <StudyBox />}
-      <div className="bg-gray-300 h-15 dark:bg-black  flex justify-around items-center">
+      <div className="bg-gray-300 h-15 dark:bg-black flex justify-between items-center">
         <button
-          className={`w-20 cursor-pointer text-xs hover:bg-white rounded-md dark:hover:bg-black cursor-pointer"
-         ${
-           pathname === "/friends"
-             ? "bg-white dark:bg-[rgb(55,55,55)]"
-             : "bg-transparent"
-         } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+          className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
+            pathname === "/friends"
+              ? "bg-white dark:bg-[rgb(55,55,55)]"
+              : "bg-transparent"
+          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
           onClick={() => {
             handleNavigation("/friends");
           }}
         >
           <div className="relative flex flex-col items-center justify-center">
             <Users />
-            <p className="mt-2">Friends</p>
+            <p className="mt-1">Friends</p>
 
             {unreadCount > 0 && (
               <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
@@ -65,15 +57,14 @@ const NavbarBelow = () => {
           </div>
         </button>
         <button
-          className={`w-20 cursor-pointer text-xs hover:bg-white rounded-md dark:hover:bg-black cursor-pointer"
-         ${
-           isMsgBoxOpen ? "bg-white dark:bg-[rgb(55,55,55)]" : "bg-transparent"
-         } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+          className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
+            isMsgBoxOpen ? "bg-white dark:bg-[rgb(55,55,55)]" : "bg-transparent"
+          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
           onClick={toggleMsgBox}
         >
           <div className="relative flex flex-col items-center justify-center">
             <MessageCircle />
-            <p className="mt-2">Messages</p>
+            <p className="mt-1">Messages</p>
 
             {unreadCount > 0 && (
               <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
@@ -86,28 +77,28 @@ const NavbarBelow = () => {
           onClick={() => {
             handleNavigation("/");
           }}
-          className={`w-20 cursor-pointer text-xs hover:bg-white rounded-md dark:hover:bg-black cursor-pointer"
-         ${
-           pathname === "/"
-             ? "bg-white dark:bg-[rgb(55,55,55)]"
-             : "bg-transparent"
-         } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+          className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
+            pathname === "/"
+              ? "bg-white dark:bg-[rgb(55,55,55)]"
+              : "bg-transparent"
+          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
         >
           <div className="flex flex-col items-center justify-center">
             <Home />
-            <p className="mt-2">Home</p>
+            <p className="mt-1">Home</p>
           </div>
         </button>
         <button
-          className={`w-20 cursor-pointer text-xs hover:bg-white rounded-md dark:hover:bg-black cursor-pointer"
-         ${
-           isMsgBoxOpen ? "bg-white dark:bg-[rgb(55,55,55)]" : "bg-transparent"
-         } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
-          onClick={() => toggleStudyBox}
+          className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
+            isStudyBoxOpen
+              ? "bg-white dark:bg-[rgb(55,55,55)]"
+              : "bg-transparent"
+          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
+          onClick={toggleStudyBox}
         >
           <div className="flex flex-col items-center justify-center">
             <BookOpen />
-            <p className="mt-2">Study Jap</p>
+            <p className="mt-1">Study Jap</p>
           </div>{" "}
         </button>
       </div>{" "}

@@ -12,7 +12,7 @@ const StudyBox = () => {
     <>
       {isStudyBoxOpen && (
         <div
-          className={`fixed z-900 bg-white dark:bg-[rgb(30,30,30)] dark:text-white md:bottom-0 rounded-md bottom-18 left-2 right-2 ${
+          className={`fixed top-20 mx-10 z-900 bg-white dark:bg-[rgb(30,30,30)] dark:text-white md:bottom-0 rounded-md bottom-18 left-2 right-2 ${
             isStudyBoxOpen ? "visible" : "invisible"
           }`}
         >

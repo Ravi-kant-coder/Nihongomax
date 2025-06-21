@@ -77,14 +77,21 @@ const Navbar = () => {
 
           <div className="md:hidden flex items-center justify-center">
             <button
-              onClick={() => {
-                handleNavigation("/notifications");
-              }}
-              className="md:p-3 text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] cursor-pointer"
+              className={`w-full cursor-pointer dark:font-normal ${
+                isNotificationBoxOpen
+                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  : "bg-transparent"
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-10 font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              onClick={toggleNotificationBox}
             >
-              <div className="flex md:w-12 flex-col items-center justify-center">
+              <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <Bell />
-              </div>{" "}
+                {unreadCount > 0 && (
+                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                    {unreadCount <= 99 ? unreadCount : "99+"}
+                  </span>
+                )}
+              </div>
             </button>
             <UserMenu />
           </div>

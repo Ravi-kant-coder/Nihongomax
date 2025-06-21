@@ -52,7 +52,7 @@ const MsgBox = () => {
         <motion.div
           initial={{ y: -500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`fixed bg-white dark:bg-[rgb(30,30,30)] dark:text-white md:bottom-0 rounded-md bottom-18 md:left-40 md:w-1/4 left-2 right-2 md:h-3/4  ${
+          className={`fixed mx-10 bg-white dark:bg-[rgb(30,30,30)] dark:text-white md:bottom-0 rounded-md bottom-18 md:left-40 md:w-1/4 left-2 right-2 md:h-3/4  ${
             isMsgBoxOpen ? "visible" : "invisible"
           }`}
         >

@@ -18,7 +18,7 @@ const UserMenu = () => {
   const handleNavigation = (path, item) => {
     router.push(path);
   };
-  const dunny = { imgsrc: "/Girl.jpg", username: "Phudu" };
+  const dunny = { imgsrc: "/Girl.jpg", username: "Phuddu" };
   return (
     <div>
       <DropdownMenu>
@@ -26,7 +26,7 @@ const UserMenu = () => {
           asChild
           className="font-semibold md:ml-20 cursor-pointer border  border-gray-400 rounded-full"
         >
-          <div className="relative cursor-pointer ">
+          <div className="relative cursor-pointer scale-150">
             <Avatar>
               <AvatarImage
                 className="object-cover "
