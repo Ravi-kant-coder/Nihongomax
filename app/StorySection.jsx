@@ -62,7 +62,7 @@ const StorySection = ({ storyPostsData }) => {
           scrollbar-hide 
           snap-x 
           snap-mandatory 
-          space-x-2
+          space-x-1
           pt-2"
         id="story-scroll"
       >
