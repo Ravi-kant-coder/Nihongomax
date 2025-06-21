@@ -112,7 +112,7 @@ const Jobcard = () => {
 
   return (
     <>
-      <div className="md:mt-20 mt-25 mb-20">
+      <div className="md:mt-20 mt-25 mb-20 mx-5">
         <div className="p-2">
           <LeftSideBar />
         </div>

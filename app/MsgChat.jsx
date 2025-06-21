@@ -27,7 +27,7 @@ const unreadmsgs = [
     username: "Sahanubhuti Sharmasmjda",
   },
   {
-    imageUrl: "/Gil.jpg",
+    imageUrl: "/Girl.jpg",
     key: "5",
     username: "Farheen Khan",
   },
@@ -40,6 +40,22 @@ const unreadmsgs = [
   {
     imageUrl: "/Circular.jpg",
     key: "7",
+    username: "Circuit",
+  },
+  {
+    imageUrl: "/Gil.jpg",
+    key: "8",
+    username: "Farheen Khan",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "9",
+    username: "Kumar shanu",
+  },
+
+  {
+    imageUrl: "/Circular.jpg",
+    key: "10",
     username: "Circuit",
   },
 ];
@@ -84,11 +100,11 @@ const MsgChat = () => {
   };
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1 overflow-y-auto">
       {readmsgs.map((dummymsg, index) => (
         <div
           key={dummymsg?.key}
-          className="py-1 relative group flex items-center  dark:hover:bg-[rgb(20,20,20)] bg-white dark:bg-[rgb(30,30,30)] rounded-md cursor-pointer hover:bg-gray-200"
+          className="py-1 relative group flex items-center  dark:hover:bg-[rgb(20,20,20)] bg-[rgb(160,160,160)] dark:bg-[rgb(30,30,30)] rounded-md cursor-pointer hover:bg-gray-200"
         >
           <Avatar className="cursor-pointer h-12 w-12 hover:ring-2 hover:ring-black hover:ring-offset-1 mx-2">
             <AvatarImage src={dummymsg?.imageUrl} className="object-cover" />
@@ -172,7 +188,7 @@ const MsgChat = () => {
       {unreadmsgs.map((dummymsg, index) => (
         <div
           key={dummymsg?.key}
-          className="py-1 relative group flex items-center dark:hover:bg-[rgb(20,20,20)] bg-white dark:bg-[rgb(30,30,30)] rounded-md cursor-pointer hover:bg-gray-200"
+          className="py-1 relative group flex items-center dark:hover:bg-[rgb(20,20,20)] bg-[rgb(160,160,160)] dark:bg-[rgb(30,30,30)] rounded-md cursor-pointer hover:bg-gray-200"
         >
           <Avatar className="cursor-pointer h-12 w-12 hover:ring-2 hover:ring-black hover:ring-offset-1 mx-2">
             <AvatarImage src={dummymsg?.imageUrl} className="object-cover" />

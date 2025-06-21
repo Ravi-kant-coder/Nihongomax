@@ -11,28 +11,46 @@ import MsgChat from "./MsgChat";
 const unreadmsgs = [
   {
     imageUrl: "/Horizontal1.jpg",
-    key: "3",
+    key: "1",
     username: "Kumar shanu",
   },
   {
     imageUrl: "/Girl.jpg",
-    key: "4",
+    key: "2",
     username: "Sahanubhuti Sharmasmjda",
   },
+
   {
-    imageUrl: "/Gil.jpg",
+    imageUrl: "/Horizontal2.jpg",
     key: "5",
     username: "Farheen Khan",
-  },
-  {
-    imageUrl: "/Horizontal1.jpg",
-    key: "6",
-    username: "Kumar shanu",
   },
 
   {
     imageUrl: "/Circular.jpg",
     key: "7",
+    username: "Circuit",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "8",
+    username: "Kumar shanu",
+  },
+
+  {
+    imageUrl: "/Vertical2.jpg",
+    key: "9",
+    username: "Circuit",
+  },
+  {
+    imageUrl: "/Vertical1.jpg",
+    key: "10",
+    username: "Kumar shanu",
+  },
+
+  {
+    imageUrl: "/Girl.jpg",
+    key: "11",
     username: "Circuit",
   },
 ];
@@ -52,7 +70,7 @@ const MsgBox = () => {
         <motion.div
           initial={{ y: -500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`fixed mx-10 bg-white dark:bg-[rgb(30,30,30)] dark:text-white md:bottom-0 rounded-md bottom-18 md:left-40 md:w-1/4 left-2 right-2 md:h-3/4  ${
+          className={`fixed mx-5 bg-[rgb(160,160,160)] overflow-y-scroll dark:bg-[rgb(30,30,30)] dark:text-white rounded-lg bottom-20 md:left-40 md:w-1/4 left-2 right-2 md:h-3/4  ${
             isMsgBoxOpen ? "visible" : "invisible"
           }`}
         >
@@ -60,7 +78,13 @@ const MsgBox = () => {
             <div className="p-4 w-2/3 ">
               <SearchInNav />{" "}
             </div>
-            <div className="flex items-center justify-around border-b pb-2 mb-2">
+            <button
+              onClick={closeMsgBox}
+              className="dark:hover:bg-[rgb(20,20,20)] hover:bg-black hover:text-white dark:hover:text-white text-gray-700 dark:text-[rgb(150,150,150)] cursor-pointer border-2 border-gray-700 dark:border-[rgb(150,150,150)] rounded-lg absolute top-2 right-2 z-50"
+            >
+              <X className="w-7 h-7" />
+            </button>
+            <div className="flex items-center justify-around border-b py-2 mb-2 overflow-x-auto scroll-thin-x">
               {unreadmsgs.map((dummymsg, index) => (
                 <div
                   key={dummymsg?.key}
@@ -78,12 +102,6 @@ const MsgBox = () => {
                 </div>
               ))}
             </div>
-            <button
-              onClick={closeMsgBox}
-              className="dark:hover:bg-[rgb(20,20,20)] hover:bg-gray-400 hover:text-white dark:hover:text-white text-gray-500 dark:text-[rgb(150,150,150)] cursor-pointer border-2 border-gray-400 dark:border-[rgb(150,150,150)] rounded-full absolute top-2 right-2 z-50"
-            >
-              <X className="w-7 h-7" />
-            </button>
           </div>
           <div className="dark:border-gray-200">
             <MsgChat />

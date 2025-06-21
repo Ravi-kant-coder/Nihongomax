@@ -81,7 +81,7 @@ const Navbar = () => {
                 isNotificationBoxOpen
                   ? "bg-white dark:bg-[rgb(55,55,55)]"
                   : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-10 font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-5 font-semibold flex items-center bg- justify-start p-2 rounded-md`}
               onClick={toggleNotificationBox}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
@@ -97,7 +97,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex justify-between items-center md:mt-0 mt-2">
-          <div className="md:flex items-center justify-center hidden bg-amber-200">
+          <div className="md:flex items-center justify-center hidden ">
             <button
               onClick={() => {
                 handleNavigation("/");
