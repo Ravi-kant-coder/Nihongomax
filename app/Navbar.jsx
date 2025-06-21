@@ -86,8 +86,10 @@ const Navbar = () => {
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <Bell />
+                <p className="mt-1">Notifications</p>
+
                 {unreadCount > 0 && (
-                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span className="absolute -top-3 left-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
                     {unreadCount <= 99 ? unreadCount : "99+"}
                   </span>
                 )}
@@ -194,10 +196,11 @@ const Navbar = () => {
                   isActive
                     ? "bg-white dark:bg-[rgb(55,55,55)]"
                     : "bg-transparent"
-                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center justify-center p-1 rounded-md`}
               >
                 <div className="flex md:w-12 flex-col items-center justify-center">
                   <Icon />
+                  <p className="md:hidden block text-xs mt-1">{name}</p>
                 </div>
               </button>
             );
