@@ -38,7 +38,7 @@ const YouTubeShowcase = () => {
           <LeftSideBar />
         </div>
         <div className="flex flex-col md:ml-80 mb-20">
-          <div className="md:fixed z-100 md:bg-gray-300 dark:md:bg-black flex flex-wrap justify-center gap-1 mb-2 md:mb-6">
+          <div className="md:fixed md:bg-gray-300 dark:md:bg-black flex flex-wrap justify-center gap-1 mb-2 md:mb-6">
             {tags.map((tag) => (
               <button
                 key={tag}

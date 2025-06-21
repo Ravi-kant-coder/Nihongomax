@@ -23,9 +23,6 @@ const WallCard = ({
 
   const handleCommentClick = () => {
     setShowComments(true);
-    setTimeout(() => {
-      commentInputRef?.current?.focus();
-    }, 500);
   };
 
   const generateSharedLink = () => {

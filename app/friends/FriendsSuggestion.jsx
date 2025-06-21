@@ -1,8 +1,5 @@
-import { AnimatePresence } from "framer-motion";
-import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserPlus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const FriendSuggestion = ({ friend, onAction }) => {
   // const userPlaceholder = friend?.username?.split(" ")[0];

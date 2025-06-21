@@ -4,6 +4,12 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+html {
+  overflow-y: scroll;
+}
+body {
+  overflow-y: scroll;
+}
 
 @custom-variant dark (&:is(.dark *));
 
