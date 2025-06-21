@@ -65,7 +65,7 @@ const Navbar = () => {
       </div>
 
       <div className="md:flex w-full items-center justify-between">
-        <div className="flex justify-between mb-5 md:mb-0 ">
+        <div className="flex items-center justify-between mb-5 md:mb-0 ">
           <div className="lg:mr-5">
             <SearchInNav />
           </div>
@@ -81,7 +81,7 @@ const Navbar = () => {
                 isNotificationBoxOpen
                   ? "bg-white dark:bg-[rgb(55,55,55)]"
                   : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-5 font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-4 font-semibold flex items-center bg- justify-start rounded-md`}
               onClick={toggleNotificationBox}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
@@ -89,7 +89,7 @@ const Navbar = () => {
                 <p className="mt-1">Notifications</p>
 
                 {unreadCount > 0 && (
-                  <span className="absolute -top-3 left-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span className="absolute -top-3 right-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
                     {unreadCount <= 99 ? unreadCount : "99+"}
                   </span>
                 )}
@@ -175,12 +175,12 @@ const Navbar = () => {
               path: "/recruiters",
               name: "Recruiters",
             },
-            { icon: Handshake, path: "/jobs", name: "Jobs" },
             {
               icon: BriefcaseBusiness,
               path: "/about-jobs",
-              name: "About Jobs",
+              name: "About",
             },
+            { icon: Handshake, path: "/jobs", name: "Jobs" },
             { icon: School, path: "/schools-in-japan", name: "Schools" },
             { icon: Dices, path: "/games", name: "Games" },
             { icon: TvMinimalPlay, path: "/videos", name: "Videos" },
@@ -196,7 +196,7 @@ const Navbar = () => {
                   isActive
                     ? "bg-white dark:bg-[rgb(55,55,55)]"
                     : "bg-transparent"
-                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center justify-center p-1 rounded-md`}
+                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center justify-center rounded-md`}
               >
                 <div className="flex md:w-12 flex-col items-center justify-center">
                   <Icon />
