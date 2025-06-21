@@ -199,7 +199,7 @@ const MsgChat = () => {
 
           <div className="w-1/2">
             <p className="truncate">{dummymsg?.username}</p>
-            <p className="text-xs text-gray-700 dark:text-gray-400 truncate">
+            <p className="text-xs text-black dark:text-gray-400 truncate">
               Sensei Chal chal baliye Sensei Chal chal baliyeSensei Chal chal
               baliyeSensei Chal chal baliye{" "}
             </p>

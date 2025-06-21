@@ -73,7 +73,7 @@ const MsgBox = () => {
           className={`fixed inset-x-2 bottom-20 mx-5 md:left-40 md:w-1/4
              bg-[rgb(160,160,160)] dark:bg-[rgb(30,30,30)]
              dark:text-white rounded-lg 
-             overflow-y-auto max-h-[calc(100vh-6rem)] md:h-3/4 "${
+             overflow-y-auto max-h-[80vh] md:h-3/4 "${
                isMsgBoxOpen ? "visible" : "invisible"
              }`}
         >
