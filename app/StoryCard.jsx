@@ -13,7 +13,7 @@ const createStoryArr = [
 const StoryCard = ({ isAddStory, storyData }) => {
   const handleStoryClick = () => {};
   return (
-    <div className="min-w-[100px] h-[170px]  overflow-hidden rounded-md shadow-lg shadow-gray-400 dark:shadow-[rgb(20,20,20)] mb-4">
+    <div className="md:min-w-[90px] md:h-[170px] min-w-[80px] overflow-hidden rounded-md shadow-lg shadow-gray-400 dark:shadow-[rgb(20,20,20)] mb-4">
       <Card
         className="w-full h-full opacity-90 duration-200 hover:opacity-100 hover:scale-105 object-cover snap-start shrink-0 relative group dark:bg-[rgb(35,35,35)] bg-accent cursor-pointer "
         onClick={isAddStory ? undefined : handleStoryClick}
@@ -22,7 +22,7 @@ const StoryCard = ({ isAddStory, storyData }) => {
           {isAddStory ? (
             <div className="w-full h-full flex flex-col dark:bg-[rgb(65,65,65)]">
               <div className="relative mx-auto my-auto overflow-hidden ">
-                <Avatar className="w-25 h-25">
+                <Avatar className="w-20 h-20">
                   <AvatarImage
                     src={createStoryArr[0]?.imageUrl}
                     className="object-cover"
@@ -32,13 +32,13 @@ const StoryCard = ({ isAddStory, storyData }) => {
                   </AvatarFallback>
                 </Avatar>
               </div>
-              <div className="w-full h-1/4 dark:bg-[rgb(65,65,65)] bg-accent border-b flex flex-col items-center justify-center">
+              <div className="w-full dark:bg-[rgb(65,65,65)] bg-accent border-b flex flex-col items-center justify-center">
                 <button>
                   <div className="cursor-pointer h-6 w-6">
                     <Plus />
                   </div>
                 </button>
-                <p className="text-sm font-semibold dark:text-white mb-4">
+                <p className="text-xs font-semibold dark:text-white mb-4">
                   Create Story
                 </p>
               </div>
@@ -70,7 +70,7 @@ const StoryCard = ({ isAddStory, storyData }) => {
                   </AvatarFallback>
                 </Avatar>
               </div>
-              <div className="absolute bottom-0 left-2 ">
+              <div className="absolute bottom-0 left-2">
                 <p className="text-white rounded max-w-[150px] text-xs inline-block font-semibold bg-black/50 px-2 py-1 truncate">
                   {`${storyData?.user.username.split(" ")[0]}`}
                 </p>

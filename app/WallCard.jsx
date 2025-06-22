@@ -68,8 +68,8 @@ const WallCard = ({
               </AvatarFallback>
             </Avatar>
           </div>
-          <div className=" cursor-pointer font-semibold hover:underline">
-            <p>{userDataObj?.user.username}</p>
+          <div className="w-40 cursor-pointer font-semibold hover:underline">
+            <p className="truncate">{userDataObj?.user.username}</p>
           </div>
         </div>
         <div className="flex items-center text-gray-800 mr-4">

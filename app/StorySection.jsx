@@ -41,12 +41,16 @@ const StorySection = ({ storyPostsData }) => {
   return (
     <div className="relative w-full">
       {/* Left Scroll Button - Only visible when needed */}
+
       {showLeft && (
         <motion.button
+          initial={{ y: -500, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           onClick={scrollLeft}
           className="hidden lg:flex absolute left-1 top-1/2 -translate-y-1/2 z-10
-               h-20 w-6 bg-black/80 text-white rounded shadow-md hover:scale-110  
-               transition-all items-center justify-center cursor-pointer hover:bg-black"
+               h-20 w-8 bg-black/80 text-white rounded shadow-md hover:scale-110  
+               items-center justify-center cursor-pointer hover:bg-black 
+               -translate-x-1/2"
         >
           ◀
         </motion.button>
@@ -75,10 +79,10 @@ const StorySection = ({ storyPostsData }) => {
       {/* Right Scroll Button – always shown, or can also be conditional */}
       <button
         onClick={scrollRight}
-        className="hidden lg:flex absolute right-1 top-1/2 -translate-y-1/2 z-10
-             h-20 w-6 bg-black/80 text-white rounded shadow-md hover:bg-black 
+        className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10
+             h-20 w-8 bg-black/80 text-white rounded shadow-md hover:bg-black 
              hover:scale-110 hover:shadow-lg transition-all items-center 
-             justify-center cursor-pointer"
+             justify-center cursor-pointer translate-x-1/2"
       >
         ▶
       </button>
