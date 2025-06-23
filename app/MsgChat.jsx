@@ -70,21 +70,26 @@ const MsgChat = ({ unreadmsgs }) => {
               {openIndex === index && (
                 <div
                   ref={dropdownRef}
-                  className="absolute z-[1000] right-0 w-48 p-1 bg-white 
-                    dark:bg-[rgb(30,30,30)] text-sm shadow-md rounded top-12"
+                  className="absolute z-[1000]  right-10 flex justify-around p-1 bg-white 
+                    dark:bg-[rgb(30,30,30)] text-sm rounded-md -translate-y-11"
                 >
-                  <div className="hover:bg-gray-100 dark:hover:bg-black p-1 cursor-pointer flex items-center">
-                    <ShieldBan size={18} className="mr-2" />
-                    <p>Block {msg.username}</p>
+                  <div
+                    className="flex-col hover:bg-gray-300 rounded-md dark:hover:bg-black p-1 
+                  cursor-pointer w-25 flex items-center justify-center font-semibold "
+                  >
+                    <ShieldBan size={20} className="shrink-0" />
+                    <p className="text-xs max-w-25 truncate">
+                      Block {msg.username.split(" ")[0]}
+                    </p>
                   </div>
                   <div
                     onClick={() => setShowDeleteModal(true)}
-                    className="hover:bg-gray-100 dark:hover:bg-black p-1 
-                      active:bg-gray-200 active:text-red-700 
-                      hover:text-red-700 cursor-pointer flex items-center"
+                    className="hover:bg-red-200 font-semibold flex-col rounded-md 
+                     dark:hover:bg-black p-1 active:bg-gray-200 active:text-red-700 
+                      cursor-pointer flex items-center justify-center w-25"
                   >
-                    <Trash2 size={18} className="mr-2" />
-                    Delete Chat
+                    <Trash2 size={20} className="text-red-700 shrink-0" />
+                    <p className="text-xs text-red-700">Delete Chat</p>
                   </div>
                 </div>
               )}

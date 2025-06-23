@@ -95,7 +95,9 @@ const Navbar = () => {
                 )}
               </div>
             </button>
-            <UserMenu />
+            <div className="mr-2">
+              <UserMenu />
+            </div>
           </div>
         </div>
         <div className="flex justify-between items-center md:mt-0 mt-2">
@@ -205,7 +207,7 @@ const Navbar = () => {
               </button>
             );
           })}
-          <div className="hidden md:block">
+          <div className="hidden md:block mr-2">
             <UserMenu />
           </div>
         </div>

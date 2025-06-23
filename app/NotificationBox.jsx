@@ -1,7 +1,6 @@
 import useNotificationStore from "@/stores/useNotificationStore";
 import { X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
 import MsgChat from "./MsgChat";
 const unreadmsgs = [
@@ -64,7 +63,7 @@ const friendRequests = [
   },
 ];
 const NotificationBox = () => {
-  const { isNotificationBoxOpen, closeNotificationBox } =
+  const { isNotificationBoxOpen, closeNotificationBox, toggleNotificationBox } =
     useNotificationStore();
 
   if (!isNotificationBoxOpen) return null;
@@ -80,17 +79,16 @@ const NotificationBox = () => {
            text-black dark:text-white inset-y-0 z-100 md:left-1/2 
            mt-18 rounded shadow-lg overflow-y-auto"
       >
-        {" "}
-        <button
-          onClick={closeNotificationBox}
-          className="bg-[rgba(38,38,23,0.7)] 
-               hover:bg-black text-white
-               md:px-20 md:left-20 dark:text-white
-               dark:hover:bg-black cursor-pointer border-2 border-white/80 sticky
-               dark:border-[rgb(200,200,200)] rounded-lg top-1 z-50"
-        >
-          <X className="w-7 h-7" />
-        </button>
+        <div className="flex justify-end sticky top-1 right-1">
+          <button
+            onClick={closeNotificationBox}
+            className="bg-[rgba(38,38,23,0.7)] hover:bg-black text-white p-1  
+               dark:hover:bg-black cursor-pointer border-2 border-white/80 
+               dark:border-[rgb(200,200,200)] rounded-lg z-50"
+          >
+            <X className="w-7 h-7" />
+          </button>
+        </div>
         <p className="my-2 text-white bg-black/50 text-center dark:text-gray-300">
           Friends Requests
         </p>

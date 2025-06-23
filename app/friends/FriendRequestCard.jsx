@@ -26,7 +26,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
             className="bg-green-300 lg:p-2 p-1 rounded flex justify-evenly items-center hover:bg-green-400 text-black cursor-pointer"
             onClick={() => {}}
           >
-            <UserPlus className="mr-2 lg:mr-0 h-4 w-4" /> Confirm
+            <UserPlus className="mr-2 lg:mr-0 h-4 w-4" /> Accept
           </button>
           <button
             className="lg:mt-2 lg:ml-0 lg:p-2 p-1 ml-2 cursor-pointer rounded flex justify-evenly items-center hover:bg-gray-800 bg-black text-white"

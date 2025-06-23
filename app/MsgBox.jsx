@@ -39,7 +39,7 @@ const unreadmsgs = [
   {
     imageUrl: "/Vertical2.jpg",
     key: "9",
-    username: "Circuit",
+    username: "Cir",
   },
   {
     imageUrl: "/Vertical1.jpg",
@@ -50,7 +50,7 @@ const unreadmsgs = [
   {
     imageUrl: "/Girl.jpg",
     key: "11",
-    username: "Circuit",
+    username: "Circ",
   },
 ];
 const MsgBox = () => {
@@ -114,7 +114,7 @@ const MsgBox = () => {
             </div>
             <button
               onClick={closeMsgBox}
-              className="bg-[rgba(38,38,23,0.7)] hover:bg-black text-white md:px-10
+              className="bg-[rgba(38,38,23,0.7)] hover:bg-black text-white p-1 mr-1
                dark:hover:bg-black cursor-pointer border-2 border-white/80 
                dark:border-[rgb(200,200,200)] rounded-lg top-1 z-50"
             >
