@@ -63,7 +63,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <header className="fixed dark:bg-black md:py-2 bg-gray-300 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
+    <header className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
       <div className="hidden md:block">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />

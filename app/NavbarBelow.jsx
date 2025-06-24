@@ -45,6 +45,7 @@ const NavbarBelow = () => {
             handleNavigation("/friends");
             closeMsgBox();
             closeNotificationBox();
+            closeStudyBox();
           }}
         >
           <div className="relative flex flex-col items-center justify-center">
@@ -65,6 +66,7 @@ const NavbarBelow = () => {
           onClick={() => {
             toggleMsgBox();
             closeNotificationBox();
+            closeStudyBox();
           }}
         >
           <div className="relative flex flex-col items-center justify-center">
@@ -83,6 +85,7 @@ const NavbarBelow = () => {
             handleNavigation("/");
             closeMsgBox();
             closeNotificationBox();
+            closeStudyBox();
           }}
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
             pathname === "/"

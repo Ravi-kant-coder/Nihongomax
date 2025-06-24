@@ -92,7 +92,7 @@ const JobPostForm = () => {
     }
   };
   return (
-    <div className="w-8/9 md:w-2/3 dark:bg-[rgb(30,30,30)] px-2 bg-[rgb(170,170,170)] lg:p-5 py-10 md:rounded-lg rounded-lg">
+    <div className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] px-2 bg-[rgb(170,170,170)] lg:p-5 py-10 md:rounded-lg rounded-lg">
       <div className="text-center mb-2 ">
         <h1 className="md:text-lg text-sm mb-5 ">
           Fill to Post Jobs. In case of any doubt, Call us 7678461209
