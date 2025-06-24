@@ -12,8 +12,10 @@ import StudyBox from "./StudyBox";
 
 const NavbarBelow = () => {
   const router = useRouter();
-  const { isMsgBoxOpen, toggleMsgBox, unreadCount } = useMsgStore();
-  const { isStudyBoxOpen, toggleStudyBox } = useStudyStore();
+  const { isMsgBoxOpen, toggleMsgBox, unreadCount, closeMsgBox } =
+    useMsgStore();
+  const { closeNotificationBox } = useNotificationStore();
+  const { isStudyBoxOpen, toggleStudyBox, closeStudyBox } = useStudyStore();
   const [isPending, startTransition] = useTransition();
   // const { toggleSidebar } = useSidebarStore();
   const handleNavigation = (path) => {
