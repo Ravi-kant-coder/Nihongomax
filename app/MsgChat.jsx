@@ -52,7 +52,9 @@ const MsgChat = ({ unreadmsgs }) => {
 
           <div className="w-1/2">
             <p className="truncate font-semibold">{msg.username}</p>
-            <p className="text-xs truncate">Hi, how are you?</p>
+            <p className="text-xs truncate">
+              Hi, how are you? Hi, how are you? Hi, how are you?
+            </p>
           </div>
 
           <div className="absolute right-2">

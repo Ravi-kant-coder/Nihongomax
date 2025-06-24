@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={` dark:bg-black bg-gray-300 ${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
+        className={` dark:bg-[rgb(30,30,30)] bg-gray-300 ${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />

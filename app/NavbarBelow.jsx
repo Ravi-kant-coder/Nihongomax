@@ -43,6 +43,8 @@ const NavbarBelow = () => {
           } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
           onClick={() => {
             handleNavigation("/friends");
+            closeMsgBox();
+            closeNotificationBox();
           }}
         >
           <div className="relative flex flex-col items-center justify-center">
@@ -60,7 +62,10 @@ const NavbarBelow = () => {
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
             isMsgBoxOpen ? "bg-white dark:bg-[rgb(55,55,55)]" : "bg-transparent"
           } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
-          onClick={toggleMsgBox}
+          onClick={() => {
+            toggleMsgBox();
+            closeNotificationBox();
+          }}
         >
           <div className="relative flex flex-col items-center justify-center">
             <MessageCircle />
@@ -76,6 +81,8 @@ const NavbarBelow = () => {
         <button
           onClick={() => {
             handleNavigation("/");
+            closeMsgBox();
+            closeNotificationBox();
           }}
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
             pathname === "/"
@@ -94,7 +101,11 @@ const NavbarBelow = () => {
               ? "bg-white dark:bg-[rgb(55,55,55)]"
               : "bg-transparent"
           } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
-          onClick={toggleStudyBox}
+          onClick={() => {
+            toggleStudyBox();
+            closeMsgBox();
+            closeNotificationBox();
+          }}
         >
           <div className="flex flex-col items-center justify-center">
             <BookOpen />

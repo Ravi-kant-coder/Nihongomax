@@ -34,11 +34,17 @@ const Navbar = () => {
     });
   };
 
-  const { isMsgBoxOpen, toggleMsgBox, incrementUnread, unreadCount } =
-    useMsgStore();
+  const {
+    isMsgBoxOpen,
+    toggleMsgBox,
+    incrementUnread,
+    unreadCount,
+    closeMsgBox,
+  } = useMsgStore();
   const {
     toggleNotificationBox,
     isNotificationBoxOpen,
+    closeNotificationBox,
     incrementNotification,
     unreadNotificationCount,
   } = useNotificationStore();
@@ -82,7 +88,10 @@ const Navbar = () => {
                   ? "bg-white dark:bg-[rgb(55,55,55)]"
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-4 font-semibold flex items-center bg- justify-start rounded-md`}
-              onClick={toggleNotificationBox}
+              onClick={() => {
+                toggleNotificationBox();
+                closeMsgBox();
+              }}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <Bell />
@@ -105,6 +114,8 @@ const Navbar = () => {
             <button
               onClick={() => {
                 handleNavigation("/");
+                closeMsgBox();
+                closeNotificationBox();
               }}
               className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                 pathname === "/"
@@ -125,6 +136,8 @@ const Navbar = () => {
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
               onClick={() => {
                 handleNavigation("/friends");
+                closeMsgBox();
+                closeNotificationBox();
               }}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
@@ -142,7 +155,10 @@ const Navbar = () => {
                   ? "bg-white dark:bg-[rgb(55,55,55)]"
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
-              onClick={toggleNotificationBox}
+              onClick={() => {
+                toggleNotificationBox();
+                closeMsgBox();
+              }}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <Bell />
@@ -159,7 +175,10 @@ const Navbar = () => {
                   ? "bg-white dark:bg-[rgb(55,55,55)]"
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
-              onClick={toggleMsgBox}
+              onClick={() => {
+                toggleMsgBox();
+                closeNotificationBox();
+              }}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <MessageCircle />
@@ -192,6 +211,8 @@ const Navbar = () => {
               <button
                 onClick={() => {
                   handleNavigation(path);
+                  closeMsgBox();
+                  closeNotificationBox();
                 }}
                 key={name}
                 className={`md:p-3 w-full cursor-pointer dark:font-normal ${

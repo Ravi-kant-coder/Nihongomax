@@ -125,8 +125,8 @@ const SchoolCard = () => {
             Schools in Japan Nihongomax has tie up with
           </h1>
           {dummySchools.map((queryObj) => (
-            <div key={queryObj.key} className="md:mx-30 md:my-2">
-              <div className="my-2 bg-white dark:bg-[rgb(30,30,30)] rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:border-gray-200">
+            <div key={queryObj.key} className="md:mx-30 md:my-2 ">
+              <div className="my-2 bg-white dark:bg-black rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:border-gray-200">
                 <div className="flex items-start gap-2 justify-start">
                   <div className="relative w-full aspect-[4/3] sm:w-40 md:w-48 lg:w-56">
                     <Image

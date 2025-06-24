@@ -20,11 +20,17 @@ import { motion } from "framer-motion";
 import Spinner from "./Spinner";
 
 const LeftSideBar = () => {
-  const { isMsgBoxOpen, toggleMsgBox, incrementUnread, unreadCount } =
-    useMsgStore();
+  const {
+    isMsgBoxOpen,
+    toggleMsgBox,
+    closeMsgBox,
+    incrementUnread,
+    unreadCount,
+  } = useMsgStore();
   const {
     toggleNotificationBox,
     isNotificationBoxOpen,
+    closeNotificationBox,
     incrementNotification,
     unreadNotificationCount,
   } = useNotificationStore();
@@ -52,6 +58,8 @@ const LeftSideBar = () => {
           <div
             onClick={() => {
               handleNavigation("/user-profile");
+              closeMsgBox();
+              closeNotificationBox();
             }}
             className="flex items-center bg-white group space-x-2 cursor-pointer dark:bg-[rgb(35,35,35)] dark:hover:bg-[rgb(55,55,55)] hover:bg-gray-400 p-1 rounded-md"
           >
@@ -73,6 +81,8 @@ const LeftSideBar = () => {
             } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
             onClick={() => {
               handleNavigation("/friends");
+              closeMsgBox();
+              closeNotificationBox();
             }}
           >
             <div className="relative">
@@ -95,7 +105,10 @@ const LeftSideBar = () => {
                 ? "bg-white dark:bg-[rgb(55,55,55)] "
                 : "bg-transparent"
             } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
-            onClick={toggleNotificationBox}
+            onClick={() => {
+              toggleNotificationBox();
+              closeMsgBox();
+            }}
           >
             <div className="relative">
               <div className="flex">
@@ -117,7 +130,10 @@ const LeftSideBar = () => {
                 ? "bg-white dark:bg-[rgb(55,55,55)]"
                 : "bg-transparent"
             } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
-            onClick={toggleMsgBox}
+            onClick={() => {
+              toggleMsgBox();
+              closeNotificationBox();
+            }}
           >
             <div className="relative">
               <div className="flex">
@@ -192,6 +208,8 @@ const LeftSideBar = () => {
                 } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
                 onClick={() => {
                   handleNavigation(navPath);
+                  closeMsgBox();
+                  closeNotificationBox();
                 }}
                 key={id}
               >
@@ -205,5 +223,4 @@ const LeftSideBar = () => {
     </>
   );
 };
-
 export default LeftSideBar;
