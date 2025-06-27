@@ -1,5 +1,13 @@
 import { useRef, useEffect, useTransition } from "react";
-import { X, Send, Paperclip, Smile, CheckCheck, Check } from "lucide-react";
+import {
+  X,
+  Send,
+  Paperclip,
+  Smile,
+  CheckCheck,
+  Check,
+  Clock,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import clsx from "clsx";
 import useMsgStore from "@/stores/useMsgStore";
@@ -54,7 +62,7 @@ const OneChat = ({ chatId }) => {
       text: "Konnichiwa! How’s your study going?",
       timestamp: getCurrentTime(),
       from: "me",
-      status: "delivered",
+      status: "mada",
     },
     {
       id: 6,
@@ -100,6 +108,7 @@ const OneChat = ({ chatId }) => {
       key: 1,
       timestamp: getCurrentTime(),
       status: "seen",
+      uploaded: true,
     },
 
     {
@@ -108,13 +117,15 @@ const OneChat = ({ chatId }) => {
       key: 3,
       timestamp: getCurrentTime(),
       status: "seen",
+      uploaded: true,
     },
     {
       imageUrl: "/Horizontal2.jpg",
       from: "other",
       key: 4,
       timestamp: getCurrentTime(),
-      status: "seen",
+      status: "mada",
+      uploaded: false,
     },
     {
       imageUrl: "/Girl.jpg",
@@ -122,27 +133,15 @@ const OneChat = ({ chatId }) => {
       key: 5,
       timestamp: getCurrentTime(),
       status: "sent",
+      uploaded: true,
     },
     {
-      imageUrl: "/logo.png",
+      imageUrl: "/Horizontal1.jpg",
       from: "other",
-      key: 6,
+      key: 4,
       timestamp: getCurrentTime(),
-      status: "delivered",
-    },
-    {
-      imageUrl: "/Vertical2.jpg",
-      from: "other",
-      key: 7,
-      timestamp: getCurrentTime(),
-      status: "seen",
-    },
-    {
-      imageUrl: "/Horizontal2.jpg",
-      from: "other",
-      key: 8,
-      timestamp: getCurrentTime(),
-      status: "seen",
+      status: "mada",
+      uploaded: true,
     },
   ];
 
@@ -217,7 +216,7 @@ const OneChat = ({ chatId }) => {
             <X className="w-7 h-7" />
           </button>
         </div>
-        {/* ----------------Messages----------------- */}
+        {/* -----------------------Messages--------------------- */}
         <div
           className="mt-20 mb-2 space-y-2 overflow-y-auto h-full 
            px-2 bg-zinc-200 self-end dark:bg-[rgb(20,20,20)]"
@@ -235,34 +234,22 @@ const OneChat = ({ chatId }) => {
               {msg.text}
               <span
                 className="text-[12px] text-gray-700 dark:text-gray-400 right-0 flex 
-              justify-end"
+              justify-end items-center"
               >
                 <p>{msg.timestamp}</p>
-                <p className="ml-1">
-                  {msg.status === "sent" && <Check size={18} />}
-                  {msg.status === "delivered" && <CheckCheck size={18} />}
-                  {msg.status === "seen" && (
-                    <span className="text-blue-600">
-                      <CheckCheck size={18} />
-                    </span>
-                  )}
-                </p>
+                {msg.from === "me" && (
+                  <p className="ml-1">
+                    {msg.status === "mada" && <Clock size={13} />}
+                    {msg.status === "sent" && <Check size={18} />}
+                    {msg.status === "delivered" && <CheckCheck size={18} />}
+                    {msg.status === "seen" && (
+                      <span className="text-blue-600">
+                        <CheckCheck size={18} />
+                      </span>
+                    )}
+                  </p>
+                )}
               </span>
-              <div
-                className="absolute bottom-0 right-5 bg-black/60 text-white 
-                  text-[10px] px-1.5 py-0.5 rounded flex justify-between items-center"
-              >
-                <p>{msg.timestamp}</p>
-                <p className="ml-2">
-                  {msg.status === "sent" && <Check size={18} />}
-                  {msg.status === "delivered" && <CheckCheck size={18} />}
-                  {msg.status === "seen" && (
-                    <span className="text-blue-600">
-                      <CheckCheck size={18} />
-                    </span>
-                  )}
-                </p>
-              </div>
             </div>
           ))}
           {/* ------------------------Images-------------------- */}
@@ -283,23 +270,35 @@ const OneChat = ({ chatId }) => {
                   alt="Sent"
                   className={clsx(
                     "rounded-lg h-auto max-h-60 object-cover w-[85%] cursor-pointer",
-                    image.from === "me" ? "ml-auto" : "mr-auto"
+                    image.from === "me" ? "ml-auto" : "mr-auto",
+                    !image.uploaded && "blur-xs opacity-80"
                   )}
                 />
+                {!image.uploaded && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div
+                      className="h-6 w-6 border-2 border-white border-t-transparent 
+                    animate-spin rounded-full"
+                    />
+                  </div>
+                )}
                 <div
-                  className="absolute bottom-0 right-5 bg-black/60 text-white 
+                  className="absolute bottom-0 right-1 bg-black/60 text-white 
                   text-[10px] px-1.5 py-0.5 rounded flex justify-between items-center"
                 >
                   <p>{image.timestamp}</p>
-                  <p className="ml-2">
-                    {image.status === "sent" && <Check size={18} />}
-                    {image.status === "delivered" && <CheckCheck size={18} />}
-                    {image.status === "seen" && (
-                      <span className="text-blue-600">
-                        <CheckCheck size={18} />
-                      </span>
-                    )}
-                  </p>
+                  {image.from === "me" && (
+                    <p className="ml-1">
+                      {image.status === "mada" && <Clock size={13} />}
+                      {image.status === "sent" && <Check size={18} />}
+                      {image.status === "delivered" && <CheckCheck size={18} />}
+                      {image.status === "seen" && (
+                        <span className="text-blue-600">
+                          <CheckCheck size={18} />
+                        </span>
+                      )}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
