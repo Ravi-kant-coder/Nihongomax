@@ -8,7 +8,6 @@ import useMsgStore from "@/stores/useMsgStore";
 import useChatStore from "@/stores/useChatStore";
 import ChatList from "./ChatList";
 import OneChat from "./OneChat";
-
 const unreadmsgs = [
   {
     imageUrl: "/Horizontal1.jpg",

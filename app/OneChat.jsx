@@ -1,5 +1,5 @@
 import { useRef, useEffect, useTransition } from "react";
-import { X, Send, Paperclip, Smile, SendHorizonal } from "lucide-react";
+import { X, Send, Paperclip, Smile, CheckCheck, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import clsx from "clsx";
 import useMsgStore from "@/stores/useMsgStore";
@@ -7,50 +7,9 @@ import useChatStore from "@/stores/useChatStore";
 import { ArrowLeft } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter, usePathname } from "next/navigation";
+import useImageModal from "@/stores/useImageModal";
+import ImagePreviewModal from "./ImagePreviewModal";
 import Spinner from "./Spinner";
-
-const oneTest = [
-  {
-    imageUrl: "/Circular.jpg",
-    from: "me",
-    key: 1,
-  },
-  {
-    imageUrl: "/Horizontal1.jpg",
-    from: "other",
-    key: 2,
-  },
-  {
-    imageUrl: "/Vertical1.jpg",
-    from: "me",
-    key: 3,
-  },
-  {
-    imageUrl: "/Horizontal2.jpg",
-    from: "other",
-    key: 4,
-  },
-  {
-    imageUrl: "/Girl.jpg",
-    from: "me",
-    key: 5,
-  },
-  {
-    imageUrl: "/logo.png",
-    from: "other",
-    key: 6,
-  },
-  {
-    imageUrl: "/Vertical2.jpg",
-    from: "other",
-    key: 7,
-  },
-  {
-    imageUrl: "/Horizontal2.jpg",
-    from: "other",
-    key: 8,
-  },
-];
 
 const getCurrentTime = () => {
   const now = new Date();
@@ -62,56 +21,128 @@ const OneChat = ({ chatId }) => {
   const [isPending, startTransition] = useTransition();
 
   const dummyMessages = [
-    { id: 1, text: "Pehla Nasha", timestamp: "10:13 AM", from: "other" },
+    {
+      id: 1,
+      text: "Pehla Nasha",
+      timestamp: "10:13 AM",
+      from: "me",
+      status: "sent",
+    },
     {
       id: 2,
       text: "Konnichiwa! How’s your study going?",
       timestamp: getCurrentTime(),
       from: "other",
+      status: "delivered",
     },
     {
       id: 3,
       text: "My problem is this Kanji. Can you tell me it's meaning? 新幹線",
       timestamp: getCurrentTime(),
       from: "other",
+      status: "seen",
     },
     {
       id: 4,
       text: "Ye Shinkansen ki kanji hai chutiye",
       timestamp: "10:13 AM",
       from: "me",
+      status: "seen",
     },
     {
       id: 5,
       text: "Konnichiwa! How’s your study going?",
       timestamp: getCurrentTime(),
       from: "me",
+      status: "delivered",
+    },
+    {
+      id: 6,
+      text: "My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 ",
+      timestamp: "10:13 AM",
+      from: "other",
+      status: "delivered",
     },
     {
       id: 7,
       text: "My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 ",
       timestamp: "10:13 AM",
-      from: "other",
-    },
-    {
-      id: 8,
-      text: "My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 My problem is this Kanji. Can you tell me it's meaning? 新幹線 ",
-      timestamp: "10:13 AM",
       from: "me",
+      status: "seen",
     },
-    { id: 9, text: "Hey there!", timestamp: getCurrentTime(), from: "other" },
+    { id: 8, text: "Hey there!", timestamp: getCurrentTime(), from: "other" },
     {
-      id: 10,
+      id: 9,
       text: "Konnichiwa! How’s your study going?",
       timestamp: "10:13 AM",
       from: "me",
+      status: "sent",
     },
-    { id: 11, text: "Hi!", timestamp: getCurrentTime(), from: "me" },
     {
-      id: 12,
+      id: 10,
+      text: "Hi!",
+      timestamp: getCurrentTime(),
+      from: "me",
+      status: "sent",
+    },
+    {
+      id: 11,
       text: "How are you?",
       timestamp: getCurrentTime(),
       from: "other",
+      status: "seen",
+    },
+  ];
+  const imageTest = [
+    {
+      imageUrl: "/Circular.jpg",
+      from: "me",
+      key: 1,
+      timestamp: getCurrentTime(),
+      status: "seen",
+    },
+
+    {
+      imageUrl: "/Vertical1.jpg",
+      from: "me",
+      key: 3,
+      timestamp: getCurrentTime(),
+      status: "seen",
+    },
+    {
+      imageUrl: "/Horizontal2.jpg",
+      from: "other",
+      key: 4,
+      timestamp: getCurrentTime(),
+      status: "seen",
+    },
+    {
+      imageUrl: "/Girl.jpg",
+      from: "me",
+      key: 5,
+      timestamp: getCurrentTime(),
+      status: "sent",
+    },
+    {
+      imageUrl: "/logo.png",
+      from: "other",
+      key: 6,
+      timestamp: getCurrentTime(),
+      status: "delivered",
+    },
+    {
+      imageUrl: "/Vertical2.jpg",
+      from: "other",
+      key: 7,
+      timestamp: getCurrentTime(),
+      status: "seen",
+    },
+    {
+      imageUrl: "/Horizontal2.jpg",
+      from: "other",
+      key: 8,
+      timestamp: getCurrentTime(),
+      status: "seen",
     },
   ];
 
@@ -166,12 +197,12 @@ const OneChat = ({ chatId }) => {
                hover:bg-gray-200 py-1 pr-1 rounded-md"
             >
               <Avatar className="cursor-pointer h-12 w-12 mr-1">
-                <AvatarImage src={oneTest?.imageUrl} className="object-cover" />
+                <AvatarImage src={chatId} className="object-cover" />
                 <AvatarFallback
                   className="bg-gray-400 text-2xl dark:bg-gray-500
                      text-black"
                 >
-                  S
+                  {chatId[0]}
                 </AvatarFallback>
               </Avatar>
               <span className="text-lg">{chatId}</span>
@@ -207,12 +238,37 @@ const OneChat = ({ chatId }) => {
               justify-end"
               >
                 <p>{msg.timestamp}</p>
+                <p className="ml-1">
+                  {msg.status === "sent" && <Check size={18} />}
+                  {msg.status === "delivered" && <CheckCheck size={18} />}
+                  {msg.status === "seen" && (
+                    <span className="text-blue-600">
+                      <CheckCheck size={18} />
+                    </span>
+                  )}
+                </p>
               </span>
+              <div
+                className="absolute bottom-0 right-5 bg-black/60 text-white 
+                  text-[10px] px-1.5 py-0.5 rounded flex justify-between items-center"
+              >
+                <p>{msg.timestamp}</p>
+                <p className="ml-2">
+                  {msg.status === "sent" && <Check size={18} />}
+                  {msg.status === "delivered" && <CheckCheck size={18} />}
+                  {msg.status === "seen" && (
+                    <span className="text-blue-600">
+                      <CheckCheck size={18} />
+                    </span>
+                  )}
+                </p>
+              </div>
             </div>
           ))}
           {/* ------------------------Images-------------------- */}
-          {oneTest.map((image) => (
+          {imageTest.map((image) => (
             <div
+              key={imageTest.key}
               className={clsx(
                 "relative w-full flex", // allow alignment
                 image.from === "me" ? "justify-end" : "justify-start"
@@ -220,25 +276,37 @@ const OneChat = ({ chatId }) => {
             >
               <div className="relative w-fit max-w-xs">
                 <img
+                  onClick={() =>
+                    useImageModal.getState().openModal(image.imageUrl)
+                  }
                   src={image.imageUrl}
                   alt="Sent"
                   className={clsx(
-                    "rounded-lg h-auto max-h-60 object-cover w-[85%]",
+                    "rounded-lg h-auto max-h-60 object-cover w-[85%] cursor-pointer",
                     image.from === "me" ? "ml-auto" : "mr-auto"
                   )}
                 />
-                <p
-                  className="absolute bottom-0 right-5 bg-black/60 text-white text-[10px] 
-            px-1.5 py-0.5 rounded"
+                <div
+                  className="absolute bottom-0 right-5 bg-black/60 text-white 
+                  text-[10px] px-1.5 py-0.5 rounded flex justify-between items-center"
                 >
-                  10:15 PM
-                </p>
+                  <p>{image.timestamp}</p>
+                  <p className="ml-2">
+                    {image.status === "sent" && <Check size={18} />}
+                    {image.status === "delivered" && <CheckCheck size={18} />}
+                    {image.status === "seen" && (
+                      <span className="text-blue-600">
+                        <CheckCheck size={18} />
+                      </span>
+                    )}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
-
+      <ImagePreviewModal />
       <div ref={bottomRef} />
       {/* --------------------Input section--------------- */}
       <div
