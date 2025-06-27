@@ -5,6 +5,8 @@ import { useRouter, usePathname } from "next/navigation";
 // import useSidebarStore from "../store/sidebarStore";
 import useMsgStore from "@/stores/useMsgStore";
 import useNotificationStore from "@/stores/useNotificationStore";
+import useStudyStore from "@/stores/useStudyStore";
+
 import {
   Home,
   Users,
@@ -25,6 +27,7 @@ import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
 
 const Navbar = () => {
+  const { closeStudyBox } = useStudyStore();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -40,6 +43,7 @@ const Navbar = () => {
     incrementUnread,
     unreadCount,
     closeMsgBox,
+    resetUnread,
   } = useMsgStore();
   const {
     toggleNotificationBox,
@@ -91,6 +95,7 @@ const Navbar = () => {
               onClick={() => {
                 toggleNotificationBox();
                 closeMsgBox();
+                closeStudyBox();
               }}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
@@ -98,7 +103,7 @@ const Navbar = () => {
                 <p className="mt-1">Notifications</p>
 
                 {unreadCount > 0 && (
-                  <span className="absolute -top-3 right-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span className="absolute -top-2 right-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
                     {unreadCount <= 99 ? unreadCount : "99+"}
                   </span>
                 )}
@@ -133,7 +138,8 @@ const Navbar = () => {
                 pathname === "/friends"
                   ? "bg-white dark:bg-[rgb(55,55,55)]"
                   : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
+              flex items-center bg- justify-start p-2 rounded-md`}
               onClick={() => {
                 handleNavigation("/friends");
                 closeMsgBox();
@@ -178,6 +184,7 @@ const Navbar = () => {
               onClick={() => {
                 toggleMsgBox();
                 closeNotificationBox();
+                resetUnread();
               }}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
@@ -213,6 +220,7 @@ const Navbar = () => {
                   handleNavigation(path);
                   closeMsgBox();
                   closeNotificationBox();
+                  closeStudyBox();
                 }}
                 key={name}
                 className={`md:p-3 w-full cursor-pointer dark:font-normal ${

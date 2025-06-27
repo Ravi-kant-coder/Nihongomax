@@ -133,7 +133,7 @@ const SchoolCard = () => {
                       src={queryObj.schoolimg1}
                       alt="School Image"
                       fill
-                      className="object-cover rounded-md hover:scale-110 duration-200 transform"
+                      className="object-cover rounded-md"
                     />
                   </div>
                   <div className="relative w-full aspect-[4/3] sm:w-40 md:w-48 lg:w-56">
@@ -141,7 +141,7 @@ const SchoolCard = () => {
                       src={queryObj.schoolimg2}
                       alt="School Image"
                       fill
-                      className="object-cover rounded-md hover:scale-110 duration-200 transform"
+                      className="object-cover rounded-md"
                     />
                   </div>
                 </div>

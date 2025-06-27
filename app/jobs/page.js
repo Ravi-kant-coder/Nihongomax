@@ -20,7 +20,7 @@ const dummyJobs = [
     description:
       "Develop and maintain web applications using modern technologies.",
     salary: "$80,000 - $100,000",
-    datePosted: "2025-06-12",
+    datePosted: "2025-06-27",
     japanese: "JLPT-N3",
     requirements:
       "Bachelor's degree in Computer Science field. Experience with JavaScript, React, and Node.js.",
@@ -35,7 +35,7 @@ const dummyJobs = [
     description:
       "Sustain the degree in Networking or Experience with JavaScript, React, and related field. Experience with JavaScript, React,  using modern technologies.",
     salary: "$80,000 - $100,000",
-    datePosted: "2025-06-8",
+    datePosted: "2025-06-21",
     jobType: "Full-time",
     japanese: "JLPT-N2",
     requirements:
@@ -78,7 +78,7 @@ const formatDate = (createdAt) => {
   const days = Math.floor(hours / 24);
   const weeks = Math.floor(days / 7);
 
-  if (weeks > 0) {
+  if (weeks > 2) {
     // More than a week ago
     const day = String(date.getDate()).padStart(2, "0");
     const month = date.toLocaleString("en-US", { month: "long" });

@@ -3,8 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Trash2, ShieldBan } from "lucide-react";
 import { motion } from "framer-motion";
+import useChatStore from "@/stores/useChatStore";
 
-const MsgChat = ({ unreadmsgs }) => {
+const ChatList = ({ unreadmsgs }) => {
+  const { openChat } = useChatStore();
+  const bottomRef = useRef(null);
   const [openIndex, setOpenIndex] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUsername, setSelectedUsername] = useState("");
@@ -12,7 +15,6 @@ const MsgChat = ({ unreadmsgs }) => {
   const dropdownRef = useRef(null);
   const buttonRefs = useRef([]);
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -34,18 +36,23 @@ const MsgChat = ({ unreadmsgs }) => {
   };
 
   return (
-    <div className="overflow-y-auto space-y-2">
+    <div className="space-y-2 ">
       {unreadmsgs.map((msg, index) => (
         <div
           key={msg.key}
-          className="border border-white/10 
-            bg-[rgba(38,38,23,0.25)] dark:bg-[rgba(30,30,30,0.3)] cursor-pointer 
-            rounded flex items-center mx-2 p-1 relative group 
-            dark:hover:bg-[rgba(20,20,20,0.7)] hover:bg-[rgba(38,38,23,0.5)]"
+          onClick={() => openChat(msg.username)}
+          className="cursor-pointer rounded hover:bg-gray-300 flex items-center mx-2 p-1
+          relative group dark:hover:dark:bg-[rgb(0,30,30)]"
         >
-          <Avatar className="cursor-pointer h-12 w-12 mx-2 hover:ring-2 hover:ring-black hover:ring-offset-1">
+          <Avatar
+            className="cursor-pointer h-12 w-12 mr-2 hover:ring-2
+           dark:hover:ring-[rgb(0,40,40)] hover:ring-offset-1"
+          >
             <AvatarImage src={msg.imageUrl} className="object-cover" />
-            <AvatarFallback className="bg-gray-400 text-2xl dark:bg-gray-500 text-black">
+            <AvatarFallback
+              className="bg-gray-400 text-2xl dark:bg-[rgb(0,40,40)]
+             text-black"
+            >
               {msg.username.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -62,8 +69,8 @@ const MsgChat = ({ unreadmsgs }) => {
               <button
                 ref={(el) => (buttonRefs.current[index] = el)}
                 onClick={() => handleDotClick(index, msg.username)}
-                className="w-10 h-10 bg-[rgba(38,38,23,0.25)] dark:bg-[rgb(20,20,20)] 
-                  hover:bg-[rgba(38,38,23,0.5)] dark:hover:bg-black 
+                className="w-10 h-10 bg-[rgba(38,38,23,0.25)] dark:bg-[rgb(0,20,20)] 
+                  hover:bg-[rgba(38,38,23,0.5)] dark:hover:dark:bg-[rgb(0,40,40)] 
                   cursor-pointer rounded-full flex items-center justify-center"
               >
                 <MoreHorizontal className="w-5 h-5" />
@@ -72,7 +79,7 @@ const MsgChat = ({ unreadmsgs }) => {
               {openIndex === index && (
                 <div
                   ref={dropdownRef}
-                  className="absolute z-[1000]  right-10 flex justify-around p-1 bg-white 
+                  className="absolute z-[1000] bg-[rgb(180,180,180)] right-10 flex justify-around p-1  
                     dark:bg-[rgb(30,30,30)] text-sm rounded-md -translate-y-11"
                 >
                   <div
@@ -134,4 +141,4 @@ const MsgChat = ({ unreadmsgs }) => {
   );
 };
 
-export default MsgChat;
+export default ChatList;

@@ -26,6 +26,7 @@ const LeftSideBar = () => {
     closeMsgBox,
     incrementUnread,
     unreadCount,
+    resetUnread,
   } = useMsgStore();
   const {
     toggleNotificationBox,
@@ -133,6 +134,7 @@ const LeftSideBar = () => {
             onClick={() => {
               toggleMsgBox();
               closeNotificationBox();
+              resetUnread();
             }}
           >
             <div className="relative">

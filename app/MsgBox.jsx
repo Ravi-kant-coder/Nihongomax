@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { X } from "lucide-react";
+import { X, SendHorizonal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import SearchInNav from "./SearchInNav";
 import useMsgStore from "@/stores/useMsgStore";
-import MsgChat from "./MsgChat";
+import useChatStore from "@/stores/useChatStore";
+import ChatList from "./ChatList";
+import OneChat from "./OneChat";
 
 const unreadmsgs = [
   {
@@ -52,21 +54,62 @@ const unreadmsgs = [
     key: "11",
     username: "Circ",
   },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "12",
+    username: "Circ",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "13",
+    username: "Circ",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "14",
+    username: "Circ",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "15",
+    username: "Circ",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "16",
+    username: "Circ",
+  },
 ];
 const MsgBox = () => {
-  const { isMsgBoxOpen, closeMsgBox, resetUnread, incrementUnread } =
-    useMsgStore();
+  const { activeChat } = useChatStore();
+  const {
+    isMsgBoxOpen,
+    closeMsgBox,
+    toggleMsgBox,
+    resetUnread,
+    incrementUnread,
+  } = useMsgStore();
 
+  const bottomRef = useRef(null);
   useEffect(() => {
-    if (isMsgBoxOpen) resetUnread();
-  }, [isMsgBoxOpen, resetUnread]);
+    if (isMsgBoxOpen) {
+      setTimeout(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [isMsgBoxOpen]);
 
   if (!isMsgBoxOpen) return null;
-  //Logic for delete chat later delete it
+
+  // useEffect(() => {
+  //   if (isMsgBoxOpen) resetUnread();
+  // }, [isMsgBoxOpen, resetUnread]);
+
+  // if (!isMsgBoxOpen) return null;
+
   const [openIndex, setOpenIndex] = useState(null);
   const [openUp, setOpenUp] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const dropdownRef = useRef(null);
   const buttonRefs = useRef([]); // holds refs for each button
 
@@ -86,66 +129,78 @@ const MsgBox = () => {
     setShowDeleteModal(false);
     setOpenIndex(null);
   };
-  // Here add the logic to delete the chat
 
-  // When a 3-dot button is clicked
   const handleDotClick = (index) => {
     const btnRef = buttonRefs.current[index];
     if (!btnRef) return;
 
     setOpenIndex((prev) => (prev === index ? null : index));
   };
+  <div className="h-full w-full overflow-hidden"></div>;
   return (
     <>
       {isMsgBoxOpen && (
         <motion.div
           initial={{ y: 500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`fixed bottom-20 mx-5 w-[90vw] md:left-1/8 md:w-1/4 dark:border-white/20
-           overflow-y-auto max-h-[80vh] md:h-3/4 border border-white/60 backdrop-blur-xl
-           bg-[rgba(62,116,74,0.25)] dark:bg-[rgba(30,30,30,0.3)] 
-           inset-y-0 z-100 mt-18 rounded shadow-lg overflow-y-auto""${
-             isMsgBoxOpen ? "visible" : "invisible"
-           }`}
+          className=" fixed bg-white md:h-7/8 bottom-20 mx-5 w-[90vw] md:left-1/8 md:w-2/7
+           dark:bg-black border border-gray-400 inset-y-0 z-100 mt-20 rounded-lg"
         >
-          <div className="flex justify-between items-center w-full top-0 z-900 sticky">
-            <div className="p-2 w-2/3 ">
-              <SearchInNav />{" "}
-            </div>
-            <button
-              onClick={closeMsgBox}
-              className="bg-[rgba(38,38,23,0.7)] hover:bg-black text-white p-1 mr-1
+          <div className={`${activeChat ? "hidden" : "block"}`}>
+            <div
+              className="flex bg-[rgb(180,180,180)] dark:bg-[rgb(0,40,40)] justify-between 
+            rounded-tl-lg rounded-tr-lg items-center w-full top-0 z-900 sticky"
+            >
+              <div className="w-2/3 space-y-5 pb-2">
+                <p className="text-2xl font-bold ml-4 my-2">Messages</p>
+                <SearchInNav />
+              </div>
+              <button
+                onClick={closeMsgBox}
+                className="bg-[rgba(23,23,23,0.5)] dark:bg-[rgb(0,30,30)]
+               hover:bg-black text-white p-1 mr-4
                dark:hover:bg-black cursor-pointer border-2 border-white/80 
                dark:border-[rgb(200,200,200)] rounded-lg top-1 z-50"
-            >
-              <X className="w-7 h-7" />
-            </button>
-          </div>
-          <div className="z-100 rounded ">
-            <div className="flex w-full overflow-x-hidden md:overflow-x-auto items-center justify-around border-b py-2 mb-2 scroll-thin-x">
-              {unreadmsgs.map((dummymsg, index) => (
-                <div
-                  key={dummymsg?.key}
-                  className="relative group flex items-center rounded-md cursor-pointer "
-                >
-                  <Avatar className="cursor-pointer h-12 w-12 hover:ring-2 hover:ring-black hover:ring-offset-1 mx-2">
-                    <AvatarImage
-                      src={dummymsg?.imageUrl}
-                      className="object-cover"
-                    />
-                    <AvatarFallback className="bg-gray-400 text-2xl dark:bg-gray-500 text-black">
-                      {dummymsg?.username.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-              ))}
+              >
+                <X className="w-7 h-7" />
+              </button>
             </div>
-          </div>
-          <div className="dark:border-gray-200">
-            <MsgChat unreadmsgs={unreadmsgs} />
+            <div className="md:overflow-y-auto overflow-y-hidden">
+              <div
+                className="flex w-full overflow-x-hidden md:overflow-x-auto items-center
+             justify-start border-b py-2 mb-2"
+              >
+                {unreadmsgs.map((dummymsg, index) => (
+                  <div
+                    key={dummymsg?.key}
+                    className="relative group flex items-center rounded-md cursor-pointer "
+                  >
+                    <Avatar
+                      className="cursor-pointer h-12 w-12 hover:ring-2 hover:ring-gray-400
+                      hover:ring-offset-1 mx-2"
+                    >
+                      <AvatarImage
+                        src={dummymsg?.imageUrl}
+                        className="object-cover"
+                      />
+                      <AvatarFallback className="bg-gray-400 text-2xl dark:bg-gray-500">
+                        {dummymsg?.username.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>{" "}
+          <div className="h-full md:overflow-y-auto overflow-y-hidden">
+            {!activeChat ? (
+              <ChatList unreadmsgs={unreadmsgs} />
+            ) : (
+              <OneChat chatId={activeChat} unreadmsgs={unreadmsgs} />
+            )}
           </div>
         </motion.div>
-      )}{" "}
+      )}
     </>
   );
 };
