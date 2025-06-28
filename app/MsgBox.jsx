@@ -142,8 +142,9 @@ const MsgBox = () => {
         <motion.div
           initial={{ y: 500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className=" fixed bg-white md:h-7/8 bottom-20 mx-5 w-[90vw] md:left-1/8 md:w-2/7
-           dark:bg-black border border-gray-400 inset-y-0 z-100 mt-20 rounded-lg"
+          className="fixed z-50 top-20 bottom-20 left-1/2 -translate-x-1/2 w-[90vw] md:w-[60%]
+          bg-white dark:bg-black border border-gray-400 rounded-lg overflow-hidden flex 
+          flex-col"
         >
           <div className={`${activeChat ? "hidden" : "block"}`}>
             <div
@@ -164,7 +165,7 @@ const MsgBox = () => {
                 <X className="w-7 h-7" />
               </button>
             </div>
-            <div className="md:overflow-y-auto overflow-y-hidden">
+            <div className="overflow-y-auto">
               <div
                 className="flex w-full overflow-x-hidden md:overflow-x-auto items-center
              justify-start border-b py-2 mb-2"
@@ -190,8 +191,8 @@ const MsgBox = () => {
                 ))}
               </div>
             </div>
-          </div>{" "}
-          <div className="h-full md:overflow-y-auto overflow-y-hidden">
+          </div>
+          <div className="flex-1 overflow-y-auto">
             {!activeChat ? (
               <ChatList unreadmsgs={unreadmsgs} />
             ) : (

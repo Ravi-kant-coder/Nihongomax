@@ -1,4 +1,3 @@
-// ImagePreviewModal.jsx
 import useImageModal from "@/stores/useImageModal";
 
 export default function ImagePreviewModal() {
@@ -8,7 +7,7 @@ export default function ImagePreviewModal() {
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center"
       onClick={closeModal}
     >
       <img

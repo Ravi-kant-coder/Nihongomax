@@ -73,7 +73,7 @@ const LeftSideBar = () => {
             <span className="font-semibold">Simran Kaur</span>
           </div>
           <motion.button
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -3 }}
             transition={{ type: "spring", stiffness: 300 }}
             className={`w-full cursor-pointer dark:font-normal ${
               pathname === "/friends"
@@ -99,7 +99,7 @@ const LeftSideBar = () => {
             </div>
           </motion.button>
           <motion.button
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -3 }}
             transition={{ type: "spring", stiffness: 300 }}
             className={`w-full cursor-pointer dark:font-normal ${
               isNotificationBoxOpen
@@ -124,7 +124,7 @@ const LeftSideBar = () => {
             </div>
           </motion.button>
           <motion.button
-            whileHover={{ y: -5 }}
+            whileHover={{ y: -3 }}
             transition={{ type: "spring", stiffness: 300 }}
             className={`w-full cursor-pointer dark:font-normal ${
               isMsgBoxOpen
@@ -201,7 +201,7 @@ const LeftSideBar = () => {
             const isActive = pathname === navPath;
             return (
               <motion.button
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -3 }}
                 transition={{ type: "spring", stiffness: 300 }}
                 className={`w-full cursor-pointer dark:font-normal ${
                   isActive

@@ -138,7 +138,7 @@ const OneChat = ({ chatId }) => {
     {
       imageUrl: "/Horizontal1.jpg",
       from: "other",
-      key: 4,
+      key: 6,
       timestamp: getCurrentTime(),
       status: "mada",
       uploaded: true,
@@ -255,7 +255,7 @@ const OneChat = ({ chatId }) => {
           {/* ------------------------Images-------------------- */}
           {imageTest.map((image) => (
             <div
-              key={imageTest.key}
+              key={image.key}
               className={clsx(
                 "relative w-full flex", // allow alignment
                 image.from === "me" ? "justify-end" : "justify-start"
@@ -283,8 +283,10 @@ const OneChat = ({ chatId }) => {
                   </div>
                 )}
                 <div
-                  className="absolute bottom-0 right-1 bg-black/60 text-white 
-                  text-[10px] px-1.5 py-0.5 rounded flex justify-between items-center"
+                  className={clsx(
+                    "absolute bottom-0 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded flex items-center",
+                    image.from === "me" ? "right-1" : "left-1"
+                  )}
                 >
                   <p>{image.timestamp}</p>
                   {image.from === "me" && (

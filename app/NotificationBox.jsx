@@ -16,37 +16,24 @@ const unreadmsgs = [
     username: "Sahanubhuti Sharmasmjda",
   },
   {
-    imageUrl: "/Horizontal2.jpg",
-    key: "5",
-    username: "Farheen Khan",
+    imageUrl: "/Horizontal1.jpg",
+    key: "3",
+    username: "Kumar shanu",
   },
-
   {
-    imageUrl: "/Circular.jpg",
-    key: "7",
-    username: "Circuit",
+    imageUrl: "/Girl.jpg",
+    key: "4",
+    username: "Sahanubhuti Sharmasmjda",
   },
   {
     imageUrl: "/Horizontal1.jpg",
-    key: "8",
+    key: "5",
     username: "Kumar shanu",
   },
-
-  {
-    imageUrl: "/Vertical2.jpg",
-    key: "9",
-    username: "Circuit",
-  },
-  {
-    imageUrl: "/Vertical1.jpg",
-    key: "10",
-    username: "Kumar shanu",
-  },
-
   {
     imageUrl: "/Girl.jpg",
-    key: "11",
-    username: "Circuit",
+    key: "6",
+    username: "Sahanubhuti Sharmasmjda",
   },
 ];
 const friendRequests = [
@@ -58,6 +45,28 @@ const friendRequests = [
   },
   {
     _id: 3,
+    profilePicture: "/child.jpeg",
+    username: "Madhurima VinshikaDulari",
+  },
+  { _id: 4, profilePicture: "/graphic.jpeg", username: "Gayatri Singhania" },
+  {
+    _id: 5,
+    profilePicture: "/drops.jpg",
+    username: "Shola",
+  },
+  {
+    _id: 6,
+    profilePicture: "/child.jpeg",
+    username: "Madhurima VinshikaDulari",
+  },
+  { _id: 7, profilePicture: "/graphic.jpeg", username: "Gayatri Singhania" },
+  {
+    _id: 8,
+    profilePicture: "/drops.jpg",
+    username: "Shola",
+  },
+  {
+    _id: 9,
     profilePicture: "/child.jpeg",
     username: "Madhurima VinshikaDulari",
   },
@@ -74,9 +83,8 @@ const NotificationBox = () => {
       <motion.div
         initial={{ y: -500, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="fixed bg-white mx-5 w-[90vw] md:left-1/2 md:w-1/4 md:h-7/8
-           dark:bg-black overflow-y-auto border bottom-20 md:bottom-5
-           border-[rgb(130,130,130)] z-100 rounded"
+        className="fixed top-20 bottom-5 left-1/2 -translate-x-1/2 w-[90vw] md:left-1/2 md:w-1/4
+dark:bg-black bg-white overflow-y-auto border border-[rgb(130,130,130)] z-50 rounded"
       >
         <div
           className="flex bg-white dark:bg-[rgb(30,30,30)] justify-between 
