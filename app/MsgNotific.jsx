@@ -4,8 +4,39 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowBigRight, X } from "lucide-react";
 import useMsgStore from "@/stores/useMsgStore";
 import useNotificationStore from "@/stores/useNotificationStore";
-
-const MsgNotific = ({ unreadmsgs }) => {
+const unreadmsgs = [
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "1",
+    username: "Kumar shanu",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "2",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "3",
+    username: "Kumar shanu",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "4",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "5",
+    username: "Kumar shanu",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "6",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+];
+const MsgNotific = () => {
   const { openMsgBox } = useMsgStore();
   const { closeNotificationBox } = useNotificationStore();
   const [openIndex, setOpenIndex] = useState(null);

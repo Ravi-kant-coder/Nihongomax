@@ -18,24 +18,51 @@ const unreadmsgs = [
   },
   {
     imageUrl: "/Horizontal2.jpg",
-    key: "5",
+    key: "3",
     username: "Farheen Khan",
   },
 
   {
     imageUrl: "/Circular.jpg",
-    key: "7",
+    key: "4",
     username: "Circuit",
   },
   {
     imageUrl: "/Horizontal1.jpg",
-    key: "8",
+    key: "5",
     username: "Kumar shanu",
   },
 
   {
     imageUrl: "/Vertical2.jpg",
+    key: "6",
+    username: "Cir",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "7",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+  {
+    imageUrl: "/Horizontal2.jpg",
+    key: "8",
+    username: "Farheen Khan",
+  },
+
+  {
+    imageUrl: "/Circular.jpg",
     key: "9",
+    username: "Circuit",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "10",
+    username: "Kumar shanu",
+  },
+
+  {
+    imageUrl: "/Vertical2.jpg",
+    key: "11",
     username: "Cir",
   },
 ];
@@ -77,7 +104,7 @@ const ChatList = () => {
         <div
           key={msg.key}
           onClick={() => openChat(msg.username)}
-          className="cursor-pointer rounded hover:bg-gray-300 flex items-center mx-2 p-1
+          className="cursor-pointer rounded hover:bg-gray-200 flex items-center mx-2 p-1
           relative group dark:hover:dark:bg-[rgb(0,30,30)]"
         >
           <Avatar
@@ -86,7 +113,7 @@ const ChatList = () => {
           >
             <AvatarImage src={msg.imageUrl} className="object-cover" />
             <AvatarFallback
-              className="bg-gray-400 text-2xl dark:bg-[rgb(0,40,40)]
+              className="bg-teal-400 text-2xl dark:bg-[rgb(0,40,40)]
              text-black"
             >
               {msg.username.charAt(0).toUpperCase()}

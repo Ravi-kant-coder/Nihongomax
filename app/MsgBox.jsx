@@ -22,7 +22,71 @@ const unreadmsgs = [
 
   {
     imageUrl: "/Horizontal2.jpg",
+    key: "3",
+    username: "Farheen Khan",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "4",
+    username: "Kumar shanu",
+  },
+  {
+    imageUrl: "/Girl.jpg",
     key: "5",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+
+  {
+    imageUrl: "/Horizontal2.jpg",
+    key: "6",
+    username: "Farheen Khan",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "7",
+    username: "Kumar shanu",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "8",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+
+  {
+    imageUrl: "/Horizontal2.jpg",
+    key: "9",
+    username: "Farheen Khan",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "10",
+    username: "Kumar shanu",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "12",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+
+  {
+    imageUrl: "/Horizontal2.jpg",
+    key: "13",
+    username: "Farheen Khan",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "14",
+    username: "Kumar shanu",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "22",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+
+  {
+    imageUrl: "/Horizontal2.jpg",
+    key: "15",
     username: "Farheen Khan",
   },
 ];
@@ -49,13 +113,13 @@ const MsgBox = () => {
         <motion.div
           initial={{ y: 500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="fixed z-50 top-20 bottom-20 left-1/2 -translate-x-1/2 w-[90vw] md:w-[60%]
-          bg-white dark:bg-black border border-gray-400 rounded-lg overflow-hidden flex 
-          flex-col"
+          className="fixed z-50 top-20 bottom-20 left-1/2 -translate-x-1/2 w-[90vw] md:w-[30%]
+          bg-white dark:bg-black border border-gray-400 rounded-md overflow-hidden flex 
+          flex-col md:h-[88%]"
         >
           <div className={`${activeChat ? "hidden" : "block"}`}>
             <div
-              className="flex bg-[rgb(180,180,180)] dark:bg-[rgb(0,40,40)] justify-between 
+              className="flex bg-white dark:bg-[rgb(0,40,40)] justify-between 
             rounded-tl-lg rounded-tr-lg items-center w-full top-0 z-900 sticky"
             >
               <div className="w-2/3 space-y-5 pb-2">
