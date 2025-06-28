@@ -25,69 +25,11 @@ const unreadmsgs = [
     key: "5",
     username: "Farheen Khan",
   },
-
-  {
-    imageUrl: "/Circular.jpg",
-    key: "7",
-    username: "Circuit",
-  },
-  {
-    imageUrl: "/Horizontal1.jpg",
-    key: "8",
-    username: "Kumar shanu",
-  },
-
-  {
-    imageUrl: "/Vertical2.jpg",
-    key: "9",
-    username: "Cir",
-  },
-  {
-    imageUrl: "/Vertical1.jpg",
-    key: "10",
-    username: "Kumar shanu",
-  },
-
-  {
-    imageUrl: "/Girl.jpg",
-    key: "11",
-    username: "Circ",
-  },
-  {
-    imageUrl: "/Girl.jpg",
-    key: "12",
-    username: "Circ",
-  },
-  {
-    imageUrl: "/Girl.jpg",
-    key: "13",
-    username: "Circ",
-  },
-  {
-    imageUrl: "/Girl.jpg",
-    key: "14",
-    username: "Circ",
-  },
-  {
-    imageUrl: "/Girl.jpg",
-    key: "15",
-    username: "Circ",
-  },
-  {
-    imageUrl: "/Girl.jpg",
-    key: "16",
-    username: "Circ",
-  },
 ];
 const MsgBox = () => {
   const { activeChat } = useChatStore();
-  const {
-    isMsgBoxOpen,
-    closeMsgBox,
-    toggleMsgBox,
-    resetUnread,
-    incrementUnread,
-  } = useMsgStore();
+  const { isMsgBoxOpen, closeMsgBox, resetUnread, incrementUnread } =
+    useMsgStore();
 
   const bottomRef = useRef(null);
   useEffect(() => {
@@ -100,41 +42,6 @@ const MsgBox = () => {
 
   if (!isMsgBoxOpen) return null;
 
-  // useEffect(() => {
-  //   if (isMsgBoxOpen) resetUnread();
-  // }, [isMsgBoxOpen, resetUnread]);
-
-  // if (!isMsgBoxOpen) return null;
-
-  const [openIndex, setOpenIndex] = useState(null);
-  const [openUp, setOpenUp] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const dropdownRef = useRef(null);
-  const buttonRefs = useRef([]); // holds refs for each button
-
-  // Handle click outside
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenIndex(null);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleCancelDeleteChat = () => {
-    setShowDeleteModal(false);
-    setOpenIndex(null);
-  };
-
-  const handleDotClick = (index) => {
-    const btnRef = buttonRefs.current[index];
-    if (!btnRef) return;
-
-    setOpenIndex((prev) => (prev === index ? null : index));
-  };
   <div className="h-full w-full overflow-hidden"></div>;
   return (
     <>
@@ -194,7 +101,7 @@ const MsgBox = () => {
           </div>
           <div className="flex-1 overflow-y-auto">
             {!activeChat ? (
-              <ChatList unreadmsgs={unreadmsgs} />
+              <ChatList />
             ) : (
               <OneChat chatId={activeChat} unreadmsgs={unreadmsgs} />
             )}

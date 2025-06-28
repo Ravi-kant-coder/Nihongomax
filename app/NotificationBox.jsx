@@ -1,9 +1,11 @@
+"use client";
+import { useState, useRef } from "react";
 import useNotificationStore from "@/stores/useNotificationStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 import MsgNotific from "./MsgNotific";
-import { useState } from "react";
+
 const unreadmsgs = [
   {
     imageUrl: "/Horizontal1.jpg",
@@ -75,8 +77,15 @@ const NotificationBox = () => {
   const [accepted, setAccepted] = useState(false);
   const { isNotificationBoxOpen, closeNotificationBox, toggleNotificationBox } =
     useNotificationStore();
+  const [DeleteNotiIndex, setDeleteNotiIndex] = useState(null);
 
   if (!isNotificationBoxOpen) return null;
+
+  const buttonRefs = useRef([]); // holds refs for each button
+
+  const handleDeleteNoti = (index) => {
+    setDeleteNotiIndex(index); // Mark the notification for deletion
+  };
 
   return (
     <div>
@@ -106,7 +115,7 @@ dark:bg-black bg-white overflow-y-auto border border-[rgb(130,130,130)] z-50 rou
         >
           Friends Request
         </p>
-        {friendRequests.map((friend) => (
+        {friendRequests.map((friend, index) => (
           <div
             key={friend._id}
             className="inset-y-0 mx-1 flex justify-between items-center cursor-pointer p-1 rounded
@@ -146,13 +155,14 @@ dark:bg-black bg-white overflow-y-auto border border-[rgb(130,130,130)] z-50 rou
                 {accepted ? "Accepted" : "Accept"}
               </button>
               <button
-                onClick={() => {}}
+                ref={(el) => (buttonRefs.current[index] = el)}
+                onClick={() => handleDeleteNoti(index)}
                 className="w-8 h-8 bg-[rgba(38,38,23,0.25)] dark:bg-[rgb(20,20,20)] 
                   hover:bg-[rgba(38,38,23,0.5)] dark:hover:bg-black 
                   cursor-pointer rounded-full flex items-center justify-center"
               >
                 <X className="w-5 h-5" />
-              </button>{" "}
+              </button>
             </div>
           </div>
         ))}

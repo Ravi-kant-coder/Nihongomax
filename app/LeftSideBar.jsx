@@ -50,7 +50,10 @@ const LeftSideBar = () => {
     <>
       {" "}
       {isPending && (
-        <div className="fixed inset-0 flex items-center justify-center bg-white/60 backdrop-blur-sm z-[9999]">
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/60
+         backdrop-blur-sm z-[9999]"
+        >
           <Spinner />
         </div>
       )}
@@ -62,11 +65,15 @@ const LeftSideBar = () => {
               closeMsgBox();
               closeNotificationBox();
             }}
-            className="flex items-center border group space-x-2 cursor-pointer dark:hover:bg-[rgb(55,55,55)] hover:bg-gray-400 p-1 rounded-md"
+            className="flex items-center border group space-x-2 cursor-pointer
+             dark:hover:bg-[rgb(55,55,55)] hover:bg-gray-400 p-1 rounded-md"
           >
             <Avatar className="h-10 w-10">
               <AvatarImage />
-              <AvatarFallback className="font-semibold text-lg dark:bg-gray-500 bg-gray-200 dark:text-white group-hover:bg-gray-300">
+              <AvatarFallback
+                className="font-semibold text-lg dark:bg-gray-500
+               bg-gray-200 dark:text-white group-hover:bg-gray-300"
+              >
                 G
               </AvatarFallback>
             </Avatar>
@@ -79,7 +86,8 @@ const LeftSideBar = () => {
               pathname === "/friends"
                 ? "bg-white dark:bg-[rgb(55,55,55)]"
                 : "bg-transparent"
-            } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+            } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold
+             flex items-center bg- justify-start p-2 rounded-md`}
             onClick={() => {
               handleNavigation("/friends");
               closeMsgBox();
@@ -92,7 +100,10 @@ const LeftSideBar = () => {
                 Friends
               </div>
               {unreadCount > 0 && (
-                <span className="absolute -top-4 -right-9 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                <span
+                  className="absolute -top-4 -right-9 bg-green-700 text-white 
+                text-xs px-2 py-0.5 rounded-full"
+                >
                   {unreadCount <= 99 ? unreadCount : "99+"}
                 </span>
               )}
@@ -105,7 +116,8 @@ const LeftSideBar = () => {
               isNotificationBoxOpen
                 ? "bg-white dark:bg-[rgb(55,55,55)] "
                 : "bg-transparent"
-            } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+            } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex
+             items-center bg- justify-start p-2 rounded-md`}
             onClick={() => {
               toggleNotificationBox();
               closeMsgBox();
@@ -117,7 +129,10 @@ const LeftSideBar = () => {
                 Notifications
               </div>
               {unreadCount > 0 && (
-                <span className="absolute -top-4 right-0 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                <span
+                  className="absolute -top-4 right-0 bg-green-700 text-white text-xs
+                 px-2 py-0.5 rounded-full"
+                >
                   {unreadCount <= 99 ? unreadCount : "99+"}
                 </span>
               )}
@@ -130,7 +145,8 @@ const LeftSideBar = () => {
               isMsgBoxOpen
                 ? "bg-white dark:bg-[rgb(55,55,55)]"
                 : "bg-transparent"
-            } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+            } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex
+             items-center bg- justify-start p-2 rounded-md`}
             onClick={() => {
               toggleMsgBox();
               closeNotificationBox();
@@ -143,14 +159,20 @@ const LeftSideBar = () => {
                 Messages
               </div>
               {unreadCount > 0 && (
-                <span className="absolute -top-4 -right-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                <span
+                  className="absolute -top-4 -right-4 bg-green-700 text-white text-xs
+                 px-2 py-0.5 rounded-full"
+                >
                   {unreadCount <= 99 ? unreadCount : "99+"}
                 </span>
               )}
             </div>
           </motion.button>
           {isPending && (
-            <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm z-[9999] transition-opacity duration-300 opacity-100">
+            <div
+              className="fixed inset-0 flex items-center justify-center backdrop-blur-sm
+             z-[9999] transition-opacity duration-300 opacity-100"
+            >
               <Spinner />
             </div>
           )}

@@ -34,15 +34,16 @@ const NavbarBelow = () => {
   const pathname = usePathname();
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 ">
       {isStudyBoxOpen && <StudyBox />}
-      <div className="bg-gray-300 h-15 dark:bg-black flex justify-between items-center">
+      <div className="bg-gray-300 h-15 dark:bg-black flex justify-between items-center px-4">
         <button
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
             pathname === "/friends"
               ? "bg-white dark:bg-[rgb(55,55,55)]"
               : "bg-transparent"
-          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
+          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
+          py-1 px-2 rounded-md`}
           onClick={() => {
             handleNavigation("/friends");
             closeMsgBox();
@@ -55,7 +56,10 @@ const NavbarBelow = () => {
             <p className="mt-1">Friends</p>
 
             {unreadCount > 0 && (
-              <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+              <span
+                className="absolute -top-3 left-6 bg-green-700 text-white text-xs 
+              px-2 py-0.5 rounded-full"
+              >
                 {unreadCount <= 99 ? unreadCount : "99+"}
               </span>
             )}
@@ -64,7 +68,8 @@ const NavbarBelow = () => {
         <button
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
             isMsgBoxOpen ? "bg-white dark:bg-[rgb(55,55,55)]" : "bg-transparent"
-          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
+          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
+          py-1 px-2 rounded-md`}
           onClick={() => {
             toggleMsgBox();
             closeNotificationBox();
@@ -93,7 +98,8 @@ const NavbarBelow = () => {
             pathname === "/"
               ? "bg-white dark:bg-[rgb(55,55,55)]"
               : "bg-transparent"
-          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
+          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
+          py-1 px-2 rounded-md`}
         >
           <div className="flex flex-col items-center justify-center">
             <Home />
@@ -105,7 +111,8 @@ const NavbarBelow = () => {
             isStudyBoxOpen
               ? "bg-white dark:bg-[rgb(55,55,55)]"
               : "bg-transparent"
-          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center p-2 rounded-md`}
+          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
+          py-1 px-2 rounded-md`}
           onClick={() => {
             toggleStudyBox();
             closeMsgBox();

@@ -5,14 +5,47 @@ import { MoreHorizontal, Trash2, ShieldBan } from "lucide-react";
 import { motion } from "framer-motion";
 import useChatStore from "@/stores/useChatStore";
 
-const ChatList = ({ unreadmsgs }) => {
+const unreadmsgs = [
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "1",
+    username: "Kumar shanu",
+  },
+  {
+    imageUrl: "/Girl.jpg",
+    key: "2",
+    username: "Sahanubhuti Sharmasmjda",
+  },
+  {
+    imageUrl: "/Horizontal2.jpg",
+    key: "5",
+    username: "Farheen Khan",
+  },
+
+  {
+    imageUrl: "/Circular.jpg",
+    key: "7",
+    username: "Circuit",
+  },
+  {
+    imageUrl: "/Horizontal1.jpg",
+    key: "8",
+    username: "Kumar shanu",
+  },
+
+  {
+    imageUrl: "/Vertical2.jpg",
+    key: "9",
+    username: "Cir",
+  },
+];
+
+const ChatList = () => {
   const { openChat } = useChatStore();
-  const bottomRef = useRef(null);
   const [openIndex, setOpenIndex] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [selectedUsername, setSelectedUsername] = useState("");
-
   const dropdownRef = useRef(null);
   const buttonRefs = useRef([]);
 

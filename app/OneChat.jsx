@@ -219,7 +219,7 @@ const OneChat = ({ chatId }) => {
         {/* -----------------------Messages--------------------- */}
         <div
           className="mt-20 mb-2 space-y-2 overflow-y-auto h-full 
-           px-2 bg-zinc-200 self-end dark:bg-[rgb(20,20,20)]"
+           px-2 bg-zinc-200 self-end dark:bg-zinc-900"
         >
           {dummyMessages.map((msg) => (
             <div

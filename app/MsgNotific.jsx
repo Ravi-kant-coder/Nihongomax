@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { X } from "lucide-react";
+import { ArrowBigRight, X } from "lucide-react";
 import useMsgStore from "@/stores/useMsgStore";
 import useNotificationStore from "@/stores/useNotificationStore";
 
@@ -47,14 +47,14 @@ const MsgNotific = ({ unreadmsgs }) => {
           </div>
 
           <div className="absolute right-2">
-            <div className="relative">
+            <div className="relative ">
               <button
-                onClick={handleXClick}
-                className="w-10 h-10 bg-[rgba(38,38,23,0.25)] dark:bg-[rgb(20,20,20)] 
-                  hover:bg-[rgba(38,38,23,0.5)] dark:hover:bg-black 
-                  cursor-pointer rounded-full flex items-center justify-center"
+                className=" bg-[rgba(38,38,23,0.25)] dark:bg-[rgb(20,20,20)] 
+                  hover:bg-[rgba(38,38,23,0.5)] dark:hover:bg-black p-1
+                  cursor-pointer rounded flex items-center justify-center"
               >
-                <X className="w-5 h-5" />
+                View
+                <ArrowBigRight className="w-5 h-5" />
               </button>
             </div>
           </div>

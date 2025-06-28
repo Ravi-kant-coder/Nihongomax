@@ -26,11 +26,10 @@ const ShownComments = ({
     <div>
       {showComments && (
         <>
-          <div className="max-w-full m-2 dark:bg-[rgb(35,35,35)] text-sm bg-gray-300 dark:text-gray-300 text-md rounded-md p-2">
-            {/* <VideoComments
-              key={post?.comments?._id}
-              comments={post?.comments}
-            /> */}
+          <div
+            className="max-w-full m-2 dark:bg-[rgb(35,35,35)] text-sm bg-gray-300
+           dark:text-gray-300 text-md rounded-md p-2"
+          >
             <div className="flex items-center">
               <div className="overflow-hidden rounded">
                 <Avatar className="cursor-pointer h-8 w-8 mr-3 dark:text-white ">
@@ -52,11 +51,10 @@ const ShownComments = ({
             </p>
           </div>
 
-          <div className="max-w-full m-2 dark:bg-[rgb(35,35,35)] text-sm bg-gray-300 dark:text-gray-300 text-md rounded-md p-2">
-            {/* <VideoComments
-              key={post?.comments?._id}
-              comments={post?.comments}
-            /> */}
+          <div
+            className="max-w-full m-2 dark:bg-[rgb(35,35,35)] text-sm bg-gray-300
+           dark:text-gray-300 text-md rounded-md p-2"
+          >
             <div className="flex items-center">
               <div className="overflow-hidden rounded ">
                 <Avatar className="cursor-pointer h-8 w-8 mr-3 ">
@@ -100,7 +98,8 @@ const ShownComments = ({
               onKeyDown={(e) => e.key === "Enter" && handleCommentSubmit()}
             />
             <Button
-              className="cursor-pointer bg-gray-700 hover:bg-black dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
+              className="cursor-pointer bg-gray-700 hover:bg-black dark:bg-gray-600
+               dark:text-white dark:hover:bg-gray-700"
               onClick={handleCommentSubmit}
             >
               <Send className="h-4 w-4" />
