@@ -21,7 +21,7 @@ const dummyJobs = [
     description:
       "Develop and maintain web applications using modern technologies.",
     salary: "$80,000 - $100,000",
-    datePosted: "2025-06-29",
+    datePosted: "2025-06-28",
     timePosted: "02:00",
     japanese: "JLPT-N3",
     requirements:
@@ -37,7 +37,7 @@ const dummyJobs = [
     description:
       "Sustain the degree in Networking or Experience with JavaScript, React, and related field. Experience with JavaScript, React,  using modern technologies.",
     salary: "$80,000 - $100,000",
-    datePosted: "2025-06-27",
+    datePosted: "2025-07-04",
     timePosted: "15:00",
     jobType: "Full-time",
     japanese: "JLPT-N2",

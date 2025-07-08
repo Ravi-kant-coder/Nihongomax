@@ -13,91 +13,90 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-// import * as yup from "yup";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-// import { loginUser, registerUser } from "@/service/auth.service";
-// import toast from "react-hot-toast";
+import { loginUser, registerUser } from "@/service/auth.service";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
-  //   const registerSchema = yup.object().shape({
-  //     username: yup.string().required("Name is required"),
-  //     email: yup
-  //       .string()
-  //       .email("Invalid email format")
-  //       .required("Email is required"),
-  //     password: yup
-  //       .string()
-  //       .min(6, "Password must be at least 6 characters")
-  //       .required("Password is required"),
-  //     dateOfBirth: yup.date().required("Birth date is required"),
-  //     gender: yup
-  //       .string()
-  //       .oneOf(["male", "female", "other"], "please select a gender")
-  //       .required("Gender is required"),
-  //   });
+  const registerSchema = yup.object().shape({
+    username: yup.string().required("Name is required"),
+    email: yup
+      .string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    dateOfBirth: yup.date().required("Birth date is required"),
+    gender: yup
+      .string()
+      .oneOf(["male", "female", "other"], "please select a gender")
+      .required("Gender is required"),
+  });
 
-  //   const loginSchema = yup.object().shape({
-  //     email: yup
-  //       .string()
-  //       .email("Invalid email format")
-  //       .required("Email is required"),
-  //     password: yup
-  //       .string()
-  //       .min(6, "Password must be at least 6 characters")
-  //       .required("Password is required"),
-  //   });
+  const loginSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  });
 
-  //   const {
-  //     register: registerLogin,
-  //     handleSubmit: handleSubmitLogin,
-  //     reset: resetLoginForm,
-  //     formState: { errors: errorsLogin },
-  //   } = useForm({
-  //     resolver: yupResolver(loginSchema),
-  //   });
+  const {
+    register: registerLogin,
+    handleSubmit: handleSubmitLogin,
+    reset: resetLoginForm,
+    formState: { errors: errorsLogin },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
 
-  //   const {
-  //     register: registerSignUp,
-  //     handleSubmit: handleSubmitSignUp,
-  //     reset: resetSignUpForm,
-  //     formState: { errors: errorsSignUp },
-  //   } = useForm({
-  //     resolver: yupResolver(registerSchema),
-  //   });
+  const {
+    register: registerSignUp,
+    handleSubmit: handleSubmitSignUp,
+    reset: resetSignUpForm,
+    formState: { errors: errorsSignUp },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
 
-  //   const onSubmitRegister = async (data) => {
-  //     try {
-  //       const result = await registerUser(data);
-  //       if (result.status === "success") {
-  //         router.push("/");
-  //       }
-  //       toast.success("User register successfully");
-  //     } catch (error) {
-  //       console.error(error);
-  //       toast.error("email already exist");
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
+  const onSubmitRegister = async (data) => {
+    try {
+      const result = await registerUser(data);
+      if (result?.status === "success") {
+        router.push("/");
+      }
+      toast.success("User register successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("email already exists");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   //reset the form
-  //   useEffect(() => {
-  //     resetLoginForm();
-  //     resetSignUpForm();
-  //   }, [resetLoginForm, resetSignUpForm]);
+  useEffect(() => {
+    resetLoginForm();
+    resetSignUpForm();
+  }, [resetLoginForm, resetSignUpForm]);
 
   const onSubmitLogin = async (data) => {
     try {
       const result = await loginUser(data);
-      if (result.status === "success") {
+      if (result?.status === "success") {
         router.push("/");
       }
       toast.success("User login successfully");
@@ -109,22 +108,191 @@ const Page = () => {
     }
   };
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleLogin = () => {
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
+  };
   return (
-    <div className="md:mt-25 mt-35 flex mx-auto w-full items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <Card className="dark:text-white p-4 ">
+        <Card className="w-full max-w-md dark:text-white">
           <CardHeader>
             <CardTitle className="text-2xl font-bold text-center">
-              <span>NIHONGOMAX</span>
+              <span>Nihongomax</span>
             </CardTitle>
             <CardDescription className="text-center">
-              Create Account in just few clicks
+              Learn Japanese and make frineds
             </CardDescription>
+          </CardHeader>
+
+          <CardContent>
+            <Tabs defaultValue="login" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="login">Login</TabsTrigger>
+                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="login">
+                <form onSubmit={handleSubmitLogin(onSubmitLogin)}>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="loginEmail">Email</Label>
+                      <Input
+                        id="loginEmail"
+                        name="email"
+                        type="email"
+                        {...registerLogin("email")}
+                        placeholder="Enter your email"
+                        className="col-span-3 dark:border-gray-400"
+                      />
+                      {errorsLogin.email && (
+                        <p className="text-red-500">
+                          {errorsLogin.email.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="loginPassword">Password</Label>
+                      <Input
+                        id="loginPassword"
+                        name="password"
+                        type="password"
+                        {...registerLogin("password")}
+                        placeholder="Enter your Password"
+                        className="col-span-3 dark:border-gray-400"
+                      />
+                      {errorsLogin.password && (
+                        <p className="text-red-500">
+                          {errorsLogin.password.message}
+                        </p>
+                      )}
+                    </div>
+                    <Button className="w-full" type="submit">
+                      <LogIn className="mr-2 w-4 h-4" /> Log in
+                    </Button>
+                  </div>
+                </form>
+              </TabsContent>
+
+              <TabsContent value="signup">
+                <form onSubmit={handleSubmitSignUp(onSubmitRegister)}>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="signupName">Username</Label>
+                      <Input
+                        id="signupName"
+                        name="username"
+                        type="text"
+                        {...registerSignUp("username")}
+                        placeholder="Enter your username"
+                        className="col-span-3 dark:border-gray-400"
+                      />
+                      {errorsSignUp.username && (
+                        <p className="text-red-500">
+                          {errorsSignUp.username.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signupEmail">Email</Label>
+                      <Input
+                        id="signupEmail"
+                        name="email"
+                        type="email"
+                        {...registerSignUp("email")}
+                        placeholder="Enter your email"
+                        className="col-span-3 dark:border-gray-400"
+                      />
+                      {errorsSignUp.email && (
+                        <p className="text-red-500">
+                          {errorsSignUp.email.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signupPassword">Password</Label>
+                      <Input
+                        id="signPassword"
+                        name="password"
+                        type="password"
+                        {...registerSignUp("password")}
+                        placeholder="Enter your Password"
+                        className="col-span-3 dark:border-gray-400"
+                      />
+                      {errorsSignUp.password && (
+                        <p className="text-red-500">
+                          {errorsSignUp.password.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="signupBirthday">Birthdate</Label>
+                      <Input
+                        id="signupBirthday"
+                        name="dateOfBirth"
+                        type="date"
+                        {...registerSignUp("dateOfBirth")}
+                        placeholder="Enter your Password"
+                        className="col-span-3 dark:border-gray-400"
+                      />
+                      {errorsSignUp.dateOfBirth && (
+                        <p className="text-red-500">
+                          {errorsSignUp.dateOfBirth.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Gender</Label>
+                      <RadioGroup
+                        className="flex justify-between "
+                        defaultValue="male"
+                        {...registerSignUp("gender")}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="male" id="male" />
+                          <Label htmlFor="male">Male</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="female" id="female" />
+                          <Label htmlFor="female">Female</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="other" id="other" />
+                          <Label htmlFor="other">Other</Label>
+                        </div>
+                      </RadioGroup>
+                      {errorsSignUp.gender && (
+                        <p className="text-red-500">
+                          {errorsSignUp.gender.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <Button className="w-full" type="submit">
+                      <LogIn className="mr-2 w-4 h-4" /> Sign Up
+                    </Button>
+                  </div>
+                </form>
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-4">
+            <div className="relative w-full">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-[30%] border-t border-muted-foreground"></span>
+                <div className="w-[40%]"> </div>
+                <span className="w-[30%] border-t border-muted-foreground"></span>
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className=" px-2 text-muted-foreground">
+                  Or continue with
+                </span>
+              </div>
+            </div>
             <div className="w-full gap-4">
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -133,7 +301,7 @@ const Page = () => {
                 <Button
                   variant="outline"
                   className="w-full"
-                  //   onClick={handleGoogleLogin}
+                  onClick={handleGoogleLogin}
                 >
                   <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                     <path
@@ -157,177 +325,6 @@ const Page = () => {
                   Google
                 </Button>
               </motion.div>
-            </div>
-          </CardHeader>
-
-          <CardContent>
-            <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-300">
-                <TabsTrigger className="cursor-pointer" value="login">
-                  Login
-                </TabsTrigger>
-                <TabsTrigger value="signup" className="cursor-pointer">
-                  Sign Up
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="login">
-                <form>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="loginEmail">Email</Label>
-                      <Input
-                        id="loginEmail"
-                        name="email"
-                        type="email"
-                        // {...registerLogin("email")}
-                        placeholder="Enter your email"
-                        className="col-span-3 dark:border-gray-400"
-                      />
-                      {/* {errorsLogin.email && (
-                        <p className="text-red-500">
-                          {errorsLogin.email.message}
-                        </p>
-                      )} */}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="loginPassword">Password</Label>
-                      <Input
-                        id="loginPassword"
-                        name="password"
-                        type="password"
-                        // {...registerLogin("password")}
-                        placeholder="Enter your Password"
-                        className="col-span-3 dark:border-gray-400"
-                      />
-                      {/* {errorsLogin.password && (
-                        <p className="text-red-500">
-                          {errorsLogin.password.message}
-                        </p>
-                      )} */}
-                    </div>
-                    <Button className="w-full" type="submit">
-                      <LogIn className="mr-2 w-4 h-4" /> Log in
-                    </Button>
-                  </div>
-                </form>
-              </TabsContent>
-
-              <TabsContent value="signup">
-                <form>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="signupName">Username</Label>
-                      <Input
-                        id="signupName"
-                        name="username"
-                        type="text"
-                        // {...registerSignUp("username")}
-                        placeholder="Enter your username"
-                        className="col-span-3 dark:border-gray-400"
-                      />
-                      {/* {errorsSignUp.username && (
-                        <p className="text-red-500">
-                          {errorsSignUp.username.message}
-                        </p>
-                      )} */}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="signupEmail">Email</Label>
-                      <Input
-                        id="signupEmail"
-                        name="email"
-                        type="email"
-                        // {...registerSignUp("email")}
-                        placeholder="Enter your email"
-                        className="col-span-3 dark:border-gray-400"
-                      />
-                      {/* {errorsSignUp.email && (
-                        <p className="text-red-500">
-                          {errorsSignUp.email.message}
-                        </p>
-                      )} */}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="signupPassword">Password</Label>
-                      <Input
-                        id="signPassword"
-                        name="password"
-                        type="password"
-                        // {...registerSignUp("password")}
-                        placeholder="Enter your Password"
-                        className="col-span-3 dark:border-gray-400"
-                      />
-                      {/* {errorsSignUp.password && (
-                        <p className="text-red-500">
-                          {errorsSignUp.password.message}
-                        </p>
-                      )} */}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="signupBirthday">Birthdate</Label>
-                      <Input
-                        id="signupBirthday"
-                        name="dateOfBirth"
-                        type="date"
-                        // {...registerSignUp("dateOfBirth")}
-                        placeholder="Enter your Password"
-                        className="col-span-3 dark:border-gray-400"
-                      />
-                      {/* {errorsSignUp.dateOfBirth && (
-                        <p className="text-red-500">
-                          {errorsSignUp.dateOfBirth.message}
-                        </p>
-                      )} */}
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Gender</Label>
-                      <RadioGroup
-                        className="flex justify-between "
-                        defaultValue="male"
-                        // {...registerSignUp("gender")}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="male" id="male" />
-                          <Label htmlFor="male">Male</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="female" id="female" />
-                          <Label htmlFor="female">Female</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="other" id="other" />
-                          <Label htmlFor="other">Other</Label>
-                        </div>
-                      </RadioGroup>
-                      {
-                        <p className="text-red-500">
-                          {/* {errorsSignUp.gender.message} */}
-                        </p>
-                      }
-                    </div>
-
-                    <Button className="w-full" type="submit">
-                      <LogIn className="mr-2 w-4 h-4" /> Sign Up
-                    </Button>
-                  </div>
-                </form>
-              </TabsContent>
-            </Tabs>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <div className="relative w-full">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-[30%] border-t border-muted-foreground"></span>
-                <div className="w-[40%]"> </div>
-                <span className="w-[30%] border-t border-muted-foreground"></span>
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className=" px-2 text-muted-foreground">
-                  Or Login With
-                </span>
-              </div>
             </div>
           </CardFooter>
         </Card>

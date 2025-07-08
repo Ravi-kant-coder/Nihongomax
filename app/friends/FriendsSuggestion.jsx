@@ -38,7 +38,7 @@ const FriendSuggestion = ({ friend, onAction }) => {
             className="bg-black dark:bg-gray-700 hover:dark:text-white text-white
              lg:p-2 p-1 rounded flex justify-evenly items-center hover:bg-gray-800
               dark:text-black cursor-pointer"
-            onClick={() => {}}
+            onClick={() => onAction("confirm", friend?._id)}
           >
             <UserPlus className="mr-2 lg:mr-0 h-4 w-4" /> Send Request
           </button>

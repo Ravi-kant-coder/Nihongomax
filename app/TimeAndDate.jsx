@@ -1,5 +1,4 @@
 "use client";
-
 const formatTime = (createdAt) => {
   if (!createdAt) return "";
 
@@ -47,10 +46,8 @@ const buildFullTimestamp = (date, time) => {
 };
 
 const TimeAndDate = ({ datePosted, timePosted, timestamp }) => {
-  const fullTime = timestamp ?? buildFullTimestamp(datePosted, timePosted);
-  const display = formatTime(fullTime);
-
-  return <span>{display}</span>;
+  const fullTime = buildFullTimestamp(datePosted, timePosted);
+  return <span>{formatTime(fullTime)}</span>;
 };
 
 export default TimeAndDate;

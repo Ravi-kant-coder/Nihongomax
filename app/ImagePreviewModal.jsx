@@ -1,4 +1,4 @@
-import useImageModal from "@/stores/useImageModal";
+import useImageModal from "@/store/useImageModal";
 
 export default function ImagePreviewModal() {
   const { modalImage, closeModal } = useImageModal();

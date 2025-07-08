@@ -14,12 +14,23 @@ const ShowStoryPreview = ({
   avatar,
   isLoading,
 }) => {
-  const userPlaceholder = username?.split(" ").map((name) => name[0]).join("");
+  const userPlaceholder = username
+    ?.split(" ")
+    .map((name) => name[0])
+    .join("");
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="relative w-full max-w-md h-[70vh] flex flex-col  bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-70 flex items-center
+     justify-center z-50"
+    >
+      <div
+        className="relative w-full max-w-md h-[70vh] flex flex-col  bg-white
+       dark:bg-gray-800 rounded-lg overflow-hidden"
+      >
         <Button
-          className="absolute top-4 right-4 z-10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+          className="absolute top-4 right-4 z-10 text-gray-600 dark:text-gray-300
+           hover:bg-gray-300 bg-gray-200 cursor-pointer dark:hover:bg-gray-600
+            dark:bg-gray-700"
           variant="ghost"
           onClick={onClose}
         >
@@ -37,7 +48,10 @@ const ShowStoryPreview = ({
             {username}
           </span>
         </div>
-        <div className="flex-grow flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <div
+          className="flex-grow flex items-center justify-center bg-gray-100
+         dark:bg-gray-900"
+        >
           {fileType === "image" ? (
             <img
               src={file}
@@ -54,9 +68,14 @@ const ShowStoryPreview = ({
           )}
         </div>
         {isNewStory && (
-            <div className="absolute bottom-4 right-2 transform -translate-x-1/2">
-                <Button onClick={onPost} className="bg-blue-500 hover:bg-orange-500 text-white">{isLoading ? "Saving..." : "Share"}</Button>
-                </div>
+          <div className="absolute bottom-4 right-2 transform -translate-x-1/2">
+            <Button
+              onClick={onPost}
+              className="bg-gray-800 cursor-pointer hover:bg-black text-white"
+            >
+              {isLoading ? "Sending..." : "Send"}
+            </Button>
+          </div>
         )}
       </div>
     </div>

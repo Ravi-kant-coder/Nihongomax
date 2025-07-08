@@ -10,12 +10,12 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import clsx from "clsx";
-import useMsgStore from "@/stores/useMsgStore";
-import useChatStore from "@/stores/useChatStore";
+import useMsgStore from "@/store/useMsgStore";
+import useChatStore from "@/store/useChatStore";
 import { ArrowLeft } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter, usePathname } from "next/navigation";
-import useImageModal from "@/stores/useImageModal";
+import useImageModal from "@/store/useImageModal";
 import ImagePreviewModal from "./ImagePreviewModal";
 import Spinner from "./Spinner";
 

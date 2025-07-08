@@ -8,30 +8,30 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-// import { createOrUpdateUserBio } from '@/service/user.service'
+import { createOrUpdateUserBio } from "@/service/user.service";
 import { Save } from "lucide-react";
-// import { useForm } from 'react-hook-form'
-// import toast from 'react-hot-toast'
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: { isSubmitting },
-  // } = useForm({
-  //   defaultValues: initialData,
-  // });
-  // const handleEditBio = async (data) => {
-  //   try {
-  //     await createOrUpdateUserBio(id, data);
-  //     toast.success("user bio updated successfully");
-  //     await fetchProfile();
-  //     onClose();
-  //   } catch (error) {
-  //     console.log("error creating or updating user bio", error);
-  //   }
-  // };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm({
+    defaultValues: initialData,
+  });
+  const handleEditBio = async (data) => {
+    try {
+      await createOrUpdateUserBio(id, data);
+      toast.success("user bio updated successfully");
+      await fetchProfile();
+      onClose();
+    } catch (error) {
+      console.log("error creating or updating user bio", error);
+    }
+  };
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>

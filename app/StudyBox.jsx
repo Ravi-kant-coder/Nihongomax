@@ -1,6 +1,6 @@
 "use client";
 import { X } from "lucide-react";
-import useStudyStore from "@/stores/useStudyStore";
+import useStudyStore from "@/store/useStudyStore";
 import Link from "next/link";
 import Image from "next/image";
 

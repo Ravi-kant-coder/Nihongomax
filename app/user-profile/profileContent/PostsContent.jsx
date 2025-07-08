@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import WallCard from "@/app/WallCard";
 // import PostComments from "@/app/posts/PostComments";
-// import { formateDate } from '@/lib/utils';
+import { formateDate } from "@/lib/utils";
 const storyPostsData = [
   {
     _id: 1,
@@ -87,17 +87,17 @@ const PostsContent = ({ post, isLiked, onShare, onComment, onLike }) => {
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const commentInputRef = useRef(null);
 
-  // const userPlaceholder = post?.user?.username
-  //   ?.split(" ")
-  //   .map((name) => name[0])
-  //   .join("");
+  const userPlaceholder = post?.user?.username
+    ?.split(" ")
+    .map((name) => name[0])
+    .join("");
 
-  // const handleCommentClick = () => {
-  //   setShowComments(true);
-  //   setTimeout(() => {
-  //     commentInputRef.current?.focus();
-  //   }, 0);
-  // };
+  const handleCommentClick = () => {
+    setShowComments(true);
+    setTimeout(() => {
+      commentInputRef.current?.focus();
+    }, 0);
+  };
 
   const generateSharedLink = () => {
     return `http://localhost:3000/${post?.id}`;

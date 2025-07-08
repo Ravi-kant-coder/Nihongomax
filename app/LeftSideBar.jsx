@@ -1,6 +1,7 @@
 "use client";
 import { useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import userStore from "@/store/userStore";
 import {
   Bell,
   Home,
@@ -13,13 +14,14 @@ import {
   ChartNoAxesCombined,
   TvMinimalPlay,
 } from "lucide-react";
-import useMsgStore from "@/stores/useMsgStore";
-import useNotificationStore from "@/stores/useNotificationStore";
+import useMsgStore from "@/store/useMsgStore";
+import useNotificationStore from "@/store/useNotificationStore";
 import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import Spinner from "./Spinner";
 
 const LeftSideBar = () => {
+  const { user, clearUser } = userStore();
   const {
     isMsgBoxOpen,
     toggleMsgBox,
@@ -62,7 +64,7 @@ const LeftSideBar = () => {
         <nav className="space-y-4 flex-grow h-full flex flex-col overflow-y-auto">
           <div
             onClick={() => {
-              handleNavigation("/user-profile");
+              handleNavigation(`/user-profile/${user?._id}`);
               closeMsgBox();
               closeNotificationBox();
             }}
@@ -70,15 +72,19 @@ const LeftSideBar = () => {
              dark:hover:bg-[rgb(55,55,55)] hover:bg-gray-400 p-1 rounded-md"
           >
             <Avatar className="h-10 w-10">
-              <AvatarImage />
+              <AvatarImage
+                className="object-cover"
+                src={user?.profilePicture}
+                alt={user?.username}
+              />
               <AvatarFallback
                 className="font-semibold text-lg dark:bg-gray-500
                bg-gray-200 dark:text-white group-hover:bg-gray-300"
               >
-                G
+                {user?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <span className="font-semibold">Simran Kaur</span>
+            <span className="font-semibold">{user?.username}</span>
           </div>
           <motion.button
             whileHover={{ y: -3 }}

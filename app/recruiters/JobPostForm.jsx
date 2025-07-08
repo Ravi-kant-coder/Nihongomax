@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "../../components/ui/textarea";
-import { useAdminData } from "@/stores/useAdminData";
+import { useAdminData } from "@/store/useAdminData";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // This component is used to create a Job post by Recruiters for students.

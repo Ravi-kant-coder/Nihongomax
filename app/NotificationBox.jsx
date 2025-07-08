@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import useNotificationStore from "@/stores/useNotificationStore";
+import useNotificationStore from "@/store/useNotificationStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";

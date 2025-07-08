@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MoreHorizontal, Trash2, ShieldBan } from "lucide-react";
 import { motion } from "framer-motion";
-import useChatStore from "@/stores/useChatStore";
+import useChatStore from "@/store/useChatStore";
 
 const unreadmsgs = [
   {

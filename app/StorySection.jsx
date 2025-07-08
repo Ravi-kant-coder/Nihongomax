@@ -1,18 +1,24 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import StoryCard from "../app/StoryCard";
 import { motion } from "framer-motion";
+import { usePostStore } from "@/store/usePostStore";
+import StoryCard from "./StoryCard";
 
-const StorySection = ({ storyPostsData }) => {
+const StorySection = () => {
+  const { story, fetchStoryPost } = usePostStore();
   const [showLeft, setShowLeft] = useState(false);
   const storyRef = useRef(null);
+
+  useEffect(() => {
+    fetchStoryPost();
+  }, [fetchStoryPost]);
 
   useEffect(() => {
     const storyEl = storyRef.current;
 
     const handleScroll = () => {
       if (storyEl) {
-        setShowLeft(storyEl.scrollLeft > 10); // show if slightly scrolled
+        setShowLeft(storyEl.scrollLeft > 10);
       }
     };
 
@@ -20,7 +26,6 @@ const StorySection = ({ storyPostsData }) => {
       storyEl.addEventListener("scroll", handleScroll);
     }
 
-    // Run on load
     handleScroll();
 
     return () => {
@@ -28,7 +33,7 @@ const StorySection = ({ storyPostsData }) => {
         storyEl.removeEventListener("scroll", handleScroll);
       }
     };
-  }, []);
+  }, [story]);
 
   const scrollLeft = () => {
     storyRef.current?.scrollBy({ left: -200, behavior: "smooth" });
@@ -40,8 +45,6 @@ const StorySection = ({ storyPostsData }) => {
 
   return (
     <div className="relative w-full">
-      {/* Left Scroll Button - Only visible when needed */}
-
       {showLeft && (
         <motion.button
           initial={{ y: -500, opacity: 0 }}
@@ -56,7 +59,7 @@ const StorySection = ({ storyPostsData }) => {
         </motion.button>
       )}
 
-      {/* Story container */}
+      {/* -----------------Story container------------------ */}
       <div
         ref={storyRef}
         className="
@@ -71,12 +74,11 @@ const StorySection = ({ storyPostsData }) => {
         id="story-scroll"
       >
         <StoryCard isAddStory={true} />
-        {storyPostsData?.map((storyData) => (
-          <StoryCard key={storyData._id} storyData={storyData} />
+        {story?.map((story) => (
+          <StoryCard key={story._id} story={story} />
         ))}
       </div>
 
-      {/* Right Scroll Button – always shown, or can also be conditional */}
       <button
         onClick={scrollRight}
         className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10

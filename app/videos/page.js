@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import LeftSideBar from "@/app/LeftSideBar";
-import { useAdminData } from "@/stores/useAdminData";
+import { useAdminData } from "@/store/useAdminData";
 
 const tags = [
   "All",

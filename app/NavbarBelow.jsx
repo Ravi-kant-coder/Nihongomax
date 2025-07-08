@@ -3,9 +3,9 @@
 import { useEffect, useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { BookOpen, MessageCircle, Home, Users } from "lucide-react";
-import useMsgStore from "@/stores/useMsgStore";
-import useNotificationStore from "@/stores/useNotificationStore";
-import useStudyStore from "@/stores/useStudyStore";
+import useMsgStore from "@/store/useMsgStore";
+import useNotificationStore from "@/store/useNotificationStore";
+import useStudyStore from "@/store/useStudyStore";
 import Spinner from "./Spinner";
 import StudyBox from "./StudyBox";
 

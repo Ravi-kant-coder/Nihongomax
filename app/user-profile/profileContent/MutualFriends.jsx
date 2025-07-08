@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, UserX } from "lucide-react";
-// import { userFriendStore } from "@/stores/userFriendsStore";
-// import toast from "react-hot-toast";
+import { userFriendStore } from "@/store/userFriendsStore";
+import toast from "react-hot-toast";
 const mutualFriends = [
   {
     _id: 1,
@@ -121,7 +121,8 @@ const MutualFriends = ({ id, isOwner }) => {
             {mutualFriends?.map((friend) => (
               <div
                 key={friend?._id}
-                className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg flex items-start justify-between"
+                className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg flex 
+                items-start justify-between"
               >
                 <div className="flex items-center space-x-4">
                   <Avatar>
@@ -132,7 +133,7 @@ const MutualFriends = ({ id, isOwner }) => {
                       />
                     ) : (
                       <AvatarFallback className="dark:bg-gray-400">
-                        {/* {userPlaceholder} */}
+                        {userPlaceholder}
                       </AvatarFallback>
                     )}
                   </Avatar>
@@ -141,7 +142,7 @@ const MutualFriends = ({ id, isOwner }) => {
                       {friend?.username}
                     </p>
                     <p className="text-sm text-gray-400">
-                      {/* {friend?.followerCount} folllowers */}100
+                      {friend?.followerCount} folllowers
                     </p>
                   </div>
                 </div>

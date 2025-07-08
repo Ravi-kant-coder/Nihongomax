@@ -15,13 +15,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import CoverImage from "./Girl.jpg";
-// import {
-// updateUserCoverPhoto,
-// updateUserProfile,
-// } from "@/service/user.service";
-// import userStore from "@/store/userStore";
-// import { useForm } from "react-hook-form";
+import {
+  updateUserCoverPhoto,
+  updateUserProfile,
+} from "@/service/user.service";
+import userStore from "@/store/userStore";
+import { useForm } from "react-hook-form";
 
 const ProfileHeader = ({
   id,
@@ -29,6 +28,7 @@ const ProfileHeader = ({
   isOwner,
   setProfileData,
   fetchProfile,
+  user,
 }) => {
   const [isEditProfileModel, setIsEditProfileModel] = useState(false);
   const [isEditCoverModel, setIsEditCoverModel] = useState(false);
@@ -37,15 +37,15 @@ const ProfileHeader = ({
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
   const [loading, setLaoding] = useState(false);
-  // const { setUser } = userStore();
+  const { setUser } = userStore();
 
-  // const { register, handleSubmit, setValue } = useForm({
-  //   defaultValues: {
-  //     username: profileData?.username,
-  //     dateOfBirth: profileData?.dateOfBirth?.split("T")[0],
-  //     gender: profileData?.gender,
-  //   },
-  // });
+  const { register, handleSubmit, setValue } = useForm({
+    defaultValues: {
+      username: profileData?.username,
+      dateOfBirth: profileData?.dateOfBirth?.split("T")[0],
+      gender: profileData?.gender,
+    },
+  });
 
   const profileImageInputRef = useRef();
   const coverImageInputRef = useRef();
@@ -98,7 +98,7 @@ const ProfileHeader = ({
       setIsEditCoverModel(false);
       setCoverPhotoFile(null);
     } catch (error) {
-      console.error("error updating user cover photo", error);
+      console.error("error updating Cover photo", error);
     } finally {
       setLaoding(false);
     }
@@ -118,7 +118,10 @@ const ProfileHeader = ({
     <div className="relative">
       {/* --------------------- Cover Photo & Edit Button---------------------------- */}
 
-      <div className="relative lg:h-80 lg:w-[90vw] mx-auto rounded-lg lg:mt-20 mt-10 h-50 bg-gray-400 overflow-hidden ">
+      <div
+        className="relative lg:h-80 lg:w-[90vw] mx-auto rounded-lg lg:mt-20 mt-10 h-50
+       bg-gray-400  dark:bg-gray-900 overflow-hidden "
+      >
         <img
           src={"./Horizontal2.jpg"}
           alt="cover"
@@ -145,18 +148,20 @@ const ProfileHeader = ({
         <div className="flex flex-col md:flex-row items-center md:items-end md:space-x-5 ">
           <Avatar className="w-32 h-32 border-4 border-white dark:border-gray-700">
             <AvatarImage
-              src={"./Girl.jpg"}
-              className="w-full h-full object-cover"
+              className="object-cover"
+              src={user?.profilePicture}
+              alt={user?.username}
             />
-            <AvatarFallback className="dark:bg-gray-400 text-4xl">
-              G
+            <AvatarFallback className="bg-gray-400 dark:bg-gray-900 text-4xl">
+              {user?.username.charAt(0)}
             </AvatarFallback>
           </Avatar>
 
           <div className="mt-4 mdLmt-0  text-center md:text-left flex-grow">
-            <h1 className="text-3xl  font-bold">Simran Kaur Dilwali</h1>
+            <h1 className="text-3xl  font-bold">{user?.username}</h1>
             <p className="text-gray-800 dark:text-gray-300 font-semibold">
-              4k friends
+              {user?.followerCount}{" "}
+              {user?.followerCount === 1 ? "friend" : "friends"}
             </p>
           </div>
           {
@@ -201,7 +206,7 @@ const ProfileHeader = ({
               </div>
               <form
                 className="space-y-4"
-                // onSubmit={handleSubmit(onSubmitProfile)}
+                onSubmit={handleSubmit(onSubmitProfile)}
               >
                 <div className="flex flex-col items-center mb-4">
                   <Avatar className="w-24 h-24 border-4 border-white mb-2">
@@ -214,8 +219,8 @@ const ProfileHeader = ({
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    // ref={profileImageInputRef}
-                    // onChange={handleProfilePictureChange}
+                    ref={profileImageInputRef}
+                    onChange={handleProfilePictureChange}
                   />
                   <Button
                     type="button"
@@ -232,7 +237,7 @@ const ProfileHeader = ({
                     Username
                   </Label>
                   <Input id="username" />
-                  {/* <Input id="username" {...register("username")} /> */}
+                  <Input id="username" {...register("username")} />
                 </div>
                 <div>
                   <Label className="mb-2" htmlFor="dateOfBirth">
@@ -241,7 +246,7 @@ const ProfileHeader = ({
                   <Input
                     id="dateOfBirth"
                     type="date"
-                    // {...register("dateOfBirth")}
+                    {...register("dateOfBirth")}
                   />
                 </div>
                 <RadioGroup defaultValue="Male">
@@ -259,34 +264,34 @@ const ProfileHeader = ({
                   </div>
                 </RadioGroup>
 
-                {/* 
-                  <Label htmlFor="gender">Gender</Label>
-                  <Select
-                  // onValueChange={(value) => setValue("gender", value)}
-                  // defaultValue={profileData?.gender}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Gender" />
-                    </SelectTrigger>
-                    <SelectContent className="cursor-pointer">
-                      <SelectItem
-                        className="cursor-pointer hover:bg-background"
-                        value="male"
-                      >
-                        Male
-                      </SelectItem>
-                      <SelectItem className="cursor-pointer" value="female">
-                        Female
-                      </SelectItem>
-                      <SelectItem className="cursor-pointer" value="other">
-                        Other
-                      </SelectItem>
-                    </SelectContent>
-                  </Select> */}
+                <Label htmlFor="gender">Gender</Label>
+                <Select
+                  onValueChange={(value) => setValue("gender", value)}
+                  defaultValue={profileData?.gender}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Gender" />
+                  </SelectTrigger>
+                  <SelectContent className="cursor-pointer">
+                    <SelectItem
+                      className="cursor-pointer hover:bg-background"
+                      value="male"
+                    >
+                      Male
+                    </SelectItem>
+                    <SelectItem className="cursor-pointer" value="female">
+                      Female
+                    </SelectItem>
+                    <SelectItem className="cursor-pointer" value="other">
+                      Other
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
 
                 <Button
                   type="submit"
-                  className="w-full dark:bg-black dark:hover:bg-gray-900 hover:bg-gray-600 text-white"
+                  className="w-full dark:bg-black dark:hover:bg-gray-900 hover:bg-gray-600
+                   text-white"
                 >
                   <Save className="w-4 h-4 mr-2" />{" "}
                   {loading ? "Saving..." : "Save changes"}

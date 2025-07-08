@@ -1,7 +1,7 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Users, MessageCircle, LogOutIcon } from "lucide-react";
-
+import userStore from "@/store/userStore";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,28 +13,26 @@ import {
 import { useRouter } from "next/navigation";
 import ThemeToggle from "@/app/ThemeToggle";
 
-const UserMenu = () => {
+const UserMenu = ({ handleLogout }) => {
+  const { user, clearUser } = userStore();
+
   const router = useRouter();
   const handleNavigation = (path, item) => {
     router.push(path);
   };
-  const dunny = { imgsrc: "/Girl.jpg", username: "Phuddu" };
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger
           asChild
-          className="font-semibold md:ml-20 cursor-pointer border  border-gray-400 rounded-full"
+          className="font-semibold md:ml-20 cursor-pointer border 
+          border-gray-400 rounded-full"
         >
           <div className="relative cursor-pointer scale-150">
             <Avatar>
-              <AvatarImage
-                className="object-cover "
-                src={dunny?.imgsrc}
-                alt={"byr"}
-              />
-              <AvatarFallback className="dark:bg-black">
-                {dunny?.username.charAt(0).toUpperCase()}
+              <AvatarImage src={user?.profilePicture} />
+              <AvatarFallback className="dark:bg-black text-sm">
+                {user?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </div>
@@ -45,18 +43,20 @@ const UserMenu = () => {
               <div className="flex items-center">
                 <Avatar className="cursor-pointer h-8 w-8 mr-4">
                   <AvatarImage
-                    src={dunny?.imgsrc}
-                    alt={"byr"}
+                    src={user?.profilePicture}
+                    alt={user?.username}
                     className="object-cover"
                   />
 
-                  <AvatarFallback className="dark:bg-gray-500 text-xl">
-                    {dunny?.username.charAt(0).toUpperCase()}
+                  <AvatarFallback className="dark:bg-gray-500">
+                    {user?.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="w-[70%]">
-                  <p className="text-sm font-medium ">Ravi Kant Gupta</p>
-                  <p className="text-xs text-gray-600">nihongomax@gmail.com</p>
+                  <p className="text-sm font-medium ">{user?.username}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-300">
+                    {user?.email}
+                  </p>
                 </div>
               </div>
             </div>
@@ -65,7 +65,7 @@ const UserMenu = () => {
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {
-              handleNavigation("/user-profile");
+              handleNavigation(`/user-profile/${user?._id}`);
             }}
           >
             <Users /> <span className="ml-2">My Profile</span>
@@ -84,7 +84,12 @@ const UserMenu = () => {
             <ThemeToggle />
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
+              handleLogout();
+            }}
+          >
             <LogOutIcon /> <span className="ml-2">Logout</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

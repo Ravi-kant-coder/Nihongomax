@@ -37,7 +37,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
           <button
             className="bg-green-700 lg:p-2 p-1 rounded flex justify-evenly items-center
              hover:text-white hover:bg-green-800 text-black cursor-pointer"
-            onClick={() => {}}
+            onClick={() => onAction("confirm", friend?._id)}
           >
             <UserPlus className="mr-2 lg:mr-0 h-4 w-4" /> Accept
           </button>
@@ -45,7 +45,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
             className="lg:mt-2 lg:ml-0 lg:p-2 p-1 ml-2 cursor-pointer rounded dark:bg-gray-700
              flex justify-evenly items-center hover:bg-gray-800 bg-black dark:text-black
               hover:dark:text-white text-white"
-            onClick={() => {}}
+            onClick={() => onAction("delete", friend?._id)}
           >
             <UserMinus className="mr-2 lg:mr-0 h-4 w-4" /> Delete
           </button>

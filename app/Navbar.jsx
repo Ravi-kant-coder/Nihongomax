@@ -1,12 +1,14 @@
 "use client";
+import { useEffect, useTransition, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import JapanGate from "../app/JapanGate";
 import { useRouter, usePathname } from "next/navigation";
-// import useSidebarStore from "../store/sidebarStore";
-import useMsgStore from "@/stores/useMsgStore";
-import useNotificationStore from "@/stores/useNotificationStore";
-import useStudyStore from "@/stores/useStudyStore";
-
+import useMsgStore from "@/store/useMsgStore";
+import useNotificationStore from "@/store/useNotificationStore";
+import useStudyStore from "@/store/useStudyStore";
+import { logout } from "@/service/auth.service";
+import { getAllUsers } from "@/service/user.service";
+import userStore from "@/store/userStore";
 import {
   Home,
   Users,
@@ -19,17 +21,27 @@ import {
   Dices,
   BriefcaseBusiness,
 } from "lucide-react";
-import { useEffect, useTransition } from "react";
 import NotificationBox from "@/app/NotificationBox";
 import SearchInNav from "@/app/SearchInNav";
 import MsgBox from "./MsgBox";
 import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
+import Image from "next/image";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { closeStudyBox } = useStudyStore();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [userList, setUserList] = useState([]);
+  const [filterUsers, setFilterUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("home");
+  const searchRef = useRef(null);
+  const { theme, setTheme } = useTheme();
+  const { user, clearUser } = userStore();
 
   const handleNavigation = (path) => {
     startTransition(() => {
@@ -52,7 +64,6 @@ const Navbar = () => {
     incrementNotification,
     unreadNotificationCount,
   } = useNotificationStore();
-  const { theme, setTheme } = useTheme();
 
   // const { toggleSidebar } = useSidebarStore();
 
@@ -65,7 +76,81 @@ const Navbar = () => {
   }, []);
 
   const pathname = usePathname();
+  const handleLogout = async () => {
+    try {
+      const result = await logout();
+      if (result?.status == "success") {
+        router.push("/user-login");
+        clearUser();
+      }
+      toast.success("user logged out successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("failed to log out");
+    }
+  };
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const result = await getAllUsers();
+        setUserList(result);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filterUser = userList.filter((user) => {
+        return user.username.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+      setFilterUsers(filterUser);
+      setIsSearchOpen(true);
+    } else {
+      setFilterUsers([]);
+      setIsSearchOpen(false);
+    }
+  }, [searchQuery, userList]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    setIsSearchOpen(false);
+  };
+
+  const handleUserClick = async (userId) => {
+    try {
+      setLoading(true);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+      await router.push(`user-profile/${userId}`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearchClose = (e) => {
+    if (!searchRef.current?.contains(e.target)) {
+      setIsSearchOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleSearchClose);
+    return () => {
+      document.removeEventListener("click", handleSearchClose);
+    };
+  });
+
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <header className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
       <div className="hidden md:block">
@@ -237,7 +322,7 @@ const Navbar = () => {
             );
           })}
           <div className="hidden md:block mr-2">
-            <UserMenu />
+            <UserMenu handleLogout={handleLogout} />
           </div>
         </div>
       </div>

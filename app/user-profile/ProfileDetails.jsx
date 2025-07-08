@@ -16,8 +16,8 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import MutualFriends from "./profileContent/MutualFriends";
 import EditBio from "./profileContent/EditBio";
-// import { usePostStore } from "@/store/usePostStore";
-// import { formatDateInDDMMYYY } from "@/lib/utils";
+import { usePostStore } from "@/store/usePostStore";
+import { formatDateInDDMMYYY } from "@/lib/utils";
 
 const ProfileDetails = ({
   activeTab,
@@ -26,80 +26,80 @@ const ProfileDetails = ({
   isOwner,
   fetchProfile,
 }) => {
-  const userPosts = [
-    {
-      _id: "1",
-      content: "Hellawww",
-      mediaUrl: "https://images.unsplash.com/photo-1634603660004-3b3b3b3b3b3b",
-      mediaType: "image",
-      comments: [
-        {
-          user: {
-            text: "Nice picture... Yuhuu",
-            username: "Sushil Kumari",
-            createdAt: "04-Jan-2024",
-          },
-          user: {
-            text: "Nice picture... Yuhuu",
-            username: "Sushil Kumari",
-            createdAt: "04-Jan-2024",
-          },
-          user: {
-            text: "Nice picture... Yuhuu",
-            username: "Sushil Kumari",
-            createdAt: "04-Jan-2024",
-          },
-        },
-      ],
-    },
-  ];
+  // const myUserPosts = [
+  //   {
+  //     _id: "1",
+  //     content: "Hellawww",
+  //     mediaUrl: "https://images.unsplash.com/photo-1634603660004-3b3b3b3b3b3b",
+  //     mediaType: "image",
+  //     comments: [
+  //       {
+  //         user: {
+  //           text: "Nice picture... Yuhuu",
+  //           username: "Sushil Kumari",
+  //           createdAt: "04-Jan-2024",
+  //         },
+  //         user: {
+  //           text: "Nice picture... Yuhuu",
+  //           username: "Sushil Kumari",
+  //           createdAt: "04-Jan-2024",
+  //         },
+  //         user: {
+  //           text: "Nice picture... Yuhuu",
+  //           username: "Sushil Kumari",
+  //           createdAt: "04-Jan-2024",
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ];
 
   const [isEditBioModel, setIsEditBioModel] = useState(false);
-  // const [likePosts, setLikePosts] = useState(new Set());
-  // const {
-  //   userPosts,
-  //   fetchUserPost,
-  //   handleLikePost,
-  //   handleCommentPost,
-  //   handleSharePost,
-  // } = usePostStore();
+  const [likePosts, setLikePosts] = useState(new Set());
+  const {
+    userPosts,
+    fetchUserPost,
+    handleLikePost,
+    handleCommentPost,
+    handleSharePost,
+  } = usePostStore();
 
-  // useEffect(() => {
-  //   if (id) {
-  //     fetchUserPost(id);
-  //   }
-  // }, [id, fetchUserPost]);
+  useEffect(() => {
+    if (id) {
+      fetchUserPost(id);
+    }
+  }, [id, fetchUserPost]);
 
-  // useEffect(() => {
-  //   const saveLikes = localStorage.getItem("likePosts");
-  //   if (saveLikes) {
-  //     setLikePosts(new Set(JSON.parse(saveLikes)));
-  //   }
-  // }, []);
+  useEffect(() => {
+    const saveLikes = localStorage.getItem("likePosts");
+    if (saveLikes) {
+      setLikePosts(new Set(JSON.parse(saveLikes)));
+    }
+  }, []);
 
-  // const handleLike = async (postId) => {
-  //   const updatedLikePost = new Set(likePosts);
-  //   if (updatedLikePost.has(postId)) {
-  //     updatedLikePost.delete(postId);
-  //     toast.error("post disliked successfully");
-  //   } else {
-  //     updatedLikePost.add(postId);
-  //     toast.success("post like successfully");
-  //   }
-  //   setLikePosts(updatedLikePost);
-  //   localStorage.setItem(
-  //     "likePosts",
-  //     JSON.stringify(Array.from(updatedLikePost))
-  //   );
+  const handleLike = async (postId) => {
+    const updatedLikePost = new Set(likePosts);
+    if (updatedLikePost.has(postId)) {
+      updatedLikePost.delete(postId);
+      toast.error("post disliked successfully");
+    } else {
+      updatedLikePost.add(postId);
+      toast.success("post like successfully");
+    }
+    setLikePosts(updatedLikePost);
+    localStorage.setItem(
+      "likePosts",
+      JSON.stringify(Array.from(updatedLikePost))
+    );
 
-  //   try {
-  //     await handleLikePost(postId);
-  //     await fetchPost();
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("failed to like or unlike the post");
-  //   }
-  // };
+    try {
+      await handleLikePost(postId);
+      await fetchPost();
+    } catch (error) {
+      console.error(error);
+      toast.error("failed to like or unlike the post");
+    }
+  };
 
   const tabContent = {
     posts: (
@@ -155,16 +155,16 @@ const ProfileDetails = ({
             <PostsContent
               key={post?._id}
               post={post}
-              // isLiked={likePosts.has(post?._id)}
-              // onLike={() => handleLike(post?._id)}
-              // onComment={async (comment) => {
-              //   await handleCommentPost(post?._id, comment.text);
-              //   await fetchUserPost(id);
-              // }}
-              // onShare={async () => {
-              //   await handleSharePost(post?._id);
-              //   await fetchUserPost(id);
-              // }}
+              isLiked={likePosts.has(post?._id)}
+              onLike={() => handleLike(post?._id)}
+              onComment={async (comment) => {
+                await handleCommentPost(post?._id, comment.text);
+                await fetchUserPost(id);
+              }}
+              onShare={async () => {
+                await handleSharePost(post?._id);
+                await fetchUserPost(id);
+              }}
             />
           ))}
         </div>

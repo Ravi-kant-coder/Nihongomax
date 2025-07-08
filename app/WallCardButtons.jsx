@@ -9,10 +9,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import userStore from "@/store/userStore";
+
 const comments = 2;
 const likes = 45;
 const shares = 12;
-
 const WallCardButtons = ({
   isLiked,
   onLike,
@@ -25,6 +26,8 @@ const WallCardButtons = ({
   handleCommentClick,
   commentInputRef,
 }) => {
+  const { user } = userStore();
+
   return (
     <div className="flex flex-col justify-center lg:p-4 p-2 gap-1 items-center dark:bg-[rgb(25,25,25)]">
       <div className="md:mb-5 mb-2 w-[90%] flex justify-between items-center text-sm dark:text-gray-400 text-gray-700">
@@ -77,8 +80,7 @@ const WallCardButtons = ({
             <DialogHeader>
               <DialogTitle>Share This Post</DialogTitle>
               <DialogDescription className="text-gray-900 dark:text-gray-300">
-                Choose how you want to Share this Post{" "}
-                {userDataObj?.user.username}
+                Choose how you want to Share this Post {user?.username}
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col space-y-4">

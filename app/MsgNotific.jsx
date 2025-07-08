@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowBigRight, X } from "lucide-react";
-import useMsgStore from "@/stores/useMsgStore";
-import useNotificationStore from "@/stores/useNotificationStore";
+import useMsgStore from "@/store/useMsgStore";
+import useNotificationStore from "@/store/useNotificationStore";
 const unreadmsgs = [
   {
     imageUrl: "/Horizontal1.jpg",

@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "../../components/ui/textarea";
-import { useAdminData } from "@/stores/useAdminData";
+import { useAdminData } from "@/store/useAdminData";
 
 const VideoUploadForm = () => {
   const { createQuery } = useAdminData();

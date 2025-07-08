@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { X, SendHorizonal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import SearchInNav from "./SearchInNav";
-import useMsgStore from "@/stores/useMsgStore";
-import useChatStore from "@/stores/useChatStore";
+import useMsgStore from "@/store/useMsgStore";
+import useChatStore from "@/store/useChatStore";
 import ChatList from "./ChatList";
 import OneChat from "./OneChat";
 const unreadmsgs = [
