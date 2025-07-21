@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { X, SendHorizonal } from "lucide-react";
+import { X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import SearchInNav from "./SearchInNav";
 import useMsgStore from "@/store/useMsgStore";

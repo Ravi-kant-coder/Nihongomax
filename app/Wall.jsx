@@ -5,10 +5,12 @@ import PostTrigger from "./PostTrigger";
 import StorySection from "./StorySection";
 import { usePostStore } from "@/store/usePostStore";
 import toast from "react-hot-toast";
+import ScrollupBtn from "./ScrollupBtn";
 
 const Wall = () => {
   const [isPostTriggerOpen, setIsPostTriggerOpen] = useState(false);
   const [likePosts, setLikePosts] = useState(new Set());
+
   const {
     posts,
     fetchPost,
@@ -63,7 +65,6 @@ const Wall = () => {
         <WallCard
           key={post._id}
           post={post}
-          isLiked={likePosts.has(post?._id)}
           onLike={() => handleLike(post?._id)}
           onComment={async (comment) => {
             await handleCommentPost(post?._id, comment.text);
@@ -75,6 +76,7 @@ const Wall = () => {
           }}
         />
       ))}
+      <ScrollupBtn />
     </div>
   );
 };

@@ -11,88 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, UserX } from "lucide-react";
 import { userFriendStore } from "@/store/userFriendsStore";
-import toast from "react-hot-toast";
-const mutualFriends = [
-  {
-    _id: 1,
-    mediaURL: "/Horizontal1.jpg",
-    mediaType: "image",
-    user: {
-      username: "Sangeeta Verma",
-    },
-  },
-  {
-    _id: 2,
-    mediaURL: "/Girl.jpg",
-    mediaType: "image",
-    user: {
-      username: "Ruby Bhatia",
-    },
-  },
-  {
-    _id: 3,
-    mediaURL: "Horizontal2.jpg",
-    mediaType: "image",
-    user: {
-      username: "Pramod Solanki",
-    },
-  },
-  {
-    _id: 4,
-    mediaURL:
-      "https://images.pexels.com/photos/29940495/pexels-photo-29940495/free-photo-of-elegant-fashion-editorial-portrait-in-london-studio.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    mediaType: "image",
-    user: {
-      username: "Mansi Yadav",
-    },
-  },
-  {
-    _id: 5,
-    mediaURL:
-      "https://images.pexels.com/photos/30375728/pexels-photo-30375728/free-photo-of-elegant-black-and-white-wedding-portrait.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    mediaType: "image",
-    user: {
-      username: "Anchal Gupta",
-    },
-  },
-  {
-    _id: 6,
-    mediaURL:
-      "https://images.pexels.com/photos/31890680/pexels-photo-31890680/free-photo-of-woman-in-white-dress-surrounded-by-monstera-leaves.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-    mediaType: "image",
-    user: {
-      username: "Bhavna Sharma",
-    },
-  },
-  {
-    _id: 7,
-    mediaURL:
-      "https://images.pexels.com/photos/31649556/pexels-photo-31649556/free-photo-of-elegant-model-in-fashionable-black-attire.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-    mediaType: "image",
-    user: {
-      username: "Meenakshi Malhotra",
-    },
-  },
-  {
-    _id: 8,
-    mediaURL:
-      "https://images.pexels.com/photos/31649556/pexels-photo-31649556/free-photo-of-elegant-model-in-fashionable-black-attire.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-    mediaType: "image",
-    user: {
-      username: "Priya Wadhwa",
-    },
-  },
-  {
-    _id: 9,
-    mediaURL:
-      "https://images.pexels.com/photos/2218786/pexels-photo-2218786.jpeg?auto=compress&cs=tinysrgb&w=600",
-    mediaType: "image",
-    user: {
-      username: "Krishna Gupta",
-    },
-  },
-];
-const MutualFriends = ({ id, isOwner }) => {
+
+const MutualFriends = ({ id, isOwner, profileData }) => {
   const { fetchMutualFriends, mutualFriends, UnfollowUser } = userFriendStore();
   useEffect(() => {
     if (id) {
@@ -102,7 +22,6 @@ const MutualFriends = ({ id, isOwner }) => {
 
   const handleUnfollow = async (userId) => {
     await UnfollowUser(userId);
-    toast.success("Unfollowed successfully");
   };
 
   return (
@@ -113,27 +32,28 @@ const MutualFriends = ({ id, isOwner }) => {
       className="mb-4"
     >
       <Card>
-        <CardContent className="p-6">
+        <CardContent
+          className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 
+            shadow-lg dark:shadow-black"
+        >
           <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
-            Mutual Friends
+            {isOwner ? "Your" : `${profileData?.username.split(" ")[0]}'s`}{" "}
+            Friends
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {mutualFriends?.map((friend) => (
               <div
                 key={friend?._id}
-                className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg flex 
-                items-start justify-between"
+                className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg flex items-start
+                 justify-between"
               >
                 <div className="flex items-center space-x-4">
                   <Avatar>
                     {friend?.profilePicture ? (
-                      <AvatarImage
-                        src={friend?.profilePicture}
-                        alt={friend?.username}
-                      />
+                      <AvatarImage src={friend?.profilePicture} />
                     ) : (
                       <AvatarFallback className="dark:bg-gray-400">
-                        {userPlaceholder}
+                        {friend?.username}
                       </AvatarFallback>
                     )}
                   </Avatar>
@@ -142,7 +62,7 @@ const MutualFriends = ({ id, isOwner }) => {
                       {friend?.username}
                     </p>
                     <p className="text-sm text-gray-400">
-                      {friend?.followerCount} folllowers
+                      {friend?.followerCount} followers
                     </p>
                   </div>
                 </div>

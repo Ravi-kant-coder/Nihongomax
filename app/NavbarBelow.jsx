@@ -1,5 +1,4 @@
 "use client";
-// import useSidebarStore from "../store/useSidebarStore";
 import { useEffect, useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { BookOpen, MessageCircle, Home, Users } from "lucide-react";
@@ -16,7 +15,6 @@ const NavbarBelow = () => {
   const { closeNotificationBox } = useNotificationStore();
   const { isStudyBoxOpen, toggleStudyBox, closeStudyBox } = useStudyStore();
   const [isPending, startTransition] = useTransition();
-  // const { toggleSidebar } = useSidebarStore();
   const handleNavigation = (path) => {
     startTransition(() => {
       router.push(path);

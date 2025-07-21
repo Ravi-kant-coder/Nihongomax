@@ -10,14 +10,10 @@ const ShowStoryPreview = ({
   onClose,
   onPost,
   isNewStory,
-  username,
-  avatar,
+  previewUsername,
+  previewAvatar,
   isLoading,
 }) => {
-  const userPlaceholder = username
-    ?.split(" ")
-    .map((name) => name[0])
-    .join("");
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-70 flex items-center
@@ -38,14 +34,16 @@ const ShowStoryPreview = ({
         </Button>
         <div className="absolute top-4 left-4 z-10 flex items-center ">
           <Avatar className="w-10 h-10 mr-2">
-            {avatar ? (
-              <AvatarImage src={avatar} alt={username} />
+            {previewAvatar ? (
+              <AvatarImage src={previewAvatar} />
             ) : (
-              <AvatarFallback>{userPlaceholder}</AvatarFallback>
+              <AvatarFallback>
+                {previewUsername?.split(" ")[0][0]?.toUpperCase()}
+              </AvatarFallback>
             )}
           </Avatar>
           <span className="text-gray-700 dark:text-gray-200 font-semibold">
-            {username}
+            By {previewUsername}
           </span>
         </div>
         <div

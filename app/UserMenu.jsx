@@ -12,9 +12,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "@/app/ThemeToggle";
+import Spinner from "./Spinner";
+import { useTransition } from "react";
 
 const UserMenu = ({ handleLogout }) => {
   const { user, clearUser } = userStore();
+  const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
   const handleNavigation = (path, item) => {
@@ -28,9 +31,12 @@ const UserMenu = ({ handleLogout }) => {
           className="font-semibold md:ml-20 cursor-pointer border 
           border-gray-400 rounded-full"
         >
-          <div className="relative cursor-pointer scale-150">
+          <div className="relative cursor-pointer md:scale-150">
             <Avatar>
-              <AvatarImage src={user?.profilePicture} />
+              <AvatarImage
+                src={user?.profilePicture}
+                className="object-cover"
+              />
               <AvatarFallback className="dark:bg-black text-sm">
                 {user?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
@@ -53,8 +59,10 @@ const UserMenu = ({ handleLogout }) => {
                   </AvatarFallback>
                 </Avatar>
                 <div className="w-[70%]">
-                  <p className="text-sm font-medium ">{user?.username}</p>
-                  <p className="text-xs text-gray-600 dark:text-gray-300">
+                  <p className="text-sm font-medium truncate">
+                    {user?.username}
+                  </p>
+                  <p className="text-xs text-gray-600 dark:text-gray-300 truncate">
                     {user?.email}
                   </p>
                 </div>
@@ -94,6 +102,15 @@ const UserMenu = ({ handleLogout }) => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      {isPending && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/60
+           dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity duration-300 
+           opacity-100"
+        >
+          <Spinner />
+        </div>
+      )}
     </div>
   );
 };

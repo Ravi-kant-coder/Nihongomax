@@ -11,6 +11,7 @@ import {
   Languages,
 } from "lucide-react";
 import Image from "next/image";
+import ScrollupBtn from "../ScrollupBtn";
 
 const dummySchools = [
   {
@@ -209,6 +210,7 @@ const SchoolCard = () => {
             </div>
           ))}
         </div>
+        <ScrollupBtn />
       </div>
     </>
   );

@@ -9,26 +9,22 @@ import { useParams } from "next/navigation";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
-import { motion } from "framer-motion";
-import { usePostStore } from "@/store/usePostStore";
-import AutoLoopVideo from "./AutoLoopVideo";
+import { AnimatePresence, motion } from "framer-motion";
+import CommentsShown from "./CommentsShown";
 
-const WallCard = ({ post, onLike, onShare, onComment }) => {
+const UserWallCard = ({ post, onLike, onShare, onComment }) => {
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const deletePost = usePostStore((state) => state.deleteUserPost);
   const commentInputRef = useRef(null);
   const [isPending, startTransition] = useTransition();
   const { user } = userStore();
   const params = useParams();
   const id = params.id;
   const router = useRouter();
+
   const handleCancel = () => {
     setShowDeleteModal(false);
-  };
-
-  const handleDpClick = () => {
-    router.push(`/user-profile/${post?.user?._id}`);
   };
 
   const generateSharedLink = () => {
@@ -59,36 +55,25 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
     setIsShareDialogOpen(false);
   };
 
-  const handleDelete = async () => {
-    setShowDeleteModal(false);
-    if (post?._id) {
-      try {
-        await deletePost(post?._id);
-      } catch (err) {
-        console.error("Delete failed", err);
-      }
-    }
-  };
-
   return (
     <div
-      className="bg-white dark:bg-[rgb(55,55,55)] dark:shadow-black rounded-lg
-    shadow-gray-400 dark:text-gray-300 shadow-lg dark:border-gray-500 
-    overflow-hidden mb-6"
+      className="bg-white dark:bg-[rgb(55,55,55)] dark:shadow-black 
+    shadow-gray-400 rounded-lg dark:text-gray-300 shadow-lg dark:border-gray-500 
+    overflow-hidden mb-10"
     >
       <div
-        className="flex items-center justify-between md:p-2 bg-accent dark:bg-[rgb(55,55,55)]
+        className="flex items-center justify-between lg:p-2 bg-accent dark:bg-[rgb(55,55,55)]
        rounded-t-lg"
       >
-        <div className="flex items-center" onClick={handleDpClick}>
+        <div className="flex items-center">
           <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
-            <Avatar className="cursor-pointer h-10 w-10 mr-3">
+            <Avatar className="h-10 w-10 mr-3">
               <AvatarImage
                 src={post?.user?.profilePicture}
                 alt={post?.user?.username}
                 className="object-cover"
               />
-              <AvatarFallback className="bg-gray-400 dark:bg-black capitalize">
+              <AvatarFallback className="bg-gray-400 dark:bg-gray-500">
                 {post?.user?.username
                   ?.split(" ")
                   .map((name) => name[0])
@@ -96,8 +81,8 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
               </AvatarFallback>
             </Avatar>
           </div>
-          <div className="md:w-60 w-40 font-semibold flex cursor-pointer hover:underline">
-            By {user?._id === post?.user?._id ? "you" : post?.user.username}
+          <div className="md:w-60 w-40 font-semibold flex">
+            By {user?._id === post?.user?._id ? "You" : post?.user.username}
           </div>
         </div>
         <div className="flex">
@@ -113,13 +98,6 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
                rounded border border-gray-400 bg-gray-100 
               flex flex-col items-center justify-center hover:border-red-600"
             >
-              {" "}
-              <span
-                className="text-[10px] group-hover:text-red-700
-               group-hover:dark:text-red-500 capitalize"
-              >
-                {post?.user?.username.split(" ")[0]}
-              </span>
               <Trash2
                 className="h-5 w-6 group-hover:text-red-700 text-gray-600 dark:text-gray-300
                group-hover:dark:text-red-500"
@@ -128,14 +106,14 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
                 className="text-[10px] group-hover:text-red-700
                group-hover:dark:text-red-500"
               >
-                Delete?
+                Delete
               </span>
             </button>
           )}
         </div>
       </div>
       {user?._id !== post?.user?._id && (
-        <p className="mb-4 ml-4 p-2 dark:text-gray-300">{post?.content}</p>
+        <p className="mb-4 p-2 dark:text-gray-300">{post?.content}</p>
       )}
       {user?._id === post?.user?._id && (
         <div className="p-2">
@@ -151,9 +129,12 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
         />
       )}
       {post?.mediaUrl && post.mediaType === "video" && (
-        <AutoLoopVideo src={post?.mediaUrl} />
+        <video controls className="w-full h-[500px] rounded mb-4">
+          <source src={post?.mediaUrl} type="video/mp4" />
+          Your browser does not support video tag
+        </video>
       )}
-      {/* --------------------Delete Confirmation Modal------------------- */}
+      {/* ---------------Delete Confirmation Modal------------ */}
       {showDeleteModal && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -161,7 +142,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center"
         >
           <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
+            <h2 className="text-center text-red-600 dark:text-white">
               Delete this post {user?.username.split(" ")[0]}?
             </h2>
             <p className="text-sm dark:text-gray-300 text-center my-2">
@@ -179,7 +160,6 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
               <button
                 className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
               cursor-pointer text-white text-sm"
-                onClick={handleDelete}
               >
                 Yes, Delete
               </button>
@@ -188,7 +168,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
         </motion.div>
       )}
 
-      {/* ------------------------Spinner-------------------------- */}
+      {/* ---------------Spinner------------ */}
       {isPending && (
         <div
           className="fixed inset-0 flex items-center justify-center bg-white/60
@@ -202,13 +182,30 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
         onLike={onLike}
         isShareDialogOpen={isShareDialogOpen}
         setIsShareDialogOpen={setIsShareDialogOpen}
-        onComment={onComment}
+        setShowComments={setShowComments}
+        showComments={showComments}
         commentInputRef={commentInputRef}
         handleShare={handleShare}
         post={post}
       />
+      <AnimatePresence>
+        {showComments && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <CommentsShown
+              post={post}
+              onComment={onComment}
+              commentInputRef={commentInputRef}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
-export default WallCard;
+export default UserWallCard;

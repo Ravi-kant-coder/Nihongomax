@@ -5,6 +5,8 @@ import ProfileTabs from "../ProfileTabs";
 import { useParams } from "next/navigation";
 import { fetchUserProfile } from "@/service/user.service";
 import userStore from "@/store/userStore";
+import ScrollupBtn from "@/app/ScrollupBtn";
+
 const Page = () => {
   const { user } = userStore();
   const params = useParams();
@@ -38,7 +40,7 @@ const Page = () => {
 
   return (
     <>
-      <div className="">
+      <div>
         <ProfileHeader
           user={user}
           profileData={profileData}
@@ -56,6 +58,7 @@ const Page = () => {
           fetchProfile={fetchProfile}
         />
       </div>
+      <ScrollupBtn />
     </>
   );
 };

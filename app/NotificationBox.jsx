@@ -99,7 +99,7 @@ const NotificationBox = () => {
                       className="object-cover"
                     />
                     <AvatarFallback className="bg-gray-400 dark:bg-gray-500 text-xl">
-                      {friend?.username.charAt(0).toUpperCase()}
+                      {friend?.username?.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 </div>
@@ -136,7 +136,7 @@ const NotificationBox = () => {
         </p>
         <MsgNotific />
         <p className="text-sm text-white bg-black/50 text-center dark:text-gray-300 my-2">
-          No New Notification animation like in page
+          No New Notification animation like in Friends page
         </p>
       </motion.div>
     </div>

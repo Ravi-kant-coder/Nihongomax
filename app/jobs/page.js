@@ -11,6 +11,7 @@ import {
   Languages,
 } from "lucide-react";
 import TimeAndDate from "../TimeAndDate";
+import ScrollupBtn from "../ScrollupBtn";
 
 const dummyJobs = [
   {
@@ -211,6 +212,7 @@ const Jobcard = () => {
           })}
         </div>
       </div>
+      <ScrollupBtn />
     </>
   );
 };

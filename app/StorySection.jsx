@@ -62,15 +62,8 @@ const StorySection = () => {
       {/* -----------------Story container------------------ */}
       <div
         ref={storyRef}
-        className="
-          flex 
-          overflow-x-auto 
-          lg:overflow-x-hidden 
-          scrollbar-hide 
-          snap-x 
-          snap-mandatory 
-          space-x-2
-          pt-2"
+        className="flex overflow-x-auto md:overflow-x-hidden scrollbar-hide snap-x snap-mandatory 
+          space-x-2 pt-2"
         id="story-scroll"
       >
         <StoryCard isAddStory={true} />

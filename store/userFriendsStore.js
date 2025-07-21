@@ -6,7 +6,6 @@ import {
   getMutualFriends,
   UnfollowUser,
 } from "@/service/user.service";
-import toast from "react-hot-toast";
 import { create } from "zustand";
 
 export const userFriendStore = create((set, get) => ({
@@ -69,7 +68,6 @@ export const userFriendStore = create((set, get) => ({
     set({ loading: true });
     try {
       await deleteUserFromRequest(userId);
-      toast.success("you have deleted friend successfully");
     } catch (error) {
       set({ error, loading: false });
     }

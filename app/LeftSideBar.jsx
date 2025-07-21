@@ -21,7 +21,7 @@ import { motion } from "framer-motion";
 import Spinner from "./Spinner";
 
 const LeftSideBar = () => {
-  const { user, clearUser } = userStore();
+  const { user } = userStore();
   const {
     isMsgBoxOpen,
     toggleMsgBox,
@@ -68,24 +68,22 @@ const LeftSideBar = () => {
               closeMsgBox();
               closeNotificationBox();
             }}
-            className="flex items-center border group space-x-2 cursor-pointer
-             dark:hover:bg-[rgb(55,55,55)] hover:bg-gray-400 p-1 rounded-md"
+            className="flex items-center group space-x-2 cursor-pointer
+             dark:hover:bg-[rgb(55,55,55)] hover:bg-white p-1 rounded-md"
           >
-            <Avatar className="h-10 w-10">
+            {" "}
+            <Avatar className="h-9 w-9 cursor-pointer">
               <AvatarImage
                 className="object-cover"
                 src={user?.profilePicture}
-                alt={user?.username}
               />
-              <AvatarFallback
-                className="font-semibold text-lg dark:bg-gray-500
-               bg-gray-200 dark:text-white group-hover:bg-gray-300"
-              >
+              <AvatarFallback className="bg-gray-400 dark:bg-black dark:text-white">
                 {user?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <span className="font-semibold">{user?.username}</span>
+            <span className="font-semibold capitalize">{user?.username}</span>
           </div>
+
           <motion.button
             whileHover={{ y: -3 }}
             transition={{ type: "spring", stiffness: 300 }}

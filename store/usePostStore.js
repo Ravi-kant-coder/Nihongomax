@@ -6,11 +6,12 @@ import {
   likePost,
   sharePost,
   createStory,
-  commentsPost
+  commentsPost,
+  deletePost,
 } from "@/service/post.service";
 import toast from "react-hot-toast";
 import { create } from "zustand";
-
+import userStore from "@/store/userStore"; // adjust path as needed
 export const usePostStore = create((set) => ({
   posts: [],
   userPosts: [],
@@ -27,6 +28,20 @@ export const usePostStore = create((set) => ({
     } catch (error) {
       set({ error, loading: false });
     }
+  },
+
+  //delete user posts
+  deleteUserPost: async (userId) => {
+    set({ loading: true });
+    try {
+      const deletedPost = await deletePost(userId);
+      set({ post, loading: false });
+    } catch (error) {
+      set({ error, loading: false });
+    }
+    set((state) => ({
+      posts: state.posts.filter((p) => p._id !== id),
+    }));
   },
 
   //fetch user posts
@@ -50,35 +65,63 @@ export const usePostStore = create((set) => ({
     }
   },
 
-  //create a new post
   handleCreatePost: async (postData) => {
     set({ loading: true });
+
     try {
-      const newPost = await createPost(postData);
+      const newPostRaw = await createPost(postData);
+
+      // Get user from userStore
+      const { user } = userStore.getState();
+
+      // Inject user info into the post
+      const newPost = {
+        ...newPostRaw,
+        user: {
+          _id: user._id,
+          username: user.username,
+          profilePicture: user.profilePicture,
+        },
+      };
+
+      // Add to Zustand posts
       set((state) => ({
         posts: [newPost, ...state.posts],
         loading: false,
       }));
-      toast.success("Post created successfully");
+
+      return newPost; // optional, still returns for chaining
     } catch (error) {
       set({ error, loading: false });
-      toast.error("failed to create a post");
+      throw error;
     }
   },
 
-  //create a new story
   handleCreateStory: async (storyData) => {
     set({ loading: true });
     try {
-      const newStory = await createStory(storyData);
+      const newStoryRaw = await createStory(storyData);
+      // Get user from userStore
+      const { user } = userStore.getState();
+      // Inject user info into the Story
+      const newStory = {
+        ...newStoryRaw,
+        user: {
+          _id: user._id,
+          username: user.username,
+          profilePicture: user.profilePicture,
+        },
+      };
+      // Add to Zustand Story
       set((state) => ({
         story: [newStory, ...state.story],
         loading: false,
       }));
-      toast.success("Story created successfully");
+
+      return newStory;
     } catch (error) {
       set({ error, loading: false });
-      toast.error("failed to create a story");
+      throw error;
     }
   },
 
@@ -86,41 +129,37 @@ export const usePostStore = create((set) => ({
   handleLikePost: async (postId) => {
     set({ loading: true });
     try {
-       await likePost(postId);
+      await likePost(postId);
     } catch (error) {
       set({ error, loading: false });
     }
   },
 
   //create a new story
-  handleCommentPost: async (postId,text) => {
+  handleCommentPost: async (postId, text) => {
     set({ loading: true });
     try {
-      const newComments = await commentsPost(postId, {text});
-       set((state) =>({
-         posts: state.posts.map((post) => 
-            post?._id === postId
-             ? {...post,comments: [...post.comments, newComments]}
-             :post
+      const newComments = await commentsPost(postId, { text });
+      set((state) => ({
+        posts: state.posts.map((post) =>
+          post?._id === postId
+            ? { ...post, comments: [...post.comments, newComments] }
+            : post
         ),
-       }))
+      }));
       toast.success("Comments added successfully");
     } catch (error) {
       set({ error, loading: false });
-      toast.error("failed to add comments");
     }
   },
-
 
   //create a new story
   handleSharePost: async (postId) => {
     set({ loading: true });
     try {
-       await sharePost(postId);
-       toast.success("post share successfully");
+      await sharePost(postId);
     } catch (error) {
       set({ error, loading: false });
-      toast.error('failed to share this post')
     }
   },
 }));

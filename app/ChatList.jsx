@@ -210,7 +210,7 @@ const ChatList = () => {
           </div>
         </motion.div>
       )}
-      {/* ---------------Delete Confirmation Modal------------ */}
+      {/* ---------------Block Confirmation Modal------------ */}
       {showBlockModal && (
         <motion.div
           initial={{ opacity: 0 }}

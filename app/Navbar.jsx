@@ -26,7 +26,6 @@ import SearchInNav from "@/app/SearchInNav";
 import MsgBox from "./MsgBox";
 import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
-import Image from "next/image";
 import toast from "react-hot-toast";
 
 const Navbar = () => {

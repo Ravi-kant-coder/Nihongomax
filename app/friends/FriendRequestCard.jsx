@@ -1,7 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserMinus, UserPlus } from "lucide-react";
 
-const FriendRequestCard = ({ friend, onAction }) => {
+const FriendRequestCard = ({
+  friend,
+  onAction,
+  handleFriendClick,
+  deleteUserFromRequest,
+}) => {
   return (
     <div
       className="flex items-center lg:block bg-white dark:bg-black lg:p-4 p-2 shadow 
@@ -11,6 +16,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
         <Avatar
           className="cursor-pointer h-12 w-12 lg:h-30 lg:w-30 hover:ring-3
          hover:ring-gray-600 hover:ring-offset-1 transition duration-100 mx-5"
+          onClick={handleFriendClick}
         >
           <AvatarImage
             src={friend?.profilePicture}
@@ -29,7 +35,8 @@ const FriendRequestCard = ({ friend, onAction }) => {
       <div className="pb-1">
         <h3
           className="text-lg hover:underline cursor-pointer font-semibold md:text-center 
-        md:mb-4 truncate"
+        md:mb-4 truncate capitalize"
+          onClick={handleFriendClick}
         >
           {friend?.username}
         </h3>

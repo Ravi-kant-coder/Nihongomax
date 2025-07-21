@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserPlus } from "lucide-react";
 
-const FriendSuggestion = ({ friend, onAction }) => {
+const FriendSuggestion = ({ friend, onAction, handleFriendClick }) => {
   return (
     <div
       className="flex items-center lg:block bg-white dark:bg-black lg:p-4 p-2
@@ -11,6 +11,7 @@ const FriendSuggestion = ({ friend, onAction }) => {
         <Avatar
           className="cursor-pointer h-12 w-12 lg:h-30 lg:w-30 hover:ring-3
          hover:ring-gray-600 hover:ring-offset-1 transition duration-100 mx-5"
+          onClick={handleFriendClick}
         >
           <AvatarImage
             src={friend?.profilePicture}
@@ -29,7 +30,8 @@ const FriendSuggestion = ({ friend, onAction }) => {
       <div className="pb-1">
         <h3
           className="text-lg hover:underline cursor-pointer font-semibold text-center
-         md:mb-4 truncate"
+         md:mb-4 truncate capitalize"
+          onClick={handleFriendClick}
         >
           {friend?.username}
         </h3>

@@ -6,6 +6,7 @@ import userStore from "@/store/userStore";
 import { usePostStore } from "@/store/usePostStore";
 import React, { useRef, useState } from "react";
 import ShowStoryPreview from "./ShowStoryPreview";
+import AutoLoopVideo from "./AutoLoopVideo";
 
 const StoryCard = ({ isAddStory, story }) => {
   const { user } = userStore();
@@ -17,10 +18,7 @@ const StoryCard = ({ isAddStory, story }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [isNewStory, setIsNewStory] = useState(false);
   const fileInputRef = useRef(null);
-  const userPlaceholder = story?.user?.username
-    ?.split(" ")
-    .map((name) => name[0])
-    .join("");
+  const userPlaceholder = user?.username?.split(" ")[0][0]?.toUpperCase();
 
   const handleFileChnage = (e) => {
     const file = e.target.files[0];
@@ -71,11 +69,11 @@ const StoryCard = ({ isAddStory, story }) => {
   return (
     <div
       className="md:min-w-[100px] md:h-[180px] min-w-[80px] overflow-hidden rounded-md 
-    shadow-lg shadow-gray-400 dark:shadow-[rgb(20,20,20)] mb-4 cursor-pointer"
+      shadow-lg shadow-gray-400 dark:shadow-[rgb(20,20,20)] mb-4"
     >
       <Card
         className="w-full h-full opacity-90 duration-200 hover:opacity-100 hover:scale-102
-        object-cover snap-start shrink-0 relative group dark:bg-[rgb(35,35,35)] bg-accent"
+          object-cover snap-start shrink-0 relative group dark:bg-[rgb(35,35,35)] bg-accent"
         onClick={isAddStory ? undefined : handleStoryClick}
       >
         <CardContent className="p-0 h-full">
@@ -89,30 +87,33 @@ const StoryCard = ({ isAddStory, story }) => {
                     alt={user?.username}
                   />
                   <AvatarFallback
-                    className="flex justify-center bg-gray-400 items-center 
-                  text-4xl dark:text-white dark:bg-black"
+                    className="flex justify-center bg-gray-400 items-center text-4xl
+                      dark:text-white dark:bg-black "
                   >
                     {userPlaceholder}
                   </AvatarFallback>
                 </Avatar>
               </div>
               <div
-                className="w-full dark:bg-[rgb(65,65,65)] bg-accent flex flex-col border
-                 items-center justify-center border-gray-300 rounded-b-lg hover:bg-gray-300
-                  cursor-pointer p-1"
+                className="w-full dark:bg-[rgb(65,65,65)] bg-accent flex flex-col border p-1
+                  items-center justify-center border-gray-300 rounded-b-lg hover:bg-gray-300
+                  cursor-pointer dark:border-[rgb(45,45,45)] dark:hover:bg-[rgb(45,45,45)]"
                 onClick={() => fileInputRef.current.click()}
               >
                 <button>
-                  <div className="cursor-pointer h-6 w-6">
+                  <div
+                    className="h-6 w-6 cursor-pointer dark:hover:bg-[rgb(15,15,15)]
+                  hover:bg-[rgb(150,150,150)] rounded-full"
+                  >
                     <Plus />
                   </div>
                 </button>
-                <p
-                  className="text-xs font-semibold dark:font-normal
-                 dark:text-white text-center"
-                >
+                <h3 className="text-xs font-semibold dark:font-normal dark:text-white text-center">
                   Create Story
-                </p>
+                  <p className="truncate md:max-w-[85px] max-w-[65px]">
+                    {user?.username?.split(" ")[0]}
+                  </p>
+                </h3>
               </div>
               <input
                 type="file"
@@ -128,18 +129,14 @@ const StoryCard = ({ isAddStory, story }) => {
                 <img
                   src={story?.mediaUrl}
                   alt={story?.user?.username}
-                  className="w-full max-w-[100px] h-full object-cover"
+                  className="w-full h-full object-cover cursor-pointer"
                 />
               ) : (
-                <video
-                  src={story?.mediaUrl}
-                  alt={story?.user?.username}
-                  className="w-full max-w-[100px] h-full object-cover"
-                />
+                <AutoLoopVideo src={story?.mediaUrl} />
               )}
               <div
-                className="absolute top-2 left-2 ring-2 ring-gray-500 rounded-full 
-              hover:ring-3 hover:ring-gray-600 hover:ring-offset-1 transition duration-100"
+                className="absolute top-2 left-2 ring-2 ring-black rounded-full
+               cursor-pointer"
               >
                 <Avatar>
                   <AvatarImage
@@ -148,20 +145,18 @@ const StoryCard = ({ isAddStory, story }) => {
                   />
                   <AvatarFallback
                     className="w-full h-full flex justify-center text-xl 
-                  bg-gray-400 items-center dark:text-white dark:bg-[rgb(55,55,55)]"
+                    bg-gray-400 items-center dark:text-white dark:bg-[rgb(55,55,55)]"
                   >
-                    {userPlaceholder}
+                    {story?.user?.username.split(" ")[0][0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>
-              <div className="absolute bottom-0 left-2">
-                <p
-                  className="text-white rounded max-w-[85px] text-xs inline-block bg-black/70
-                   px-2 py-1 truncate"
-                >
-                  {`${story?.user?.username?.split(" ")[0]}`}
-                </p>
-              </div>
+              <p
+                className="text-white text-xs bg-black/70 rounded p-1 truncate
+                absolute bottom-1 left-1 right-2 "
+              >
+                {story?.user?.username}
+              </p>
             </>
           )}
         </CardContent>
@@ -173,8 +168,8 @@ const StoryCard = ({ isAddStory, story }) => {
           onClose={handleClosePreview}
           onPost={handleCreateStoryPost}
           isNewStory={isNewStory}
-          username={isNewStory ? user?.username : story?.user?.username}
-          avatar={
+          previewUsername={isNewStory ? user?.username : story?.user?.username}
+          previewAvatar={
             isNewStory ? user?.profilePicture : story?.user?.profilePicture
           }
           isLoading={loading}

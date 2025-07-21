@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const Line = ({ guess }) => {
   const tile = [];
   tile.push(guess);
-  return <div>d</div>;
+  return <div>Line</div>;
 };
 
 export default Line;

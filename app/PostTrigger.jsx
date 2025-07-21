@@ -27,26 +27,16 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
   const [loading, setLoading] = useState(false);
-  const { handleCreatePost } = usePostStore();
-  const [selectedFiles, setSelectedFiles] = useState([]);
   const [showImageUpload, setShowImageUpload] = useState(false);
   const fileInputRef = useRef(null);
   const handleEmojiClick = (emoji) => {
     setPostContent((prev) => prev + emojiObject.emoji);
   };
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files).slice(0, 4 - selectedFiles.length);
-    const updatedFiles = [...selectedFiles, ...files].slice(0, 4);
-
-    const previews = updatedFiles.map((file) => ({
-      url: URL.createObjectURL(file),
-      type: file.type.startsWith("video") ? "video" : "image",
-      file,
-    }));
-
-    setSelectedFiles(updatedFiles);
-    setFilePreviews(previews);
+  const handleFileChnage = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file), setFileType(file.type);
+    setFilePreview(URL.createObjectURL(file));
   };
 
   const handlePost = async () => {
@@ -54,38 +44,27 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
       setLoading(true);
       const formData = new FormData();
       formData.append("content", postContent);
-
-      selectedFiles.forEach((file) => {
-        formData.append("media[]", file);
-      });
-
-      const result = await handleCreatePost(formData);
+      if (selectedFile) {
+        formData.append("media", selectedFile);
+      }
+      await usePostStore.getState().handleCreatePost(formData);
       setPostContent("");
-      setSelectedFiles([]);
-      setFilePreviews([]);
+      setSelectedFile(null);
+      setFilePreview(null);
       setIsPostTriggerOpen(false);
-      setLoading(false);
     } catch (error) {
+      console.error(error);
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Card
-      className="dark:bg-[rgb(35,35,35)] lg:mb-2 shadow-md shadow-gray-400
-     dark:shadow-[rgb(20,20,20)] w-full"
-    >
-      <CardContent
-        className="dark:bg-[rgb(65,65,65)] lg:py-6 py-4 lg:pb-2 md:pb-2
-       rounded-lg "
-      >
+    <Card className="lg:mb-2 shadow-md shadow-gray-400 dark:shadow-[rgb(20,20,20)] w-full">
+      <CardContent className="dark:bg-[rgb(45,45,45)] lg:py-6 py-4 lg:pb-2 md:pb-2 rounded-lg">
         <div className="flex ">
-          <Avatar className="h-9 w-9 cursor-pointer">
-            <AvatarImage
-              className="object-cover"
-              src={user?.profilePicture}
-              alt={user?.username}
-            />
+          <Avatar className="h-9 w-9">
+            <AvatarImage className="object-cover" src={user?.profilePicture} />
             <AvatarFallback
               className="bg-gray-300 dark:bg-gray-500 hover:bg-gray-300
              dark:text-white"
@@ -93,7 +72,6 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
               {user?.username.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-
           <Dialog open={isPostTriggerOpen} onOpenChange={setIsPostTriggerOpen}>
             <div className="w-full px-4 cursor-pointer ">
               <DialogTrigger className="w-full">
@@ -111,7 +89,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                 <div className="lg:flex md:flex md:justify-center hidden lg:justify-between">
                   <div
                     className="px-4 p-2 cursor-pointer rounded-lg flex items-center mt-2
-                   justify-center hover:bg-gray-300 dark:hover:bg-[rgb(36,37,38)]
+                   justify-center hover:bg-gray-300 dark:hover:bg-black
                     dark:text-white"
                   >
                     <ImageIcon className="h-5 w-5 text-green-500 mr-2" />
@@ -119,7 +97,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                   </div>
                   <div
                     className="px-4 p-2 hover:bg-gray-300 cursor-pointer rounded-lg
-                   flex items-center mt-2 justify-center dark:hover:bg-[rgb(36,37,38)]
+                   flex items-center mt-2 justify-center dark:hover:bg-black
                     dark:text-white"
                   >
                     <VideoIcon className="h-5 w-5 text-red-500 mr-2" />
@@ -127,7 +105,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                   </div>
                   <div
                     className="px-4 p-2 cursor-pointer rounded-lg flex items-center mt-2
-                   justify-center hover:bg-gray-300 dark:hover:bg-[rgb(36,37,38)]
+                   justify-center hover:bg-gray-300 dark:hover:bg-black
                     dark:text-white"
                   >
                     <Laugh className="h-5 w-5 text-yellow-500 mr-2" />
@@ -142,7 +120,10 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
               </DialogHeader>
               <div className="flex items-center space-x-3 py-4">
                 <Avatar>
-                  <AvatarImage />
+                  <AvatarImage
+                    className="object-cover"
+                    src={user?.profilePicture}
+                  />
                   <AvatarFallback className="dark:bg-gray-800">
                     {user?.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
@@ -165,58 +146,37 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="relative mt-4 grid grid-cols-2 lg:grid-cols-4 gap-4"
+                    className="relative mt-4 cursor-pointer border border-dashed border-gray-400
+                    rounded-lg flex items-center justify-center hover:bg-gray-300 group
+                    dark:hover:bg-[rgb(36,37,38)] p-2"
+                    onClick={() => fileInputRef.current.click()}
                   >
-                    {filePreviews.map((preview, index) => (
-                      <div
-                        key={index}
-                        className="relative w-full aspect-square overflow-hidden rounded-lg border"
-                      >
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="absolute top-1 right-1 z-10 bg-white/70 dark:bg-black/70"
-                          onClick={() => {
-                            const updatedPreviews = [...filePreviews];
-                            updatedPreviews.splice(index, 1);
-                            setFilePreviews(updatedPreviews);
-
-                            const updatedFiles = [...selectedFiles];
-                            updatedFiles.splice(index, 1);
-                            setSelectedFiles(updatedFiles);
-                          }}
+                    {filePreview ? (
+                      fileType.startsWith("image") ? (
+                        <img
+                          src={filePreview}
+                          alt="preview_img"
+                          className="w-full h-auto max-h-[200px] object-cover"
+                        />
+                      ) : (
+                        <video
+                          controls
+                          src={filePreview}
+                          className="w-full h-auto max-h-[200px] object-cover"
+                        />
+                      )
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <Plus
+                          className="h-12 w-12 text-gray-400 mb-2 cursor-pointer 
+                        group-hover:text-gray-600 dark:group-hover:text-white"
+                        />
+                        <p
+                          className="text-center group-hover:text-black
+                        dark:group-hover:text-white text-gray-500 "
                         >
-                          <X className="h-4 w-4" />
-                        </Button>
-                        {preview.type === "image" ? (
-                          <img
-                            src={preview.url}
-                            alt={`preview-${index}`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <video
-                            src={preview.url}
-                            controls
-                            className="w-full h-full object-cover"
-                          />
-                        )}
-                      </div>
-                    ))}
-
-                    {filePreviews.length < 4 && (
-                      <div
-                        className="relative cursor-pointer border border-dashed border-gray-400
-                                    rounded-lg flex items-center justify-center hover:bg-gray-200
-                                     dark:hover:bg-[rgb(36,37,38)] p-4"
-                        onClick={() => fileInputRef.current.click()}
-                      >
-                        <div className="flex flex-col justify-center items-center">
-                          <Plus className="h-8 w-8 text-gray-400 mb-2" />
-                          <p className="text-xs text-center">
-                            Add Photos/Videos
-                          </p>
-                        </div>
+                          Add Photos/Videos
+                        </p>
                       </div>
                     )}
 
@@ -225,13 +185,12 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                       accept="image/*,video/*"
                       className="hidden"
                       multiple
-                      onChange={handleFileChange}
+                      onChange={handleFileChnage}
                       ref={fileInputRef}
                     />
                   </motion.div>
                 )}
               </AnimatePresence>
-
               <div className="bg-gray-300 p-4 rounded-lg mt-4 dark:bg-[rgb(40,40,40)]">
                 <p className="font-semibold mb-2">Add to your Post</p>
                 <div className="flex space-x-2">
@@ -275,12 +234,12 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute top-2 right-2 z-10"
+                    className="absolute top-2 right-2 z-10 hover:bg-amber-200 cursor-pointer"
                     onClick={() => {
                       setShowEmojiPicker(false);
                     }}
                   >
-                    <X className="h-4 w-4"></X>
+                    <X className="h-4 w-4" />
                   </Button>
                   <Picker onEmojiClick={handleEmojiClick} />
                 </motion.div>
@@ -291,7 +250,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                  dark:hover:bg-gray-900 cursor-pointer hover:bg-black"
                   onClick={handlePost}
                 >
-                  {loading ? "Saving..." : "POST"}
+                  {loading ? "Posting..." : "POST"}
                 </Button>
               </div>
             </DialogContent>

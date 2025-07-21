@@ -5,8 +5,9 @@ import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import FriendRequestCard from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";
 import { userFriendStore } from "@/store/userFriendsStore";
-
-import toast from "react-hot-toast";
+import userStore from "@/store/userStore";
+import ScrollupBtn from "../ScrollupBtn";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const {
@@ -22,13 +23,19 @@ const Page = () => {
     mutualFriends,
   } = userFriendStore();
 
+  const router = useRouter();
+  const { user } = userStore();
+
+  const handleDpClick = () => {
+    router.push(`/user-profile/${friendSuggestion?._id}`);
+  };
+
   useEffect(() => {
     fetchFriendRequest(), fetchFriendSuggestion();
   }, []);
 
   const handleAction = async (action, userId) => {
     if (action === "confirm") {
-      toast.success("friend added successfully");
       await followUser(userId);
       fetchFriendRequest();
       fetchFriendSuggestion();
@@ -46,11 +53,12 @@ const Page = () => {
       </div>
       <div className="">
         <main className="md:ml-80 mx-4 mb-20">
-          <h1 className="text-2xl font-bold mb-6">
+          <h1 className="text-2xl font-semibold mb-6">
             {friendRequest.length > 0
               ? `You Received ${friendRequest.length} `
               : "No "}
-            Friend Requests
+            {friendRequest.length === 1 ? "Friend" : "Friends"}{" "}
+            {friendRequest.length === 1 ? "Request" : "Requests"}
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {loading ? (
@@ -63,16 +71,19 @@ const Page = () => {
             ) : (
               friendRequest.map((friend) => (
                 <FriendRequestCard
+                  handleFriendClick={handleDpClick}
                   key={friend._id}
                   friend={friend}
                   loading={loading}
                   onAction={handleAction}
+                  deleteUserFromRequest={deleteUserFromRequest}
+                  fetchMutualFriends={fetchMutualFriends}
                 />
               ))
             )}
           </div>
 
-          <h1 className="text-2xl font-bold my-6">People you may know</h1>
+          <h1 className="text-2xl font-semibold my-6">People you may know</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {loading ? (
               <FriendCardSkeleton />
@@ -87,6 +98,7 @@ const Page = () => {
                   key={friend._id}
                   friend={friend}
                   loading={loading}
+                  handleFriendClick={handleDpClick}
                   onAction={handleAction}
                 />
               ))
@@ -94,6 +106,7 @@ const Page = () => {
           </div>
         </main>
       </div>
+      <ScrollupBtn />
     </div>
   );
 };

@@ -11,6 +11,17 @@ export const createPost = async (postData) => {
   }
 };
 
+//delete method for posts
+export const deletePost = async (postData) => {
+  try {
+    const result = await axiosInstance.delete("/users/posts", postData);
+    return result?.data?.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 //create method for story
 export const createStory = async (postData) => {
   try {

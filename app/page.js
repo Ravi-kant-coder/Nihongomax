@@ -5,7 +5,7 @@ import LeftSideBar from "./LeftSideBar";
 const Home = () => {
   return (
     <>
-      <main className="md:flex md:mt-2 dark:bg-black">
+      <main className="md:flex md:mt-2 dark:bg-[rgb(30,30,30)] ">
         <div className="md:mt-15 p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
           <LeftSideBar />
         </div>
