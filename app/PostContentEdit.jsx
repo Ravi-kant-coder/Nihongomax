@@ -1,33 +1,20 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { SquarePen } from "lucide-react";
+import { usePostStore } from "@/store/usePostStore";
 
-const CommentEdit = ({ initialComment, postId, commentId }) => {
+const PostContentEdit = ({ postId, initialContent }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [comment, setComment] = useState(initialComment);
-  const [tempComment, setTempComment] = useState(initialComment);
-  const textareaRef = useRef(null);
-
-  useEffect(() => {
-    setComment(initialComment);
-    setTempComment(initialComment);
-  }, [initialComment.text]);
+  const [content, setContent] = useState(initialContent);
+  const [tempContent, setTempContent] = useState(initialContent);
+  const updatePostContent = usePostStore((state) => state.updatePostContent);
 
   const handleSave = async () => {
-    const trimmed = tempComment.trim();
+    const trimmed = tempContent.trim();
     if (!trimmed) return;
     try {
-      const res = await fetch(`/users/posts/${postId}/content/${commentId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: trimmed }),
-      });
-
-      if (!res.ok) throw new Error("Comment ko update nai kar paya");
-      const data = await res.json();
-      setComment(trimmed);
+      await updatePostContent(postId, trimmed);
+      setContent(trimmed);
       setIsEditing(false);
     } catch (error) {
       console.error("Edit failed:", error);
@@ -35,7 +22,7 @@ const CommentEdit = ({ initialComment, postId, commentId }) => {
   };
 
   const handleCancel = () => {
-    setTempComment(comment);
+    setTempContent(content);
     setIsEditing(false);
   };
 
@@ -43,14 +30,14 @@ const CommentEdit = ({ initialComment, postId, commentId }) => {
     <div>
       {!isEditing ? (
         <>
-          <p className="text-gray-800 dark:text-gray-300 mb-2">{comment}</p>
+          <p className="text-gray-800 dark:text-gray-300 mb-2">{content}</p>
           <button
             className="px-2 bg-white flex items-center text-xs font-[Poppins]
              cursor-pointer border-gray-400 border rounded p-0.5 hover:bg-gray-300
                dark:hover:bg-black dark:bg-[rgb(36,37,38)] dark:shadow-none"
             onClick={() => setIsEditing(true)}
           >
-            <span>Edit</span>
+            <span>Edit/Add</span>
             <SquarePen className="h-3 w-3 ml-2" />
           </button>
         </>
@@ -60,8 +47,8 @@ const CommentEdit = ({ initialComment, postId, commentId }) => {
             className="w-full p-2 border rounded mb-2 ring-offset focus:outline-none
              focus:ring focus:ring-gray-600"
             rows="3"
-            value={tempComment}
-            onChange={(e) => setTempComment(e.target.value)}
+            value={tempContent}
+            onChange={(e) => setTempContent(e.target.value)}
           />
           <div className="flex gap-2">
             <button
@@ -90,4 +77,5 @@ const CommentEdit = ({ initialComment, postId, commentId }) => {
     </div>
   );
 };
-export default CommentEdit;
+
+export default PostContentEdit;

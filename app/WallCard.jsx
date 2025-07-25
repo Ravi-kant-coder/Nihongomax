@@ -2,7 +2,6 @@
 import { useState, useRef, useTransition, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import userStore from "@/store/userStore";
-import CommentEdit from "./CommentEdit";
 import WallCardButtons from "./WallCardButtons";
 import { formateDate } from "@/lib/utils";
 import { useParams } from "next/navigation";
@@ -12,23 +11,29 @@ import { Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePostStore } from "@/store/usePostStore";
 import AutoLoopVideo from "./AutoLoopVideo";
+import PostContentEdit from "./PostContentEdit";
 
 const WallCard = ({ post, onLike, onShare, onComment }) => {
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const deletePost = usePostStore((state) => state.deleteUserPost);
+  const { deleteUserPost, fetchPost } = usePostStore();
   const commentInputRef = useRef(null);
   const [isPending, startTransition] = useTransition();
   const { user } = userStore();
   const params = useParams();
   const id = params.id;
   const router = useRouter();
+
   const handleCancel = () => {
     setShowDeleteModal(false);
   };
 
   const handleDpClick = () => {
-    router.push(`/user-profile/${post?.user?._id}`);
+    startTransition(() => {
+      if (post?.user?._id) {
+        router.push(`/user-profile/${post?.user?._id}`);
+      }
+    });
   };
 
   const generateSharedLink = () => {
@@ -59,15 +64,18 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
     setIsShareDialogOpen(false);
   };
 
-  const handleDelete = async () => {
+  const handlePostDelete = async () => {
     setShowDeleteModal(false);
-    if (post?._id) {
-      try {
-        await deletePost(post?._id);
-      } catch (err) {
-        console.error("Delete failed", err);
+    startTransition(async () => {
+      if (post?._id) {
+        try {
+          await deleteUserPost(post._id);
+          await fetchPost();
+        } catch (err) {
+          console.error("Delete failed", err);
+        }
       }
-    }
+    });
   };
 
   return (
@@ -77,7 +85,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
     overflow-hidden mb-6"
     >
       <div
-        className="flex items-center justify-between md:p-2 bg-accent dark:bg-[rgb(55,55,55)]
+        className="flex items-center justify-between md:p-2 dark:bg-[rgb(55,55,55)]
        rounded-t-lg"
       >
         <div className="flex items-center" onClick={handleDpClick}>
@@ -96,7 +104,10 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
               </AvatarFallback>
             </Avatar>
           </div>
-          <div className="md:w-60 w-40 font-semibold flex cursor-pointer hover:underline">
+          <div
+            className="lg:w-70 md:w-50 truncate w-40 font-semibold cursor-pointer 
+          overflow-hidden hover:underline capitalize"
+          >
             By {user?._id === post?.user?._id ? "you" : post?.user.username}
           </div>
         </div>
@@ -109,20 +120,17 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           {user?._id === post?.user?._id && (
             <button
               onClick={() => setShowDeleteModal(true)}
-              className="dark:bg-black/20 cursor-pointer pt-0.5 px-3 group
+              className="dark:bg-black/20 cursor-pointer pt-0.5 px-2 group
                rounded border border-gray-400 bg-gray-100 
               flex flex-col items-center justify-center hover:border-red-600"
             >
               {" "}
-              <span
-                className="text-[10px] group-hover:text-red-700
-               group-hover:dark:text-red-500 capitalize"
-              >
+              <span className="text-[10px] capitalize truncate max-w-10">
                 {post?.user?.username.split(" ")[0]}
               </span>
               <Trash2
-                className="h-5 w-6 group-hover:text-red-700 text-gray-600 dark:text-gray-300
-               group-hover:dark:text-red-500"
+                className="h-5 w-6 group-hover:text-red-700 text-gray-600
+                 dark:text-gray-300 group-hover:dark:text-red-500"
               />
               <span
                 className="text-[10px] group-hover:text-red-700
@@ -134,12 +142,11 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           )}
         </div>
       </div>
-      {user?._id !== post?.user?._id && (
-        <p className="mb-4 ml-4 p-2 dark:text-gray-300">{post?.content}</p>
-      )}
-      {user?._id === post?.user?._id && (
+      {user?._id !== post?.user?._id ? (
+        <p className="ml-4">{post?.content}</p>
+      ) : (
         <div className="p-2">
-          <CommentEdit initialComment={post?.content} />
+          <PostContentEdit postId={post._id} initialContent={post.content} />
         </div>
       )}
 
@@ -179,7 +186,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
               <button
                 className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
               cursor-pointer text-white text-sm"
-                onClick={handleDelete}
+                onClick={handlePostDelete}
               >
                 Yes, Delete
               </button>

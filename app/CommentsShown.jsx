@@ -11,6 +11,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
   const [showAllComments, setShowAllComments] = useState(false);
   const [commentText, setCommentText] = useState("");
   const { user } = userStore();
+
   const visibleComments = showAllComments
     ? post?.comments
     : post?.comments?.slice(0, 2);
@@ -21,6 +22,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
       setCommentText("");
     }
   };
+
   const handleReplyEdit = (commentId, newText) => {
     const updatedComments = post.comments.map((comment) =>
       comment._id === commentId ? { ...comment, text: newText } : comment
@@ -38,7 +40,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
           <div
             key={index}
             className="flex items-start space-x-2 m-4 rounded-md p-2
-               dark:bg-[rgb(45,45,45)] text-sm bg-gray-300 "
+               dark:bg-[rgb(45,45,45)] text-sm "
           >
             <Avatar className="w-8 h-8">
               {comment?.user?.profilePicture ? (
@@ -52,31 +54,32 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                 </AvatarFallback>
               )}
             </Avatar>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
               <div className="">
-                <p className="font-semibold text-sm">
-                  {comment?.user?.username}
+                <p className="font-semibold dark:font-normal text-xs capitalize">
+                  {user?._id === comment?.user?._id ? (
+                    <span>you</span>
+                  ) : (
+                    comment?.user.username
+                  )}{" "}
                 </p>
+
                 <p className="text-sm">{comment?.text}</p>
               </div>
-              <div
-                className="flex items-center justify-between w-100 mt-2 text-xs 
-                text-gray-400"
-              >
-                <button
-                  className="text-gray-600 hover:text-gray-800 hover:underline"
-                  onClick={() => handleReplyEdit(comment._id, comment.text)}
-                >
-                  Edit
-                </button>
-                <ReplyEdit
-                  initialReply={comment?.text}
-                  onSave={(newText) => handleReplyEdit(comment._id, newText)}
-                  className="ml-2"
-                />
-                <span className="mr-2 text-gray-600">
+              <div className="flex">
+                <div className="text-gray-600 dark:text-gray-400 text-xs normal-case">
                   {formateDate(comment?.createdAt)}
-                </span>
+                </div>
+
+                {user?._id === comment?.user?._id && (
+                  <div
+                    className="text-gray-600 hover:text-black hover:underline text-xs ml-5
+                    dark:text-gray-400 dark:hover:text-gray-200 "
+                    onClick={() => handleReplyEdit(comment._id, comment.text)}
+                  >
+                    <ReplyEdit />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -87,12 +90,12 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
             onClick={() => setShowAllComments(!showAllComments)}
           >
             {showAllComments ? (
-              <p className="flex items-center text-sm w-full">
+              <p className="flex items-center text-sm w-full ml-4">
                 Show Less Comments
                 <ChevronUp className="ml-1 h-4 w-4" />
               </p>
             ) : (
-              <p className="flex items-center text-sm w-full">
+              <p className="flex items-center text-sm w-full ml-4">
                 Show More Comments <ChevronDown className="ml-1 h-4 w-4" />
               </p>
             )}

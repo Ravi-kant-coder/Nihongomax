@@ -87,7 +87,6 @@ const WallCardButtons = ({
           <AnimatePresence>
             {likeEffect && (
               <motion.div
-                key="thanks"
                 className="absolute -top-4 left-2 text-sm dark:bg-[rgb(92,30,30)]
                  text-red-600 dark:text-red-300  bg-pink-100 rounded-lg shadow-2xl p-2"
                 initial={{ opacity: 0, y: 0, rotate: 10 }}

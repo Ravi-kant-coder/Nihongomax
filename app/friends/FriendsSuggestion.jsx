@@ -1,7 +1,20 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserPlus } from "lucide-react";
+import Spinner from "../Spinner";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
-const FriendSuggestion = ({ friend, onAction, handleFriendClick }) => {
+const FriendSuggestion = ({ friend, onAction }) => {
+  if (!friend) return null; // Ensure friend exists before rendering
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const handleDpClick = () => {
+    console.log("Profile picture clicked");
+    startTransition(() => {
+      router.push(`/user-profile/${friend?._id}`);
+    });
+  };
+
   return (
     <div
       className="flex items-center lg:block bg-white dark:bg-black lg:p-4 p-2
@@ -11,7 +24,7 @@ const FriendSuggestion = ({ friend, onAction, handleFriendClick }) => {
         <Avatar
           className="cursor-pointer h-12 w-12 lg:h-30 lg:w-30 hover:ring-3
          hover:ring-gray-600 hover:ring-offset-1 transition duration-100 mx-5"
-          onClick={handleFriendClick}
+          onClick={handleDpClick}
         >
           <AvatarImage
             src={friend?.profilePicture}
@@ -31,7 +44,7 @@ const FriendSuggestion = ({ friend, onAction, handleFriendClick }) => {
         <h3
           className="text-lg hover:underline cursor-pointer font-semibold text-center
          md:mb-4 truncate capitalize"
-          onClick={handleFriendClick}
+          onClick={handleDpClick}
         >
           {friend?.username}
         </h3>
@@ -46,6 +59,15 @@ const FriendSuggestion = ({ friend, onAction, handleFriendClick }) => {
           </button>
         </div>
       </div>
+      {isPending && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/60
+        dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity duration-300 
+          opacity-100"
+        >
+          <Spinner />
+        </div>
+      )}
     </div>
   );
 };

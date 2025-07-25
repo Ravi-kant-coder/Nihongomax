@@ -81,7 +81,12 @@ const LeftSideBar = () => {
                 {user?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <span className="font-semibold capitalize">{user?.username}</span>
+            <div>
+              <div className="font-semibold capitalize">My profile</div>
+              <div className="capitalize text-xs truncate">
+                {user?.username}
+              </div>
+            </div>
           </div>
 
           <motion.button
@@ -173,14 +178,7 @@ const LeftSideBar = () => {
               )}
             </div>
           </motion.button>
-          {isPending && (
-            <div
-              className="fixed inset-0 flex items-center justify-center backdrop-blur-sm
-             z-[9999] transition-opacity duration-300 opacity-100"
-            >
-              <Spinner />
-            </div>
-          )}
+
           {[
             {
               id: 4,

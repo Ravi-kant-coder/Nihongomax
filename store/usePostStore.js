@@ -1,3 +1,5 @@
+import { create } from "zustand";
+import userStore from "@/store/userStore";
 import {
   createPost,
   getAllPosts,
@@ -8,10 +10,10 @@ import {
   createStory,
   commentsPost,
   deletePost,
+  deleteStory,
+  updatePostContent as updatePostContentAPI,
 } from "@/service/post.service";
-import toast from "react-hot-toast";
-import { create } from "zustand";
-import userStore from "@/store/userStore"; // adjust path as needed
+
 export const usePostStore = create((set) => ({
   posts: [],
   userPosts: [],
@@ -19,7 +21,6 @@ export const usePostStore = create((set) => ({
   loading: false,
   error: null,
 
-  //fetchPost
   fetchPost: async () => {
     set({ loading: true });
     try {
@@ -30,21 +31,35 @@ export const usePostStore = create((set) => ({
     }
   },
 
-  //delete user posts
-  deleteUserPost: async (userId) => {
+  deleteUserPost: async (postId) => {
     set({ loading: true });
     try {
-      const deletedPost = await deletePost(userId);
-      set({ post, loading: false });
+      await deletePost(postId);
+      set((state) => ({
+        posts: state.posts.filter((p) => p._id !== postId),
+        userPosts: state.userPosts.filter((p) => p._id !== postId),
+        loading: false,
+      }));
     } catch (error) {
       set({ error, loading: false });
+      console.error("Zustand nahi kar paya post delete", error);
     }
-    set((state) => ({
-      posts: state.posts.filter((p) => p._id !== id),
-    }));
   },
 
-  //fetch user posts
+  deleteUserStory: async (storyId) => {
+    set({ loading: true });
+    try {
+      await deleteStory(storyId);
+      set((state) => ({
+        story: state.story.filter((st) => st._id !== storyId),
+        loading: false,
+      }));
+    } catch (error) {
+      set({ error, loading: false });
+      console.error("Zustand nahi kar paya story delete", error);
+    }
+  },
+
   fetchUserPost: async (userId) => {
     set({ loading: true });
     try {
@@ -54,7 +69,7 @@ export const usePostStore = create((set) => ({
       set({ error, loading: false });
     }
   },
-  //fetch all story
+
   fetchStoryPost: async () => {
     set({ loading: true });
     try {
@@ -67,14 +82,9 @@ export const usePostStore = create((set) => ({
 
   handleCreatePost: async (postData) => {
     set({ loading: true });
-
     try {
       const newPostRaw = await createPost(postData);
-
-      // Get user from userStore
       const { user } = userStore.getState();
-
-      // Inject user info into the post
       const newPost = {
         ...newPostRaw,
         user: {
@@ -83,17 +93,47 @@ export const usePostStore = create((set) => ({
           profilePicture: user.profilePicture,
         },
       };
-
-      // Add to Zustand posts
       set((state) => ({
         posts: [newPost, ...state.posts],
         loading: false,
       }));
-
-      return newPost; // optional, still returns for chaining
+      return newPost; // Return the new post for further use
     } catch (error) {
       set({ error, loading: false });
       throw error;
+    }
+  },
+
+  updatePostContent: async (postId, newContent) => {
+    try {
+      await updatePostContentAPI(postId, newContent);
+      set((state) => ({
+        posts: state.posts.map((post) =>
+          post._id === postId ? { ...post, content: newContent } : post
+        ),
+        userPosts: state.userPosts.map((post) =>
+          post._id === postId ? { ...post, content: newContent } : post
+        ),
+      }));
+    } catch (error) {
+      console.error("Zustand Update Error:", error);
+      set({ error });
+    }
+  },
+
+  handleCommentPost: async (postId, text) => {
+    set({ loading: true });
+    try {
+      const newComments = await commentsPost(postId, { text });
+      set((state) => ({
+        posts: state.posts.map((post) =>
+          post?._id === postId
+            ? { ...post, comments: [...post.comments, newComments] }
+            : post
+        ),
+      }));
+    } catch (error) {
+      set({ error, loading: false });
     }
   },
 
@@ -101,9 +141,7 @@ export const usePostStore = create((set) => ({
     set({ loading: true });
     try {
       const newStoryRaw = await createStory(storyData);
-      // Get user from userStore
       const { user } = userStore.getState();
-      // Inject user info into the Story
       const newStory = {
         ...newStoryRaw,
         user: {
@@ -112,7 +150,6 @@ export const usePostStore = create((set) => ({
           profilePicture: user.profilePicture,
         },
       };
-      // Add to Zustand Story
       set((state) => ({
         story: [newStory, ...state.story],
         loading: false,
@@ -125,7 +162,6 @@ export const usePostStore = create((set) => ({
     }
   },
 
-  //create a new story
   handleLikePost: async (postId) => {
     set({ loading: true });
     try {
@@ -135,25 +171,6 @@ export const usePostStore = create((set) => ({
     }
   },
 
-  //create a new story
-  handleCommentPost: async (postId, text) => {
-    set({ loading: true });
-    try {
-      const newComments = await commentsPost(postId, { text });
-      set((state) => ({
-        posts: state.posts.map((post) =>
-          post?._id === postId
-            ? { ...post, comments: [...post.comments, newComments] }
-            : post
-        ),
-      }));
-      toast.success("Comments added successfully");
-    } catch (error) {
-      set({ error, loading: false });
-    }
-  },
-
-  //create a new story
   handleSharePost: async (postId) => {
     set({ loading: true });
     try {

@@ -1,12 +1,15 @@
 "use client";
+import { useState, useRef, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import userStore from "@/store/userStore";
 import { usePostStore } from "@/store/usePostStore";
-import React, { useRef, useState } from "react";
 import ShowStoryPreview from "./ShowStoryPreview";
 import AutoLoopVideo from "./AutoLoopVideo";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
 
 const StoryCard = ({ isAddStory, story }) => {
   const { user } = userStore();
@@ -14,11 +17,17 @@ const StoryCard = ({ isAddStory, story }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
   const [loading, setLoading] = useState(false);
-  const { handleCreateStory } = usePostStore();
+  const { handleCreateStory, deleteUserStory, fetchStoryPost } = usePostStore();
   const [showPreview, setShowPreview] = useState(false);
   const [isNewStory, setIsNewStory] = useState(false);
   const fileInputRef = useRef(null);
   const userPlaceholder = user?.username?.split(" ")[0][0]?.toUpperCase();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const handleCancel = () => {
+    setShowDeleteModal(false);
+  };
+  const router = useRouter();
 
   const handleFileChnage = (e) => {
     const file = e.target.files[0];
@@ -66,6 +75,28 @@ const StoryCard = ({ isAddStory, story }) => {
     setShowPreview(true);
   };
 
+  const handleStoryDelete = async () => {
+    setShowDeleteModal(false);
+    startTransition(async () => {
+      if (story?._id) {
+        try {
+          await deleteUserStory(story._id);
+          await fetchStoryPost();
+        } catch (err) {
+          console.error("Delete failed", err);
+        }
+      }
+    });
+  };
+
+  const handleStoryUsernameClick = () => {
+    startTransition(() => {
+      if (story?.user?._id) {
+        router.push(`/user-profile/${story?.user?._id}`);
+      }
+    });
+  };
+
   return (
     <div
       className="md:min-w-[100px] md:h-[180px] min-w-[80px] overflow-hidden rounded-md 
@@ -108,9 +139,12 @@ const StoryCard = ({ isAddStory, story }) => {
                     <Plus />
                   </div>
                 </button>
-                <h3 className="text-xs font-semibold dark:font-normal dark:text-white text-center">
+                <h3
+                  className="text-xs font-semibold dark:font-normal dark:text-white 
+                text-center"
+                >
                   Create Story
-                  <p className="truncate md:max-w-[85px] max-w-[65px]">
+                  <p className="truncate md:max-w-[85px] max-w-[65px] capitalize">
                     {user?.username?.split(" ")[0]}
                   </p>
                 </h3>
@@ -135,10 +169,10 @@ const StoryCard = ({ isAddStory, story }) => {
                 <AutoLoopVideo src={story?.mediaUrl} />
               )}
               <div
-                className="absolute top-2 left-2 ring-2 ring-black rounded-full
-               cursor-pointer"
+                className="absolute top-2 left-2 hover:ring-2 ring-1 ring-black rounded-full
+               "
               >
-                <Avatar>
+                <Avatar onClick={handleStoryUsernameClick}>
                   <AvatarImage
                     src={story?.user?.profilePicture}
                     className="object-cover"
@@ -151,18 +185,70 @@ const StoryCard = ({ isAddStory, story }) => {
                   </AvatarFallback>
                 </Avatar>
               </div>
+              {/* --------------------Story Delete Button------------------- */}
+              {user?._id === story?.user?._id && (
+                <button
+                  onClick={() => setShowDeleteModal(true)}
+                  className="group absolute top-0 right-0"
+                >
+                  <Trash2
+                    className=" group-hover:text-red-700 text-white bg-black/70
+                     group-hover:bg-white/70 dark:text-gray-300 rounded py-1
+                     group-hover:dark:text-red-500 shrink-0"
+                  />
+                </button>
+              )}
               <p
-                className="text-white text-xs bg-black/70 rounded p-1 truncate
-                absolute bottom-1 left-1 right-2 "
+                className="text-white text-xs capitalize bg-black/70 rounded p-1
+                truncate absolute bottom-1 left-1 max-w-[90px] hover:underline cursor-default"
+                onClick={handleStoryUsernameClick}
               >
-                {story?.user?.username}
+                By{" "}
+                {user?._id === story?.user?._id ? "you" : story?.user.username}
               </p>
             </>
           )}
         </CardContent>
       </Card>
+      {/* --------------------Delete Confirmation Modal------------------- */}
+      {showDeleteModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center"
+        >
+          <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
+            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
+              Delete this story {user?.username.split(" ")[0]}?
+            </h2>
+            <p className="text-sm dark:text-gray-300 text-center my-2">
+              This cannot be recovered.
+            </p>
+
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={handleCancel}
+                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
+                    dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
+              cursor-pointer text-white text-sm"
+                onClick={handleStoryDelete}
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
       {showPreview && (
         <ShowStoryPreview
+          handleStoryUsernameClick={handleStoryUsernameClick}
+          handleStoryDelete={handleStoryDelete}
+          story={story}
           file={filePreview}
           fileType={fileType}
           onClose={handleClosePreview}
@@ -174,6 +260,16 @@ const StoryCard = ({ isAddStory, story }) => {
           }
           isLoading={loading}
         />
+      )}
+      {/* ------------------------Spinner-------------------------- */}
+      {isPending && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/60
+                       dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
+                        duration-300 opacity-100"
+        >
+          <Spinner />
+        </div>
       )}
     </div>
   );

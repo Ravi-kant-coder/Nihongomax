@@ -6,6 +6,7 @@ import StorySection from "./StorySection";
 import { usePostStore } from "@/store/usePostStore";
 import toast from "react-hot-toast";
 import ScrollupBtn from "./ScrollupBtn";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Wall = () => {
   const [isPostTriggerOpen, setIsPostTriggerOpen] = useState(false);
@@ -61,21 +62,30 @@ const Wall = () => {
         setIsPostTriggerOpen={setIsPostTriggerOpen}
       />
       <StorySection />
-      {posts?.map((post) => (
-        <WallCard
-          key={post._id}
-          post={post}
-          onLike={() => handleLike(post?._id)}
-          onComment={async (comment) => {
-            await handleCommentPost(post?._id, comment.text);
-            await fetchPost();
-          }}
-          onShare={async () => {
-            await handleSharePost(post?._id);
-            await fetchPost();
-          }}
-        />
-      ))}
+      <AnimatePresence>
+        {posts?.map((post) => (
+          <motion.div
+            key={post._id}
+            initial={{ opacity: 0, height: 0, rotate: -5 }}
+            animate={{ opacity: 1, height: "auto", rotate: 0 }}
+            exit={{ opacity: 0, height: 0, rotate: 5 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <WallCard
+              post={post}
+              onLike={() => handleLike(post?._id)}
+              onComment={async (comment) => {
+                await handleCommentPost(post?._id, comment.text);
+                await fetchPost();
+              }}
+              onShare={async () => {
+                await handleSharePost(post?._id);
+                await fetchPost();
+              }}
+            />
+          </motion.div>
+        ))}
+      </AnimatePresence>
       <ScrollupBtn />
     </div>
   );

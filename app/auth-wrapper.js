@@ -3,7 +3,6 @@ import { checkUserAuth, logout } from "@/service/auth.service";
 import userStore from "@/store/userStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Navbar from "./Navbar";
 import Spinner from "./Spinner";
 
 export default function AuthWrapper({ children }) {
@@ -26,7 +25,7 @@ export default function AuthWrapper({ children }) {
           await handleLogout();
         }
       } catch (error) {
-        console.error("authenticated failed", error);
+        console.error("Authentication fail ho gaya", error);
         await handleLogout();
       } finally {
         setLoading(false);
@@ -53,17 +52,13 @@ export default function AuthWrapper({ children }) {
     }
   }, [isLoginPage, router, setUser, clearUser]);
 
-  if (loading) {
-    return <Spinner />;
-  }
-
   if (!isAuthenticated && !isLoginPage) {
     return <Spinner />;
   }
 
   return (
     <>
-      {!isLoginPage && isAuthenticated && <Navbar />}
+      {/* {!isLoginPage && isAuthenticated && <Navbar />} */}
       {(isAuthenticated || isLoginPage) && children}
     </>
   );

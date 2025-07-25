@@ -4,7 +4,6 @@ import { ThemeProvider } from "next-themes";
 import NavbarBelow from "@/app/NavbarBelow";
 import localFont from "next/font/local";
 import AuthWrapper from "./auth-wrapper";
-import { Toaster } from "react-hot-toast";
 import Navbar from "./Navbar";
 const poppins = Poppins({
   subsets: ["latin"],

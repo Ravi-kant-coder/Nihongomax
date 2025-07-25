@@ -2,9 +2,10 @@
 import { useState, useEffect, useRef } from "react";
 import { SquarePen } from "lucide-react";
 import { motion } from "framer-motion";
-const initialComment =
-  "Lorem ipsum dolor, sit amet consectetur adipisicing elit.";
-const ReplyEdit = () => {
+import { usePostStore } from "@/store/usePostStore";
+// import { useCommentStore } from "@/store/useCommentStore";
+
+const ReplyEdit = ({ initialComment }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [comment, setComment] = useState(initialComment);
   const [tempComment, setTempComment] = useState(comment);

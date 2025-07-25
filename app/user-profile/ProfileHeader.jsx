@@ -114,12 +114,12 @@ const ProfileHeader = ({
       {/* --------------------- Cover Photo & Edit Button---------------------------- */}
 
       <div
-        className="relative lg:h-80 lg:w-[90vw] mx-auto rounded-lg lg:mt-20 mt-10 h-50
+        className="relative lg:h-80 lg:w-[90vw] mx-auto md:rounded-lg mt-20 h-50
        bg-gray-400  dark:bg-gray-900 overflow-hidden"
       >
         {!profileData?.coverPhoto ? (
           <div
-            className="lg:text-6xl md:text-4xl text-2xl mt-10 text-gray-500
+            className="lg:text-6xl md:text-4xl text-2xl mt-20 text-gray-500
            font-bold text-center capitalize"
           >
             {isOwner
@@ -140,15 +140,13 @@ const ProfileHeader = ({
         {isOwner && (
           <Button
             className="absolute z-11 bottom-4 cursor-pointer right-4 flex items-center
-             dark:hover:bg-black"
+             dark:hover:bg-black bg-black text-white hover:bg-gray-800"
             variant="secondary"
             size="sm"
             onClick={() => setIsEditCoverModel(!isEditCoverModel)}
           >
             <Camera className=" mr-0 md:mr-2 h-4 w-4" />
-            <span className="hidden md:block cursor-pointer ">
-              Edit Cover Photo
-            </span>
+            <span>Cover Photo</span>
           </Button>
         )}
       </div>
@@ -158,14 +156,17 @@ const ProfileHeader = ({
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
         <div className="flex flex-col md:flex-row items-center md:items-end md:space-x-5">
           <Avatar
-            className="w-32 h-32 border-4 border-white dark:border-gray-700 cursor-pointer"
-            onClick={() => setIsEditProfileModel(true)}
+            className={`w-32 h-32 border-4 border-white dark:border-gray-700 
+             ${isOwner && "cursor-pointer"}`}
+            onClick={() => {
+              isOwner && setIsEditProfileModel(true);
+            }}
           >
             <AvatarImage
               className="object-cover"
               src={profileData?.profilePicture}
             />
-            <AvatarFallback className="bg-gray-100 dark:bg-gray-900 text-4xl uppercase">
+            <AvatarFallback className="bg-gray-300 dark:bg-gray-900 text-4xl uppercase">
               {profileData?.username
                 ?.split(" ")
                 .map((name) => name[0])
@@ -187,12 +188,12 @@ const ProfileHeader = ({
           </div>
           {isOwner && (
             <Button
-              className="mt-4 md:mt-0 cursor-pointer dark:hover:bg-white
-               dark:bg-[rgb(200,200,200)]"
+              className="mt-4 md:mt-0 cursor-pointer bg-black text-white 
+              dark:hover:bg-black/60 hover:bg-black/80"
               onClick={() => setIsEditProfileModel(true)}
             >
               <PenLine className="w-4 h-4 mr-2" />
-              Edit Profile
+              Add Profile
             </Button>
           )}
         </div>
@@ -216,7 +217,7 @@ const ProfileHeader = ({
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  Edit Profile
+                  Add Profile
                 </h2>
                 <Button
                   className="cursor-pointer bg-accent hover:bg-gray-200 
@@ -241,7 +242,7 @@ const ProfileHeader = ({
                       src={profilePicturePreview || profileData?.profilePicture}
                       alt={profileData?.username}
                     />
-                    <AvatarFallback className="dark:bg-gray-400">
+                    <AvatarFallback className="dark:bg-black text-4xl capitalize">
                       {profileData?.username
                         ?.split(" ")
                         .map((name) => name[0])
@@ -263,7 +264,7 @@ const ProfileHeader = ({
                     className="cursor-pointer hover:bg-gray-200"
                   >
                     <Upload className="h-4 w-4 mr-2" />
-                    Change DP
+                    Put/Change DP
                   </Button>
                 </div>
                 <div>

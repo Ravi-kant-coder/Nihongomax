@@ -16,10 +16,9 @@ import MutualFriends from "./profileContent/MutualFriends";
 import EditBio from "./profileContent/EditBio";
 import { usePostStore } from "@/store/usePostStore";
 import { formatDateInDDMMYYY } from "@/lib/utils";
-import UserWallCard from "../UserWallCard";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
-import PostTrigger from "../PostTrigger";
+import WallCard from "../WallCard";
 
 const ProfileDetails = ({
   activeTab,
@@ -166,7 +165,7 @@ const ProfileDetails = ({
                 {userPosts?.filter(
                   (post) => post?.mediaType === "image" && post?.mediaUrl
                 ).length === 0 ? (
-                  <PicsSkeleton text="No Photos Yet" />
+                  <PicsSkeleton text="No Photos" />
                 ) : (
                   userPosts
                     ?.filter(
@@ -191,12 +190,12 @@ const ProfileDetails = ({
             <FriendCardSkeleton />
           ) : userPosts.length === 0 ? (
             <NoFriendsMessage
-              text="No Questions or pics Yet"
-              description="Why not put questions above and get answers?"
+              text="No Questions or Pics"
+              description="Why not put questions on wall?"
             />
           ) : (
             userPosts?.map((post) => (
-              <UserWallCard
+              <WallCard
                 key={post._id}
                 post={post}
                 onLike={() => handleLike(post?._id)}

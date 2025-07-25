@@ -1,6 +1,7 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Users, MessageCircle, LogOutIcon } from "lucide-react";
+import { useTransition } from "react";
 import userStore from "@/store/userStore";
 import {
   DropdownMenu,
@@ -13,16 +14,17 @@ import {
 import { useRouter } from "next/navigation";
 import ThemeToggle from "@/app/ThemeToggle";
 import Spinner from "./Spinner";
-import { useTransition } from "react";
 
 const UserMenu = ({ handleLogout }) => {
-  const { user, clearUser } = userStore();
+  const { user } = userStore();
   const [isPending, startTransition] = useTransition();
-
   const router = useRouter();
-  const handleNavigation = (path, item) => {
-    router.push(path);
+  const handleNavigation = (path) => {
+    startTransition(() => {
+      router.push(path);
+    });
   };
+
   return (
     <div>
       <DropdownMenu>

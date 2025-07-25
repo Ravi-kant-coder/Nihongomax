@@ -5,7 +5,6 @@ import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import FriendRequestCard from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";
 import { userFriendStore } from "@/store/userFriendsStore";
-import userStore from "@/store/userStore";
 import ScrollupBtn from "../ScrollupBtn";
 import { useRouter } from "next/navigation";
 
@@ -24,11 +23,6 @@ const Page = () => {
   } = userFriendStore();
 
   const router = useRouter();
-  const { user } = userStore();
-
-  const handleDpClick = () => {
-    router.push(`/user-profile/${friendSuggestion?._id}`);
-  };
 
   useEffect(() => {
     fetchFriendRequest(), fetchFriendSuggestion();
@@ -40,14 +34,14 @@ const Page = () => {
       fetchFriendRequest();
       fetchFriendSuggestion();
     } else if (action === "delete") {
-      await UnfollowUser(userId);
+      await deleteUserFromRequest(userId);
       fetchFriendRequest();
       fetchFriendSuggestion();
     }
   };
 
   return (
-    <div className="md:mt-20 mt-25 mb-20">
+    <div className="md:mt-18 mt-25 mb-20">
       <div className="p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
         <LeftSideBar />
       </div>
@@ -71,7 +65,6 @@ const Page = () => {
             ) : (
               friendRequest.map((friend) => (
                 <FriendRequestCard
-                  handleFriendClick={handleDpClick}
                   key={friend._id}
                   friend={friend}
                   loading={loading}
@@ -98,7 +91,6 @@ const Page = () => {
                   key={friend._id}
                   friend={friend}
                   loading={loading}
-                  handleFriendClick={handleDpClick}
                   onAction={handleAction}
                 />
               ))

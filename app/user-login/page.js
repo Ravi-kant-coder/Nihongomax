@@ -22,10 +22,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { loginUser, registerUser } from "@/service/auth.service";
 import toast from "react-hot-toast";
 import userStore from "@/store/userStore";
+
 const Page = () => {
   const router = useRouter();
   const { setUser } = userStore();
   const [isLoading, setIsLoading] = useState(false);
+
+  // Validation schemas for login and registration
   const registerSchema = yup.object().shape({
     username: yup.string().required("Name is required"),
     email: yup
@@ -115,10 +118,13 @@ const Page = () => {
   };
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div
+        className="min-h-screen flex items-center justify-center p-4
+     bg-gradient-to-r from-blue-500 to-purple-500 "
+      >
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ y: -100, opacity: 0, scale: 0.9 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
           <Card className="w-full max-w-md dark:text-white">
