@@ -130,7 +130,7 @@ const Page = () => {
           <Card className="w-full max-w-md dark:text-white">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-center">
-                <span>Nihongomax</span>
+                <span>NihongoMax</span>
               </CardTitle>
               <CardDescription className="text-center">
                 Learn Japanese and make frineds

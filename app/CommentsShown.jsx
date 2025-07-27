@@ -1,16 +1,20 @@
 import { ChevronDown, ChevronUp, Send } from "lucide-react";
-import React, { useState } from "react";
+import { useState, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import userStore from "@/store/userStore";
 import { Input } from "@/components/ui/input";
 import { formateDate } from "@/lib/utils";
-import ReplyEdit from "./ReplyEdit";
+import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
+import CommentEdit from "./CommentEdit";
 
 const CommentsShown = ({ post, onComment, commentInputRef }) => {
   const [showAllComments, setShowAllComments] = useState(false);
   const [commentText, setCommentText] = useState("");
   const { user } = userStore();
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const visibleComments = showAllComments
     ? post?.comments
@@ -42,42 +46,72 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
             className="flex items-start space-x-2 m-4 rounded-md p-2
                dark:bg-[rgb(45,45,45)] text-sm "
           >
-            <Avatar className="w-8 h-8">
-              {comment?.user?.profilePicture ? (
-                <AvatarImage
-                  src={comment?.user?.profilePicture}
-                  alt={comment?.user?.username}
-                />
-              ) : (
-                <AvatarFallback className="dark:bg-gray-800 bg-gray-400 capitalize">
-                  {user?.username.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              )}
+            <Avatar
+              className="w-8 h-8"
+              onClick={
+                comment?.user?._id !== user?._id
+                  ? () => {
+                      startTransition(() => {
+                        if (comment?.user?._id) {
+                          router.push(`/user-profile/${comment?.user?._id}`);
+                        }
+                      });
+                    }
+                  : undefined
+              }
+            >
+              <AvatarImage
+                className={`hover:ring-2 hover:ring-gray-300 dark:hover:ring-gray-600
+                  ${
+                    comment?.user?._id !== user?._id &&
+                    "hover:underline cursor-pointer"
+                  }`}
+                src={comment?.user?.profilePicture}
+              />
+              <AvatarFallback className="dark:bg-gray-800 bg-gray-400 capitalize">
+                {user?.username.charAt(0).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
             <div className="flex flex-col w-full">
               <div className="">
-                <p className="font-semibold dark:font-normal text-xs capitalize">
+                <p
+                  className={`font-semibold dark:font-normal text-xs capitalize 
+                  ${
+                    comment?.user?._id !== user?._id &&
+                    "hover:underline cursor-pointer"
+                  }`}
+                  onClick={
+                    comment?.user?._id !== user?._id
+                      ? () => {
+                          startTransition(() => {
+                            if (comment?.user?._id) {
+                              router.push(
+                                `/user-profile/${comment?.user?._id}`
+                              );
+                            }
+                          });
+                        }
+                      : undefined
+                  }
+                >
                   {user?._id === comment?.user?._id ? (
                     <span>you</span>
                   ) : (
                     comment?.user.username
                   )}{" "}
                 </p>
-
-                <p className="text-sm">{comment?.text}</p>
-              </div>
-              <div className="flex">
                 <div className="text-gray-600 dark:text-gray-400 text-xs normal-case">
                   {formateDate(comment?.createdAt)}
                 </div>
-
-                {user?._id === comment?.user?._id && (
-                  <div
-                    className="text-gray-600 hover:text-black hover:underline text-xs ml-5
-                    dark:text-gray-400 dark:hover:text-gray-200 "
-                    onClick={() => handleReplyEdit(comment._id, comment.text)}
-                  >
-                    <ReplyEdit />
+                {user?._id !== comment?.user?._id ? (
+                  <p className="text-md font-semibold">{comment?.text}</p>
+                ) : (
+                  <div className="">
+                    <CommentEdit
+                      commentId={comment._id}
+                      postId={post._id}
+                      initialComment={comment?.text}
+                    />
                   </div>
                 )}
               </div>
@@ -131,6 +165,16 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
           <Send className="h-4 w-4" />
         </Button>
       </div>
+      {/* ------------------------Spinner-------------------------- */}
+      {isPending && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/60
+                       dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
+                        duration-300 opacity-100"
+        >
+          <Spinner />
+        </div>
+      )}
     </>
   );
 };

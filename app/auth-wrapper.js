@@ -56,6 +56,10 @@ export default function AuthWrapper({ children }) {
     return <Spinner />;
   }
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       {/* {!isLoginPage && isAuthenticated && <Navbar />} */}

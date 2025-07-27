@@ -19,6 +19,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
   const { deleteUserPost, fetchPost } = usePostStore();
   const commentInputRef = useRef(null);
   const [isPending, startTransition] = useTransition();
+  const [readyTodel, setReadyTodel] = useState(false);
   const { user } = userStore();
   const params = useParams();
   const id = params.id;
@@ -79,10 +80,17 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
   };
 
   return (
-    <div
-      className="bg-white dark:bg-[rgb(55,55,55)] dark:shadow-black rounded-lg
+    <motion.div
+      key={post._id}
+      initial={{ opacity: 0, height: 0, rotate: -5 }}
+      animate={{ opacity: 1, height: "auto", rotate: readyTodel ? -5 : 0 }}
+      exit={{ opacity: 0, height: 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className={` ${
+        readyTodel ? "bg-[rgb(255,200,200)]" : "bg-white"
+      } dark:bg-[rgb(55,55,55)] dark:shadow-black rounded-lg
     shadow-gray-400 dark:text-gray-300 shadow-lg dark:border-gray-500 
-    overflow-hidden mb-6"
+    overflow-hidden mb-6`}
     >
       <div
         className="flex items-center justify-between md:p-2 dark:bg-[rgb(55,55,55)]
@@ -93,7 +101,6 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
             <Avatar className="cursor-pointer h-10 w-10 mr-3">
               <AvatarImage
                 src={post?.user?.profilePicture}
-                alt={post?.user?.username}
                 className="object-cover"
               />
               <AvatarFallback className="bg-gray-400 dark:bg-black capitalize">
@@ -119,13 +126,19 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           </div>
           {user?._id === post?.user?._id && (
             <button
-              onClick={() => setShowDeleteModal(true)}
+              onClick={() => {
+                setShowDeleteModal(true);
+                setReadyTodel(true);
+              }}
               className="dark:bg-black/20 cursor-pointer pt-0.5 px-2 group
                rounded border border-gray-400 bg-gray-100 
               flex flex-col items-center justify-center hover:border-red-600"
             >
               {" "}
-              <span className="text-[10px] capitalize truncate max-w-10">
+              <span
+                className="text-[10px] capitalize truncate max-w-10
+              group-hover:dark:text-red-500 group-hover:text-red-700"
+              >
                 {post?.user?.username.split(" ")[0]}
               </span>
               <Trash2
@@ -165,7 +178,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center"
+          className="fixed inset-0 z-[9999] flex items-center justify-center"
         >
           <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
             <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
@@ -177,7 +190,10 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
 
             <div className="flex justify-center gap-4 mt-6">
               <button
-                onClick={handleCancel}
+                onClick={() => {
+                  handleCancel();
+                  setReadyTodel(false);
+                }}
                 className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
                     dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
               >
@@ -212,9 +228,10 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
         onComment={onComment}
         commentInputRef={commentInputRef}
         handleShare={handleShare}
+        handleDpClick={handleDpClick}
         post={post}
       />
-    </div>
+    </motion.div>
   );
 };
 

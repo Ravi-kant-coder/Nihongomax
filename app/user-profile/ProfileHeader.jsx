@@ -2,7 +2,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { AnimatePresence } from "framer-motion";
-import { Camera, PenLine, Save, Upload, X, Dot } from "lucide-react";
+import {
+  Camera,
+  PenLine,
+  Save,
+  Upload,
+  X,
+  Dot,
+  Bell,
+  User2,
+  Users,
+} from "lucide-react";
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Label } from "@/components/ui/label";
@@ -19,6 +29,7 @@ import {
   updateUserProfile,
 } from "@/service/user.service";
 import userStore from "@/store/userStore";
+import { userFriendStore } from "@/store/userFriendsStore";
 import { useForm } from "react-hook-form";
 
 const ProfileHeader = ({
@@ -28,6 +39,7 @@ const ProfileHeader = ({
   setProfileData,
   fetchProfile,
   user,
+  onAction,
 }) => {
   const [isEditProfileModel, setIsEditProfileModel] = useState(false);
   const [isEditCoverModel, setIsEditCoverModel] = useState(false);
@@ -37,7 +49,7 @@ const ProfileHeader = ({
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
   const [loading, setLaoding] = useState(false);
   const { setUser } = userStore();
-
+  const { friendSuggestion, friendRequest } = userFriendStore();
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       username: profileData?.username,
@@ -89,7 +101,17 @@ const ProfileHeader = ({
       setCoverPhotoPreview(previewUrl);
     }
   };
-
+  const handleAction = async (action, userId) => {
+    if (action === "confirm") {
+      await followUser(userId);
+      fetchFriendRequest();
+      fetchFriendSuggestion();
+    } else if (action === "delete") {
+      await deleteUserFromRequest(userId);
+      fetchFriendRequest();
+      fetchFriendSuggestion();
+    }
+  };
   const onSubmitCoverPhoto = async (e) => {
     e.preventDefault();
     try {
@@ -186,14 +208,40 @@ const ProfileHeader = ({
               {profileData?.followingCount} following
             </p>
           </div>
-          {isOwner && (
+          {!isOwner && (
+            <div className="flex flex-col justify-center items-center">
+              {(friendSuggestion || friendRequest) && (
+                <p>Not your friend {user?.username.split(" ")[0]}</p>
+              )}
+              <Button
+                className="mt-4 md:mt-0 cursor-pointer bg-black text-white 
+              dark:hover:bg-black/60 hover:bg-black/80"
+                // onClick={() => handleAction("confirm", friend?._id)}
+              >
+                <Users className="w-4 h-4 mr-2" />
+                Send Friend Request
+              </Button>
+            </div>
+          )}
+          {isOwner ? (
             <Button
               className="mt-4 md:mt-0 cursor-pointer bg-black text-white 
               dark:hover:bg-black/60 hover:bg-black/80"
               onClick={() => setIsEditProfileModel(true)}
             >
               <PenLine className="w-4 h-4 mr-2" />
-              Add Profile
+              Change DP
+            </Button>
+          ) : (
+            <Button
+              className="absolute z-11 bottom-4 cursor-pointer right-4 flex items-center
+             dark:hover:bg-black bg-black text-white hover:bg-gray-800"
+              variant="secondary"
+              size="sm"
+              onClick={() => setIsEditCoverModel(!isEditCoverModel)}
+            >
+              <Bell className=" mr-0 md:mr-1 h-4 w-4" />
+              <span>Message</span>
             </Button>
           )}
         </div>
