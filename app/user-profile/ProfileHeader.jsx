@@ -196,7 +196,10 @@ const ProfileHeader = ({
             </AvatarFallback>
           </Avatar>
 
-          <div className="mt-4 md:mt-0  text-center md:text-left flex-grow">
+          <div
+            className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center md:text-left 
+          flex-grow"
+          >
             <h1 className="text-3xl font-semibold capitalize">
               {profileData?.username}
               {isOwner ? "(You)" : ""}
@@ -209,12 +212,20 @@ const ProfileHeader = ({
             </p>
           </div>
           {!isOwner && (
-            <div className="flex flex-col justify-center items-center">
-              {(friendSuggestion || friendRequest) && (
-                <p>Not your friend {user?.username.split(" ")[0]}</p>
+            <div className="flex flex-col justify-center items-center mt-4 md:mt-0">
+              {true ? (
+                <p className="text-sm">
+                  {profileData?.username.split(" ")[0]} is not your friend{" "}
+                  {user?.username.split(" ")[0]}
+                </p>
+              ) : (
+                <p className="text-sm">
+                  {profileData?.username.split(" ")[0]} is already your friend{" "}
+                  {user?.username.split(" ")[0]}
+                </p>
               )}
               <Button
-                className="mt-4 md:mt-0 cursor-pointer bg-black text-white 
+                className="cursor-pointer bg-black text-white 
               dark:hover:bg-black/60 hover:bg-black/80"
                 // onClick={() => handleAction("confirm", friend?._id)}
               >
@@ -234,14 +245,13 @@ const ProfileHeader = ({
             </Button>
           ) : (
             <Button
-              className="absolute z-11 bottom-4 cursor-pointer right-4 flex items-center
+              className="z-11 cursor-pointer flex items-center mt-2
              dark:hover:bg-black bg-black text-white hover:bg-gray-800"
-              variant="secondary"
-              size="sm"
-              onClick={() => setIsEditCoverModel(!isEditCoverModel)}
+
+              // onClick={() => setIsEditCoverModel(!isEditCoverModel)}
             >
               <Bell className=" mr-0 md:mr-1 h-4 w-4" />
-              <span>Message</span>
+              <span>Message {profileData?.username.split(" ")[0]}</span>
             </Button>
           )}
         </div>

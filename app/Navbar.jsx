@@ -329,9 +329,8 @@ const Navbar = () => {
       {isMsgBoxOpen && <MsgBox />}
       {isPending && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-white/60
-           dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity duration-300 
-           opacity-100"
+          className="fixed inset-0 flex items-center justify-center bg-white/30
+        dark:bg-black/60 backdrop-blur-xs z-[9999]"
         >
           <Spinner />
         </div>

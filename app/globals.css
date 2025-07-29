@@ -187,3 +187,23 @@ body {
 .heart-beat {
   animation: beat 0.7s infinite alternate;
 }
+
+@keyframes blossomMove {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(5deg);
+  }
+}
+
+.animate-blossom .blossom-1 {
+  animation: blossomMove 2s ease-in-out infinite;
+}
+.animate-blossom .blossom-2 {
+  animation: blossomMove 2.2s ease-in-out infinite;
+}
+.animate-blossom .blossom-3 {
+  animation: blossomMove 2.4s ease-in-out infinite;
+}

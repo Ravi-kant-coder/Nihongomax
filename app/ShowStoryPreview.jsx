@@ -50,8 +50,8 @@ const ShowStoryPreview = ({
         {user?._id === story?.user?._id && (
           <button
             onClick={() => setShowDeleteModal(true)}
-            className="absolute top-6 left-35 hover:text-red-700 text-white
-              cursor-pointer bg-black/70 hover:bg-white/70 dark:text-gray-300 rounded p-1
+            className="absolute top-6 left-35 text-red-700 border border-red-700  
+              cursor-pointer hover:bg-white/70 bg-white/20 dark:text-gray-300 rounded p-1
             hover:dark:text-red-500 hover:dark:bg-black/50 flex items-center justify-center"
           >
             <Trash2 className="shrink-0 mr-2" />
@@ -81,7 +81,7 @@ const ShowStoryPreview = ({
           overflow-hidden max-w-80 bg-black/70 p-1 rounded cursor-pointer"
             onClick={handleStoryUsernameClick}
           >
-            By {user?._id === story?.user?._id ? "you" : story?.user.username}
+            {user?._id === story?.user?._id ? null : story?.user.username}
           </span>
         </div>
 

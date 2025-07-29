@@ -12,6 +12,8 @@ import {
   deletePost,
   deleteStory,
   updatePostContent as updatePostContentAPI,
+  deleteComment as deleteCommentAPI,
+  updateComment as updateCommentAPI,
 } from "@/service/post.service";
 
 export const usePostStore = create((set) => ({
@@ -43,6 +45,38 @@ export const usePostStore = create((set) => ({
     } catch (error) {
       set({ error, loading: false });
       console.error("Zustand nahi kar paya post delete", error);
+    }
+  },
+
+  deleteComment: async (postId, commentId) => {
+    try {
+      await deleteCommentAPI(postId, commentId);
+
+      set((state) => ({
+        posts: state.posts.map((post) => {
+          if (post._id !== postId) return post;
+
+          return {
+            ...post,
+            comments: post.comments.filter(
+              (comment) => comment._id !== commentId
+            ),
+          };
+        }),
+        userPosts: state.userPosts.map((post) => {
+          if (post._id !== postId) return post;
+
+          return {
+            ...post,
+            comments: post.comments.filter(
+              (comment) => comment._id !== commentId
+            ),
+          };
+        }),
+      }));
+    } catch (error) {
+      console.error("Zustand Delete Error:", error);
+      set({ error });
     }
   },
 
@@ -114,6 +148,40 @@ export const usePostStore = create((set) => ({
         userPosts: state.userPosts.map((post) =>
           post._id === postId ? { ...post, content: newContent } : post
         ),
+      }));
+    } catch (error) {
+      console.error("Zustand Update Error:", error);
+      set({ error });
+    }
+  },
+
+  updateComment: async (postId, commentId, newText) => {
+    try {
+      await updateCommentAPI(postId, commentId, newText);
+      set((state) => ({
+        posts: state.posts.map((post) => {
+          if (post._id !== postId) return post;
+
+          return {
+            ...post,
+            comments: post.comments.map((comment) =>
+              comment._id === commentId
+                ? { ...comment, text: newText }
+                : comment
+            ),
+          };
+        }),
+        userPosts: state.userPosts.map((post) => {
+          if (post._id !== postId) return post;
+          return {
+            ...post,
+            comments: post.comments.map((comment) =>
+              comment._id === commentId
+                ? { ...comment, text: newText }
+                : comment
+            ),
+          };
+        }),
       }));
     } catch (error) {
       console.error("Zustand Update Error:", error);

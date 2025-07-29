@@ -6,8 +6,10 @@ import userStore from "@/store/userStore";
 import { Input } from "@/components/ui/input";
 import { formateDate } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import Spinner from "./Spinner";
 import CommentEdit from "./CommentEdit";
+import { motion, AnimatePresence } from "framer-motion";
+import Spinner from "./Spinner";
+import { usePostStore } from "@/store/usePostStore";
 
 const CommentsShown = ({ post, onComment, commentInputRef }) => {
   const [showAllComments, setShowAllComments] = useState(false);
@@ -15,6 +17,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
   const { user } = userStore();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { fetchPost } = usePostStore();
 
   const visibleComments = showAllComments
     ? post?.comments
@@ -25,13 +28,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
       onComment({ text: commentText });
       setCommentText("");
     }
-  };
-
-  const handleReplyEdit = (commentId, newText) => {
-    const updatedComments = post.comments.map((comment) =>
-      comment._id === commentId ? { ...comment, text: newText } : comment
-    );
-    onComment({ comments: updatedComments });
+    fetchPost();
   };
 
   return (
@@ -40,49 +37,58 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
         <h3 className="font-semibold ml-4">Comments</h3>
       )}
       <div className="max-h-100 overflow-y-auto">
-        {visibleComments?.map((comment, index) => (
-          <div
-            key={index}
-            className="flex items-start space-x-2 m-4 rounded-md p-2
-               dark:bg-[rgb(45,45,45)] text-sm "
-          >
-            <Avatar
-              className="w-8 h-8"
-              onClick={
-                comment?.user?._id !== user?._id
-                  ? () => {
-                      startTransition(() => {
-                        if (comment?.user?._id) {
-                          router.push(`/user-profile/${comment?.user?._id}`);
-                        }
-                      });
-                    }
-                  : undefined
-              }
+        <AnimatePresence>
+          {visibleComments?.map((comment) => (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{
+                opacity: 1,
+                height: "auto",
+              }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              key={comment._id}
+              className={`flex items-start space-x-2 m-4 rounded-md p-2 bg-gray-200
+               dark:bg-[rgb(45,45,45)] text-sm  `}
             >
-              <AvatarImage
-                className={`hover:ring-2 hover:ring-gray-300 dark:hover:ring-gray-600
+              <Avatar
+                className={`w-8 h-8 ${
+                  comment?.user?._id !== user?._id && "cursor-pointer"
+                }`}
+                onClick={
+                  comment?.user?._id !== user?._id
+                    ? () => {
+                        startTransition(() => {
+                          if (comment?.user?._id) {
+                            router.push(`/user-profile/${comment?.user?._id}`);
+                          }
+                        });
+                      }
+                    : undefined
+                }
+              >
+                <AvatarImage
+                  className={`hover:ring-2 hover:ring-gray-300 dark:hover:ring-gray-600
                   ${
                     comment?.user?._id !== user?._id &&
                     "hover:underline cursor-pointer"
                   }`}
-                src={comment?.user?.profilePicture}
-              />
-              <AvatarFallback className="dark:bg-gray-800 bg-gray-400 capitalize">
-                {user?.username.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col w-full">
-              <div className="">
-                <p
-                  className={`font-semibold dark:font-normal text-xs capitalize 
-                  ${
-                    comment?.user?._id !== user?._id &&
-                    "hover:underline cursor-pointer"
-                  }`}
-                  onClick={
-                    comment?.user?._id !== user?._id
-                      ? () => {
+                  src={comment?.user?.profilePicture}
+                />
+                <AvatarFallback className="dark:bg-gray-800 bg-gray-400 capitalize">
+                  {user?.username.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col w-full">
+                <div className="">
+                  <p>
+                    {user?._id === comment?.user?._id ? (
+                      <span className="font-semibold dark:font-normal text-xs">
+                        You
+                      </span>
+                    ) : (
+                      <span
+                        onClick={() => {
                           startTransition(() => {
                             if (comment?.user?._id) {
                               router.push(
@@ -90,34 +96,34 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                               );
                             }
                           });
-                        }
-                      : undefined
-                  }
-                >
-                  {user?._id === comment?.user?._id ? (
-                    <span>you</span>
+                        }}
+                        className="font-semibold dark:font-normal text-xs capitalize 
+                        hover:underline cursor-pointer"
+                      >
+                        {comment?.user.username}
+                      </span>
+                    )}
+                  </p>
+                  <div className="text-gray-600 dark:text-gray-400 text-xs normal-case">
+                    {formateDate(comment?.createdAt)}
+                  </div>
+                  {user?._id !== comment?.user?._id ? (
+                    <p className="text-md font-semibold">{comment?.text}</p>
                   ) : (
-                    comment?.user.username
-                  )}{" "}
-                </p>
-                <div className="text-gray-600 dark:text-gray-400 text-xs normal-case">
-                  {formateDate(comment?.createdAt)}
-                </div>
-                {user?._id !== comment?.user?._id ? (
-                  <p className="text-md font-semibold">{comment?.text}</p>
-                ) : (
-                  <div className="">
                     <CommentEdit
-                      commentId={comment._id}
+                      post={post}
+                      comment={comment}
                       postId={post._id}
+                      commentId={comment?._id}
                       initialComment={comment?.text}
                     />
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+
         {post?.comments?.length > 2 && (
           <div
             className="w-60 my-2 p-2 dark:text-gray-300 cursor-pointer hover:underline"
@@ -165,12 +171,10 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
           <Send className="h-4 w-4" />
         </Button>
       </div>
-      {/* ------------------------Spinner-------------------------- */}
       {isPending && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-white/60
-                       dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
-                        duration-300 opacity-100"
+          className="fixed inset-0 flex items-center justify-center bg-white/30
+        dark:bg-black/60 backdrop-blur-xs z-[9999]"
         >
           <Spinner />
         </div>
