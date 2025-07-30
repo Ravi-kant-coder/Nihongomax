@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
 const FriendSuggestion = ({ friend, onAction }) => {
-  if (!friend) return null; // Ensure friend exists before rendering
+  if (!friend) return null;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const handleDpClick = () => {

@@ -6,7 +6,6 @@ import StorySection from "./StorySection";
 import { usePostStore } from "@/store/usePostStore";
 import toast from "react-hot-toast";
 import ScrollupBtn from "./ScrollupBtn";
-import { AnimatePresence, motion } from "framer-motion";
 
 const Wall = () => {
   const [isPostTriggerOpen, setIsPostTriggerOpen] = useState(false);
@@ -64,11 +63,11 @@ const Wall = () => {
       <StorySection />
       {posts?.map((post) => (
         <WallCard
-          key={post._id}
+          key={post?._id}
           post={post}
           onLike={() => handleLike(post?._id)}
           onComment={async (comment) => {
-            await handleCommentPost(post?._id, comment.text);
+            await handleCommentPost(post?._id, comment?.text);
             await fetchPost();
           }}
           onShare={async () => {

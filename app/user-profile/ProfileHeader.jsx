@@ -49,7 +49,17 @@ const ProfileHeader = ({
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
   const [loading, setLaoding] = useState(false);
   const { setUser } = userStore();
-  const { friendSuggestion, friendRequest } = userFriendStore();
+  const {
+    followUser,
+    UnfollowUser,
+    fetchFriendRequest,
+    fetchFriendSuggestion,
+    deleteUserFromRequest,
+    fetchMutualFriends,
+    friendRequest,
+    friendSuggestion,
+    mutualFriends,
+  } = userFriendStore();
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       username: profileData?.username,

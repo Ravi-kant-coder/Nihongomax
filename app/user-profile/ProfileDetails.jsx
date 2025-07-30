@@ -10,6 +10,7 @@ import {
   MapPin,
   Phone,
   Rss,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MutualFriends from "./profileContent/MutualFriends";
@@ -19,6 +20,7 @@ import { formatDateInDDMMYYY } from "@/lib/utils";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
 import WallCard from "../WallCard";
+import { motion } from "framer-motion";
 
 const ProfileDetails = ({
   activeTab,
@@ -31,6 +33,8 @@ const ProfileDetails = ({
   const [isEditBioModel, setIsEditBioModel] = useState(false);
   const [loading, setLoading] = useState(false);
   const [likePosts, setLikePosts] = useState(new Set());
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const {
     userPosts,
     fetchUserPost,
@@ -139,7 +143,10 @@ const ProfileDetails = ({
               </div>
               <div className="flex items-center mb-4 dark:text-gray-300">
                 <Rss className="w-5 h-5 mr-2 shrink-0" />
-                <span>Followed by {profileData?.followerCount} people</span>
+                <span>
+                  Followed by {profileData?.followerCount}{" "}
+                  {profileData?.followerCount === 1 ? "person" : "people"}
+                </span>
               </div>
               {isOwner && (
                 <Button
@@ -147,7 +154,7 @@ const ProfileDetails = ({
                   dark:hover:text-white hover:dark:bg-gray-800"
                   onClick={() => setIsEditBioModel(true)}
                 >
-                  Edit
+                  Edit/Add
                 </Button>
               )}
             </CardContent>
@@ -184,6 +191,23 @@ const ProfileDetails = ({
             </CardContent>
           </Card>
           <MutualFriends id={id} isOwner={isOwner} profileData={profileData} />
+          {isOwner && (
+            <button
+              className="w-full border border-red-800 text-red-700 h-10 text-lg rounded-lg
+            cursor-pointer hover:bg-red-300 group flex items-center justify-center
+            bg-red-200 dark:bg-zinc-900 dark:border-red-400 dark:text-red-400
+            hover:dark:text-red-500 hover:dark:border-red-500"
+              onClick={() => {
+                setShowDeleteModal(true);
+              }}
+            >
+              <Trash2
+                className="h-5 w-6 mr-2 text-red-600 
+                 dark:text-red-400 group-hover:dark:text-red-500"
+              />{" "}
+              Delete Account
+            </button>
+          )}
         </div>
         <div className="w-full md:w-[70%]">
           {loading ? (
@@ -200,7 +224,7 @@ const ProfileDetails = ({
                 post={post}
                 onLike={() => handleLike(post?._id)}
                 onComment={async (comment) => {
-                  await handleCommentPost(post?._id, comment.text);
+                  await handleCommentPost(post?._id, comment?.text);
                   await fetchUserPost(id);
                 }}
                 onShare={async () => {
@@ -211,6 +235,45 @@ const ProfileDetails = ({
             ))
           )}
         </div>
+        {/* --------------------Delete Confirmation Modal------------------- */}
+        {showDeleteModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center"
+          >
+            <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
+              <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
+                Delete Account permanently {user?.username.split(" ")[0]}?
+              </h2>
+              <p className="text-sm dark:text-gray-300 text-center my-2">
+                Account will never be recovered.
+              </p>
+
+              <div className="flex justify-center gap-4 mt-6">
+                <button
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                  }}
+                  className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
+                    dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
+              cursor-pointer text-white text-sm"
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    // handleAccountDelete();
+                  }}
+                >
+                  Yes, Delete
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
       </div>
     ),
   };

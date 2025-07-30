@@ -122,7 +122,7 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
           >
             <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
               <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-                Delete this comment {comment?.user?.username.split(" ")[0]}?
+                Sure want to delete this comment?
               </h2>
               <p className="text-sm dark:text-gray-300 text-center my-2">
                 This cannot be recovered.

@@ -100,7 +100,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                         className="font-semibold dark:font-normal text-xs capitalize 
                         hover:underline cursor-pointer"
                       >
-                        {comment?.user.username}
+                        {comment?.user?.username}
                       </span>
                     )}
                   </p>
