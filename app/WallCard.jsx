@@ -94,11 +94,14 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
     >
       <div
         className="flex items-center justify-between md:p-2 dark:bg-[rgb(55,55,55)]
-       rounded-t-lg"
+       rounded-t-lg border-b"
       >
-        <div className="flex items-center" onClick={handleDpClick}>
-          <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
-            <Avatar className="cursor-pointer h-10 w-10 mr-3">
+        <div className="flex items-center ">
+          <div
+            className="relative mx-auto my-auto overflow-hidden rounded p-1"
+            onClick={handleDpClick}
+          >
+            <Avatar className="cursor-pointer h-10 w-10 mr-3 hover:ring-2 ring-gray-500">
               <AvatarImage
                 src={post?.user?.profilePicture}
                 className="object-cover"
@@ -111,19 +114,20 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
               </AvatarFallback>
             </Avatar>
           </div>
-          <div
-            className="lg:w-70 md:w-50 truncate w-40 font-semibold cursor-pointer 
-          overflow-hidden hover:underline capitalize"
-          >
-            By {user?._id === post?.user?._id ? "you" : post?.user.username}
+          <div>
+            <div
+              className="lg:w-70 md:w-50 truncate w-40 cursor-pointer 
+          overflow-hidden hover:underline capitalize font-[450]"
+              onClick={handleDpClick}
+            >
+              By {user?._id === post?.user?._id ? "you" : post?.user.username}
+            </div>
+            <div className="text-xs text-gray-600 dark:text-white">
+              {formateDate(post?.createdAt)}
+            </div>
           </div>
         </div>
         <div className="flex">
-          <div className="flex items-center text-gray-800 mr-4">
-            <span className="text-sm text-gray-800 dark:text-white">
-              {formateDate(post?.createdAt)}
-            </span>
-          </div>
           {user?._id === post?.user?._id && (
             <button
               onClick={() => {
@@ -156,7 +160,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
         </div>
       </div>
       {user?._id !== post?.user?._id ? (
-        <p className="ml-4">{post?.content}</p>
+        <p className="font-[450] p-4">{post?.content}</p>
       ) : (
         <div className="p-2">
           <PostContentEdit postId={post._id} initialContent={post.content} />

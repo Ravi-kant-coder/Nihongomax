@@ -246,6 +246,8 @@ const ProfileHeader = ({
           )}
           {isOwner ? (
             <Button
+              variant="secondary"
+              size="sm"
               className="mt-4 md:mt-0 cursor-pointer bg-black text-white 
               dark:hover:bg-black/60 hover:bg-black/80"
               onClick={() => setIsEditProfileModel(true)}

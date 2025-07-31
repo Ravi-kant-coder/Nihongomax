@@ -38,11 +38,11 @@ const Page = () => {
       .string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
-    dateOfBirth: yup.date().required("Birth date is required"),
-    gender: yup
-      .string()
-      .oneOf(["male", "female", "other"], "please select a gender")
-      .required("Gender is required"),
+    // dateOfBirth: yup.date().required("Birth date is required"),
+    // gender: yup
+    //   .string()
+    //   .oneOf(["male", "female", "other"], "please select a gender")
+    //   .required("Gender is required"),
   });
 
   const loginSchema = yup.object().shape({
@@ -98,7 +98,7 @@ const Page = () => {
     try {
       const result = await loginUser(data);
       if (result?.status === "success") {
-        setUser(result.user); // Store user in Zustand
+        setUser(result.user);
         router.push("/");
       }
     } catch (error) {
@@ -108,9 +108,9 @@ const Page = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
-  };
+  // const handleGoogleLogin = () => {
+  //   window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
+  // };
   return (
     <>
       <div
@@ -125,7 +125,7 @@ const Page = () => {
           <Card className="w-full max-w-md dark:text-white">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-center">
-                <span>NihongoMax</span>
+                <span>Nihongomax31jul</span>
               </CardTitle>
               <CardDescription className="text-center">
                 Learn Japanese and make frineds
@@ -236,50 +236,6 @@ const Page = () => {
                           </p>
                         )}
                       </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="signupBirthday">Birthdate</Label>
-                        <Input
-                          id="signupBirthday"
-                          name="dateOfBirth"
-                          type="date"
-                          {...registerSignUp("dateOfBirth")}
-                          placeholder="Enter your Password"
-                          className="col-span-3 dark:border-gray-400"
-                        />
-                        {errorsSignUp.dateOfBirth && (
-                          <p className="text-red-500">
-                            {errorsSignUp.dateOfBirth.message}
-                          </p>
-                        )}
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Gender</Label>
-                        <RadioGroup
-                          className="flex justify-between "
-                          defaultValue="male"
-                          {...registerSignUp("gender")}
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="male" id="male" />
-                            <Label htmlFor="male">Male</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="female" id="female" />
-                            <Label htmlFor="female">Female</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="other" id="other" />
-                            <Label htmlFor="other">Other</Label>
-                          </div>
-                        </RadioGroup>
-                        {errorsSignUp.gender && (
-                          <p className="text-red-500">
-                            {errorsSignUp.gender.message}
-                          </p>
-                        )}
-                      </div>
-
                       <Button className="w-full cursor-pointer" type="submit">
                         <LogIn className="mr-2 w-4 h-4" /> Create Account
                       </Button>
@@ -309,7 +265,7 @@ const Page = () => {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={handleGoogleLogin}
+                    // onClick={handleGoogleLogin}
                   >
                     <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                       <path

@@ -36,40 +36,42 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogTitle className="sm:max-w-[425px]"></DialogTitle>
-        <DialogHeader className="bg-black text-white rounded p-2">
-          Provide your details to let the Employers know you better.
+        <DialogHeader className="bg-[rgb(240,240,240)] text-black rounded pl-1">
+          Provide your details to let the Employers know you better. (Try to
+          make it like a CV)
         </DialogHeader>
         <form onSubmit={handleSubmit(handleEditBio)}>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
+          <div className="grid gap-2 py-2">
+            <div className="grid grid-cols-4 items-center gap-2">
               <Label htmlFor="bio" className="text-right">
                 About you
               </Label>
               <Textarea
                 id="bioText"
-                className="col-span-3"
+                className="col-span-3 border-gray-400"
                 {...register("bioText")}
               />
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="liveIn" className="text-right">
-                Living in
+                Location
               </Label>
               <Input
                 id="liveIn"
-                className="col-span-3"
+                className="col-span-3 border-gray-400"
                 {...register("liveIn")}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="relationship" className="text-right">
-                Relationship
+                Level clear
               </Label>
               <Input
                 id="relationship"
                 {...register("relationship")}
-                className="col-span-3"
+                className="col-span-3 border-gray-400"
+                placeholder="JLPT/NAT"
               />
             </div>
 
@@ -80,7 +82,8 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
               <Input
                 id="workplace"
                 {...register("workplace")}
-                className="col-span-3"
+                className="col-span-3 border-gray-400"
+                placeholder="If working"
               />
             </div>
 
@@ -91,7 +94,7 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
               <Input
                 id="education"
                 {...register("education")}
-                className="col-span-3"
+                className="col-span-3 border-gray-400"
               />
             </div>
 
@@ -99,7 +102,11 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
               <Label htmlFor="phone" className="text-right">
                 Phone
               </Label>
-              <Input id="phone" {...register("phone")} className="col-span-3" />
+              <Input
+                id="phone"
+                {...register("phone")}
+                className="col-span-3 border-gray-400"
+              />
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
@@ -109,7 +116,27 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
               <Input
                 id="hometown"
                 {...register("hometown")}
-                className="col-span-3"
+                className="col-span-3 border-gray-400"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="birthday" className="text-right">
+                Birthday
+              </Label>
+              <Input
+                id="birthday"
+                {...register("birthday")}
+                className="col-span-3 border-gray-400"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="address" className="text-right">
+                Address
+              </Label>
+              <Input
+                id="address"
+                {...register("address")}
+                className="col-span-3 border-gray-400"
               />
             </div>
           </div>

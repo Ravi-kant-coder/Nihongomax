@@ -29,18 +29,18 @@ const PostContentEdit = ({ postId, initialContent }) => {
   return (
     <div>
       {!isEditing ? (
-        <>
-          <p className="text-gray-800 dark:text-gray-300 mb-2">{content}</p>
+        <div className="text-gray-800 font-[450] p-4 dark:text-gray-300">
+          {content}
           <button
-            className="px-2 bg-white flex items-center text-xs font-[Poppins]
-             cursor-pointer border-gray-400 border rounded p-0.5 hover:bg-gray-300
+            className=" bg-white flex items-center text-xs
+             cursor-pointer underline rounded p-1 hover:bg-gray-300
                dark:hover:bg-black dark:bg-[rgb(36,37,38)] dark:shadow-none"
             onClick={() => setIsEditing(true)}
           >
             <span>Edit/Add</span>
-            <SquarePen className="h-3 w-3 ml-2" />
+            <SquarePen className="h-3 w-3 ml-1" />
           </button>
-        </>
+        </div>
       ) : (
         <>
           <textarea

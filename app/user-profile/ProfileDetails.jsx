@@ -3,12 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   Briefcase,
   Cake,
+  CakeIcon,
   GraduationCap,
   Heart,
   Home,
   Mail,
   MapPin,
   Phone,
+  Pi,
   Rss,
   Trash2,
 } from "lucide-react";
@@ -34,7 +36,6 @@ const ProfileDetails = ({
   const [loading, setLoading] = useState(false);
   const [likePosts, setLikePosts] = useState(new Set());
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const {
     userPosts,
     fetchUserPost,
@@ -103,6 +104,7 @@ const ProfileDetails = ({
                   <span>{profileData?.bio?.relationship}</span>
                 </div>
                 <div className="flex items-center">
+                  <p>JLPT/NAT clear</p>
                   <MapPin className="w-5 h-5 mr-2 shrink-0" />
                   <span>{profileData?.bio?.hometown}</span>
                 </div>
@@ -117,6 +119,14 @@ const ProfileDetails = ({
                 <div className="flex items-center">
                   <Phone className="w-5 h-5 mr-2 shrink-0" />
                   <span>{profileData?.bio?.phone}</span>
+                </div>
+                <div className="flex items-center">
+                  <CakeIcon className="w-5 h-5 mr-2 shrink-0" />
+                  <span>{profileData?.bio?.birthday}</span>
+                </div>
+                <div className="flex items-center">
+                  <p className="mr-3">JLPT/NAT clear</p>
+                  <span>{profileData?.bio?.address}</span>
                 </div>
               </div>
               <div className="relative w-full">
