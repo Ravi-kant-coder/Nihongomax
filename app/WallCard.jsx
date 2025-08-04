@@ -122,7 +122,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
             >
               By {user?._id === post?.user?._id ? "you" : post?.user.username}
             </div>
-            <div className="text-xs text-gray-600 dark:text-white">
+            <div className="text-xs text-gray-600 dark:text-gray-500">
               {formateDate(post?.createdAt)}
             </div>
           </div>

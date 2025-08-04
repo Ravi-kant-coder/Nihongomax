@@ -1,7 +1,7 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Camera,
   PenLine,
@@ -13,8 +13,7 @@ import {
   User2,
   Users,
 } from "lucide-react";
-import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState, useTransition } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -27,10 +26,14 @@ import {
 import {
   updateUserCoverPhoto,
   updateUserProfile,
+  deleteUserDp,
+  deleteUserCover,
 } from "@/service/user.service";
 import userStore from "@/store/userStore";
 import { userFriendStore } from "@/store/userFriendsStore";
 import { useForm } from "react-hook-form";
+import ShowDpPreview from "./[id]/ShowDpPreview";
+import Spinner from "../Spinner";
 
 const ProfileHeader = ({
   id,
@@ -48,7 +51,12 @@ const ProfileHeader = ({
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
   const [loading, setLaoding] = useState(false);
+  const [showDpPreview, setShowDpPreview] = useState(false);
+  const [filePreview, setFilePreview] = useState(null);
   const { setUser } = userStore();
+  const [isPending, startTransition] = useTransition();
+  const [showDeleteDpModal, setShowDeleteDpModal] = useState(false);
+  const [showDeleteCoverModal, setShowDeleteCoverModal] = useState(false);
   const {
     followUser,
     UnfollowUser,
@@ -60,6 +68,7 @@ const ProfileHeader = ({
     friendSuggestion,
     mutualFriends,
   } = userFriendStore();
+
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       username: profileData?.username,
@@ -111,6 +120,7 @@ const ProfileHeader = ({
       setCoverPhotoPreview(previewUrl);
     }
   };
+
   const handleAction = async (action, userId) => {
     if (action === "confirm") {
       await followUser(userId);
@@ -122,6 +132,7 @@ const ProfileHeader = ({
       fetchFriendSuggestion();
     }
   };
+
   const onSubmitCoverPhoto = async (e) => {
     e.preventDefault();
     try {
@@ -139,6 +150,40 @@ const ProfileHeader = ({
     } finally {
       setLaoding(false);
     }
+  };
+
+  const handleDpClick = () => {
+    if (isOwner) {
+      setIsEditProfileModel(true);
+    } else if (!profileData?.profilePicture) {
+      setShowDpPreview(false);
+    } else {
+      setShowDpPreview(true);
+    }
+  };
+
+  const handleDpDelete = async () => {
+    setShowDeleteDpModal(false);
+    startTransition(async () => {
+      try {
+        await deleteUserDp(user._id);
+        setUser({ ...user, profilePicture: null });
+      } catch (err) {
+        console.error("Failed to delete DP", err);
+      }
+    });
+  };
+
+  const handleCoverDelete = async () => {
+    setShowDeleteCoverModal(false);
+    startTransition(async () => {
+      try {
+        await deleteUserCover(user._id);
+        setUser({ ...user, coverPhoto: null });
+      } catch (err) {
+        console.error("Failed to delete Cover", err);
+      }
+    });
   };
 
   return (
@@ -183,34 +228,34 @@ const ProfileHeader = ({
         )}
       </div>
 
-      {/*---------------------- Profile section-------------------------- */}
-
+      {/*------------------------- DP section-------------------------- */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
-        <div className="flex flex-col md:flex-row items-center md:items-end md:space-x-5">
+        <div
+          className="flex flex-col md:flex-row items-center md:items-end md:space-x-5"
+          onClick={handleDpClick}
+        >
           <Avatar
-            className={`w-32 h-32 border-4 border-white dark:border-gray-700 
-             ${isOwner && "cursor-pointer"}`}
-            onClick={() => {
-              isOwner && setIsEditProfileModel(true);
-            }}
+            className={`w-32 h-32 border-4 border-white dark:border-gray-700
+             ${
+               !isOwner && !profileData.profilePicture
+                 ? "cursor-normal"
+                 : "cursor-pointer"
+             }`}
           >
             <AvatarImage
               className="object-cover"
               src={profileData?.profilePicture}
             />
             <AvatarFallback className="bg-gray-300 dark:bg-gray-900 text-4xl uppercase">
-              {profileData?.username
-                ?.split(" ")
-                .map((name) => name[0])
-                .join("")}
+              {profileData?.username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
 
           <div
-            className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center md:text-left 
-          flex-grow"
+            className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center
+            md:text-left flex-grow"
           >
-            <h1 className="text-3xl font-semibold capitalize">
+            <h1 className="text-3xl font-semibold capitalize truncate max-w-200">
               {profileData?.username}
               {isOwner ? "(You)" : ""}
             </h1>
@@ -269,7 +314,7 @@ const ProfileHeader = ({
         </div>
       </div>
 
-      {/*------------------------------Edit profile model-----------------------------*/}
+      {/*------------------------------Edit DP model-----------------------------*/}
       <AnimatePresence>
         {isEditProfileModel && (
           <motion.div
@@ -279,18 +324,13 @@ const ProfileHeader = ({
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center
              justify-center z-50"
           >
-            <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className=" bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md"
-            >
+            <div className=" bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  Add Profile
+                  Put/Change/Delete DP
                 </h2>
                 <Button
-                  className="cursor-pointer bg-accent hover:bg-gray-200 
+                  className="cursor-pointer bg-accent hover:bg-gray-200 dark:bg-gray-900
                   dark:hover:bg-black"
                   variant="ghost"
                   size="icon"
@@ -331,11 +371,23 @@ const ProfileHeader = ({
                     variant="outline"
                     size="sm"
                     onClick={() => profileImageInputRef.current?.click()}
-                    className="cursor-pointer hover:bg-gray-200"
+                    className="cursor-pointer hover:bg-gray-200 mb-2 border-gray-400"
                   >
                     <Upload className="h-4 w-4 mr-2" />
                     Put/Change DP
                   </Button>
+                  {user?.profilePicture && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowDeleteCoverModal(true)}
+                      className="cursor-pointer hover:bg-gray-200 border-gray-400 w-40"
+                    >
+                      <X className="h-4 w-4 mr-1" />
+                      Delete DP
+                    </Button>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="username">Username</Label>
@@ -368,19 +420,25 @@ const ProfileHeader = ({
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-gray-800 hover:bg-black cursor-pointer text-white"
+                  className="w-full bg-gray-800 hover:bg-black dark:bg-gray-900 
+                  cursor-pointer text-white dark:hover:bg-black"
                 >
                   <Save className="w-4 h-4 mr-2" />{" "}
                   {loading ? "Saving..." : "Save changes"}
                 </Button>
               </form>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
+      {showDpPreview && (
+        <ShowDpPreview
+          dp={profileData?.profilePicture}
+          name={profileData?.username}
+          onClose={() => setShowDpPreview(false)}
+        />
+      )}
       {/* -------------------Edit cover photo Model------------------------ */}
-
       <AnimatePresence>
         {isEditCoverModel && (
           <motion.div
@@ -427,7 +485,7 @@ const ProfileHeader = ({
                     onChange={handleCoverPhotoChange}
                   />
                   <Button
-                    className="w-full hover:dark:bg-black bg-gray-200 dark:text-white
+                    className="w-full hover:dark:bg-black bg-gray-200 dark:text-white mb-2
                     hover:border-gray-400 border-gray-300 cursor-pointer hover:bg-gray-300"
                     type="button"
                     variant="outline"
@@ -437,11 +495,24 @@ const ProfileHeader = ({
                     <Upload className="h-4 w-4 mr-2" />
                     Select New Cover Photo
                   </Button>
+                  {profileData?.coverPhoto && (
+                    <Button
+                      className="w-full hover:dark:bg-black bg-gray-200 dark:text-white
+                    hover:border-gray-400 border-gray-300 cursor-pointer hover:bg-gray-300"
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowDeleteCoverModal(true)}
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Delete Cover Photo
+                    </Button>
+                  )}
                 </div>
 
                 <Button
-                  className="w-full bg-gray-800 dark:bg-black hover:bg-black
-                   text-white cursor-pointer dark:hover:bg-gray-900"
+                  className="w-full bg-gray-800 dark:bg-gray-900 hover:bg-black
+                   text-white cursor-pointer dark:hover:bg-black"
                   onClick={onSubmitCoverPhoto}
                   disabled={!coverPhotoFile}
                   type="button"
@@ -454,6 +525,88 @@ const ProfileHeader = ({
           </motion.div>
         )}
       </AnimatePresence>
+      {/* --------------------Delete DP Confirmation Modal------------------- */}
+      {showDeleteDpModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center"
+        >
+          <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
+            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
+              Delete DP {user?.username.split(" ")[0]}?
+            </h2>
+            <p className="text-sm dark:text-gray-300 text-center my-2">
+              This cannot be recovered.
+            </p>
+
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => {
+                  setShowDeleteDpModal(false);
+                }}
+                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
+                          dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
+                    cursor-pointer text-white text-sm"
+                onClick={handleDpDelete}
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+      {/* --------------------Delete Cover Confirmation Modal------------------- */}
+      {showDeleteCoverModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center"
+        >
+          <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
+            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
+              Delete Cover Photo {user?.username.split(" ")[0]}?
+            </h2>
+            <p className="text-sm dark:text-gray-300 text-center my-2">
+              This cannot be recovered.
+            </p>
+
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => {
+                  setShowDeleteCoverModal(false);
+                }}
+                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
+                          dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
+                    cursor-pointer text-white text-sm"
+                onClick={handleCoverDelete}
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+      {/* ------------------------Spinner-------------------------- */}
+      {isPending && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/60
+                       dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
+                        duration-300 opacity-100"
+        >
+          <Spinner />
+        </div>
+      )}
     </div>
   );
 };

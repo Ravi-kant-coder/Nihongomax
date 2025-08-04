@@ -2,7 +2,6 @@ import "./globals.css";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import NavbarBelow from "@/app/NavbarBelow";
-import localFont from "next/font/local";
 import AuthWrapper from "./auth-wrapper";
 import Navbar from "./Navbar";
 const poppins = Poppins({
@@ -35,8 +34,6 @@ export default function RootLayout({ children }) {
           antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navbar />
-          <NavbarBelow />
           <AuthWrapper>{children}</AuthWrapper>
         </ThemeProvider>{" "}
       </body>

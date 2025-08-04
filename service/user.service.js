@@ -121,3 +121,34 @@ export const getAllUsers = async () => {
     throw error;
   }
 };
+
+export const deleteUserDp = async (userId) => {
+  console.log(userId);
+  try {
+    const result = await axiosInstance.delete(
+      `/users/${userId}/profilePicture`
+    );
+
+    return result?.data?.message;
+  } catch (error) {
+    console.error(
+      "Delete Dp Error in Service:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const deleteUserCover = async (userId) => {
+  console.log(userId);
+  try {
+    const result = await axiosInstance.delete(`/users/${userId}/coverPhoto`);
+    return result?.data?.message;
+  } catch (error) {
+    console.error(
+      "Delete Cover Error in Service:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};

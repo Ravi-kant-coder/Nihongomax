@@ -40,7 +40,7 @@ const UserMenu = ({ handleLogout }) => {
                 className="object-cover"
               />
               <AvatarFallback className="dark:bg-black text-sm">
-                {user?.username.charAt(0).toUpperCase()}
+                {user?.username?.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </div>

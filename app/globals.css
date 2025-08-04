@@ -207,3 +207,79 @@ body {
 .animate-blossom .blossom-3 {
   animation: blossomMove 2.4s ease-in-out infinite;
 }
+
+@keyframes plane-move {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes cloud-left-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float-center {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes cloud {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
+@keyframes plane {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+/* You can toggle these classes manually, or add them with JavaScript on scroll etc */
+
+.animate-float {
+  animation: float 6s infinite ease-in-out;
+}
+
+.animate-float-center {
+  animation: float-center 4s infinite ease-in-out;
+}
+
+.animate-cloud {
+  animation: cloud 60s linear infinite;
+}
+
+.animate-plane {
+  animation: plane 8s linear infinite;
+  offset-path: path("M 100 400 C 200 100, 300 100, 400 400");
+  offset-rotate: auto;
+}

@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import ProfileHeader from "../ProfileHeader";
-import ProfileTabs from "../ProfileTabs";
 import { useParams } from "next/navigation";
 import { fetchUserProfile } from "@/service/user.service";
 import userStore from "@/store/userStore";
 import ScrollupBtn from "@/app/ScrollupBtn";
+import ProfileDetails from "../ProfileDetails";
 
 const Page = () => {
   const { user } = userStore();
@@ -49,7 +49,7 @@ const Page = () => {
           id={id}
           fetchProfile={fetchProfile}
         />{" "}
-        <ProfileTabs
+        <ProfileDetails
           user={user}
           profileData={profileData}
           setProfileData={setProfileData}

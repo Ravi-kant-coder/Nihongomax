@@ -9,11 +9,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { loginUser, registerUser } from "@/service/auth.service";
 import userStore from "@/store/userStore";
 import Spinner from "../Spinner";
 
-const CreateAcc = () => {
+const Login = () => {
   const router = useRouter();
   const { setUser } = userStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -78,66 +79,64 @@ const CreateAcc = () => {
     resetSignUpForm();
   }, [resetLoginForm, resetSignUpForm]);
 
+  const onSubmitLogin = async (data) => {
+    setIsLoading(true);
+    try {
+      const result = await loginUser(data);
+      if (result?.status === "success") {
+        setUser(result.user);
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="flex items-center justify-center dark:text-white">
         <form
-          onSubmit={handleSubmitSignUp(onSubmitRegister)}
-          className="space-y-2 p-4 rounded-lg bg-gray-400 "
+          onSubmit={handleSubmitLogin(onSubmitLogin)}
+          className="space-y-2 p-4 rounded-lg bg-gray-400"
         >
           <div>
-            <p className="text-center text-sm">New here? Create account</p>
-            <p className="text-xs text-center mb-2">with Nihongomax</p>
-
-            <Label htmlFor="signupName" className="sr-only">
-              Username
-            </Label>
-            <Input
-              id="signupName"
-              name="username"
-              type="text"
-              {...registerSignUp("username")}
-              placeholder="Make username"
-              className="col-span-3 bg-white"
-            />
-            {errorsSignUp.username && (
-              <p className="text-red-500">{errorsSignUp.username.message}</p>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="signupEmail" className="sr-only">
+            <p className="text-center text-sm">Already have account</p>
+            <p className="text-xs text-center mb-2">with Nihongomax?</p>
+            <Label htmlFor="loginEmail" className="sr-only">
               Email
             </Label>
             <Input
-              id="signupEmail"
+              id="loginEmail"
               name="email"
               type="email"
-              {...registerSignUp("email")}
-              placeholder="Enter email (for forgot pswd)"
-              className="col-span-3 bg-white"
+              {...registerLogin("email")}
+              placeholder="Enter your email"
+              className="col-span-3 border-gray-400 bg-white"
             />
-            {errorsSignUp.email && (
-              <p className="text-red-500">{errorsSignUp.email.message}</p>
+            {errorsLogin.email && (
+              <p className="text-red-500">{errorsLogin.email.message}</p>
             )}
           </div>
           <div>
-            <Label htmlFor="signupPassword" className="sr-only">
-              Create New Password
+            <Label htmlFor="loginPassword" className="sr-only">
+              Password
             </Label>
             <Input
-              id="signPassword"
+              id="loginPassword"
               name="password"
               type="password"
-              {...registerSignUp("password")}
-              placeholder="Create New Password"
-              className="col-span-3 bg-white"
+              {...registerLogin("password")}
+              placeholder="Enter your Password"
+              className="col-span-3 border-gray-400 bg-white"
             />
-            {errorsSignUp.password && (
-              <p className="text-red-500">{errorsSignUp.password.message}</p>
+            {errorsLogin.password && (
+              <p className="text-red-500">{errorsLogin.password.message}</p>
             )}
           </div>
           <Button className="w-full cursor-pointer" type="submit">
-            <LogIn className="mr-2 w-4 h-4" /> Create Account
+            <LogIn className="mr-2 w-4 h-4" /> Log in
           </Button>
         </form>
       </div>
@@ -155,4 +154,4 @@ const CreateAcc = () => {
   );
 };
 
-export default CreateAcc;
+export default Login;

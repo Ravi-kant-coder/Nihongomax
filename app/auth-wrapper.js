@@ -4,6 +4,8 @@ import userStore from "@/store/userStore";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
+import Navbar from "./Navbar";
+import NavbarBelow from "./NavbarBelow";
 
 export default function AuthWrapper({ children }) {
   const { setUser, clearUser } = userStore();
@@ -56,13 +58,14 @@ export default function AuthWrapper({ children }) {
     return <Spinner />;
   }
 
-  if (loading) {
-    return <Spinner />;
-  }
-
   return (
     <>
-      {/* {!isLoginPage && isAuthenticated && <Navbar />} */}
+      {!isLoginPage && isAuthenticated && (
+        <>
+          <Navbar />
+          <NavbarBelow />
+        </>
+      )}
       {(isAuthenticated || isLoginPage) && children}
     </>
   );
