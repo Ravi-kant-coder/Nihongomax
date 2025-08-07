@@ -14,7 +14,7 @@ const ShowDpPreview = ({ onClose, dp, name }) => {
         className="relative w-full max-w-md h-md flex flex-col bg-white
        dark:bg-gray-800 rounded-lg overflow-hidden "
       >
-        <div className="p-4 text-lg">{name}</div>
+        <div className="p-4 text-lg capitalize">{name}</div>
         <Button
           className="absolute top-4 right-4 z-10 text-white hover:text-white cursor-pointer 
           hover:bg-black bg-black/70"

@@ -13,6 +13,7 @@ import {
   Handshake,
   ChartNoAxesCombined,
   TvMinimalPlay,
+  Search,
 } from "lucide-react";
 import useMsgStore from "@/store/useMsgStore";
 import useNotificationStore from "@/store/useNotificationStore";
@@ -67,7 +68,7 @@ const LeftSideBar = () => {
               closeMsgBox();
               closeNotificationBox();
             }}
-            className="flex items-center group space-x-2 cursor-pointer
+            className="flex items-center group space-x-2 cursor-pointer hover:shadow-lg
              dark:hover:bg-[rgb(55,55,55)] hover:bg-white p-1 rounded-md"
           >
             {" "}
@@ -93,10 +94,10 @@ const LeftSideBar = () => {
             transition={{ type: "spring", stiffness: 300 }}
             className={`w-full cursor-pointer dark:font-normal ${
               pathname === "/friends"
-                ? "bg-white dark:bg-[rgb(55,55,55)]"
+                ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                 : "bg-transparent"
             } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold
-             flex items-center bg- justify-start p-2 rounded-md`}
+             flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
             onClick={() => {
               handleNavigation("/friends");
               closeMsgBox();
@@ -123,10 +124,10 @@ const LeftSideBar = () => {
             transition={{ type: "spring", stiffness: 300 }}
             className={`w-full cursor-pointer dark:font-normal ${
               isNotificationBoxOpen
-                ? "bg-white dark:bg-[rgb(55,55,55)] "
+                ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                 : "bg-transparent"
             } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex
-             items-center bg- justify-start p-2 rounded-md`}
+             items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
             onClick={() => {
               toggleNotificationBox();
               closeMsgBox();
@@ -152,10 +153,10 @@ const LeftSideBar = () => {
             transition={{ type: "spring", stiffness: 300 }}
             className={`w-full cursor-pointer dark:font-normal ${
               isMsgBoxOpen
-                ? "bg-white dark:bg-[rgb(55,55,55)]"
+                ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                 : "bg-transparent"
             } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex
-             items-center bg- justify-start p-2 rounded-md`}
+             items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
             onClick={() => {
               toggleMsgBox();
               closeNotificationBox();
@@ -221,6 +222,12 @@ const LeftSideBar = () => {
               navPath: "/recruiters",
               icon: ChartNoAxesCombined,
             },
+            {
+              id: 11,
+              label: "Search",
+              navPath: "/search",
+              icon: Search,
+            },
           ].map(({ id, label, icon: Icon, navPath }) => {
             const isActive = pathname === navPath;
             return (
@@ -229,9 +236,10 @@ const LeftSideBar = () => {
                 transition={{ type: "spring", stiffness: 300 }}
                 className={`w-full cursor-pointer dark:font-normal ${
                   isActive
-                    ? "bg-white dark:bg-[rgb(55,55,55)]"
+                    ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                     : "bg-transparent"
-                } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+                } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold 
+                flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
                 onClick={() => {
                   handleNavigation(navPath);
                   closeMsgBox();

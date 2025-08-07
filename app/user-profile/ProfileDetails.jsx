@@ -77,14 +77,14 @@ const ProfileDetails = ({
     }
   };
   return (
-    <div className="flex flex-col lg:flex-row gap-6 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-      <div className="w-full md:w-[30%] space-x-0 space-y-6 mb-4">
+    <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 md:px-0 mt-8">
+      <div className="w-full md:min-w-[40%] space-x-0 space-y-6 mb-4">
         <Card>
           <CardContent
             className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 
             shadow-lg dark:shadow-black"
           >
-            <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
+            <h2 className="text-xl font-semibold mb-4 dark:text-gray-300 capitalize">
               {isOwner ? "Your" : `${profileData?.username.split(" ")[0]}'s`}{" "}
               Introduction
             </h2>
@@ -129,16 +129,14 @@ const ProfileDetails = ({
             <div className="relative w-full">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-[30%] border-t border-muted-foreground"></span>
-                <div className="w-[40%]"> </div>
+                <div className="w-[40%]"></div>
                 <span className="w-[30%] border-t border-muted-foreground"></span>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className=" px-2 text-muted-foreground">
-                  personal info
-                </span>
+                <span className="text-gray-500">personal info</span>
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center mt-2">
               <Mail className="w-5 h-5 mr-2 shrink-0" />
               <span>{profileData?.email}</span>
             </div>
@@ -172,7 +170,14 @@ const ProfileDetails = ({
             shadow-lg dark:shadow-black"
           >
             <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
-              Photos by {isOwner ? "you" : profileData?.username.split(" ")[0]}
+              Photos by{" "}
+              {isOwner ? (
+                "you"
+              ) : (
+                <span className="capitalize">
+                  {profileData?.username.split(" ")[0]}
+                </span>
+              )}
             </h2>
             <div className="grid grid-cols-2 gap-4">
               {userPosts?.filter(
@@ -189,7 +194,7 @@ const ProfileDetails = ({
                       key={post?._id}
                       src={post?.mediaUrl}
                       alt="photos"
-                      className="w-[200px] h-[150px] object-cover rounded"
+                      className="w-[200px] h-[150px] object-cover rounded-lg"
                     />
                   ))
               )}
@@ -215,7 +220,13 @@ const ProfileDetails = ({
           </button>
         )}
       </div>
-      <div className="w-full md:w-[70%]">
+      <div className="w-full">
+        {userPosts.length > 0 && (
+          <div className="bg-white dark:bg-[rgb(55,55,55)] rounded-t-lg mb-2 p-2 font-[450] text-center text-lg">
+            Posts by{" "}
+            {isOwner ? "You" : `${profileData?.username.split(" ")[0]}`}{" "}
+          </div>
+        )}
         {loading ? (
           <FriendCardSkeleton />
         ) : userPosts.length === 0 ? (
@@ -241,7 +252,7 @@ const ProfileDetails = ({
           ))
         )}
       </div>
-      {/* --------------------Delete Confirmation Modal------------------- */}
+      {/* --------------------Account Delete Confirmation Modal------------------- */}
       {showDeleteModal && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -250,10 +261,11 @@ const ProfileDetails = ({
         >
           <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
             <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-              Delete Account permanently {user?.username.split(" ")[0]}?
+              Delete Account with Nihongomax Permanently{" "}
+              {user?.username.split(" ")[0]}?
             </h2>
             <p className="text-sm dark:text-gray-300 text-center my-2">
-              Account will never be recovered.
+              Account Cannot be Recovered.
             </p>
 
             <div className="flex justify-center gap-4 mt-6">
@@ -287,7 +299,6 @@ const ProfileDetails = ({
         initialData={profileData?.bio}
         id={id}
       ></EditBio>
-      ;
     </div>
   );
 };

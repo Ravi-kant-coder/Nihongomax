@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useTransition, useEffect } from "react";
+import { useState, useRef, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import userStore from "@/store/userStore";
 import WallCardButtons from "./WallCardButtons";

@@ -31,15 +31,17 @@ const PostContentEdit = ({ postId, initialContent }) => {
       {!isEditing ? (
         <div className="text-gray-800 font-[450] p-4 dark:text-gray-300">
           {content}
-          <button
-            className=" bg-white flex items-center text-xs
-             cursor-pointer underline rounded p-1 hover:bg-gray-300
-               dark:hover:bg-black dark:bg-[rgb(36,37,38)] dark:shadow-none"
-            onClick={() => setIsEditing(true)}
-          >
-            <span>Edit/Add</span>
-            <SquarePen className="h-3 w-3 ml-1" />
-          </button>
+          <div>
+            <span className="text-xs text-gray-500">Only you can</span>
+            <button
+              className=" items-center text-xs inline-flex cursor-pointer underline rounded 
+              p-1 hover:bg-gray-300 dark:hover:bg-black"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit/Add
+            </button>
+            <span className="text-xs text-gray-500">this</span>
+          </div>
         </div>
       ) : (
         <>

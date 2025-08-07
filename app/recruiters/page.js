@@ -9,6 +9,7 @@ import {
   CircleDollarSign,
   Mail,
   Languages,
+  ArrowBigDown,
 } from "lucide-react";
 import JobPostForm from "@/app/recruiters/JobPostForm";
 const dummyJobs = [
@@ -28,6 +29,13 @@ const dummyJobs = [
     key: "1",
   },
 ];
+
+const today = new Date();
+const day = String(today.getDate()).padStart(2, "0");
+const month = today.toLocaleString("en-US", { month: "long" });
+const year = today.getFullYear();
+
+const formattedDate = `${day}-${month}-${year}`;
 
 const formatDate = (createdAt) => {
   if (!createdAt) return "";
@@ -70,7 +78,7 @@ const Jobcard = () => {
   const [localDate, setLocalDate] = useState("");
   const [localTime, setLocalTime] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [formattedDate, setFormattedDate] = useState("");
+  // const [formattedDate, setFormattedDate] = useState("");
 
   // useEffect(() => {
   //   const formatted = formatDate(createdAt);
@@ -99,17 +107,31 @@ const Jobcard = () => {
         <div className="flex justify-center mt-4">
           <JobPostForm />
         </div>
-
-        <div className="flex flex-col mx-3 md:ml-60 mb-20">
+        <h2
+          className="mt-10 mb-6 md:text-2xl text-center font-semibold flex justify-center
+        items-center dark:text-gray-400"
+        >
+          Your Job-Post will look something like this
+          <ArrowBigDown fill="black" size={40} className="mx-2 shrink-0" />
+          (or Call 7678461209 for details)
+        </h2>
+        <div className="flex flex-col mx-3 md:ml-30 mb-20 ">
           {dummyJobs.map((queryObj) => (
             <div key={queryObj.key} className="md:mx-30 md:my-2">
-              <div className="my-2 bg-white dark:bg-[rgb(30,30,30)] rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:border-gray-200">
+              <div
+                className="my-2 bg-white rounded-xl p-6 
+              md:space-y-4 space-y-2 border border-black dark:border-gray-200
+              dark:bg-black"
+              >
                 <div className="flex flex-col items-start justify-between">
                   <div className="flex items-center">
                     <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
-                      <Avatar className="cursor-pointer h-10 w-10  mr-3 hover:ring-3 hover:ring-gray-600 hover:ring-offset-1 transition duration-100">
+                      <Avatar
+                        className="cursor-pointer h-10 w-10  mr-3 hover:ring-3
+                       hover:ring-gray-600 hover:ring-offset-1 transition duration-100"
+                      >
                         <AvatarImage
-                          src={queryObj.companylogo} // Replace with actual company image
+                          src={queryObj.companylogo}
                           className="object-cover"
                         />
                         <AvatarFallback className="bg-gray-400 dark:bg-gray-500">
@@ -118,12 +140,16 @@ const Jobcard = () => {
                       </Avatar>
                     </div>
                     <div>
-                      <p className="cursor-pointer font-semibold hover:underline text-gray-700 dark:text-gray-300">
+                      <p
+                        className="cursor-pointer font-semibold hover:underline
+                       text-gray-700 dark:text-gray-300"
+                      >
                         {queryObj.company}
                       </p>
                       <p className="text-xs text-gray-700 dark:text-gray-400 font-normal">
-                        {formatDate(queryObj.datePosted)}
-                        {/* {formattedDate} */}
+                        <div className="flex flex-col text-xs md:text-sm">
+                          {formattedDate}
+                        </div>
                       </p>
                     </div>
                   </div>
@@ -157,29 +183,37 @@ const Jobcard = () => {
                     Job Description: {queryObj.description} {queryObj.phone}
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-sm">
-                  <button className="lg:w-1/5 w-1/2 align-center mt-4 bg-gray-400 dark:bg-black cursor-pointer dark:hover:bg-gray-900 hover:bg-gray-600  hover:text-white font-medium py-1 px-4 rounded">
-                    Apply Now
-                  </button>
+                <div className="text-sm">
                   <button
                     onClick={() => setShowModal(true)}
-                    className="mt-4 bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2 px-4 rounded font-medium"
+                    className="mt-4 bg-red-400 dark:bg-red-900 cursor-pointer
+                     dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
+                      px-4 rounded font-semibold dark:font-normal"
                   >
-                    Bhumika, <br />
-                    Delete this Post?
+                    (Name) Delete this Job-Post?
                   </button>
+                  <p className="dark:text-gray-500">
+                    Only you will see this button (Name)
+                  </p>
                 </div>
               </div>
+              {/*-----------------------------Job post Delete Modal-------------------------- */}
               {showModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+                <div
+                  className="fixed inset-0 z-50 flex items-center justify-center
+                 bg-black/30"
+                >
                   <motion.div
                     initial={{ scale: 0, rotate: -50 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: "spring", stiffness: 300 }}
                     className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl "
                   >
-                    <h2 className="text-lg font-semibold text-center text-red-600 dark:text-white">
-                      Delete this Post Forever Bhumika?
+                    <h2
+                      className="text-lg font-semibold text-center text-red-600
+                     dark:text-white dark:font-normal"
+                    >
+                      Delete this Job-Post Forever (Name)?
                     </h2>
                     <p className="text-sm  dark:text-gray-300 text-center my-2">
                       This cannot be Recovered.
@@ -188,13 +222,16 @@ const Jobcard = () => {
                     <div className="flex justify-center gap-4 mt-6 ">
                       <button
                         onClick={() => setShowModal(false)}
-                        className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
+                        className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
+                         dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
                       >
                         Cancel
                       </button>
                       <button
                         // onClick={() => handleDelete(queryObj._id)}
-                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white text-sm"
+                        onClick={() => setShowModal(false)}
+                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
+                         cursor-pointer text-white text-sm"
                       >
                         Yes, Delete
                       </button>

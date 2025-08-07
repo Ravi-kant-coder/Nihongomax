@@ -1,4 +1,5 @@
 "use client";
+import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
 import { useEffect, useTransition, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import JapanGate from "../app/JapanGate";
@@ -20,13 +21,13 @@ import {
   School,
   Dices,
   BriefcaseBusiness,
+  Search,
 } from "lucide-react";
 import NotificationBox from "@/app/NotificationBox";
-import SearchInNav from "@/app/SearchInNav";
 import MsgBox from "./MsgBox";
 import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
-import toast from "react-hot-toast";
+import { Input } from "@/components/ui/input";
 
 const Navbar = () => {
   const { closeStudyBox } = useStudyStore();
@@ -35,18 +36,13 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [userList, setUserList] = useState([]);
-  const [filterUsers, setFilterUsers] = useState([]);
+  const [filterUser, setFilterUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
   const searchRef = useRef(null);
   const { theme, setTheme } = useTheme();
   const { user, clearUser } = userStore();
-
-  const handleNavigation = (path) => {
-    startTransition(() => {
-      router.push(path);
-    });
-  };
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
   const {
     isMsgBoxOpen,
@@ -56,6 +52,7 @@ const Navbar = () => {
     closeMsgBox,
     resetUnread,
   } = useMsgStore();
+
   const {
     toggleNotificationBox,
     isNotificationBoxOpen,
@@ -73,6 +70,7 @@ const Navbar = () => {
   }, []);
 
   const pathname = usePathname();
+
   const handleLogout = async () => {
     try {
       const result = await logout();
@@ -80,18 +78,17 @@ const Navbar = () => {
         router.push("/user-login");
         clearUser();
       }
-      toast.success("user logged out successfully");
     } catch (error) {
       console.log(error);
-      toast.error("failed to log out");
     }
   };
 
+  //For search bar
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const result = await getAllUsers();
+        const result = await getAllUsers(); //from axios services
         setUserList(result);
       } catch (error) {
         console.log(error);
@@ -102,10 +99,28 @@ const Navbar = () => {
     fetchUsers();
   }, []);
 
+  // for debouncing
   useEffect(() => {
-    if (searchQuery) {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchQuery);
+    }, 500);
+    return () => {
+      clearTimeout(handler); // cancel timeout if user types again
+    };
+  }, [searchQuery]);
+
+  const handleNavigation = (path) => {
+    startTransition(() => {
+      router.push(path);
+    });
+  };
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
       const filterUser = userList.filter((user) => {
-        return user.username.toLowerCase().includes(searchQuery.toLowerCase());
+        return user?.username
+          .toLowerCase()
+          .includes(debouncedSearchTerm.toLowerCase());
       });
       setFilterUsers(filterUser);
       setIsSearchOpen(true);
@@ -113,19 +128,35 @@ const Navbar = () => {
       setFilterUsers([]);
       setIsSearchOpen(false);
     }
-  }, [searchQuery, userList]);
+  }, [debouncedSearchTerm, userList]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setIsSearchOpen(false);
   };
 
+  //To make the alphabets highlighted
+  const highlightMatch = (text, term) => {
+    if (!term) return text;
+    const regex = new RegExp(`(${term})`, "gi");
+    return text.split(regex).map((part, i) =>
+      part.toLowerCase() === term.toLowerCase() ? (
+        <span key={i} className="dark:text-gray-500 font-bold">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
+  //Routing to searched user profile page
   const handleUserClick = async (userId) => {
     try {
       setLoading(true);
       setIsSearchOpen(false);
       setSearchQuery("");
-      await router.push(`user-profile/${userId}`);
+      router.push(`/user-profile/${userId}`);
     } catch (error) {
       console.log(error);
     } finally {
@@ -133,11 +164,13 @@ const Navbar = () => {
     }
   };
 
+  //Outside ref to close the search box
   const handleSearchClose = (e) => {
     if (!searchRef.current?.contains(e.target)) {
       setIsSearchOpen(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", handleSearchClose);
     return () => {
@@ -145,32 +178,125 @@ const Navbar = () => {
     };
   });
 
+  const routeOnSearchPage = () => {
+    startTransition(() => {
+      router.push("/search");
+    });
+  };
+
   return (
-    <header className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between">
+    <header
+      className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 
+    left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between"
+    >
       <div className="hidden md:block">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
         </a>
       </div>
 
+      {/* -----------------------Search bar--------------------------   */}
+
       <div className="md:flex w-full items-center justify-between">
         <div className="flex items-center justify-between mb-5 md:mb-0 ">
-          <div className="lg:mr-5">
-            <SearchInNav />
+          <div className="md:mr-5">
+            <div ref={searchRef}>
+              <form onSubmit={handleSearchSubmit}>
+                <div className="relative">
+                  <Search
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2
+                   text-gray-400"
+                  />
+                  <Input
+                    className="pl-8 cursor-pointer w-full dark:bg-[rgb(75,75,75)] bg-white
+                    rounded-full"
+                    placeholder="Search Friends..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <div>
+                    {isSearchOpen && (
+                      <div
+                        className="absolute bg-white dark:bg-gray-800 border border-gray-200
+                         dark:border-gray-700 rounded-md shadow-lg mt-1 z-50"
+                      >
+                        <div className="p-2">
+                          {filterUser.length > 0 ? (
+                            filterUser.slice(0, 10).map((user) => (
+                              <div
+                                className="flex items-center space-x-8 p-2 hover:bg-gray-200
+                              dark:hover:bg-gray-700 rounded-md cursor-pointer"
+                                key={user?._id}
+                                onClick={() => handleUserClick(user?._id)}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <Avatar className="h-8 w-8">
+                                    <AvatarImage
+                                      src={user?.profilePicture}
+                                      className="object-cover"
+                                    />
+                                    <AvatarFallback>
+                                      {user?.username
+                                        .split(" ")[0][0]
+                                        .toUpperCase()}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                  <span className="truncate w-[90%]">
+                                    {highlightMatch(
+                                      user?.username,
+                                      debouncedSearchTerm
+                                    )}
+                                  </span>
+                                </div>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="p-2 text-gray-700">
+                              No results found
+                            </div>
+                          )}
+                          <div
+                            className="cursor-pointer text-sm p-1 flex justify-center items-center
+                           hover:bg-gray-300 rounded-sm"
+                          >
+                            <button
+                              onClick={routeOnSearchPage}
+                              className="cursor-pointer"
+                            >
+                              View all Users
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
+
+          {/* -----------------------Institute number box---------------   */}
+
           <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
-            <div className="text-sm hidden md:block rounded bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]  hover:bg-black md:p-2 p-1 text-white dark:hover:bg-[rgb(35,35,35)]">
+            <div
+              className="text-sm hidden md:block rounded bg-[rgb(60,60,60)] 
+            dark:bg-[rgb(55,55,55)]  hover:bg-black md:p-2 p-1 text-white 
+            dark:hover:bg-[rgb(35,35,35)]"
+            >
               <h1> Nihongomax 7678461209</h1>
             </div>
           </a>
+
+          {/* -----------------------Notifications button (Mobile)---------------   */}
 
           <div className="md:hidden flex items-center justify-center">
             <button
               className={`w-full cursor-pointer dark:font-normal ${
                 isNotificationBoxOpen
-                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-4 font-semibold flex items-center bg- justify-start rounded-md`}
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-4 font-semibold
+               flex items-center bg- justify-start rounded-md hover:shadow-lg`}
               onClick={() => {
                 toggleNotificationBox();
                 closeMsgBox();
@@ -182,7 +308,10 @@ const Navbar = () => {
                 <p className="mt-1">Notifications</p>
 
                 {unreadCount > 0 && (
-                  <span className="absolute -top-2 right-4 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span
+                    className="absolute -top-2 right-4 bg-green-700 text-white text-xs 
+                  px-2 py-0.5 rounded-full"
+                  >
                     {unreadCount <= 99 ? unreadCount : "99+"}
                   </span>
                 )}
@@ -193,6 +322,9 @@ const Navbar = () => {
             </div>
           </div>
         </div>
+
+        {/* -----------------------Main Navbar--------------- -----  */}
+
         <div className="flex justify-between items-center md:mt-0 mt-2">
           <div className="md:flex items-center justify-center hidden ">
             <button
@@ -203,9 +335,10 @@ const Navbar = () => {
               }}
               className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                 pathname === "/"
-                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
+              flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
             >
               <div className="flex md:w-12 flex-col items-center justify-center">
                 <Home />
@@ -215,10 +348,10 @@ const Navbar = () => {
             <button
               className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                 pathname === "/friends"
-                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
-              flex items-center bg- justify-start p-2 rounded-md`}
+              flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
               onClick={() => {
                 handleNavigation("/friends");
                 closeMsgBox();
@@ -228,7 +361,10 @@ const Navbar = () => {
               <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <Users />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span
+                    className="absolute -top-3 left-6 bg-green-700 text-white text-xs 
+                  px-2 py-0.5 rounded-full"
+                  >
                     {unreadCount <= 99 ? unreadCount : "99+"}
                   </span>
                 )}
@@ -237,9 +373,10 @@ const Navbar = () => {
             <button
               className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                 isNotificationBoxOpen
-                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex 
+              items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
               onClick={() => {
                 toggleNotificationBox();
                 closeMsgBox();
@@ -248,7 +385,10 @@ const Navbar = () => {
               <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <Bell />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span
+                    className="absolute -top-3 left-6 bg-green-700 text-white text-xs 
+                  px-2 py-0.5 rounded-full"
+                  >
                     {unreadCount <= 99 ? unreadCount : "99+"}
                   </span>
                 )}
@@ -257,9 +397,10 @@ const Navbar = () => {
             <button
               className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                 isMsgBoxOpen
-                  ? "bg-white dark:bg-[rgb(55,55,55)]"
+                  ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center bg- justify-start p-2 rounded-md`}
+              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex 
+              items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
               onClick={() => {
                 toggleMsgBox();
                 closeNotificationBox();
@@ -269,7 +410,10 @@ const Navbar = () => {
               <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <MessageCircle />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span
+                    className="absolute -top-3 left-6 bg-green-700 text-white text-xs 
+                  px-2 py-0.5 rounded-full"
+                  >
                     {unreadCount <= 99 ? unreadCount : "99+"}
                   </span>
                 )}
@@ -304,9 +448,10 @@ const Navbar = () => {
                 key={name}
                 className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                   isActive
-                    ? "bg-white dark:bg-[rgb(55,55,55)]"
+                    ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                     : "bg-transparent"
-                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex items-center justify-center rounded-md`}
+                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
+                flex items-center justify-center rounded-md hover:shadow-lg`}
               >
                 <div className="flex md:w-12 flex-col items-center justify-center">
                   <Icon />

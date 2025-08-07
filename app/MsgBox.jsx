@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import SearchInNav from "./SearchInNav";
 import useMsgStore from "@/store/useMsgStore";
 import useChatStore from "@/store/useChatStore";
 import ChatList from "./ChatList";
@@ -124,7 +123,6 @@ const MsgBox = () => {
             >
               <div className="w-2/3 space-y-5 pb-2">
                 <p className="text-2xl font-bold ml-4 my-2">Messages</p>
-                <SearchInNav />
               </div>
               <button
                 onClick={closeMsgBox}

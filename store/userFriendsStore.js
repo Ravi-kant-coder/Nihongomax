@@ -37,10 +37,11 @@ export const userFriendStore = create((set, get) => ({
       set({ loading: false });
     }
   },
-  fetchMutualFriends: async () => {
+
+  fetchMutualFriends: async (userId) => {
     set({ loading: true });
     try {
-      const friend = await getMutualFriends();
+      const friend = await getMutualFriends(userId);
       set({ mutualFriends: friend, loading: false });
     } catch (error) {
       set({ error, loading: false });
@@ -48,6 +49,7 @@ export const userFriendStore = create((set, get) => ({
       set({ loading: false });
     }
   },
+
   followUser: async (userId) => {
     set({ loading: true });
     try {
@@ -56,7 +58,8 @@ export const userFriendStore = create((set, get) => ({
       set({ error, loading: false });
     }
   },
-  UnfollowUser: async (userId) => {
+
+  UnfriendUser: async (userId) => {
     set({ loading: true });
     try {
       await UnfollowUser(userId);
@@ -64,6 +67,7 @@ export const userFriendStore = create((set, get) => ({
       set({ error, loading: false });
     }
   },
+
   deleteUserFromRequest: async (userId) => {
     set({ loading: true });
     try {

@@ -90,7 +90,7 @@ const Jobcard = () => {
             return (
               <div key={queryObj.key} className="md:mx-30 md:my-2">
                 <div
-                  className="my-2 bg-white dark:bg-[rgb(30,30,30)] rounded-xl p-6 
+                  className="my-2 bg-white dark:bg-[rgb(10,10,10)] rounded-xl p-6 
               md:space-y-4 space-y-2 border border-black dark:border-gray-200"
                 >
                   <div className="flex flex-col items-start justify-between">
@@ -167,6 +167,9 @@ const Jobcard = () => {
                     </button>
                   </div>
                 </div>
+
+                {/* -------------------------Delete Job-Post Modal-------------------------- */}
+
                 {showModal && (
                   <div
                     className="fixed inset-0 z-50 flex items-center justify-center

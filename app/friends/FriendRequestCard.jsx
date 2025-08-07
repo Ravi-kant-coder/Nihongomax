@@ -8,17 +8,18 @@ const FriendRequestCard = ({ friend, onAction }) => {
   if (!friend) return null; // Ensure friend is defined before rendering
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+
   const handleDpClick = () => {
-    console.log("Profile picture clicked");
     startTransition(() => {
       // deleteUserFromRequest(friend?._id);
       router.push(`/user-profile/${friend?._id}`);
     });
   };
+
   return (
     <div
-      className="flex items-center lg:block bg-white dark:bg-black lg:p-4 p-2 shadow 
-    rounded-lg"
+      className="flex items-center lg:block bg-white dark:bg-black lg:p-4 p-2 
+      shadow-lg rounded-lg"
     >
       <div className="relative lg:mx-auto my-auto overflow-hidden rounded p-1">
         <Avatar

@@ -37,10 +37,10 @@ const NavbarBelow = () => {
         <button
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
             pathname === "/friends"
-              ? "bg-white dark:bg-[rgb(55,55,55)]"
+              ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
               : "bg-transparent"
           } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
-          py-1 px-2 rounded-md`}
+          py-1 px-2 rounded-md hover:shadow-lg`}
           onClick={() => {
             handleNavigation("/friends");
             closeMsgBox();
@@ -64,9 +64,11 @@ const NavbarBelow = () => {
         </button>
         <button
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
-            isMsgBoxOpen ? "bg-white dark:bg-[rgb(55,55,55)]" : "bg-transparent"
+            isMsgBoxOpen
+              ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
+              : "bg-transparent"
           } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
-          py-1 px-2 rounded-md`}
+          py-1 px-2 rounded-md hover:shadow-lg`}
           onClick={() => {
             toggleMsgBox();
             closeNotificationBox();
@@ -78,7 +80,10 @@ const NavbarBelow = () => {
             <p className="mt-1">Messages</p>
 
             {unreadCount > 0 && (
-              <span className="absolute -top-3 left-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full">
+              <span
+                className="absolute -top-3 left-6 bg-green-700 text-white text-xs
+               px-2 py-0.5 rounded-full"
+              >
                 {unreadCount <= 99 ? unreadCount : "99+"}
               </span>
             )}
@@ -93,10 +98,10 @@ const NavbarBelow = () => {
           }}
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
             pathname === "/"
-              ? "bg-white dark:bg-[rgb(55,55,55)]"
+              ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
               : "bg-transparent"
           } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
-          py-1 px-2 rounded-md`}
+          py-1 px-2 rounded-md hover:shadow-lg`}
         >
           <div className="flex flex-col items-center justify-center">
             <Home />
@@ -106,10 +111,10 @@ const NavbarBelow = () => {
         <button
           className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
             isStudyBoxOpen
-              ? "bg-white dark:bg-[rgb(55,55,55)]"
+              ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
               : "bg-transparent"
           } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
-          py-1 px-2 rounded-md`}
+          py-1 px-2 rounded-md hover:shadow-lg`}
           onClick={() => {
             toggleStudyBox();
             closeMsgBox();
@@ -130,7 +135,10 @@ const NavbarBelow = () => {
           <Spinner />
         </div>
       )}
-      <div className="text-xs rounded bg-gray-300 dark:bg-black dark:text-white text-center">
+      <div
+        className="text-xs rounded bg-gray-300 dark:bg-black dark:text-white 
+      text-center"
+      >
         <h1>Nihongomax 7678461209</h1>
       </div>
     </div>

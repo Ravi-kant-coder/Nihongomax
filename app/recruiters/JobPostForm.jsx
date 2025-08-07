@@ -201,8 +201,9 @@ const JobPostForm = () => {
             ) : null}
           </div>
           <Textarea
-            placeholder="Write us your query & we will call you..."
-            className="min-h-[100px] text-lg border-1 border-white bg-white dark:bg-black rounded-md"
+            placeholder="Write a description/details about the job..."
+            className="min-h-[100px] text-lg border-1 border-white bg-white
+             dark:bg-black rounded-md"
             value={queryText}
             onChange={(e) => {
               let val = e.target.value;
@@ -217,7 +218,10 @@ const JobPostForm = () => {
           )}
           {submit && (
             <Button
-              className="w-1/2 text-[15px] hover:dark:bg-black hover:dark:border-1 hover:dark:border-white dark:bg-gray-400 hover:dark:text-white cursor-pointer"
+              className="w-1/2 text-[15px] hover:dark:bg-black hover:dark:border-1 
+               hover:dark:border-white dark:bg-gray-900 hover:dark:text-white 
+               cursor-pointer dark:border border-gray-500 font-[450] 
+               dark:font-normal dark:text-gray-400"
               type="submit"
             >
               <p>Post Job Now</p>
@@ -228,14 +232,17 @@ const JobPostForm = () => {
               initial={{ x: -300 }}
               animate={{ x: 0 }}
               transition={{ type: "spring", stiffness: 200 }}
-              className="flex items-center py-2 text-white justify-center w-full rounded-md p-1 bg-green-900 "
+              className="flex items-center py-2 text-white justify-center w-full rounded-md
+               p-1 bg-green-900"
             >
               <span className="mr-2">{feedback}</span>{" "}
-              <CircleCheckBig className="font-bold" />
+              <CircleCheckBig className="font-bold dark:font-semibold" />
             </motion.p>
           )}
         </div>
-        <p className="mt-2 font-semibold">You can delete it anytime</p>
+        <p className="mt-2 font-[450] dark:font-normal dark:text-gray-400">
+          You can delete it anytime
+        </p>
       </form>
     </div>
   );

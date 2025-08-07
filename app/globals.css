@@ -264,8 +264,6 @@ body {
   }
 }
 
-/* You can toggle these classes manually, or add them with JavaScript on scroll etc */
-
 .animate-float {
   animation: float 6s infinite ease-in-out;
 }

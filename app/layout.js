@@ -1,9 +1,8 @@
 import "./globals.css";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
-import { ThemeProvider } from "next-themes";
-import NavbarBelow from "@/app/NavbarBelow";
 import AuthWrapper from "./auth-wrapper";
-import Navbar from "./Navbar";
+import ClientThemeProvider from "./ClientThemeProvider";
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -27,15 +26,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={` dark:bg-[rgb(30,30,30)] 
-          bg-gray-300 ${geistSans.variable} ${geistMono.variable} ${poppins.variable} 
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable}
           antialiased`}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    >
+      <body className={`dark:bg-[rgb(30,30,30)] bg-gray-300`}>
+        <ClientThemeProvider>
           <AuthWrapper>{children}</AuthWrapper>
-        </ThemeProvider>{" "}
+        </ClientThemeProvider>
       </body>
     </html>
   );

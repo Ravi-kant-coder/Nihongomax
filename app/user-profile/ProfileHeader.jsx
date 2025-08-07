@@ -228,7 +228,7 @@ const ProfileHeader = ({
         )}
       </div>
 
-      {/*------------------------- DP section-------------------------- */}
+      {/*------------------------- DP and Followers-------------------------- */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
         <div
           className="flex flex-col md:flex-row items-center md:items-end md:space-x-5"
@@ -259,9 +259,9 @@ const ProfileHeader = ({
               {profileData?.username}
               {isOwner ? "(You)" : ""}
             </h1>
-            <p className="text-gray-800 flex dark:text-gray-300 font-semibold">
-              {profileData?.followerCount}{" "}
-              {profileData?.followerCount === 1 ? "follower" : "followers"}
+            <p className="text-gray-800 flex dark:text-gray-300 ">
+              {mutualFriends.length}{" "}
+              {mutualFriends.length === 1 ? "friend" : "friends"}
               <Dot />
               {profileData?.followingCount} following
             </p>
@@ -269,12 +269,12 @@ const ProfileHeader = ({
           {!isOwner && (
             <div className="flex flex-col justify-center items-center mt-4 md:mt-0">
               {true ? (
-                <p className="text-sm">
+                <p className="text-sm truncate">
                   {profileData?.username.split(" ")[0]} is not your friend{" "}
                   {user?.username.split(" ")[0]}
                 </p>
               ) : (
-                <p className="text-sm">
+                <p className="text-sm truncate">
                   {profileData?.username.split(" ")[0]} is already your friend{" "}
                   {user?.username.split(" ")[0]}
                 </p>
@@ -314,7 +314,7 @@ const ProfileHeader = ({
         </div>
       </div>
 
-      {/*------------------------------Edit DP model-----------------------------*/}
+      {/*------------------------------Edit/Delete DP model-----------------------------*/}
       <AnimatePresence>
         {isEditProfileModel && (
           <motion.div
@@ -381,11 +381,11 @@ const ProfileHeader = ({
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => setShowDeleteCoverModal(true)}
+                      onClick={() => setShowDeleteDpModal(true)}
                       className="cursor-pointer hover:bg-gray-200 border-gray-400 w-40"
                     >
                       <X className="h-4 w-4 mr-1" />
-                      Delete DP
+                      Remove DP
                     </Button>
                   )}
                 </div>
@@ -533,11 +533,11 @@ const ProfileHeader = ({
           className="fixed inset-0 z-[9999] flex items-center justify-center"
         >
           <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-              Delete DP {user?.username.split(" ")[0]}?
+            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl capitalize">
+              Remove DP {user?.username.split(" ")[0]}?
             </h2>
             <p className="text-sm dark:text-gray-300 text-center my-2">
-              This cannot be recovered.
+              You can put it again later
             </p>
 
             <div className="flex justify-center gap-4 mt-6">
@@ -555,7 +555,7 @@ const ProfileHeader = ({
                     cursor-pointer text-white text-sm"
                 onClick={handleDpDelete}
               >
-                Yes, Delete
+                Yes, Remove
               </button>
             </div>
           </div>
