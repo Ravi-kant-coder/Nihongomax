@@ -8,8 +8,8 @@ const FriendSuggestion = ({ friend, onAction }) => {
   if (!friend) return null;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+
   const handleDpClick = () => {
-    console.log("Profile picture clicked");
     startTransition(() => {
       router.push(`/user-profile/${friend?._id}`);
     });
@@ -43,11 +43,15 @@ const FriendSuggestion = ({ friend, onAction }) => {
       <div className="pb-1">
         <h3
           className="text-lg hover:underline cursor-pointer font-semibold text-center
-         md:mb-4 truncate capitalize"
+          truncate capitalize"
           onClick={handleDpClick}
         >
           {friend?.username}
         </h3>
+        <p className="md:mb-4 text-gray-600 text-center">
+          {friend?.followerCount}{" "}
+          {friend?.followerCount === 1 ? "Friend" : "Friends"}
+        </p>
         <div className="flex md:flex-col md:justify-between">
           <button
             className="bg-black dark:bg-gray-700 hover:dark:text-white text-white

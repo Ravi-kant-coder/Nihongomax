@@ -92,6 +92,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
     shadow-gray-400 dark:text-gray-300 shadow-lg dark:border-gray-500 
     overflow-hidden mb-6`}
     >
+      {/* --------------------------Post Header (User information)-------------------------- */}
       <div
         className="flex items-center justify-between md:p-2 dark:bg-[rgb(55,55,55)]
        rounded-t-lg border-b"
@@ -159,6 +160,8 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           )}
         </div>
       </div>
+
+      {/* --------------------------Actual post content----------------------- */}
       {user?._id !== post?.user?._id ? (
         <p className="font-[450] p-4">{post?.content}</p>
       ) : (
@@ -166,7 +169,6 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           <PostContentEdit postId={post._id} initialContent={post.content} />
         </div>
       )}
-
       {post?.mediaUrl && post.mediaType === "image" && (
         <img
           src={post?.mediaUrl}

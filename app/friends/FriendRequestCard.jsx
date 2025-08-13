@@ -44,11 +44,15 @@ const FriendRequestCard = ({ friend, onAction }) => {
       <div className="pb-1">
         <h3
           className="text-lg hover:underline cursor-pointer font-semibold md:text-center 
-        md:mb-4 truncate capitalize"
+         truncate capitalize"
           onClick={handleDpClick}
         >
           {friend?.username}
         </h3>
+        <p className="md:mb-4 text-gray-600 text-center">
+          {friend?.followerCount}{" "}
+          {friend?.followerCount === 1 ? "Friend" : "Friends"}
+        </p>
         <div className="flex md:flex-col md:justify-between">
           <button
             className="bg-green-700 lg:p-2 p-1 rounded flex justify-evenly items-center

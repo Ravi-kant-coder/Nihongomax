@@ -2,7 +2,11 @@ import axiosInstance from "./url.service";
 
 export const createPost = async (postData) => {
   try {
+    console.log("Post object in Service:", postData);
+    console.log([...postData.entries()]);
     const result = await axiosInstance.post("/users/posts", postData);
+    //This result?.data?.data may be used to display the post somewhere
+    console.log(result?.data?.data);
     return result?.data?.data;
   } catch (error) {
     console.error(error);

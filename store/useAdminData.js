@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import api from "@/lib/axios";
 
-export const useAdminData = create((set) => ({
+export const useVideoStore = create((set) => ({
   querys: [],
 
   //get all queries
@@ -10,7 +10,7 @@ export const useAdminData = create((set) => ({
       const res = await api.get("/api/querys");
       set({ querys: res.data });
     } catch (err) {
-      console.error("Get wala Error", err);
+      console.error("Get all queries Error", err);
     }
   },
 
@@ -20,7 +20,7 @@ export const useAdminData = create((set) => ({
       const res = await api.post("/api/querys", formData);
       set((state) => ({ querys: [...state.querys, res.data] }));
     } catch (err) {
-      console.error("Post wala Error", err);
+      console.error("Create query Error", err);
     }
   },
 
@@ -32,7 +32,7 @@ export const useAdminData = create((set) => ({
         querys: state.querys.filter((query) => query._id !== id),
       }));
     } catch (err) {
-      console.error("Error in Delete", err);
+      console.error("Delete query error", err);
     }
   },
 }));

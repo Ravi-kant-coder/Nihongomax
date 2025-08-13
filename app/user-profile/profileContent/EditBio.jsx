@@ -23,15 +23,17 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
   } = useForm({
     defaultValues: initialData,
   });
+
   const handleEditBio = async (data) => {
     try {
       await createOrUpdateUserBio(id, data);
       await fetchProfile();
       onClose();
     } catch (error) {
-      console.log("error creating or updating user bio", error);
+      console.log("Error updating user bio", error);
     }
   };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">

@@ -2,7 +2,6 @@
 import { useState, useTransition } from "react";
 import { SquarePen, Trash2 } from "lucide-react";
 import { usePostStore } from "@/store/usePostStore";
-import userStore from "@/store/userStore";
 import { motion, AnimatePresence } from "framer-motion";
 import Spinner from "./Spinner";
 
@@ -12,7 +11,6 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
   const [tempComment, setTempComment] = useState(initialComment);
   const updateComment = usePostStore((state) => state.updateComment);
   const { deleteComment, fetchPost } = usePostStore();
-  const { user } = userStore();
   const [readyTodel, setReadyTodel] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [showDeleteModal, setShowDeleteModal] = useState(false);

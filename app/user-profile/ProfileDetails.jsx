@@ -126,15 +126,12 @@ const ProfileDetails = ({
                 <span>{profileData?.bio?.address}</span>
               </div>
             </div>
-            <div className="relative w-full">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-[30%] border-t border-muted-foreground"></span>
-                <div className="w-[40%]"></div>
-                <span className="w-[30%] border-t border-muted-foreground"></span>
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="text-gray-500">personal info</span>
-              </div>
+            <div className="flex items-center justify-center my-4">
+              <span className="w-[30%] border-t border-muted-foreground"></span>
+              <span className="uppercase w-[40%] text-center text-sm text-gray-500 mx-auto">
+                personal information
+              </span>
+              <span className="w-[30%] border-t border-muted-foreground"></span>
             </div>
             <div className="flex items-center mt-2">
               <Mail className="w-5 h-5 mr-2 shrink-0" />
@@ -223,8 +220,7 @@ const ProfileDetails = ({
       <div className="w-full">
         {userPosts.length > 0 && (
           <div className="bg-white dark:bg-[rgb(55,55,55)] rounded-t-lg mb-2 p-2 font-[450] text-center text-lg">
-            Posts by{" "}
-            {isOwner ? "You" : `${profileData?.username.split(" ")[0]}`}{" "}
+            Posts by {isOwner ? "You" : `${profileData?.username}`}
           </div>
         )}
         {loading ? (

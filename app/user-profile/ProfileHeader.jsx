@@ -188,7 +188,7 @@ const ProfileHeader = ({
 
   return (
     <div className="relative">
-      {/* --------------------- Cover Photo & Edit Button---------------------------- */}
+      {/* --------------------- Cover Photo & Cover Button---------------------------- */}
 
       <div
         className="relative lg:h-80 lg:w-[90vw] mx-auto md:rounded-lg mt-20 h-50
@@ -228,7 +228,7 @@ const ProfileHeader = ({
         )}
       </div>
 
-      {/*------------------------- DP and Followers-------------------------- */}
+      {/*------------------------- DP, Friends and Followers number----------------------- */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
         <div
           className="flex flex-col md:flex-row items-center md:items-end md:space-x-5"

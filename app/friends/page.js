@@ -67,7 +67,6 @@ const Page = () => {
                 <FriendRequestCard
                   key={friend._id}
                   friend={friend}
-                  loading={loading}
                   onAction={handleAction}
                   deleteUserFromRequest={deleteUserFromRequest}
                   fetchMutualFriends={fetchMutualFriends}

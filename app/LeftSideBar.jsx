@@ -14,6 +14,7 @@ import {
   ChartNoAxesCombined,
   TvMinimalPlay,
   Search,
+  BookOpen,
 } from "lucide-react";
 import useMsgStore from "@/store/useMsgStore";
 import useNotificationStore from "@/store/useNotificationStore";
@@ -205,6 +206,12 @@ const LeftSideBar = () => {
               icon: School,
             },
             {
+              id: 11,
+              label: "Notes",
+              navPath: "/notes",
+              icon: BookOpen,
+            },
+            {
               id: 8,
               label: "Kanji Games",
               navPath: "/games",
@@ -221,12 +228,6 @@ const LeftSideBar = () => {
               label: "For Recruiters",
               navPath: "/recruiters",
               icon: ChartNoAxesCombined,
-            },
-            {
-              id: 11,
-              label: "Search",
-              navPath: "/search",
-              icon: Search,
             },
           ].map(({ id, label, icon: Icon, navPath }) => {
             const isActive = pathname === navPath;

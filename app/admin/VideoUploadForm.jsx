@@ -6,10 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "../../components/ui/textarea";
-import { useAdminData } from "@/store/useAdminData";
+import { useVideoStore } from "@/store/useAdminData";
 
 const VideoUploadForm = () => {
-  const { createQuery } = useAdminData();
+  const { createQuery } = useVideoStore();
   const [showForm, setShowForm] = useState(true);
   const [studentName, setStudentName] = useState("");
   const [mobile, setMobile] = useState("");

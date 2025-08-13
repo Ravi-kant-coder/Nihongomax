@@ -71,12 +71,15 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                           src={friend?.profilePicture}
                           className="object-cover"
                         />
-                        <AvatarFallback className="w-35 h-35 rounded text-4xl">
+                        <AvatarFallback className="w-35 h-35 rounded text-4xl dark:text-black">
                           {friend?.username.split(" ")[0][0]}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-[450] text-sm dark:text-gray-100 truncate w-30 capitalize">
+                        <p
+                          className="font-[450] text-sm dark:text-gray-100 truncate w-30
+                         capitalize"
+                        >
                           {friend?.username}
                         </p>
                         <p className="text-sm text-gray-500">
