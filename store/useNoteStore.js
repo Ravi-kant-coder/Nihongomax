@@ -2,8 +2,8 @@ import { create } from "zustand";
 import {
   createNote,
   getAllUserNotes,
-  deleteNote,
-  updateNoteService,
+  deleteNoteService,
+  noteEditService,
 } from "@/service/notes.service";
 
 export const useNoteStore = create((set, get) => ({
@@ -32,19 +32,19 @@ export const useNoteStore = create((set, get) => ({
   },
 
   deleteUserNote: async (noteId) => {
-    set((state) => ({
-      userNotes: state.userNotes.filter((note) => note._id !== noteId),
-    }));
     try {
-      await deleteNote(noteId);
+      await deleteNoteService(noteId);
+      set((state) => ({
+        userNotes: state.userNotes.filter((note) => note._id !== noteId),
+      }));
     } catch (error) {
       console.error("Zustand note Delete failed:", error);
     }
   },
 
-  editNote: async (noteId, newContent) => {
+  saveNoteEdit: async (noteId, newContent) => {
     try {
-      await updateNoteService(noteId, newContent);
+      await noteEditService(noteId, newContent);
       set((state) => ({
         userNotes: state.userNotes.map((note) =>
           note._id === noteId ? { ...note, content: newContent } : note

@@ -13,7 +13,6 @@ export const createNote = async (noteData) => {
 export const getAllUserNotes = async () => {
   try {
     const result = await axiosInstance.get(`/users/notes`);
-    console.log("Got user Notes:", result?.data?.data);
     return result?.data?.data;
   } catch (error) {
     console.error(error);
@@ -21,30 +20,24 @@ export const getAllUserNotes = async () => {
   }
 };
 
-export const deleteNote = async (noteId) => {
+export const deleteNoteService = async (noteId) => {
   try {
-    // const result = await axiosInstance.delete(`/users/notes/${noteId}`);
-    // return result?.data?.message;
+    const result = await axiosInstance.delete(`/users/notes/${noteId}`);
+    return result?.data?.message;
   } catch (error) {
-    console.error(
-      "Service Delete note Error:",
-      error.response?.data || error.message
-    );
+    console.error("Service me Delete-note Error:", error.message);
     throw error;
   }
 };
 
-export const updateNoteService = async (noteId, content) => {
+export const noteEditService = async (noteId, text) => {
   try {
-    // const result = await axiosInstance.patch(`/users/notes/${noteId}/content`, {
-    //   content,
-    // });
-    // return result?.data?.data;
+    const result = await axiosInstance.patch(`/users/notes/${noteId}/text`, {
+      text,
+    });
+    return result?.data?.data;
   } catch (error) {
-    console.error(
-      "notes.service me note update Error:",
-      error.response?.data || error.message
-    );
+    console.error("Service me note update Error:", error.message);
     throw error;
   }
 };

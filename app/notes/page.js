@@ -37,22 +37,19 @@ const Notes = () => {
         <h1 className="text-center lg:text-4xl mt-4 text-2xl font-semibold ">
           Make Notes
         </h1>
-        <p className="text-center text-xs">Only you can see</p>
-        <h2 className="text-center text-xl m-4">
-          Hi {user?.username.split(" ")[0]}! Making Notes is a very powerful
-          Habit
-        </h2>
+        <p className="text-center mb-4">Only you can see</p>
         <div className="flex justify-between items-center md:w-[60%] md:mx-auto mx-4">
           <Input
             id="note"
             type="text"
-            className="bg-white dark:bg-gray-900 "
+            className="bg-white dark:bg-[rgb(10,10,10)] "
             placeholder="Make Notes..."
             disabled={isPending}
             autoFocus
             onChange={(e) => setInitialNote(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleNoteSubmit()}
             value={initialNote}
+            autoComplete="off"
           />
           <Button
             className="cursor-pointer flex items-center
@@ -67,9 +64,22 @@ const Notes = () => {
         </div>
 
         {/* --------------------------Note Box----------------------- */}
-        {userNotes?.map((note) => (
-          <Note key={note?._id} initialNote={note.text} note={note} />
-        ))}
+        {userNotes.length === 0 ? (
+          <h2 className="text-center text-2xl mt-8 dark:text-gray-400 text-gray-700">
+            Hi {user?.username.split(" ")[0]}! <br />
+            Making Notes is a very{" "}
+            <span className="font-semibold">Powerful</span> Habit
+            <br />
+            Start now!
+            <br />
+            <p className="mt-4"> 頑張ってね。応援しています！</p>
+            <p className="text-lg"> (All the best. We are with you)</p>
+          </h2>
+        ) : (
+          userNotes?.map((note) => (
+            <Note key={note?._id} initialNote={note.text} note={note} />
+          ))
+        )}
       </div>
     </div>
   );

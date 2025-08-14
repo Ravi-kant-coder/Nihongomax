@@ -11,7 +11,7 @@ import {
   Languages,
   ArrowBigDown,
 } from "lucide-react";
-import JobPostForm from "@/app/recruiters/JobPostForm";
+import JobTrigger from "@/app/recruiters/JobTrigger";
 const dummyJobs = [
   {
     jobTitle:
@@ -74,7 +74,7 @@ const formatDate = (createdAt) => {
   }
 };
 
-const Jobcard = () => {
+const Recruiters = () => {
   const [localDate, setLocalDate] = useState("");
   const [localTime, setLocalTime] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -92,23 +92,30 @@ const Jobcard = () => {
       </div>
 
       <div className="mx-3 md:ml-60 mb-20 ">
-        <h1 className="md:text-5xl text-xl text-gray-800 font-semibold dark:text-[rgb(150,150,150)] text-center ">
+        <h1
+          className="md:text-5xl text-xl text-gray-800 font-semibold text-center
+         dark:text-[rgb(150,150,150)]"
+        >
           Dear Recruiters, Post JOBS for FREE
-          <br />
         </h1>
-        <h2 className=" font-semibold text-gray-600 text-center md:text-4xl text-lg md:mt-6">
-          求人情報をご掲載ください。完全に無料です。
+        <h2
+          className=" font-semibold text-gray-600 text-center md:text-4xl text-lg md:mt-4
+        dark:text-gray-500"
+        >
+          1万人以上に求人情報をご掲載ください。完全に無料です。
         </h2>
-        <h2 className="md:text-2xl text-sm font-semibold dark:text-[rgb(120,120,130)] text-center md:mt-4">
-          {" "}
+        <h2
+          className="md:text-xl text-sm dark:text-gray-300 text-center dark:font-normal 
+          md:mt-2 font-semibold"
+        >
           Show your Job posts to over 10,000 Japanese learners and working
           professionals
         </h2>
-        <div className="flex justify-center mt-4">
-          <JobPostForm />
+        <div className="flex justify-center items-center mt-6">
+          <JobTrigger />
         </div>
         <h2
-          className="mt-10 mb-6 md:text-2xl text-center font-semibold flex justify-center
+          className="md:text-2xl font-semibold flex justify-center
         items-center dark:text-gray-400"
         >
           Your Job-Post will look something like this
@@ -117,7 +124,7 @@ const Jobcard = () => {
         </h2>
         <div className="flex flex-col mx-3 md:ml-30 mb-20 ">
           {dummyJobs.map((queryObj) => (
-            <div key={queryObj.key} className="md:mx-30 md:my-2">
+            <div key={queryObj.key} className="md:mx-10 md:my-2">
               <div
                 className="my-2 bg-white rounded-xl p-6 
               md:space-y-4 space-y-2 border border-black dark:border-gray-200
@@ -247,4 +254,4 @@ const Jobcard = () => {
   );
 };
 
-export default Jobcard;
+export default Recruiters;

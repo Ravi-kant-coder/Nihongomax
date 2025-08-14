@@ -9,20 +9,21 @@ import { motion } from "framer-motion";
 
 const Note = ({ initialNote, note }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [content, setContent] = useState(initialNote);
-  const [tempContent, setTempContent] = useState(initialNote);
+  // const [content, setContent] = useState(initialNote);
+  const [tempNote, setTempNote] = useState(initialNote);
   // const updateNoteContent = useNoteStore((state) => state.updateNoteContent);
+  // const handleUpdateNote = useNoteStore((state) => state.updateNote);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { user } = userStore();
-  const { deleteUserNote } = useNoteStore();
+  const { deleteUserNote, saveNoteEdit } = useNoteStore();
 
-  const handleSave = async () => {
-    const trimmed = tempContent.trim();
+  const handleSaveEditedNote = async (noteId) => {
+    const trimmed = tempNote.trim();
     if (!trimmed) return;
     try {
-      await updateNoteContent(noteId, trimmed);
-      setContent(trimmed);
+      await saveNoteEdit(noteId, trimmed);
+      setTempNote(trimmed);
       setIsEditing(false);
     } catch (error) {
       console.error("Edit failed:", error);
@@ -30,16 +31,16 @@ const Note = ({ initialNote, note }) => {
   };
 
   const handleCancel = () => {
-    setTempContent(content);
+    setTempNote(initialNote);
     setIsEditing(false);
   };
 
   const handleNoteDelete = (noteId) => {
-    deleteUserNote(noteId);
+    startTransition(() => {
+      deleteUserNote(noteId);
+    });
     setShowDeleteModal(false);
   };
-
-  // const handleUpdateNote = useNoteStore((state) => state.updateNote);
 
   return (
     <div
@@ -78,11 +79,12 @@ const Note = ({ initialNote, note }) => {
 
       <div className="p-2">
         {!isEditing ? (
-          <div className="flex">
-            <p className="text-gray-800 dark:text-gray-200 font-[450] dark:font-normal text-[18px]">
-              {tempContent}
-            </p>
-          </div>
+          <p
+            className="text-gray-800 dark:text-gray-200 font-[450] dark:font-normal 
+            text-[18px]"
+          >
+            {tempNote}
+          </p>
         ) : (
           <>
             <textarea
@@ -98,7 +100,7 @@ const Note = ({ initialNote, note }) => {
                font-[Poppins] cursor-pointer border-green-600 border rounded p-0.5
                 hover:bg-green-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)]
                  dark:shadow-none text-green-800"
-                onClick={handleSave}
+                onClick={() => handleSaveEditedNote(note?._id)}
               >
                 <span>SAVE</span>
                 <SquarePen className="h-3 w-3 ml-2" />
