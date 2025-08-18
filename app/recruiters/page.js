@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import LeftSideBar from "@/app/LeftSideBar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import toast from "react-hot-toast";
+import { useJobStore } from "@/store/useJobStore";
 import {
   MapPin,
   IndianRupee,
@@ -11,79 +13,17 @@ import {
   Languages,
   ArrowBigDown,
 } from "lucide-react";
-import JobTrigger from "@/app/recruiters/JobTrigger";
-const dummyJobs = [
-  {
-    jobTitle:
-      "Standby ALT in Japan – Trained, Supported, and First to Be Placed",
-    company: "Tech Solutions",
-    location: "New York, NY",
-    description:
-      "Develop and maintain web applications using modern technologies.",
-    salary: "$80,000 - $100,000",
-    datePosted: "2025-06-12",
-    japanese: "JLPT-N3",
-    requirements:
-      "Bachelor's degree in Computer Science field. Experience with JavaScript, React, and Node.js.",
-    contactEmail: "dummy@email.com",
-    key: "1",
-  },
-];
-
-const today = new Date();
-const day = String(today.getDate()).padStart(2, "0");
-const month = today.toLocaleString("en-US", { month: "long" });
-const year = today.getFullYear();
-
-const formattedDate = `${day}-${month}-${year}`;
-
-const formatDate = (createdAt) => {
-  if (!createdAt) return "";
-
-  const date = new Date(createdAt);
-  const now = new Date();
-
-  // Calculate the difference in milliseconds
-  const diff = now - date;
-
-  // Convert milliseconds to seconds, minutes, hours, days, weeks
-  const seconds = Math.floor(diff / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const weeks = Math.floor(days / 7);
-
-  if (weeks > 0) {
-    // More than a week ago
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = date.toLocaleString("en-US", { month: "long" });
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  } else if (days > 0) {
-    // Days ago
-    return `${days === 1 ? "a day ago" : `${days} days ago`}`;
-  } else if (hours > 0) {
-    // Hours ago
-    return `${hours === 1 ? "an hour ago" : `${hours} hours ago`}`;
-  } else if (minutes > 0) {
-    // Minutes ago
-    return `${minutes === 1 ? "a minute ago" : `${minutes} minutes ago`}`;
-  } else {
-    // Seconds ago
-    return `${seconds === 1 ? "a second ago" : `${seconds} seconds ago`}`;
-  }
-};
+import JobTriggergpt from "@/app/recruiters/JobTrigger";
 
 const Recruiters = () => {
-  const [localDate, setLocalDate] = useState("");
-  const [localTime, setLocalTime] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  // const [formattedDate, setFormattedDate] = useState("");
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = today.toLocaleString("en-US", { month: "long" });
+  const year = today.getFullYear();
 
-  // useEffect(() => {
-  //   const formatted = formatDate(createdAt);
-  //   setFormattedDate(formatted);
-  // }, [createdAt]);
+  const formattedDate = `${day}-${month}-${year}`;
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="md:mt-20 mt-25 mb-20">
@@ -112,7 +52,7 @@ const Recruiters = () => {
           professionals
         </h2>
         <div className="flex justify-center items-center mt-6">
-          <JobTrigger />
+          <JobTriggergpt />
         </div>
         <h2
           className="md:text-2xl font-semibold flex justify-center
@@ -123,131 +63,150 @@ const Recruiters = () => {
           (or Call 7678461209 for details)
         </h2>
         <div className="flex flex-col mx-3 md:ml-30 mb-20 ">
-          {dummyJobs.map((queryObj) => (
-            <div key={queryObj.key} className="md:mx-10 md:my-2">
-              <div
-                className="my-2 bg-white rounded-xl p-6 
-              md:space-y-4 space-y-2 border border-black dark:border-gray-200
-              dark:bg-black"
-              >
-                <div className="flex flex-col items-start justify-between">
-                  <div className="flex items-center">
-                    <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
-                      <Avatar
-                        className="cursor-pointer h-10 w-10  mr-3 hover:ring-3
-                       hover:ring-gray-600 hover:ring-offset-1 transition duration-100"
+          <div className="md:mx-20 md:my-8">
+            <div
+              className="my-2 bg-white rounded-xl p-6 md:space-y-4 space-y-2 border
+                 border-black dark:border-gray-200 dark:bg-black"
+            >
+              <div className="flex flex-col items-start justify-between">
+                <div className="flex items-center">
+                  <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
+                    <Avatar className="w-30 h-20 rounded mr-2">
+                      <AvatarImage src={"/try.jpg"} className="object-cover" />
+                      <AvatarFallback
+                        className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
+                          font-semibold rounded mr-2 text-2xl"
                       >
-                        <AvatarImage
-                          src={queryObj.companylogo}
-                          className="object-cover"
-                        />
-                        <AvatarFallback className="bg-gray-400 dark:bg-gray-500">
-                          {queryObj.company.charAt(0).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <div>
-                      <p
-                        className="cursor-pointer font-semibold hover:underline
-                       text-gray-700 dark:text-gray-300"
-                      >
-                        {queryObj.company}
-                      </p>
-                      <p className="text-xs text-gray-700 dark:text-gray-400 font-normal">
-                        <div className="flex flex-col text-xs md:text-sm">
-                          {formattedDate}
-                        </div>
-                      </p>
-                    </div>
+                        N
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-2xl text-gray-700 dark:text-gray-300">
+                      New Technologies Pvt. Ltd.
+                    </p>
+                    <p
+                      className="text-xs flex flex-col md:text-sm
+                         text-gray-700 dark:text-gray-400"
+                    >
+                      {formattedDate}
+                    </p>
                   </div>
                 </div>
-                <div className=" text-xl font-semibold">
-                  <span>{queryObj.jobTitle}</span>
+              </div>
+              <p className=" text-xl font-semibold dark:font-normal">
+                Japanese Language Translator cum Interpreter, Product Manager
+              </p>
+              <div className="flex items-center">
+                <p className="font-semibold dark:font-normal mr-6">
+                  Requirements:&nbsp;
+                </p>
+                <span className="dark:font-normal text-gray-700 dark:text-gray-400">
+                  {" "}
+                  JLPT N3 or Above. University graduate with at least a
+                  bachelor’s degree (in any subject). Professional in all
+                  aspects of behavior, a team player, flexible, cheerful, and
+                  energetic
+                </span>
+              </div>
+              <div className="text-sm dark:text-gray-400 md:space-y-2 space-y-1">
+                <div className="flex items-center">
+                  Location:
+                  <MapPin size={20} strokeWidth={1} className="mr-2" /> ABC
+                  city, XYZ state, India
                 </div>
-                <p className="text-sm">Requirements: {queryObj.requirements}</p>
-                <div className="text-xs dark:text-gray-400 md:space-y-2 space-y-1">
-                  <div className="flex items-center">
-                    <Languages size={20} strokeWidth={1} className="mr-2" />{" "}
-                    {queryObj.japanese}
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin size={20} strokeWidth={1} className="mr-2" />{" "}
-                    {queryObj.location}
-                  </div>
-                  <div className="flex items-center">
-                    <CircleDollarSign
-                      size={20}
-                      strokeWidth={1}
-                      className="mr-2"
-                    />{" "}
-                    {queryObj.salary}
-                  </div>
-                  <div className="flex items-center">
-                    <Mail size={18} strokeWidth={1} className="mr-2" />{" "}
-                    {queryObj.contactEmail} {queryObj.phone}
-                  </div>
-                  <div className="flex items-center text-sm">
-                    Job Description: {queryObj.description} {queryObj.phone}
-                  </div>
+                <div className="flex items-center">
+                  Salary:
+                  <IndianRupee size={16} strokeWidth={1} className="mr-2" />
+                  50,000 - 60,000 per month
                 </div>
+                <div className="flex items-center">
+                  Contact: <Mail size={18} strokeWidth={1} className="mr-2" />
+                  dummy@email.com
+                </div>
+                <div className="flex items-center text-sm">
+                  <p className="font-semibold dark:font-normal mr-6">
+                    Job Description:&nbsp;
+                  </p>
+                  <span className="dark:font-normal text-gray-700 dark:text-gray-400">
+                    {" "}
+                    New Technologies Pvt. Ltd. is the largest private provider
+                    of IT services in Japan, We are passionate about creating
+                    motivation in the next generation we are excited to welcome
+                    you to the Interac teaching family!
+                  </span>
+                </div>
+              </div>
+              <div className="flex justify-start items-center">
                 <div className="text-sm">
                   <button
+                    className="mt-4 bg-gray-400 dark:bg-red-900 cursor-pointer
+                     dark:hover:bg-red-700 hover:bg-gray-700  hover:text-white py-2
+                      px-4 rounded font-semibold dark:font-normal"
+                  >
+                    Edit this Job-Post
+                  </button>
+                  <p className="dark:text-gray-500">
+                    Only you will see this button
+                  </p>
+                </div>
+                <div className="text-sm md:ml-10">
+                  <button
                     onClick={() => setShowModal(true)}
-                    className="mt-4 bg-red-400 dark:bg-red-900 cursor-pointer
+                    className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer
                      dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
                       px-4 rounded font-semibold dark:font-normal"
                   >
-                    (Name) Delete this Job-Post?
+                    Delete this Job-Post
                   </button>
                   <p className="dark:text-gray-500">
-                    Only you will see this button (Name)
+                    Only you will see this button
                   </p>
                 </div>
               </div>
-              {/*-----------------------------Job post Delete Modal-------------------------- */}
-              {showModal && (
-                <div
-                  className="fixed inset-0 z-50 flex items-center justify-center
-                 bg-black/30"
-                >
-                  <motion.div
-                    initial={{ scale: 0, rotate: -50 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl "
-                  >
-                    <h2
-                      className="text-lg font-semibold text-center text-red-600
-                     dark:text-white dark:font-normal"
-                    >
-                      Delete this Job-Post Forever (Name)?
-                    </h2>
-                    <p className="text-sm  dark:text-gray-300 text-center my-2">
-                      This cannot be Recovered.
-                    </p>
-
-                    <div className="flex justify-center gap-4 mt-6 ">
-                      <button
-                        onClick={() => setShowModal(false)}
-                        className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
-                         dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        // onClick={() => handleDelete(queryObj._id)}
-                        onClick={() => setShowModal(false)}
-                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
-                         cursor-pointer text-white text-sm"
-                      >
-                        Yes, Delete
-                      </button>
-                    </div>
-                  </motion.div>
-                </div>
-              )}
             </div>
-          ))}
+            {/*-----------------------------Job Delete Modal-------------------------- */}
+            {showModal && (
+              <div
+                className="fixed inset-0 z-50 flex items-center justify-center
+                 bg-black/30"
+              >
+                <motion.div
+                  initial={{ scale: 0, rotate: -50 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl "
+                >
+                  <h2
+                    className="text-lg font-semibold text-center text-red-600
+                     dark:text-white dark:font-normal"
+                  >
+                    Delete this Job-Post Forever?
+                  </h2>
+                  <p className="text-sm  dark:text-gray-300 text-center my-2">
+                    This cannot be Recovered.
+                  </p>
+
+                  <div className="flex justify-center gap-4 mt-6 ">
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
+                         dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
+                         cursor-pointer text-white text-sm"
+                    >
+                      Yes, Delete
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

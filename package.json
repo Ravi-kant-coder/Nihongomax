@@ -38,7 +38,7 @@
     "radio-group": "^0.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.56.1",
+    "react-hook-form": "^7.62.0",
     "react-hot-toast": "^2.5.2",
     "shadcn": "^2.5.0",
     "skeleton": "^1.0.0",
@@ -48,7 +48,7 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.1.5",
     "tw-animate-css": "^1.2.4",
-    "yup": "^1.6.1",
+    "yup": "^1.7.0",
     "zod": "^3.24.3",
     "zustand": "^5.0.5"
   },

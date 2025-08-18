@@ -10,214 +10,189 @@ import {
   Mail,
   Languages,
 } from "lucide-react";
-import TimeAndDate from "../TimeAndDate";
 import ScrollupBtn from "../ScrollupBtn";
+import { useJobStore } from "@/store/useJobStore";
+import { formateDate } from "@/lib/utils";
 
-const dummyJobs = [
-  {
-    jobTitle:
-      "Standby ALT in Japan – Trained, Supported, and First to Be Placed",
-    company: "Tech Solutions",
-    location: "New York, NY",
-    description:
-      "Develop and maintain web applications using modern technologies.",
-    salary: "$80,000 - $100,000",
-    datePosted: "2025-06-28",
-    timePosted: "02:00",
-    japanese: "JLPT-N3",
-    requirements:
-      "Bachelor's degree in Computer Science field. Experience with JavaScript, React, and Node.js.",
-    contactEmail: "dummy@email.com",
-    key: "1",
-  },
-  {
-    companylogo: "Circular.jpg",
-    jobTitle: "Full Time – Sales Support Coordinator (SSC Team)",
-    company: "Phalana Solutions Inc.",
-    location: "Japan, JP",
-    description:
-      "Sustain the degree in Networking or Experience with JavaScript, React, and related field. Experience with JavaScript, React,  using modern technologies.",
-    salary: "$80,000 - $100,000",
-    datePosted: "2025-07-04",
-    timePosted: "15:00",
-    jobType: "Full-time",
-    japanese: "JLPT-N2",
-    requirements:
-      "Bachelor's degree in Networking or Experience with JavaScript, React, and related field. Experience with JavaScript, React, and Node.js.",
-    contactEmail: "dummy@email.com",
-    key: "2",
-  },
-
-  {
-    companylogo: "Horizontal2.jpg",
-    jobTitle: "Open systems development (upstream to downstream)",
-    company: "Dhinkana Private Ltd.",
-    location: "Nimrana, India",
-    description:
-      "Sustain the existing system and maintain network using modern technologies.",
-    salary: "$80,000 - $100,000",
-    datePosted: "2025-06-30",
-    timePosted: "13:00",
-    jobType: "Full-time",
-    japanese: "JLPT-N3, NAT-Q2",
-    requirements:
-      "Bachelor's degree in Networking or related field. Experience with JavaScript, React, and Node.js.",
-    contactEmail: "dummy@email.com",
-    key: "3",
-  },
-];
-
-const Jobcard = () => {
+const Jobs = () => {
+  const { jobs, fetchJobsZust, deleteJobZust } = useJobStore();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [formattedDate, setFormattedDate] = useState("");
 
-  // useEffect(() => {
-  //   const formatted = formatDate(createdAt);
-  //   setFormattedDate(formatted);
-  // }, [createdAt]);
+  useEffect(() => {
+    fetchJobsZust();
+  }, [fetchJobsZust]);
+
+  const handleJobDelete = async (jobId) => {
+    try {
+      const result = await deleteJobZust(jobId);
+      console.log("Job delete Handler result:", result);
+    } catch (error) {
+      console.error("Handler error:", error);
+    }
+  };
 
   return (
-    <>
-      <div className="md:mt-20 mt-25 mb-20 mx-5">
-        <div className="p-2">
-          <LeftSideBar />
-        </div>
-        <div className="flex flex-col md:ml-80 mb-20">
-          <h1 className="md:text-4xl text-xl font-bold dark:text-[rgb(150,150,150)] text-center">
-            Apply for JOBS
-          </h1>
-          {dummyJobs.map((queryObj) => {
-            return (
-              <div key={queryObj.key} className="md:mx-30 md:my-2">
-                <div
-                  className="my-2 bg-white dark:bg-[rgb(10,10,10)] rounded-xl p-6 
-              md:space-y-4 space-y-2 border border-black dark:border-gray-200"
-                >
-                  <div className="flex flex-col items-start justify-between">
-                    <div className="flex items-center">
-                      <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
-                        <Avatar
-                          className="cursor-pointer h-10 w-10  mr-3 hover:ring-3
-                       hover:ring-gray-600 hover:ring-offset-1 transition duration-100"
+    <div className="flex my-20">
+      <LeftSideBar />
+      <motion.div
+        className="md:ml-60 w-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <h1 className="text-4xl text-center font-bold">Apply for Jobs</h1>
+        {jobs?.length > 0 ? (
+          jobs.map((job) => (
+            <div key={job._id} className="md:mx-20 md:my-8">
+              <div
+                className="my-2 bg-white rounded-xl p-6 md:space-y-4 space-y-2 border
+                 border-black dark:border-gray-200 dark:bg-black"
+              >
+                <div className="flex flex-col items-start justify-between">
+                  <div className="flex items-center">
+                    <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
+                      <Avatar className="w-30 h-20 rounded mr-2">
+                        <AvatarImage
+                          src={job.mediaUrl}
+                          className="object-cover"
+                        />
+                        <AvatarFallback
+                          className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
+                          font-semibold rounded mr-2 text-2xl"
                         >
-                          <AvatarImage
-                            src={queryObj.companylogo}
-                            className="object-cover"
-                          />
-                          <AvatarFallback className="bg-gray-400 dark:bg-gray-500">
-                            {queryObj.company.charAt(0).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                      </div>
-                      <div>
-                        <p
-                          className="cursor-pointer font-semibold hover:underline
+                          {job.company.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                    <div>
+                      <p
+                        className="cursor-pointer font-semibold hover:underline text-2xl
                        text-gray-700 dark:text-gray-300"
-                        >
-                          {queryObj.company}
-                        </p>
-                        <p className="text-xs text-gray-700 dark:text-gray-400 font-normal">
-                          <TimeAndDate
-                            datePosted={queryObj.datePosted}
-                            timePosted={queryObj.timePosted}
-                          />
-                        </p>
-                      </div>
+                      >
+                        {job.company}
+                      </p>
+                      <p
+                        className="text-xs flex flex-col md:text-sm
+                         text-gray-700 dark:text-gray-400 font-normal"
+                      >
+                        {formateDate(job?.createdAt)}
+                      </p>
                     </div>
-                  </div>
-                  <div className=" text-xl font-semibold">
-                    <span>{queryObj.jobTitle}</span>
-                  </div>
-                  <p className="text-sm">
-                    Requirements: {queryObj.requirements}
-                  </p>
-                  <div className="text-xs dark:text-gray-400 md:space-y-2 space-y-1">
-                    <div className="flex items-center">
-                      <Languages size={20} strokeWidth={1} className="mr-2" />{" "}
-                      {queryObj.japanese}
-                    </div>
-                    <div className="flex items-center">
-                      <MapPin size={20} strokeWidth={1} className="mr-2" />{" "}
-                      {queryObj.location}
-                    </div>
-                    <div className="flex items-center">
-                      <CircleDollarSign
-                        size={20}
-                        strokeWidth={1}
-                        className="mr-2"
-                      />{" "}
-                      {queryObj.salary}
-                    </div>
-                    <div className="flex items-center">
-                      <Mail size={18} strokeWidth={1} className="mr-2" />{" "}
-                      {queryObj.contactEmail} {queryObj.phone}
-                    </div>
-                    <div className="flex items-center text-sm">
-                      Job Description: {queryObj.description} {queryObj.phone}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <button
-                      onClick={() => setShowModal(true)}
-                      className="mt-4 bg-red-400 dark:bg-red-900 cursor-pointer
-                     dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
-                      px-4 rounded font-medium"
-                    >
-                      Bhumika, Delete this Post?
-                    </button>
                   </div>
                 </div>
-
-                {/* -------------------------Delete Job-Post Modal-------------------------- */}
-
-                {showModal && (
-                  <div
-                    className="fixed inset-0 z-50 flex items-center justify-center
-                 bg-black/30"
-                  >
-                    <motion.div
-                      initial={{ scale: 0, rotate: -50 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl "
-                    >
-                      <h2
-                        className="text-lg font-semibold text-center text-red-600
-                     dark:text-white"
-                      >
-                        Delete this Post Forever Bhumika?
-                      </h2>
-                      <p className="text-sm  dark:text-gray-300 text-center my-2">
-                        This cannot be Recovered.
-                      </p>
-
-                      <div className="flex justify-center gap-4 mt-6 ">
-                        <button
-                          onClick={() => setShowModal(false)}
-                          className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
-                         dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          // onClick={() => handleDelete(queryObj._id)}
-                          className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
-                         cursor-pointer text-white text-sm"
-                        >
-                          Yes, Delete
-                        </button>
-                      </div>
-                    </motion.div>
+                <p className=" text-xl font-semibold">{job.title}</p>
+                <div className="flex">
+                  <p className="font-semibold">Requirements:&nbsp;</p>
+                  <span> {job.requirements}</span>
+                </div>
+                <div className="text-xs dark:text-gray-400 md:space-y-2 space-y-1">
+                  <div className="flex items-center">
+                    Location:
+                    <MapPin size={20} strokeWidth={1} className="mr-2" />{" "}
+                    {job.location}
                   </div>
-                )}
+                  <div className="flex items-center">
+                    Salary:
+                    <IndianRupee size={16} strokeWidth={1} className="mr-2" />
+                    {job.salary}
+                  </div>
+                  <div className="flex items-center">
+                    Contact: <Mail size={18} strokeWidth={1} className="mr-2" />
+                    {job.contact}
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <p className="font-semibold">Job Description:&nbsp;</p>
+                    <span> {job.jobDescription}</span>
+                  </div>
+                </div>
+                <div className="flex justify-start items-center">
+                  <div className="text-sm">
+                    <button
+                      className="mt-4 bg-gray-400 dark:bg-red-900 cursor-pointer
+                     dark:hover:bg-red-700 hover:bg-gray-700  hover:text-white py-2
+                      px-4 rounded font-semibold dark:font-normal"
+                    >
+                      Edit this Job-Post
+                    </button>
+                    <p className="dark:text-gray-500">
+                      Only you will see this button
+                    </p>
+                  </div>
+                  <div className="text-sm md:ml-10">
+                    <button
+                      onClick={() => setShowModal(true)}
+                      className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer
+                     dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
+                      px-4 rounded font-semibold dark:font-normal"
+                    >
+                      Delete this Job-Post
+                    </button>
+                    <p className="dark:text-gray-500">
+                      Only you will see this button
+                    </p>
+                  </div>
+                </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
+              {/*-----------------------------Job Delete Modal-------------------------- */}
+              {showModal && (
+                <div
+                  className="fixed inset-0 z-50 flex items-center justify-center
+                 bg-black/30"
+                >
+                  <motion.div
+                    initial={{ scale: 0, rotate: -50 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl "
+                  >
+                    <h2
+                      className="text-lg font-semibold text-center text-red-600
+                     dark:text-white dark:font-normal"
+                    >
+                      Delete this Job-Post Forever?
+                    </h2>
+                    <p className="text-sm  dark:text-gray-300 text-center my-2">
+                      This cannot be Recovered.
+                    </p>
+
+                    <div className="flex justify-center gap-4 mt-6 ">
+                      <button
+                        onClick={() => setShowModal(false)}
+                        className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
+                         dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowModal(false), handleJobDelete(job._id);
+                        }}
+                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
+                         cursor-pointer text-white text-sm"
+                      >
+                        Yes, Delete
+                      </button>
+                    </div>
+                  </motion.div>
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <h2 className="text-center text-2xl mt-8 dark:text-gray-400 text-gray-700">
+            No Jobs Available right now.
+            <br />
+            Plz check back later.
+            <p className="mt-4"> 頑張ってね。応援しています！</p>
+            <p className="text-lg"> (All the best. We are with you)</p>
+          </h2>
+        )}
+      </motion.div>
+
       <ScrollupBtn />
-    </>
+    </div>
   );
 };
 
-export default Jobcard;
+export default Jobs;

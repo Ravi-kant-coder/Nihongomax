@@ -55,10 +55,11 @@ const NotificationBox = () => {
         initial={{ y: -500, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className="fixed top-20 bottom-5 left-1/2 -translate-x-1/2 w-[90vw] md:left-1/2 md:w-[30%]
-        dark:bg-black bg-white overflow-y-auto border border-[rgb(130,130,130)] z-50 rounded-md"
+        dark:bg-black bg-white overflow-y-auto border border-[rgb(130,130,130)]
+         z-50 rounded-md"
       >
         <div
-          className="flex bg-[rgb(30,30,30)] justify-between text-white
+          className="flex bg-[rgb(80,80,80)] justify-between text-white
          items-center w-full top-0 z-900 sticky"
         >
           <p className="text-2xl font-bold ml-5">Notifications</p>{" "}

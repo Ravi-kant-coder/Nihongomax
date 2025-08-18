@@ -219,7 +219,10 @@ const ProfileDetails = ({
       </div>
       <div className="w-full">
         {userPosts.length > 0 && (
-          <div className="bg-white dark:bg-[rgb(55,55,55)] rounded-t-lg mb-2 p-2 font-[450] text-center text-lg">
+          <div
+            className="bg-white dark:bg-[rgb(55,55,55)] rounded-t-lg 
+          mb-2 p-2 font-[450] text-center text-lg"
+          >
             Posts by {isOwner ? "You" : `${profileData?.username}`}
           </div>
         )}

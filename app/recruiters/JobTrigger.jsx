@@ -6,59 +6,90 @@ import { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AnimatePresence, motion } from "framer-motion";
-import { ImageIcon, Laugh, Plus, Upload, VideoIcon, X } from "lucide-react";
+import { Plus, Upload } from "lucide-react";
 import userStore from "@/store/userStore";
 import { usePostStore } from "@/store/usePostStore";
-import dynamic from "next/dynamic";
-import { Label } from "@/components/ui/label";
-const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useJobStore } from "@/store/useJobStore";
 
-const PostTrigger = () => {
+const jobSchema = yup.object().shape({
+  company: yup.string().required("Company name is required"),
+  title: yup.string().required("Job title is required"),
+  jlpt: yup.string().optional(),
+  location: yup.string().required("Location is required"),
+  salary: yup.string().required("Salary is required"),
+  contact: yup
+    .string()
+    .required("Contact is required")
+    .test(
+      "valid-contact",
+      "Must be a valid email or 10-digit phone number",
+      (val) => {
+        if (!val) return false;
+        const phoneRegex = /^[0-9]{10}$/;
+        const emailRegex = /^\S+@\S+\.\S+$/;
+        return phoneRegex.test(val) || emailRegex.test(val);
+      }
+    ),
+  jobDescription: yup
+    .string()
+    .required("Job description is required")
+    .min(10, "Description must be at least 10 characters"),
+});
+
+const JobTrigger = () => {
   const [filePreview, setFilePreview] = useState(null);
-  const [filePreviews, setFilePreviews] = useState([]);
-  const [postContent, setPostContent] = useState("");
-  const { user } = userStore();
-  const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
+  const { user } = userStore();
   const [loading, setLoading] = useState(false);
-  const [showImageUpload, setShowImageUpload] = useState(false);
   const fileInputRef = useRef(null);
-  const [submit, setSubmit] = useState(true);
-  const [submitted, setSubmitted] = useState("");
-  const [isCompNameReq, setIsCompNameReq] = useState(false);
-  const [isJobTitleReq, setIsJobTitleReq] = useState(false);
-  const [isMobReq, setIsMobReq] = useState(false);
-  const [invalidMob, setInvalidMob] = useState(false);
-  const [feedback, setFeedback] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
-
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
   const month = today.toLocaleString("en-US", { month: "long" });
   const year = today.getFullYear();
-
   const formattedDate = `${day}-${month}-${year}`;
+  const { createJobZust } = useJobStore();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(jobSchema),
+  });
+
   const handleFileChnage = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file), setFileType(file.type);
     setFilePreview(URL.createObjectURL(file));
   };
 
-  const handlePost = async () => {
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+    setFileType(file.type);
+    setFilePreview(URL.createObjectURL(file));
+  };
+
+  const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const formData = new FormData();
-      formData.append("content", postContent);
-      if (selectedFile) {
-        formData.append("media", selectedFile);
-      }
-      await usePostStore.getState().handleCreatePost(formData);
-      setPostContent("");
+      // frontend already uploads file to cloudinary, so just attach mediaUrl
+      const jobData = {
+        ...data,
+        mediaUrl: filePreview || null,
+        mediaType: fileType.startsWith("image") ? "image" : "video",
+      };
+      await createJobZust(jobData);
+      reset();
       setSelectedFile(null);
       setFilePreview(null);
-      setIsPostTriggerOpen(false);
+      setShowImageUpload(false);
     } catch (error) {
-      console.error(error);
+      console.error("Handler-Error Job:", error);
     } finally {
       setLoading(false);
     }
@@ -66,211 +97,149 @@ const PostTrigger = () => {
 
   return (
     <div
-      className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] px-2 mb-10
-     bg-[rgb(170,170,170)] lg:p-5 py-10 md:rounded-lg rounded-lg"
+      className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] mb-10 p-2 md:p-4 rounded-lg
+     bg-[rgb(170,170,170)] "
     >
-      <div className="flex items-center space-x-3 py-4">
-        <Avatar>
-          <AvatarImage className="object-cover" src={user?.profilePicture} />
-          <AvatarFallback className="dark:bg-gray-800">
-            {user?.username.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="font-semibold">{user?.username}</p>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center space-x-3 py-4">
+          <Avatar>
+            <AvatarImage className="object-cover" src={user?.profilePicture} />
+            <AvatarFallback className="dark:bg-gray-800">
+              {user?.username.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="font-semibold">{user?.username}</p>
+          </div>
         </div>
+        <p className="font-semibold mr-4">Post Job</p>
       </div>
-      <form onSubmit={handlePost}>
-        <AnimatePresence>
-          {(showImageUpload || filePreviews.length > 0) && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="relative mb-4 cursor-pointer border border-dashed border-white
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* -----------------Company Image Upload ---------------*/}
+        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+          <div
+            className="relative md:w-50 cursor-pointer border-2 border-dashed border-gray-700
                     rounded-lg flex items-center justify-center hover:bg-gray-300 group
-                    dark:hover:bg-[rgb(36,37,38)] p-2"
-              onClick={() => fileInputRef.current.click()}
-            >
-              {filePreview ? (
-                fileType.startsWith("image") ? (
-                  <img
-                    src={filePreview}
-                    alt="preview_img"
-                    className="w-full h-auto max-h-[200px] object-cover"
-                  />
-                ) : (
-                  <video
-                    controls
-                    src={filePreview}
-                    className="w-full h-auto max-h-[200px] object-cover"
-                  />
-                )
-              ) : (
-                <div className="flex flex-col items-center">
-                  <Plus
-                    className="h-12 w-12 text-white mb-2 cursor-pointer 
-                        group-hover:text-gray-600 dark:group-hover:text-white"
-                  />
-                  <p
-                    className="text-center group-hover:text-black
-                        dark:group-hover:text-white text-white"
-                  >
-                    Add Photo
-                  </p>
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*,video/*"
-                className="hidden"
-                multiple
-                onChange={handleFileChnage}
-                ref={fileInputRef}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <div className="space-y-4">
-          <div className="flex items-center ">
-            <div className="flex flex-col items-center mr-2 md:mr-10">
-              <Avatar
-                className="w-15 h-15 border-2 border-white mb-2"
-                onClick={() => setShowImageUpload(!showImageUpload)}
-              >
-                <AvatarImage />
-                <AvatarFallback className="dark:bg-gray-800 text-3xl"></AvatarFallback>
-              </Avatar>
-              <button
-                className="border text-xs dark:bg-[rgb(30,30,30)] md:w-50 rounded-md
-                 md:text-sm p-1 flex-col md:flex-row cursor-pointer bg-[rgb(170,170,170)]
-                 dark:hover:bg-black hover:bg-gray-300  flex items-center justify-center"
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setShowImageUpload(!showImageUpload)}
-              >
-                <Upload className="h-4 w-4 mr-3" />
-                Company's Image
-              </button>
-            </div>
-            <div className="flex justify-between flex-col h-20 w-full ">
-              <div className="space-y-2 ">
-                <Label className="sr-only" htmlFor="queryName">
-                  Username
-                </Label>
-                <Input
-                  id="queryName"
-                  name="queryNameKey"
-                  type="text"
-                  placeholder="Enter Company's name"
-                  className="dark:border-gray-400 bg-white dark:bg-black"
-                  value={postContent}
-                  onChange={(e) => setPostContent(e.target.value)}
+                    dark:hover:bg-[rgb(36,37,38)] dark:border-gray-400 p-2"
+            onClick={() => fileInputRef.current.click()}
+          >
+            {filePreview ? (
+              fileType.startsWith("image") ? (
+                <img
+                  src={filePreview}
+                  alt="preview_img"
+                  className="w-full h-auto max-h-[200px] object-cover"
                 />
-                {isCompNameReq && (
-                  <p className="text-red-700 text-xs">
-                    Company's Name is required.
-                  </p>
-                )}
+              ) : (
+                <video
+                  controls
+                  src={filePreview}
+                  className="w-full h-auto max-h-[200px] object-cover"
+                />
+              )
+            ) : (
+              <div className="flex flex-col items-center">
+                <Plus className="h-12 w-12 dark:text-gray-400 text-gray-700 mb-2" />
+                <p className="text-center dark:text-gray-400">
+                  Add Company Photo/video
+                </p>
               </div>
-              <div className="flex flex-col text-xs md:text-sm">
-                {formattedDate}
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-between flex-col md:w-2/3 ">
-            <Label className="sr-only" htmlFor="queryName">
-              Username
-            </Label>
-            <Input
-              id="queryName"
-              name="queryNameKey"
-              type="text"
-              placeholder="Enter Job Title"
-              className="dark:border-gray-400 bg-white dark:bg-black"
-              // value={}
-              // onChange={handleNameChange}
-            />
-            {isJobTitleReq && (
-              <p className="text-red-700 text-xs">Job Title is required.</p>
             )}
+            <input
+              type="file"
+              accept="image/*,video/*"
+              className="hidden"
+              onChange={handleFileChange}
+              ref={fileInputRef}
+            />
           </div>
-          <div className="space-y-2 ">
-            <Label className="sr-only" htmlFor="mobNumber">
-              Mobile
-            </Label>
+
+          {/* ----------------Company Name and date---------------- */}
+          <div className="flex flex-col w-full">
             <Input
-              id="mobNumber"
-              name="queryNumKey"
-              type="text"
-              placeholder="Mobile Number"
-              className=" bg-white dark:bg-black dark:border-gray-400"
-              // value={}
-              onChange={(e) => {
-                const val = e.target.value;
-                if (/^[0-9]*$/.test(val)) {
-                  setMobile(val);
-                  if (val.length > 0) {
-                    setIsMobReq(false);
-                    setInvalidMob(false);
-                  }
-                }
-              }}
-              maxLength={10}
-            />{" "}
-            {isMobReq ? (
-              <p className="text-red-700 text-xs">Mobile number is required.</p>
-            ) : invalidMob ? (
-              <p className="text-red-700 text-xs ">
-                Please put Valid 10 Digit Mobile number.
-              </p>
-            ) : null}
+              placeholder="Enter Company's name"
+              className="dark:border-gray-700 bg-white dark:bg-black "
+              {...register("company")}
+            />
+            {errors.company && (
+              <p className="text-red-700 text-xs">{errors.company.message}</p>
+            )}
+            <p className="mt-2 ml-2 text-xs dark:text-gray-300">
+              {formattedDate}
+            </p>
           </div>
-          <Textarea
-            placeholder="Write a description/details about the job..."
-            className="min-h-[100px] text-lg border-1 border-white bg-white
-             dark:bg-black rounded-md"
-            // value={queryText}
-            onChange={(e) => {
-              let val = e.target.value;
-              if (val.length >= 0) {
-                // setIsQueryReq(false);
-                // setQueryText(val);
-              }
-            }}
-          />{" "}
-          <p className="text-red-700 text-xs">Your Query is required.</p>
-          {submit && (
-            <Button
-              className="w-1/2 text-[15px] hover:dark:bg-black hover:dark:border-1 
-               hover:dark:border-white dark:bg-gray-900 hover:dark:text-white 
-               cursor-pointer dark:border border-gray-500 font-[450] 
-               dark:font-normal dark:text-gray-400"
-              onClick={handlePost}
-            >
-              <p>Post Job Now</p>
-            </Button>
-          )}
-          {submitted && (
-            <motion.p
-              initial={{ x: -300 }}
-              animate={{ x: 0 }}
-              transition={{ type: "spring", stiffness: 200 }}
-              className="flex items-center py-2 text-white justify-center w-full rounded-md
-               p-1 bg-green-900"
-            >
-              <span className="mr-2">{feedback}</span>{" "}
-              <CircleCheckBig className="font-bold dark:font-semibold" />
-            </motion.p>
-          )}
         </div>
-        <p className="mt-2 font-[450] dark:font-normal dark:text-gray-400">
-          You can delete it anytime
-        </p>
+
+        <Input
+          placeholder="Enter Job Title"
+          className="dark:border-gray-700 bg-white dark:bg-black "
+          {...register("title")}
+        />
+        {errors.title && (
+          <p className="text-red-700 text-xs">{errors.title.message}</p>
+        )}
+
+        <Input
+          placeholder="JLPT Level (or other requirements)"
+          className="dark:border-gray-700 bg-white dark:bg-black md:w-[70%]"
+          {...register("requirements")}
+        />
+
+        <Input
+          placeholder="Job Location"
+          className="dark:border-gray-700 bg-white dark:bg-black md:w-[70%]"
+          {...register("location")}
+        />
+        {errors.location && (
+          <p className="text-red-700 text-xs">{errors.location.message}</p>
+        )}
+
+        <Input
+          placeholder="Salary offered"
+          className="dark:border-gray-700 bg-white dark:bg-black md:w-[70%]"
+          {...register("salary")}
+        />
+        {errors.salary && (
+          <p className="text-red-700 text-xs">{errors.salary.message}</p>
+        )}
+
+        <Input
+          placeholder="Mobile or Email"
+          className=" bg-white dark:bg-black dark:border-gray-700"
+          {...register("contact")}
+        />
+        {errors.contact && (
+          <p className="text-red-700 text-xs">{errors.contact.message}</p>
+        )}
+
+        <Textarea
+          placeholder="Write a description/details about the job..."
+          className="min-h-[100px] text-lg border-1 border-white bg-white
+             dark:bg-black rounded-md dark:border-gray-700"
+          {...register("jobDescription")}
+        />
+        {errors.jobDescription && (
+          <p className="text-red-700 text-xs">
+            {errors.jobDescription.message}
+          </p>
+        )}
+        <div>
+          <Button
+            type="submit"
+            className="w-1/2 text-[15px] dark:bg-gray-900 dark:text-gray-400 cursor-pointer
+             hover:bg-gray-900 bg-black dark:hover:bg-gray-800"
+            disabled={loading}
+          >
+            {loading ? "Posting..." : "Post Job Now"}
+          </Button>
+          <p className="mb-2 mt-1 dark:text-gray-300 text-sm ml-4">
+            You can Edit/Delete it anytime
+          </p>
+        </div>
       </form>
     </div>
   );
 };
 
-export default PostTrigger;
+export default JobTrigger;
