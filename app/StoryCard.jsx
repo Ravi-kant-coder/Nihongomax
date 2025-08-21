@@ -24,10 +24,12 @@ const StoryCard = ({ isAddStory, story }) => {
   const userPlaceholder = user?.username?.split(" ")[0][0]?.toUpperCase();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  const router = useRouter();
+
   const handleCancel = () => {
     setShowDeleteModal(false);
   };
-  const router = useRouter();
 
   const handleFileChnage = (e) => {
     const file = e.target.files[0];

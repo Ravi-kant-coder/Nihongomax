@@ -1,14 +1,11 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { AnimatePresence, motion } from "framer-motion";
-import { Plus, Upload } from "lucide-react";
+import { Plus } from "lucide-react";
 import userStore from "@/store/userStore";
-import { usePostStore } from "@/store/usePostStore";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -17,22 +14,26 @@ import { useJobStore } from "@/store/useJobStore";
 const jobSchema = yup.object().shape({
   company: yup.string().required("Company name is required"),
   title: yup.string().required("Job title is required"),
-  jlpt: yup.string().optional(),
   location: yup.string().required("Location is required"),
   salary: yup.string().required("Salary is required"),
-  contact: yup
+  mobile: yup
     .string()
-    .required("Contact is required")
-    .test(
-      "valid-contact",
-      "Must be a valid email or 10-digit phone number",
-      (val) => {
-        if (!val) return false;
-        const phoneRegex = /^[0-9]{10}$/;
-        const emailRegex = /^\S+@\S+\.\S+$/;
-        return phoneRegex.test(val) || emailRegex.test(val);
-      }
-    ),
+    .nullable()
+    .transform((value) => (value === "" ? null : value))
+    .test("valid-mobile", "Not a valid 10 digit number", (val) => {
+      if (!val) return true; // ✅ allow empty
+      const phoneRegex = /^[0-9]{10}$/;
+      return phoneRegex.test(val);
+    }),
+
+  email: yup
+    .string()
+    .required("Email is required")
+    .test("valid-email", "Must be a valid email", (val) => {
+      if (!val) return false;
+      const emailRegex = /^\S+@\S+\.\S+$/;
+      return emailRegex.test(val);
+    }),
   jobDescription: yup
     .string()
     .required("Job description is required")
@@ -41,9 +42,9 @@ const jobSchema = yup.object().shape({
 
 const JobTrigger = () => {
   const [filePreview, setFilePreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
   const { user } = userStore();
-  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
@@ -51,6 +52,9 @@ const JobTrigger = () => {
   const year = today.getFullYear();
   const formattedDate = `${day}-${month}-${year}`;
   const { createJobZust } = useJobStore();
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [feedback, setFeedback] = useState("");
 
   const {
     register,
@@ -60,12 +64,6 @@ const JobTrigger = () => {
   } = useForm({
     resolver: yupResolver(jobSchema),
   });
-
-  const handleFileChnage = (e) => {
-    const file = e.target.files[0];
-    setSelectedFile(file), setFileType(file.type);
-    setFilePreview(URL.createObjectURL(file));
-  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -77,17 +75,25 @@ const JobTrigger = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      // frontend already uploads file to cloudinary, so just attach mediaUrl
-      const jobData = {
-        ...data,
-        mediaUrl: filePreview || null,
-        mediaType: fileType.startsWith("image") ? "image" : "video",
-      };
+      const jobData = new FormData();
+      if (selectedFile) jobData.append("media", selectedFile);
+      jobData.append("company", data.company);
+      jobData.append("title", data.title);
+      jobData.append("location", data.location);
+      jobData.append("salary", data.salary);
+      jobData.append("mobile", data.mobile);
+      jobData.append("email", data.email);
+      jobData.append("requirements", data.requirements);
+      jobData.append("jobDescription", data.jobDescription);
       await createJobZust(jobData);
       reset();
       setSelectedFile(null);
       setFilePreview(null);
-      setShowImageUpload(false);
+      setFeedback(
+        `Thank you ${user?.username?.split(" ")[0]} for posting the job!`
+      );
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 3000);
     } catch (error) {
       console.error("Handler-Error Job:", error);
     } finally {
@@ -101,7 +107,7 @@ const JobTrigger = () => {
      bg-[rgb(170,170,170)] "
     >
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-3 py-4">
+        <div className="flex items-center space-x-3 py-2">
           <Avatar>
             <AvatarImage className="object-cover" src={user?.profilePicture} />
             <AvatarFallback className="dark:bg-gray-800">
@@ -115,13 +121,13 @@ const JobTrigger = () => {
         <p className="font-semibold mr-4">Post Job</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* -----------------Company Image Upload ---------------*/}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* -----------------------Company Image Upload ---------------------*/}
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
           <div
             className="relative md:w-50 cursor-pointer border-2 border-dashed border-gray-700
                     rounded-lg flex items-center justify-center hover:bg-gray-300 group
-                    dark:hover:bg-[rgb(36,37,38)] dark:border-gray-400 p-2"
+                    dark:hover:bg-[rgb(36,37,38)] dark:border-gray-400 p-1 mb-4"
             onClick={() => fileInputRef.current.click()}
           >
             {filePreview ? (
@@ -129,7 +135,7 @@ const JobTrigger = () => {
                 <img
                   src={filePreview}
                   alt="preview_img"
-                  className="w-full h-auto max-h-[200px] object-cover"
+                  className="w-full h-auto max-h-[200px] object-cover rounded"
                 />
               ) : (
                 <video
@@ -155,11 +161,17 @@ const JobTrigger = () => {
             />
           </div>
 
-          {/* ----------------Company Name and date---------------- */}
+          {/* ---------------------Company Name and Date-------------------- */}
           <div className="flex flex-col w-full">
+            Company
             <Input
               placeholder="Enter Company's name"
-              className="dark:border-gray-700 bg-white dark:bg-black "
+              className={` bg-white dark:bg-black dark:border-gray-700 
+          ${
+            errors.company
+              ? "border-red-500 dark:border-red-900"
+              : "border-gray-300"
+          }`}
               {...register("company")}
             />
             {errors.company && (
@@ -170,53 +182,107 @@ const JobTrigger = () => {
             </p>
           </div>
         </div>
-
+        {/* ------------------------Other Inputs--------------------------- */}
+        Job Title
         <Input
           placeholder="Enter Job Title"
-          className="dark:border-gray-700 bg-white dark:bg-black "
+          className={` bg-white dark:bg-black dark:border-gray-700 
+          ${
+            errors.title
+              ? "border-red-500 dark:border-red-900 mb-0"
+              : "border-gray-300 mb-4"
+          }`}
           {...register("title")}
         />
         {errors.title && (
-          <p className="text-red-700 text-xs">{errors.title.message}</p>
+          <p className="text-red-700 text-xs mb-4">{errors.title.message}</p>
         )}
-
-        <Input
-          placeholder="JLPT Level (or other requirements)"
-          className="dark:border-gray-700 bg-white dark:bg-black md:w-[70%]"
+        Requirements
+        <Textarea
+          placeholder="Write about all the requirements for candidate..."
+          className={`min-h-[100px] text-lg border-1 border-white bg-white
+             dark:bg-black rounded-md dark:border-gray-700 
+             ${
+               errors.requirements
+                 ? "border-red-500 dark:border-red-900 mb-0"
+                 : "border-gray-300 mb-4"
+             }`}
           {...register("requirements")}
         />
-
+        {errors.requirements && (
+          <p className="text-red-700 text-xs">{errors.requirements.message}</p>
+        )}
+        Job Location
         <Input
-          placeholder="Job Location"
-          className="dark:border-gray-700 bg-white dark:bg-black md:w-[70%]"
+          placeholder="City or State, Country"
+          className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
+          ${
+            errors.location
+              ? "border-red-500 dark:border-red-900 mb-0"
+              : "border-gray-300 mb-4"
+          }`}
           {...register("location")}
         />
         {errors.location && (
-          <p className="text-red-700 text-xs">{errors.location.message}</p>
+          <p className="text-red-700 text-xs mb-4">{errors.location.message}</p>
         )}
-
+        Salary offered
         <Input
-          placeholder="Salary offered"
-          className="dark:border-gray-700 bg-white dark:bg-black md:w-[70%]"
+          placeholder="Rupees or Yen in rough range"
+          className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
+          ${
+            errors.salary
+              ? "border-red-500 dark:border-red-900 mb-0"
+              : "border-gray-300 mb-4"
+          }`}
           {...register("salary")}
         />
         {errors.salary && (
-          <p className="text-red-700 text-xs">{errors.salary.message}</p>
+          <p className="text-red-700 text-xs mb-4">{errors.salary.message}</p>
         )}
-
-        <Input
-          placeholder="Mobile or Email"
-          className=" bg-white dark:bg-black dark:border-gray-700"
-          {...register("contact")}
-        />
-        {errors.contact && (
-          <p className="text-red-700 text-xs">{errors.contact.message}</p>
-        )}
-
+        <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+          <div>
+            Email
+            <Input
+              placeholder="For job inquiries"
+              className={`bg-white dark:bg-black dark:border-gray-700 
+          ${
+            errors.email
+              ? "border-red-500 dark:border-red-900 mb-0"
+              : "border-gray-300 mb-4"
+          }`}
+              {...register("email")}
+            />
+            {errors.email && (
+              <p className="text-red-700 text-xs mb-2">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+          <div>
+            Mobile (Optional)
+            <Input
+              placeholder="10 digit number"
+              className=" bg-white dark:bg-black dark:border-gray-700 "
+              {...register("mobile")}
+            />
+            {errors.mobile && (
+              <p className="text-red-700 text-xs mb-4">
+                {errors.mobile.message}
+              </p>
+            )}
+          </div>
+        </div>
+        Job Description
         <Textarea
           placeholder="Write a description/details about the job..."
-          className="min-h-[100px] text-lg border-1 border-white bg-white
-             dark:bg-black rounded-md dark:border-gray-700"
+          className={`min-h-[100px] text-lg border-1 border-white bg-white
+             dark:bg-black rounded-md dark:border-gray-700 
+             ${
+               errors.jobDescription
+                 ? "border-red-500 dark:border-red-900 mb-0"
+                 : "border-gray-300 mb-4"
+             }`}
           {...register("jobDescription")}
         />
         {errors.jobDescription && (
@@ -227,13 +293,18 @@ const JobTrigger = () => {
         <div>
           <Button
             type="submit"
-            className="w-1/2 text-[15px] dark:bg-gray-900 dark:text-gray-400 cursor-pointer
-             hover:bg-gray-900 bg-black dark:hover:bg-gray-800"
+            className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
+           ${
+             submitted
+               ? "bg-green-300 hover:bg-green-300 text-black dark:bg-green-950 dark:text-white dark:hover:bg-green-950"
+               : "bg-black dark:text-gray-400 hover:bg-gray-900"
+           }`}
             disabled={loading}
           >
-            {loading ? "Posting..." : "Post Job Now"}
+            {loading ? "Posting..." : submitted ? feedback : "Post Job Now"}
           </Button>
-          <p className="mb-2 mt-1 dark:text-gray-300 text-sm ml-4">
+
+          <p className="mb-2 mt-1 dark:text-gray-300 text-sm ml-2">
             You can Edit/Delete it anytime
           </p>
         </div>

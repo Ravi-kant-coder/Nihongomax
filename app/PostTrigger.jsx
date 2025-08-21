@@ -156,7 +156,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                         <img
                           src={filePreview}
                           alt="preview_img"
-                          className="w-full h-auto max-h-[200px] object-cover"
+                          className="w-full h-auto max-h-[200px] object-cover rounded"
                         />
                       ) : (
                         <video

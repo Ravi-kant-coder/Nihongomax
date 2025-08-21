@@ -30,7 +30,7 @@ export const deleteJobService = async (jobId) => {
     const result = await axiosInstance.delete(`/candidates/jobs/${jobId}`);
     return result?.data?.message;
   } catch (error) {
-    console.error("Delete Post Error in service:", error.message);
+    console.error("Delete Job Error in service:", error.message);
     throw error;
   }
 };

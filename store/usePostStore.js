@@ -115,6 +115,7 @@ export const usePostStore = create((set) => ({
   },
 
   handleCreatePost: async (postData) => {
+    console.log("Zustand Postdata object:", postData);
     set({ loading: true });
     try {
       const newPostRaw = await createPost(postData);

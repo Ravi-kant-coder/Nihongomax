@@ -36,6 +36,8 @@ export const useJobStore = create((set) => ({
   },
 
   createJobZust: async (jobData) => {
+    console.log("Zustand data object:", jobData);
+
     set({ loading: true });
     try {
       const newJob = await createJobService(jobData);
