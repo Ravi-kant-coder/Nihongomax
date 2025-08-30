@@ -8,8 +8,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
-import { registerUser } from "@/service/auth.service";
+import { LogIn, Upload } from "lucide-react";
+import { loginUser, registerUser } from "@/service/auth.service";
 import userStore from "@/store/userStore";
 import Spinner from "../Spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -34,9 +34,29 @@ const CreateAcc = () => {
       .required("Password is required"),
   });
 
+  const loginSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  });
+
+  const {
+    register: registerLogin,
+    handleSubmit: handleSubmitLogin,
+    control,
+    reset: resetLoginForm,
+    formState: { errors: errorsLogin },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
+
   const {
     register: registerSignUp,
-    control,
     handleSubmit: handleSubmitSignUp,
     reset: resetSignUpForm,
     formState: { errors: errorsSignUp },
@@ -59,8 +79,9 @@ const CreateAcc = () => {
   };
 
   useEffect(() => {
+    resetLoginForm();
     resetSignUpForm();
-  }, [resetSignUpForm]);
+  }, [resetLoginForm, resetSignUpForm]);
 
   return (
     <>
@@ -161,7 +182,7 @@ const CreateAcc = () => {
             className="w-full cursor-pointer dark:bg-black text-white"
             type="submit"
           >
-            <Upload className="mr-2 w-4 h-4" /> Create Account
+            <LogIn className="mr-2 w-4 h-4" /> Create Account
           </Button>
         </form>
       </div>

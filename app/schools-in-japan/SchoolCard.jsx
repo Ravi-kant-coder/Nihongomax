@@ -5,15 +5,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MapPin, IndianRupee, Mail, Languages, Phone } from "lucide-react";
 import { formateDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
-import EditJob from "./EditJob";
+import EditJob from "./EditSchool";
 import JobTrigger from "../recruiters/JobTrigger";
 
-const JobCard = ({ job, handleJobDelete }) => {
+const SchoolCard = ({ school, handleSchoolDelete }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showJobEditModal, setShowJobEditModal] = useState(false);
+  const [showSchoolEditModal, setShowSchoolEditModal] = useState(false);
   const { user } = userStore();
 
-  if (!job) return null;
+  if (!school) return null;
 
   return (
     <div>
@@ -26,33 +26,36 @@ const JobCard = ({ job, handleJobDelete }) => {
             <div className="flex items-center">
               <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
                 <Avatar className="w-30 h-20 rounded mr-2">
-                  {job?.mediaUrl && (
-                    <AvatarImage src={job?.mediaUrl} className="object-cover" />
+                  {school?.mediaUrl && (
+                    <AvatarImage
+                      src={school?.mediaUrl}
+                      className="object-cover"
+                    />
                   )}
 
                   <AvatarFallback
                     className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
                           font-semibold rounded mr-2 text-2xl"
                   >
-                    {job?.company?.charAt(0).toUpperCase()}
+                    {school?.company?.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>
               <div>
                 <div className="font-semibold text-2xl text-gray-800 dark:text-gray-300">
-                  {job?.company}
+                  {school?.company}
                 </div>
                 <div
                   className="text-xs flex flex-col md:text-sm
                          text-gray-700 dark:text-gray-400 font-normal"
                 >
-                  {formateDate(job?.createdAt)}
+                  {formateDate(school?.createdAt)}
                 </div>
               </div>
             </div>
           </div>
           <p className=" text-xl font-semibold dark:font-normal">
-            {job?.title}
+            {school?.title}
           </p>
           <div>
             <div className="mb-2">
@@ -60,37 +63,35 @@ const JobCard = ({ job, handleJobDelete }) => {
                 Requirements:
               </p>
               <span>
-                {job?.requirements ||
-                  "No specific requirements mentioned for this job post."}
+                {school?.requirements ||
+                  "No specific requirements mentioned for this school post."}
               </span>
             </div>
             <div className="dark:text-gray-400 md:space-y-3 space-y-1">
               <div className="flex items-center text-sm">
                 <MapPin size={18} strokeWidth={2} className="mr-2" />{" "}
                 <p className="font-semibold mr-2">Location:</p>
-                {job?.location || "Please contact for Job location"}
+                {school?.location || "Remote"}
               </div>
               <div className="flex items-center text-sm">
                 <IndianRupee size={16} strokeWidth={2} className="mr-2" />
                 <p className="font-semibold mr-2">Salary:</p>
-                {job?.salary || "Not Disclosed"}
+                {school?.salary || "Not Disclosed"}
               </div>
               <div className="flex items-center text-sm">
                 <Mail size={16} strokeWidth={2} className="mr-2" />
                 <p className="font-semibold mr-2">Email:</p>
-                {job?.email || "Not Provided"}
+                {school?.email || "Not Provided"}
               </div>
               <div className="flex items-center text-sm">
                 <Phone size={16} strokeWidth={2} className="mr-2" />
                 <p className="font-semibold mr-2">Mobile:</p>
-                {job?.mobile && job.mobile !== "null"
-                  ? job.mobile
-                  : "Not Provided"}
+                {school?.mobile || "Not Provided"}
               </div>
               <div className="items-center text-sm">
-                <p className="font-semibold">Job&nbsp;Description:</p>
+                <p className="font-semibold">school&nbsp;Description:</p>
                 <span>
-                  {job?.jobDescription ||
+                  {school?.jobDescription ||
                     "No description provided for this job post."}
                 </span>
               </div>
@@ -98,17 +99,18 @@ const JobCard = ({ job, handleJobDelete }) => {
           </div>
           <div className="flex justify-start items-center">
             <div className="text-sm">
-              {user?._id === job?.user?._id && (
+              {user?._id === school?.user?._id && (
                 <>
                   <button
                     className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer
                      dark:hover:bg-gray-900 hover:bg-gray-700  hover:text-white py-2
                       px-4 rounded font-semibold dark:font-normal"
                     onClick={() => {
-                      setShowJobEditModal(true);
+                      setShowSchoolEditModal(true);
+                      console.log("Edit school clicked");
                     }}
                   >
-                    Edit this Job-Post
+                    Edit this School-Data
                   </button>
                   <p className="dark:text-gray-500 text-xs">
                     Only you can see this button {user?.username?.split(" ")[0]}
@@ -117,7 +119,7 @@ const JobCard = ({ job, handleJobDelete }) => {
               )}
             </div>
             <div className="text-sm md:ml-10">
-              {user?._id === job?.user?._id && (
+              {user?._id === school?.user?._id && (
                 <>
                   <button
                     onClick={() => setShowDeleteModal(true)}
@@ -125,7 +127,7 @@ const JobCard = ({ job, handleJobDelete }) => {
                      dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
                       px-4 rounded font-semibold dark:font-normal"
                   >
-                    Delete this Job-Post
+                    Delete this school-Post
                   </button>
                   <p className="dark:text-gray-500 text-xs">
                     Only you can see this button {user?.username?.split(" ")[0]}
@@ -151,7 +153,7 @@ const JobCard = ({ job, handleJobDelete }) => {
                 className="text-lg font-semibold text-center text-red-600
                      dark:text-white dark:font-normal"
               >
-                Delete this Job-Post Forever {user?.username?.split(" ")[0]}?
+                Delete this school-Post Forever {user?.username?.split(" ")[0]}?
               </h2>
               <p className="text-sm  dark:text-gray-300 text-center my-2">
                 This cannot be Recovered.
@@ -161,14 +163,14 @@ const JobCard = ({ job, handleJobDelete }) => {
                 <button
                   onClick={() => setShowDeleteModal(false)}
                   className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
-                         dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
+                dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => {
                     setShowDeleteModal(false);
-                    handleJobDelete(job?._id);
+                    handleSchoolDelete(school?._id);
                   }}
                   className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
                          cursor-pointer text-white text-sm"
@@ -180,12 +182,15 @@ const JobCard = ({ job, handleJobDelete }) => {
           </div>
         )}
         {/*-----------------------------Job Edit Modal-------------------------- */}
-        {showJobEditModal && (
-          <EditJob job={job} onClose={() => setShowJobEditModal(false)} />
+        {showSchoolEditModal && (
+          <EditSchool
+            school={school}
+            onClose={() => setShowSchoolEditModal(false)}
+          />
         )}
       </div>
     </div>
   );
 };
 
-export default JobCard;
+export default SchoolCard;

@@ -3,7 +3,7 @@ import {
   createJobService,
   fetchJobsService,
   deleteJobService,
-  // updateJobService,
+  updateJobService,
 } from "@/service/job.service";
 
 export const useJobStore = create((set) => ({
@@ -51,15 +51,12 @@ export const useJobStore = create((set) => ({
     }
   },
 
-  updateJobZust: async (postId, newContent) => {
+  updateJobZust: async (jobId, newContent) => {
     try {
       await updateJobService(jobId, newContent);
       set((state) => ({
-        posts: state.posts.map((post) =>
-          post._id === postId ? { ...post, content: newContent } : post
-        ),
-        userPosts: state.userPosts.map((post) =>
-          post._id === postId ? { ...post, content: newContent } : post
+        jobs: state.jobs.map((job) =>
+          job._id === jobId ? { ...job, ...newContent } : job
         ),
       }));
     } catch (error) {

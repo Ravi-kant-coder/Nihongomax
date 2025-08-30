@@ -153,14 +153,11 @@ const Navbar = () => {
   //Routing to searched user profile page
   const handleUserClick = async (userId) => {
     try {
-      setLoading(true);
       setIsSearchOpen(false);
       setSearchQuery("");
-      router.push(`/user-profile/${userId}`);
+      startTransition(() => router.push(`/user-profile/${userId}`));
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -177,12 +174,6 @@ const Navbar = () => {
       document.removeEventListener("click", handleSearchClose);
     };
   });
-
-  const routeOnSearchPage = () => {
-    startTransition(() => {
-      router.push("/search");
-    });
-  };
 
   return (
     <header
@@ -255,17 +246,6 @@ const Navbar = () => {
                               No results found
                             </div>
                           )}
-                          <div
-                            className="cursor-pointer text-sm p-1 flex justify-center items-center
-                           hover:bg-gray-300 rounded-sm"
-                          >
-                            <button
-                              onClick={routeOnSearchPage}
-                              className="cursor-pointer"
-                            >
-                              View all Users
-                            </button>
-                          </div>
                         </div>
                       </div>
                     )}

@@ -1,8 +1,8 @@
 import axiosInstance from "./url.service";
 
-export const createJobService = async (jobData) => {
+export const createSchoolService = async (schoolData) => {
   try {
-    const result = await axiosInstance.post("/candidates/jobs", jobData);
+    const result = await axiosInstance.post("/students/schools", schoolData);
     return result?.data?.data;
   } catch (error) {
     console.error(error);
@@ -10,10 +10,10 @@ export const createJobService = async (jobData) => {
   }
 };
 
-export const updateJobService = async (jobId, content) => {
+export const updateSchoolService = async (schoolId, content) => {
   try {
     const result = await axiosInstance.patch(
-      `/candidates/jobs/${jobId}/content`,
+      `/students/schools/${schoolId}/content`,
       {
         content,
       }
@@ -25,19 +25,19 @@ export const updateJobService = async (jobId, content) => {
   }
 };
 
-export const deleteJobService = async (jobId) => {
+export const deleteSchoolService = async (schoolId) => {
   try {
-    const result = await axiosInstance.delete(`/candidates/jobs/${jobId}`);
+    const result = await axiosInstance.delete(`/students/schools/${schoolId}`);
     return result?.data?.message;
   } catch (error) {
-    console.error("Delete Job Error in service:", error.message);
+    console.error("Delete School Error in service:", error.message);
     throw error;
   }
 };
 
-export const fetchJobsService = async () => {
+export const fetchSchoolsService = async () => {
   try {
-    const result = await axiosInstance.get("/candidates/jobs");
+    const result = await axiosInstance.get("/students/schools");
     return result?.data?.data;
   } catch (error) {
     console.error(error);

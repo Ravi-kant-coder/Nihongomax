@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
+  Book,
+  BookOpen,
+  BookOpenCheck,
   Briefcase,
   Cake,
   CakeIcon,
   GraduationCap,
   Heart,
   Home,
+  Languages,
   Mail,
   MapPin,
   Phone,
   Pi,
+  Plane,
   Rss,
   Trash2,
 } from "lucide-react";
@@ -79,6 +84,7 @@ const ProfileDetails = ({
   return (
     <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 md:px-0 mt-8">
       <div className="w-full md:min-w-[40%] space-x-0 space-y-6 mb-4">
+        {/*------------------------------Details About You-----------------------------*/}
         <Card>
           <CardContent
             className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 
@@ -93,37 +99,45 @@ const ProfileDetails = ({
             </p>
             <div className="space-y-2 mb-4 dark:text-gray-300">
               <div className="flex items-center">
-                <Home className="w-5 h-5 mr-2 shrink-0" />
-                <span> {profileData?.bio?.liveIn}</span>
+                <GraduationCap className="w-5 h-5 mr-2 shrink-0" />
+                Education:
+                <span className="ml-2"> {profileData?.bio?.liveIn}</span>
               </div>
               <div className="flex items-center">
-                <Heart className="w-5 h-5 mr-2 shrink-0" />
-                <span>{profileData?.bio?.relationship}</span>
+                <Languages className="w-5 h-5 mr-2 shrink-0" />
+                JLPT/NAT cleared:
+                <span className="ml-2">{profileData?.bio?.relationship}</span>
               </div>
               <div className="flex items-center">
-                <p>JLPT/NAT clear</p>
                 <MapPin className="w-5 h-5 mr-2 shrink-0" />
-                <span>{profileData?.bio?.hometown}</span>
+                Work Place:
+                <span className="ml-2">{profileData?.bio?.hometown}</span>
               </div>
               <div className="flex items-center">
                 <Briefcase className="w-5 h-5 mr-2 shrink-0" />
-                <span> {profileData?.bio?.workplace}</span>
+                Work Experience:
+                <span className="ml-2"> {profileData?.bio?.workplace}</span>
               </div>
               <div className="flex items-center">
-                <GraduationCap className="w-5 h-5 mr-2 shrink-0" />
-                <span> {profileData?.bio?.education}</span>
+                <BookOpenCheck className="w-5 h-5 mr-2 shrink-0" />
+                Certifications:
+                <span className="ml-2"> {profileData?.bio?.education}</span>
+              </div>
+              <div className="flex items-center">
+                <Plane className="w-5 h-5 mr-2 shrink-0" />
+                Japan Experience:
+                <span className="ml-2">{profileData?.bio?.phone}</span>
               </div>
               <div className="flex items-center">
                 <Phone className="w-5 h-5 mr-2 shrink-0" />
-                <span>{profileData?.bio?.phone}</span>
+                Phone:
+                <span className="ml-2"> {profileData?.bio?.education}</span>
               </div>
-              <div className="flex items-center">
-                <CakeIcon className="w-5 h-5 mr-2 shrink-0" />
-                <span>{profileData?.bio?.birthday}</span>
-              </div>
-              <div className="flex items-center">
-                <p className="mr-3">JLPT/NAT clear</p>
-                <span>{profileData?.bio?.address}</span>
+              <div className="">
+                <p>About Me:</p>
+                <span className=" text-gray-800 dark:text-gray-300">
+                  {profileData?.bio?.address}
+                </span>
               </div>
             </div>
             <div className="flex items-center justify-center my-4">
@@ -137,12 +151,7 @@ const ProfileDetails = ({
               <Mail className="w-5 h-5 mr-2 shrink-0" />
               <span>{profileData?.email}</span>
             </div>
-            <div className="flex items-center">
-              <Cake className="w-5 h-5 mr-2 shrink-0" />
-              <span>
-                Birthday: {formatDateInDDMMYYY(profileData?.dateOfBirth)}
-              </span>
-            </div>
+
             <div className="flex items-center mb-4 dark:text-gray-300">
               <Rss className="w-5 h-5 mr-2 shrink-0" />
               <span>
@@ -161,6 +170,7 @@ const ProfileDetails = ({
             )}
           </CardContent>
         </Card>
+        {/*------------------------------Photos by You-----------------------------*/}
         <Card>
           <CardContent
             className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 
@@ -217,6 +227,7 @@ const ProfileDetails = ({
           </button>
         )}
       </div>
+      {/*------------------------------Posts by Owner-----------------------------*/}
       <div className="w-full">
         {userPosts.length > 0 && (
           <div

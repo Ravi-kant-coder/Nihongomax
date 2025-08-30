@@ -34,7 +34,12 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
   return (
     <>
       {visibleComments.length > 0 && (
-        <h3 className="font-semibold ml-4">Comments</h3>
+        <h3 className="font-semibold ml-4 flex">
+          Comments&nbsp;
+          <p className="font-normal text-gray-500">
+            (Total {post?.comments?.length})
+          </p>
+        </h3>
       )}
       <div className="max-h-100 overflow-y-auto">
         <AnimatePresence>
@@ -49,7 +54,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               key={comment._id}
               className={`flex items-start space-x-2 m-4 rounded-md p-2 bg-gray-200
-               dark:bg-[rgb(45,45,45)] text-sm  `}
+               dark:bg-[rgb(45,45,45)] text-sm`}
             >
               <Avatar
                 className={`w-8 h-8 ${
@@ -130,14 +135,31 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
             onClick={() => setShowAllComments(!showAllComments)}
           >
             {showAllComments ? (
-              <p className="flex items-center text-sm w-full ml-4">
-                Show Less Comments
-                <ChevronUp className="ml-1 h-4 w-4" />
-              </p>
+              <motion.button
+                initial={{ y: -500, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="bg-black/20 rounded shadow-md items-center justify-center
+                 cursor-pointer flex text-sm w-full ml-4 p-2"
+              >
+                Show Less Comments <ChevronUp className="ml-1 h-4 w-4" />
+              </motion.button>
             ) : (
-              <p className="flex items-center text-sm w-full ml-4">
+              <motion.button
+                initial={{ y: -500, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="bg-black/20 rounded shadow-md items-center justify-center
+                 cursor-pointer flex text-sm w-full ml-4 p-2 relative"
+              >
                 Show More Comments <ChevronDown className="ml-1 h-4 w-4" />
-              </p>
+                {post?.comments?.length > 0 && (
+                  <span
+                    className="absolute -top-3 right-6 bg-green-700 text-white text-xs 
+                  px-2 py-0.5 rounded-full"
+                  >
+                    {post?.comments?.length - 2}
+                  </span>
+                )}
+              </motion.button>
             )}
           </div>
         )}

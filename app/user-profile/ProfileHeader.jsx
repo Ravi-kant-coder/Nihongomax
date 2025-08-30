@@ -17,13 +17,6 @@ import { useRef, useState, useTransition } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   updateUserCoverPhoto,
   updateUserProfile,
   deleteUserDp,
@@ -72,8 +65,6 @@ const ProfileHeader = ({
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       username: profileData?.username,
-      dateOfBirth: profileData?.dateOfBirth?.split("T")[0],
-      gender: profileData?.gender,
     },
   });
 
@@ -166,8 +157,10 @@ const ProfileHeader = ({
     setShowDeleteDpModal(false);
     startTransition(async () => {
       try {
-        await deleteUserDp(user._id);
-        setUser({ ...user, profilePicture: null });
+        setUser({ ...profileData, profilePicture: null });
+        await deleteUserDp(user?._id);
+        setProfilePicturePreview(null);
+        setIsEditProfileModel(false);
       } catch (err) {
         console.error("Failed to delete DP", err);
       }
@@ -178,8 +171,8 @@ const ProfileHeader = ({
     setShowDeleteCoverModal(false);
     startTransition(async () => {
       try {
+        setUser({ ...profileData, coverPhoto: null });
         await deleteUserCover(user._id);
-        setUser({ ...user, coverPhoto: null });
       } catch (err) {
         console.error("Failed to delete Cover", err);
       }
@@ -230,11 +223,9 @@ const ProfileHeader = ({
 
       {/*------------------------- DP, Friends and Followers number----------------------- */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
-        <div
-          className="flex flex-col md:flex-row items-center md:items-end md:space-x-5"
-          onClick={handleDpClick}
-        >
+        <div className="flex flex-col md:flex-row items-center md:items-end md:space-x-5">
           <Avatar
+            onClick={handleDpClick}
             className={`w-32 h-32 border-4 border-white dark:border-gray-700
              ${
                !isOwner && !profileData.profilePicture
@@ -280,8 +271,8 @@ const ProfileHeader = ({
                 </p>
               )}
               <Button
-                className="cursor-pointer bg-black text-white 
-              dark:hover:bg-black/60 hover:bg-black/80"
+                className="cursor-pointer bg-black text-white dark:hover:bg-black/60
+                 hover:bg-black/80"
                 // onClick={() => handleAction("confirm", friend?._id)}
               >
                 <Users className="w-4 h-4 mr-2" />
@@ -314,7 +305,7 @@ const ProfileHeader = ({
         </div>
       </div>
 
-      {/*------------------------------Edit/Delete DP model-----------------------------*/}
+      {/*------------------------------Edit/Delete DP modal-----------------------------*/}
       <AnimatePresence>
         {isEditProfileModel && (
           <motion.div
@@ -324,7 +315,10 @@ const ProfileHeader = ({
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center
              justify-center z-50"
           >
-            <div className=" bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
+            <div
+              className=" bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full 
+            max-w-md"
+            >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                   Put/Change/Delete DP
@@ -353,10 +347,7 @@ const ProfileHeader = ({
                       alt={profileData?.username}
                     />
                     <AvatarFallback className="dark:bg-black text-4xl capitalize">
-                      {profileData?.username
-                        ?.split(" ")
-                        .map((name) => name[0])
-                        .join("")}
+                      {profileData?.username?.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <input
@@ -393,31 +384,6 @@ const ProfileHeader = ({
                   <Label htmlFor="username">Username</Label>
                   <Input id="username" {...register("username")} />
                 </div>
-                <div>
-                  <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                  <Input
-                    id="dateOfBirth"
-                    type="date"
-                    {...register("dateOfBirth")}
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="gender">Gender</Label>
-                  <Select
-                    onValueChange={(value) => setValue("gender", value)}
-                    defaultValue={profileData?.gender}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select gender" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
                 <Button
                   type="submit"
                   className="w-full bg-gray-800 hover:bg-black dark:bg-gray-900 
@@ -438,7 +404,7 @@ const ProfileHeader = ({
           onClose={() => setShowDpPreview(false)}
         />
       )}
-      {/* -------------------Edit cover photo Model------------------------ */}
+      {/* -------------------Edit Cover photo Model------------------------ */}
       <AnimatePresence>
         {isEditCoverModel && (
           <motion.div
@@ -533,7 +499,10 @@ const ProfileHeader = ({
           className="fixed inset-0 z-[9999] flex items-center justify-center"
         >
           <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl capitalize">
+            <h2
+              className="text-center text-red-600 dark:text-white font-semibold text-xl 
+            capitalize"
+            >
               Remove DP {user?.username.split(" ")[0]}?
             </h2>
             <p className="text-sm dark:text-gray-300 text-center my-2">

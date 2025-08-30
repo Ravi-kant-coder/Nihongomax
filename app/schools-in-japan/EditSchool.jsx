@@ -6,14 +6,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { X } from "lucide-react";
 import userStore from "@/store/userStore";
 import { useForm } from "react-hook-form";
-import { useJobStore } from "@/store/useJobStore";
+import { useSchoolStore } from "@/store/useSchoolStore";
 
-const EditJob = ({ onClose, job }) => {
+const EditSchool = ({ onClose, school }) => {
   const { user } = userStore();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
-  const { updateJobZust } = useJobStore();
+  const { updateSchoolZust } = useSchoolStore();
 
   const {
     register,
@@ -22,22 +22,22 @@ const EditJob = ({ onClose, job }) => {
     reset,
   } = useForm({
     defaultValues: {
-      title: job?.title || "",
-      requirements: job?.requirements || "",
-      location: job?.location || "",
-      salary: job?.salary || "",
-      email: job?.email || "",
-      mobile: job?.mobile || "",
-      jobDescription: job?.jobDescription || "",
+      title: school?.title || "",
+      requirements: school?.requirements || "",
+      location: school?.location || "",
+      salary: school?.salary || "",
+      email: school?.email || "",
+      mobile: school?.mobile || "",
+      schoolDescription: school?.schoolDescription || "",
     },
   });
 
-  const handleEditJob = async (data) => {
+  const handleEditSchool = async (data) => {
     try {
-      await updateJobZust(job._id, data);
+      await updateSchoolZust(school._id, data);
       onClose();
     } catch (error) {
-      console.log("UpdateJobHandler me error", error);
+      console.log("UpdateschoolHandler me error", error);
     }
   };
 
@@ -50,7 +50,7 @@ const EditJob = ({ onClose, job }) => {
       <div>
         <div className="flex items-center justify-between mb-2">
           <p className="font-semibold dark:font-normal text-lg">
-            Edit this Job post {user?.username}
+            Edit this School post {user?.username}
           </p>
           <button
             onClick={onClose}
@@ -63,9 +63,9 @@ const EditJob = ({ onClose, job }) => {
           </button>
         </div>
 
-        {/* ------------------------Job edit Form--------------------------- */}
-        <form onSubmit={handleSubmit(handleEditJob)}>
-          Job Title
+        {/* ------------------------School edit Form--------------------------- */}
+        <form onSubmit={handleSubmit(handleEditSchool)}>
+          School Title
           <Input
             className={` bg-white dark:bg-black dark:border-gray-700 
           ${
@@ -153,20 +153,20 @@ const EditJob = ({ onClose, job }) => {
               )}
             </div>
           </div>
-          Job Description
+          School Description
           <Textarea
             className={`text-lg border-1 border-white bg-white
              dark:bg-black rounded-md dark:border-gray-700 
              ${
-               errors.jobDescription
+               errors.schoolDescription
                  ? "border-red-500 dark:border-red-900 mb-0"
                  : "border-gray-300 mb-4"
              }`}
             {...register("jobDescription")}
           />
-          {errors.jobDescription && (
+          {errors.schoolDescription && (
             <p className="text-red-700 text-xs">
-              {errors.jobDescription.message}
+              {errors.schoolDescription.message}
             </p>
           )}
           <div>
@@ -188,4 +188,4 @@ const EditJob = ({ onClose, job }) => {
     </div>
   );
 };
-export default EditJob;
+export default EditSchool;

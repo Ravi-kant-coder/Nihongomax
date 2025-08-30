@@ -144,10 +144,10 @@ export const usePostStore = create((set) => ({
       await updatePostContentAPI(postId, newContent);
       set((state) => ({
         posts: state.posts.map((post) =>
-          post._id === postId ? { ...post, content: newContent } : post
+          post._id === postId ? { ...post, ...newContent } : post
         ),
         userPosts: state.userPosts.map((post) =>
-          post._id === postId ? { ...post, content: newContent } : post
+          post._id === postId ? { ...post, ...newContent } : post
         ),
       }));
     } catch (error) {
@@ -166,9 +166,7 @@ export const usePostStore = create((set) => ({
           return {
             ...post,
             comments: post.comments.map((comment) =>
-              comment._id === commentId
-                ? { ...comment, text: newText }
-                : comment
+              comment._id === commentId ? { ...comment, ...newText } : comment
             ),
           };
         }),
@@ -177,9 +175,7 @@ export const usePostStore = create((set) => ({
           return {
             ...post,
             comments: post.comments.map((comment) =>
-              comment._id === commentId
-                ? { ...comment, text: newText }
-                : comment
+              comment._id === commentId ? { ...comment, ...newText } : comment
             ),
           };
         }),

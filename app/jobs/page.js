@@ -6,7 +6,6 @@ import { useJobStore } from "@/store/useJobStore";
 import JobCard from "./JobCard";
 import { useBanner } from "../hooks/useBanner";
 import Banner from "../Banner";
-import EditJob from "./EditJob";
 
 const Jobs = () => {
   const { jobs, fetchJobsZust } = useJobStore();
@@ -37,6 +36,8 @@ const Jobs = () => {
             <JobCard
               job={job}
               key={job?._id}
+              isOpen={isEditJobModel}
+              onClose={() => setIsEditJobModel(false)}
               handleJobDelete={handleJobDelete}
             />
           ))
@@ -49,12 +50,6 @@ const Jobs = () => {
             <p className="text-lg"> (All the best. We are with you)</p>
           </h2>
         )}
-        <EditJob
-          isOpen={isEditJobModel}
-          onClose={() => setIsEditJobModel(false)}
-          // initialData={profileData?.bio}
-          // id={id}
-        ></EditJob>
         <Banner banner={banner} />
         <ScrollupBtn />
       </div>

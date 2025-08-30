@@ -66,7 +66,7 @@ const Notes = () => {
         {/* --------------------------Note Box----------------------- */}
         {userNotes.length === 0 ? (
           <h2 className="text-center text-2xl mt-8 dark:text-gray-400 text-gray-700">
-            Hi {user?.username.split(" ")[0]}! <br />
+            Hey {user?.username.split(" ")[0]}! <br />
             Making Notes is a very{" "}
             <span className="font-semibold">Powerful</span> Habit
             <br />

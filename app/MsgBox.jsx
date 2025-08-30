@@ -105,7 +105,6 @@ const MsgBox = () => {
 
   if (!isMsgBoxOpen) return null;
 
-  <div className="h-full w-full overflow-hidden"></div>;
   return (
     <>
       {isMsgBoxOpen && (

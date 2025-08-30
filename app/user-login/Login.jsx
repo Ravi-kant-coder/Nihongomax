@@ -96,10 +96,10 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center dark:text-white">
+      <div className="flex items-center justify-center">
         <form
           onSubmit={handleSubmitLogin(onSubmitLogin)}
-          className="space-y-2 p-4 rounded-lg bg-gray-400"
+          className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900"
         >
           <div>
             <p className="text-center text-sm">Already have account</p>
@@ -129,13 +129,16 @@ const Login = () => {
               type="password"
               {...registerLogin("password")}
               placeholder="Enter your Password"
-              className="col-span-3 border-gray-400 bg-white"
+              className="col-span-3  bg-white"
             />
             {errorsLogin.password && (
               <p className="text-red-500">{errorsLogin.password.message}</p>
             )}
           </div>
-          <Button className="w-full cursor-pointer" type="submit">
+          <Button
+            className="w-full cursor-pointer dark:bg-black text-white"
+            type="submit"
+          >
             <LogIn className="mr-2 w-4 h-4" /> Log in
           </Button>
         </form>

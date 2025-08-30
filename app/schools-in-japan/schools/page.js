@@ -116,7 +116,7 @@ const Recruiters = () => {
                 <div className="flex items-center text-sm">
                   <MapPin size={18} strokeWidth={2} className="mr-2" />{" "}
                   <p className="font-semibold mr-2">Location:</p>
-                  Xyz, Pune, India
+                  Gurgaon, Haryana, India
                 </div>
                 <div className="flex items-center text-sm">
                   <IndianRupee size={16} strokeWidth={2} className="mr-2" />

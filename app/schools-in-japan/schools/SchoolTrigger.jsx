@@ -9,11 +9,13 @@ import userStore from "@/store/userStore";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useJobStore } from "@/store/useJobStore";
+import { useSchoolStore } from "@/store/useSchoolStore";
 
-const jobSchema = yup.object().shape({
+const schoolSchema = yup.object().shape({
   company: yup.string().required("Company name is required"),
   title: yup.string().required("Job title is required"),
+  location: yup.string().required("Location is required"),
+  salary: yup.string().required("Salary is required"),
   mobile: yup
     .string()
     .nullable()
@@ -32,13 +34,13 @@ const jobSchema = yup.object().shape({
       const emailRegex = /^\S+@\S+\.\S+$/;
       return emailRegex.test(val);
     }),
-  jobDescription: yup
+  schoolDescription: yup
     .string()
-    .required("Job description is required")
+    .required("School description is required")
     .min(10, "Description must be at least 10 characters"),
 });
 
-const JobTrigger = () => {
+const SchoolTrigger = () => {
   const [filePreview, setFilePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
@@ -261,7 +263,7 @@ const JobTrigger = () => {
             Mobile (Optional)
             <Input
               placeholder="10 digit number"
-              className=" bg-white dark:bg-black dark:border-gray-700 "
+              className=" bg-white dark:bg-black dark:border-gray-700"
               {...register("mobile")}
             />
             {errors.mobile && (
@@ -311,4 +313,4 @@ const JobTrigger = () => {
   );
 };
 
-export default JobTrigger;
+export default SchoolTrigger;

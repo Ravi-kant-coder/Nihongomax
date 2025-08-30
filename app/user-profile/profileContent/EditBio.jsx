@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createOrUpdateUserBio } from "@/service/user.service";
-import { DialogTitle } from "@radix-ui/react-dialog";
 import { Save } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -37,8 +36,7 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogTitle className="sm:max-w-[425px]"></DialogTitle>
-        <DialogHeader className="bg-[rgb(240,240,240)] text-black rounded pl-1">
+        <DialogHeader className="bg-[rgb(240,240,240)] text-black rounded mt-2 pl-1">
           Provide your details to let the Employers know you better. (Try to
           make it like a CV)
         </DialogHeader>
@@ -57,7 +55,7 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="liveIn" className="text-right">
-                Location
+                Education
               </Label>
               <Input
                 id="liveIn"
@@ -91,54 +89,58 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="education" className="text-right">
-                Education
+                Experience
               </Label>
               <Input
                 id="education"
                 {...register("education")}
                 className="col-span-3 border-gray-400"
-              />
-            </div>
-
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="phone" className="text-right">
-                Phone
-              </Label>
-              <Input
-                id="phone"
-                {...register("phone")}
-                className="col-span-3 border-gray-400"
+                placeholder="If any"
               />
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="hometown" className="text-right">
-                Hometown
+                Certifications
               </Label>
               <Input
                 id="hometown"
                 {...register("hometown")}
                 className="col-span-3 border-gray-400"
+                placeholder="If any"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birthday" className="text-right">
-                Birthday
+                Japan Exp
               </Label>
               <Input
                 id="birthday"
                 {...register("birthday")}
                 className="col-span-3 border-gray-400"
+                placeholder="If any"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="address" className="text-right">
-                Address
+              <Label htmlFor="phone" className="text-right">
+                Phone No.
               </Label>
               <Input
-                id="address"
-                {...register("address")}
+                id="phone"
+                {...register("phone")}
                 className="col-span-3 border-gray-400"
+                placeholder="Optional"
+              />
+            </div>
+
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="address" className="text-left">
+                Any other Information about you
+              </Label>
+              <Textarea
+                id="address"
+                className="col-span-3 border-gray-400"
+                {...register("address")}
               />
             </div>
           </div>

@@ -59,24 +59,28 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         {!isEditing ? (
-          <div className="flex">
+          <div>
             <p className="text-gray-800 dark:text-gray-300 text-md font-semibold">
               {initComment}
             </p>
-            <button
-              className="flex items-center text-xs cursor-pointer hover:underline ml-5"
-              onClick={() => setIsEditing(true)}
-            >
-              <span>Edit/Add</span>
-              <SquarePen className="h-3 w-3 ml-1" />
-            </button>
-            <button
-              className="flex items-center text-xs cursor-pointer hover:underline ml-3"
-              onClick={() => setShowDeleteModal(true)}
-            >
-              <span>Delete</span>
-              <Trash2 className="h-3 w-3 ml-1" />
-            </button>
+            <div className="flex items-center mt-2">
+              <span className="text-xs text-gray-500">Only you can</span>
+              <button
+                className="flex items-center text-xs cursor-pointer hover:underline ml-1"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit
+                <SquarePen className="h-3 w-3 ml-1" />
+              </button>
+              <button
+                className="flex items-center text-xs cursor-pointer hover:underline ml-3"
+                onClick={() => setShowDeleteModal(true)}
+              >
+                <span>Delete</span>
+                <Trash2 className="h-3 w-3 ml-1" />
+              </button>
+              <span className="text-xs ml-1 text-gray-500">this comment</span>
+            </div>
           </div>
         ) : (
           <>
