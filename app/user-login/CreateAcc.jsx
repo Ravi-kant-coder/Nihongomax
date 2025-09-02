@@ -19,9 +19,11 @@ const CreateAcc = () => {
   const { setUser } = userStore();
   const [isLoading, setIsLoading] = useState(false);
   const profileImageInputRef = useRef();
-  const [profilePictureFile, setProfilePictureFile] = useState(null);
-  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
-
+  const [dpCreate, setDpCreate] = useState(null);
+  const [dpPreview, setDpPreview] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const registerSchema = yup.object().shape({
     username: yup.string().required("Name is required"),
     email: yup
@@ -47,7 +49,16 @@ const CreateAcc = () => {
   const onSubmitRegister = async (data) => {
     setIsLoading(true);
     try {
-      const result = await registerUser(data);
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      if (dpCreate) {
+        formData.append("profilePicture", dpCreate);
+      }
+      console.log("Handler me:", [...formData.entries()]);
+      const result = await registerUser(formData);
+      console.log("Handler me result:", result);
       if (result?.status === "success") {
         router.push("/");
       }
@@ -56,6 +67,12 @@ const CreateAcc = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDpCreate = (e) => {
+    const file = e.target.files[0];
+    setDpCreate(file);
+    setDpPreview(URL.createObjectURL(file));
   };
 
   useEffect(() => {
@@ -130,10 +147,10 @@ const CreateAcc = () => {
                     className="w-24 h-24 border-4 border-white cursor-pointer
                      dark:border-gray-700"
                   >
-                    <AvatarImage src={profilePicturePreview} />
+                    <AvatarImage src={dpPreview} />
                     <AvatarFallback
                       className="dark:bg-black capitalize flex flex-col items-center 
-              justify-center bg-gray-400"
+                      justify-center bg-gray-400"
                     >
                       <p className="font-semibold text-2xl">DP</p>
                       <p className="text-sm">(optional)</p>
@@ -145,13 +162,7 @@ const CreateAcc = () => {
                     accept="image/*"
                     className="hidden"
                     ref={profileImageInputRef}
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        onChange(file);
-                        setProfilePicturePreview(URL.createObjectURL(file));
-                      }
-                    }}
+                    onChange={handleDpCreate}
                   />
                 </>
               )}

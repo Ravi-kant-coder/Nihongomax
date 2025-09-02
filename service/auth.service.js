@@ -2,8 +2,10 @@ import axiosInstance from "./url.service";
 
 //signUp user
 export const registerUser = async (userData) => {
+  console.log("Service me FormData:", [...userData.entries()]);
   try {
     const response = await axiosInstance.post("/auth/register", userData);
+    console.log("Service me wapis aya response:", response.data);
     return response.data;
   } catch (error) {
     console.log(error);

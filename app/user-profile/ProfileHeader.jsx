@@ -76,8 +76,6 @@ const ProfileHeader = ({
       setLaoding(true);
       const formData = new FormData();
       formData.append("username", data.username);
-      formData.append("dateOfBirth", data.dateOfBirth);
-      formData.append("gender", data.gender);
       if (profilePictureFile) {
         formData.append("profilePicture", profilePictureFile);
       }

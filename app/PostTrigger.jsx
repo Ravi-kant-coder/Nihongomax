@@ -33,7 +33,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
     setPostContent((prev) => prev + emojiObject.emoji);
   };
 
-  const handleFileChnage = (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     setSelectedFile(file), setFileType(file.type);
     setFilePreview(URL.createObjectURL(file));
@@ -185,7 +185,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                       accept="image/*,video/*"
                       className="hidden"
                       multiple
-                      onChange={handleFileChnage}
+                      onChange={handleFileChange}
                       ref={fileInputRef}
                     />
                   </motion.div>
