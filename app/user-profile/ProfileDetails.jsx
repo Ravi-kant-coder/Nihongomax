@@ -39,9 +39,11 @@ const ProfileDetails = ({
 }) => {
   const [isEditBioModel, setIsEditBioModel] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [likePosts, setLikePosts] = useState(new Set());
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [likePosts, setLikePosts] = useState(new Set());
   const {
+    posts,
+    fetchPost,
     userPosts,
     fetchUserPost,
     handleLikePost,
@@ -54,6 +56,10 @@ const ProfileDetails = ({
       fetchUserPost(id);
     }
   }, [id, fetchUserPost]);
+
+  // useEffect(() => {
+  //   fetchPost();
+  // }, [fetchPost]);
 
   useEffect(() => {
     const saveLikes = localStorage.getItem("likePosts");
@@ -76,11 +82,12 @@ const ProfileDetails = ({
     );
     try {
       await handleLikePost(postId);
-      await fetchUserPost();
+      await fetchUserPost(id);
     } catch (error) {
       console.error(error);
     }
   };
+  // const filteredPosts = posts.filter((post) => post?.user?._id === id);
   return (
     <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 md:px-0 mt-8">
       <div className="w-full md:min-w-[40%] space-x-0 space-y-6 mb-4">
@@ -128,11 +135,6 @@ const ProfileDetails = ({
                 Japan Experience:
                 <span className="ml-2">{profileData?.bio?.phone}</span>
               </div>
-              <div className="flex items-center">
-                <Phone className="w-5 h-5 mr-2 shrink-0" />
-                Phone:
-                <span className="ml-2"> {profileData?.bio?.education}</span>
-              </div>
               <div className="">
                 <p>About Me:</p>
                 <span className=" text-gray-800 dark:text-gray-300">
@@ -149,9 +151,14 @@ const ProfileDetails = ({
             </div>
             <div className="flex items-center mt-2">
               <Mail className="w-5 h-5 mr-2 shrink-0" />
-              <span>{profileData?.email}</span>
+              Email:
+              <span className="ml-2">{profileData?.email}</span>
             </div>
-
+            <div className="flex items-center">
+              <Phone className="w-5 h-5 mr-2 shrink-0" />
+              Phone:
+              <span className="ml-2"> {profileData?.bio?.education}</span>
+            </div>
             <div className="flex items-center mb-4 dark:text-gray-300">
               <Rss className="w-5 h-5 mr-2 shrink-0" />
               <span>
@@ -227,12 +234,12 @@ const ProfileDetails = ({
           </button>
         )}
       </div>
-      {/*------------------------------Posts by Owner-----------------------------*/}
+      {/*------------------------------Posts by You-----------------------------*/}
       <div className="w-full">
         {userPosts.length > 0 && (
           <div
             className="bg-white dark:bg-[rgb(55,55,55)] rounded-t-lg 
-          mb-2 p-2 font-[450] text-center text-lg"
+          mb-2 p-2 font-[450] text-center text-lg capitalize"
           >
             Posts by {isOwner ? "You" : `${profileData?.username}`}
           </div>
@@ -247,6 +254,7 @@ const ProfileDetails = ({
         ) : (
           userPosts?.map((post) => (
             <WallCard
+              namaye={isOwner}
               key={post._id}
               post={post}
               onLike={() => handleLike(post?._id)}

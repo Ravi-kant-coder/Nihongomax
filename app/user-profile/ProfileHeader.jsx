@@ -84,7 +84,6 @@ const ProfileHeader = ({
       setIsEditProfileModel(false);
       setProfilePicturePreview(null);
       setUser(updateProfile);
-      await fetchProfile();
     } catch (error) {
       console.error("error updating user profile", error);
     } finally {
@@ -159,6 +158,7 @@ const ProfileHeader = ({
         await deleteUserDp(user?._id);
         setProfilePicturePreview(null);
         setIsEditProfileModel(false);
+        await fetchProfile();
       } catch (err) {
         console.error("Failed to delete DP", err);
       }
@@ -171,6 +171,8 @@ const ProfileHeader = ({
       try {
         setUser({ ...profileData, coverPhoto: null });
         await deleteUserCover(user._id);
+        setIsEditCoverModel(false);
+        await fetchProfile();
       } catch (err) {
         console.error("Failed to delete Cover", err);
       }
@@ -287,7 +289,7 @@ const ProfileHeader = ({
               onClick={() => setIsEditProfileModel(true)}
             >
               <PenLine className="w-4 h-4 mr-2" />
-              Change DP
+              {profileData?.profilePicture ? "Change DP" : "Put DP"}
             </Button>
           ) : (
             <Button
@@ -363,7 +365,7 @@ const ProfileHeader = ({
                     className="cursor-pointer hover:bg-gray-200 mb-2 border-gray-400"
                   >
                     <Upload className="h-4 w-4 mr-2" />
-                    Put/Change DP
+                    {profileData?.profilePicture ? "Change DP" : "Put DP"}
                   </Button>
                   {user?.profilePicture && (
                     <Button

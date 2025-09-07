@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import LeftSideBar from "@/app/LeftSideBar";
 import { ArrowBigRight } from "lucide-react";
 import ScrollupBtn from "../ScrollupBtn";
-import Line from "./Line";
 
 const wordsList = [
   "ALBUM",
@@ -34,10 +33,26 @@ const WordGame = () => {
   const initialSolution = wordsList[randomIndex];
 
   useEffect(() => {
-    setSolution(initialSolution);
+    const handleType = (e) => {
+      setCurrentGuess((oldGuess) => oldGuess + e.key);
+    };
+    window.addEventListener("keydown", handleType);
+    console.log(currentGuess);
+    return () => window.removeEventListener("keydown", handleType);
   }, []);
 
-  console.log(solution);
+  useEffect(() => {
+    const fetchWord = async () => {
+      const randomWord =
+        wordsList[Math.floor(Math.random() * wordsList.length)];
+      setSolution(randomWord);
+    };
+    fetchWord();
+  }, []);
+
+  useEffect(() => {
+    setSolution(initialSolution);
+  }, []);
 
   return (
     <div className="mb-20 mt-15">
@@ -45,14 +60,6 @@ const WordGame = () => {
         <LeftSideBar />
       </div>
       <div className="flex flex-col md:ml-70">
-        {/* {guesses.map((guess) => {
-          // const isCurrentGuess = i === guesses.findIndex((val) => val == null);
-          return;
-          <Line
-            key={guess}
-            guess={isCurrentGuess ? currentGuess : guess ?? ""}
-          />;
-        })} */}
         <div
           className="text-center text-3xl font-semibold text-green-900 dark:text-green-600
            my-2"
@@ -94,48 +101,20 @@ const WordGame = () => {
           md:mx-8 mx-2 border-black h-[80vh] rounded-xl p-4"
         >
           <p className="text-center text-2xl dark:text-teal-400 my-5">
-            {solution}
-            Hint : {wordsList.map((hint) => hint)}
+            Hint : {solution}
           </p>
-          <div className="flex justify-around items-center">
-            <div className="flex space-x-0.5 items-center justify-center">
-              <div
-                className="border border-gray-600 w-10 h-10 flex items-center justify-center 
-            font-bold text-2xl"
-              >
-                S
-              </div>
-              <div
-                className="text-white p-1 bg-gray-500 border-black w-10 h-10 flex
+          {guesses.map((guess, i) => {
+            const isCurrentGuess =
+              i === guesses.findIndex((val) => val == null);
+            <Line
+              className="text-white p-1 bg-gray-500 border-black w-10 h-10 flex
                  items-center justify-center font-bold text-2xl dark:bg-gray-600"
-              >
-                A
-              </div>
-              <div
-                className="border border-gray-600 w-10 h-10 flex items-center justify-center 
-            font-bold text-2xl"
-              >
-                K
-              </div>
-              <div
-                className="border border-gray-600 w-10 h-10 flex items-center justify-center 
-            font-bold text-2xl"
-              >
-                A
-              </div>
-              <div
-                className="text-white p-1 bg-black hover:bg-black border 
-              border-black w-10 h-10 flex items-center justify-center font-bold text-2xl"
-              >
-                N
-              </div>
-              <div
-                className="border border-gray-600 w-10 h-10 flex items-center justify-center 
-            font-bold text-2xl"
-              >
-                A
-              </div>
-            </div>
+              key={guess}
+              guess={isCurrentGuess ? currentGuess : guess ?? ""}
+            />;
+          })}
+
+          <div className="flex justify-around items-center">
             <button
               className="px-2 border hover:bg-gray-700 hover:text-white
                  dark:hover:border-black dark:bg-black dark:hover:bg-gray-900
@@ -155,5 +134,20 @@ const WordGame = () => {
     </div>
   );
 };
-
+function Line({ guess }) {
+  const tiles = [];
+  for (let i = 0; i < 6; i++) {
+    const char = guess[i];
+    tiles.push(
+      <div
+        key={i}
+        className="border border-gray-600 w-10 h-10 flex items-center justify-center 
+            font-bold text-2xl"
+      >
+        {char}
+      </div>
+    );
+  }
+  return <div className="">{tiles}</div>;
+}
 export default WordGame;

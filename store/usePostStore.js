@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import userStore from "@/store/userStore";
+import { persist } from "zustand/middleware";
 import {
   createPost,
   getAllPosts,
@@ -28,6 +29,16 @@ export const usePostStore = create((set) => ({
     try {
       const posts = await getAllPosts();
       set({ posts, loading: false });
+    } catch (error) {
+      set({ error, loading: false });
+    }
+  },
+
+  fetchUserPost: async (userId) => {
+    set({ loading: true });
+    try {
+      const userPosts = await getAllUserPosts(userId);
+      set({ userPosts, loading: false });
     } catch (error) {
       set({ error, loading: false });
     }
@@ -91,16 +102,6 @@ export const usePostStore = create((set) => ({
     } catch (error) {
       set({ error, loading: false });
       console.error("Zustand nahi kar paya story delete", error);
-    }
-  },
-
-  fetchUserPost: async (userId) => {
-    set({ loading: true });
-    try {
-      const userPosts = await getAllUserPosts(userId);
-      set({ userPosts, loading: false });
-    } catch (error) {
-      set({ error, loading: false });
     }
   },
 

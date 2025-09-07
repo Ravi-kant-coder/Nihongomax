@@ -124,7 +124,6 @@ export const getAllUsers = async () => {
 };
 
 export const deleteUserDp = async (userId) => {
-  console.log(userId);
   try {
     const result = await axiosInstance.delete(
       `/users/${userId}/profilePicture`

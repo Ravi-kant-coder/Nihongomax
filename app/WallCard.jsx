@@ -25,10 +25,6 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
   const id = params.id;
   const router = useRouter();
 
-  const handleCancel = () => {
-    setShowDeleteModal(false);
-  };
-
   const handleDpClick = () => {
     startTransition(() => {
       if (post?.user?._id) {
@@ -94,7 +90,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
     >
       {/* --------------------------Post Header (User information)-------------------------- */}
       <div
-        className="flex items-center justify-between md:p-2 dark:bg-[rgb(55,55,55)]
+        className="flex items-center justify-between p-2 dark:bg-[rgb(55,55,55)]
        rounded-t-lg border-b"
       >
         <div className="flex items-center ">
@@ -197,10 +193,10 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
             <div className="flex justify-center gap-4 mt-6">
               <button
                 onClick={() => {
-                  handleCancel();
+                  setShowDeleteModal(false);
                   setReadyTodel(false);
                 }}
-                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
+                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer
                     dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
               >
                 Cancel

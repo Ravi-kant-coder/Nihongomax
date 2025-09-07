@@ -81,7 +81,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                   src={comment?.user?.profilePicture}
                 />
                 <AvatarFallback className="dark:bg-gray-800 bg-gray-400 capitalize">
-                  {user?.username.charAt(0).toUpperCase()}
+                  {comment?.user?.username?.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col w-full">
@@ -106,6 +106,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                         hover:underline cursor-pointer"
                       >
                         {comment?.user?.username}
+                        {console.log(comment?.user?.username)}
                       </span>
                     )}
                   </p>
@@ -131,7 +132,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
 
         {post?.comments?.length > 2 && (
           <div
-            className="w-60 my-2 p-2 dark:text-gray-300 cursor-pointer hover:underline"
+            className="w-60 my-2 p-2 dark:text-gray-300"
             onClick={() => setShowAllComments(!showAllComments)}
           >
             {showAllComments ? (
@@ -139,7 +140,8 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                 initial={{ y: -500, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 className="bg-black/20 rounded shadow-md items-center justify-center
-                 cursor-pointer flex text-sm w-full ml-4 p-2"
+                 cursor-pointer flex text-sm w-full ml-4 p-2  hover:bg-gray-400
+                 dark:hover:bg-gray-800"
               >
                 Show Less Comments <ChevronUp className="ml-1 h-4 w-4" />
               </motion.button>
@@ -148,13 +150,14 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                 initial={{ y: -500, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 className="bg-black/20 rounded shadow-md items-center justify-center
-                 cursor-pointer flex text-sm w-full ml-4 p-2 relative"
+                 cursor-pointer flex text-sm w-full ml-4 p-2 relative hover:bg-gray-400
+                 dark:hover:bg-gray-800"
               >
                 Show More Comments <ChevronDown className="ml-1 h-4 w-4" />
                 {post?.comments?.length > 0 && (
                   <span
                     className="absolute -top-3 right-6 bg-green-700 text-white text-xs 
-                  px-2 py-0.5 rounded-full"
+                  px-2 py-0.5 rounded-full "
                   >
                     {post?.comments?.length - 2}
                   </span>

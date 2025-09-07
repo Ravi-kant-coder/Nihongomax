@@ -4,13 +4,10 @@ import WallCard from "./WallCard";
 import PostTrigger from "./PostTrigger";
 import StorySection from "./StorySection";
 import { usePostStore } from "@/store/usePostStore";
-import toast from "react-hot-toast";
 import ScrollupBtn from "./ScrollupBtn";
 
 const Wall = () => {
   const [isPostTriggerOpen, setIsPostTriggerOpen] = useState(false);
-  const [likePosts, setLikePosts] = useState(new Set());
-
   const {
     posts,
     fetchPost,
@@ -18,6 +15,8 @@ const Wall = () => {
     handleCommentPost,
     handleSharePost,
   } = usePostStore();
+
+  const [likePosts, setLikePosts] = useState(new Set());
 
   useEffect(() => {
     fetchPost();
@@ -34,23 +33,19 @@ const Wall = () => {
     const updatedLikePost = new Set(likePosts);
     if (updatedLikePost.has(postId)) {
       updatedLikePost.delete(postId);
-      toast.error("post disliked successfully");
     } else {
       updatedLikePost.add(postId);
-      toast.success("post like successfully");
     }
     setLikePosts(updatedLikePost);
     localStorage.setItem(
       "likePosts",
       JSON.stringify(Array.from(updatedLikePost))
     );
-
     try {
       await handleLikePost(postId);
       await fetchPost();
     } catch (error) {
       console.error(error);
-      toast.error("failed to like or unlike the post");
     }
   };
 
@@ -63,6 +58,7 @@ const Wall = () => {
       <StorySection />
       {posts?.map((post) => (
         <WallCard
+          // namaye={isOwner}
           key={post?._id}
           post={post}
           onLike={() => handleLike(post?._id)}
