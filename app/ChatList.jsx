@@ -7,12 +7,12 @@ import useChatStore from "@/store/useChatStore";
 
 const unreadmsgs = [
   {
-    imageUrl: "/Horizontal1.jpg",
+    imageUrl: "/eff.png",
     key: "1",
     username: "Kumar shanu",
   },
   {
-    imageUrl: "/Girl.jpg",
+    imageUrl: "/Mount.png",
     key: "2",
     username: "Sahanubhuti Sharmasmjda",
   },
@@ -121,8 +121,8 @@ const ChatList = () => {
           </Avatar>
 
           <div className="w-1/2">
-            <p className="truncate font-semibold">{msg.username}</p>
-            <p className="text-xs truncate">
+            <p className="truncate">{msg.username}</p>
+            <p className="text-xs truncate text-gray-500 dark:text-gray-400">
               Hi, how are you? Hi, how are you? Hi, how are you?
             </p>
           </div>

@@ -7,6 +7,7 @@ import useMsgStore from "@/store/useMsgStore";
 import useChatStore from "@/store/useChatStore";
 import ChatList from "./ChatList";
 import OneChat from "./OneChat";
+
 const unreadmsgs = [
   {
     imageUrl: "/Horizontal1.jpg",
@@ -89,6 +90,7 @@ const unreadmsgs = [
     username: "Farheen Khan",
   },
 ];
+
 const MsgBox = () => {
   const { activeChat } = useChatStore();
   const { isMsgBoxOpen, closeMsgBox, resetUnread, incrementUnread } =

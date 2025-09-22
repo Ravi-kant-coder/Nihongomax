@@ -10,6 +10,7 @@ import {
   GraduationCap,
   Heart,
   Home,
+  HomeIcon,
   Languages,
   Mail,
   MapPin,
@@ -249,7 +250,13 @@ const ProfileDetails = ({
         ) : userPosts.length === 0 ? (
           <NoFriendsMessage
             text="No Questions or Pics"
-            description="Why not put questions on wall?"
+            description={
+              <>
+                Why not put questions on{" "}
+                <HomeIcon className="inline-block w-5 h-5 align-text-top" />{" "}
+                wall?
+              </>
+            }
           />
         ) : (
           userPosts?.map((post) => (

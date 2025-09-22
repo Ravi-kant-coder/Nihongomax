@@ -382,7 +382,7 @@ const Navbar = () => {
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex 
               items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
               onClick={() => {
-                toggleMsgBox();
+                handleNavigation(`/chat/${user?._id}`);
                 closeNotificationBox();
                 resetUnread();
               }}

@@ -102,8 +102,12 @@ const Login = () => {
           className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900"
         >
           <div>
-            <p className="text-center text-sm">Already have account</p>
-            <p className="text-xs text-center mb-2">with Nihongomax?</p>
+            <p className="text-center text-sm dark:text-gray-300">
+              Already have account
+            </p>
+            <p className="text-xs text-center mb-2 dark:text-gray-300">
+              with Nihongomax?
+            </p>
             <Label htmlFor="loginEmail" className="sr-only">
               Email
             </Label>
@@ -112,8 +116,8 @@ const Login = () => {
               name="email"
               type="email"
               {...registerLogin("email")}
-              placeholder="Enter your email"
-              className="col-span-3 border-gray-400 bg-white"
+              placeholder="Your Email with us"
+              className="col-span-3 bg-white"
             />
             {errorsLogin.email && (
               <p className="text-red-500">{errorsLogin.email.message}</p>
@@ -128,13 +132,16 @@ const Login = () => {
               name="password"
               type="password"
               {...registerLogin("password")}
-              placeholder="Enter your Password"
+              placeholder="Password"
               className="col-span-3  bg-white"
             />
             {errorsLogin.password && (
               <p className="text-red-500">{errorsLogin.password.message}</p>
             )}
           </div>
+          <p className="text-xs text-center mb-2 dark:text-gray-300">
+            Forgot Password?
+          </p>
           <Button
             className="w-full cursor-pointer dark:bg-black text-white"
             type="submit"

@@ -87,7 +87,9 @@ const CreateAcc = () => {
           className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900"
         >
           <div>
-            <p className="text-center text-sm mb-2">New here? Create account</p>
+            <p className="text-center text-sm mb-2 dark:text-gray-300">
+              New here? Create account
+            </p>
 
             <Label htmlFor="signupName" className="sr-only">
               Username
@@ -98,7 +100,7 @@ const CreateAcc = () => {
               type="text"
               {...registerSignUp("username")}
               placeholder="Create username"
-              className="col-span-3 bg-white border-gray-500"
+              className="col-span-3 bg-white "
             />
             {errorsSignUp.username && (
               <p className="text-red-500">{errorsSignUp.username.message}</p>
@@ -113,7 +115,7 @@ const CreateAcc = () => {
               name="email"
               type="email"
               {...registerSignUp("email")}
-              placeholder="Email (for forgot pswd)"
+              placeholder="Email (for Jobs & 4got pswd)"
               className="col-span-3 bg-white"
             />
             {errorsSignUp.email && (

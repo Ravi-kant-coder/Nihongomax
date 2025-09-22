@@ -152,3 +152,8 @@ export const deleteUserCover = async (userId) => {
     throw error;
   }
 };
+
+export const getUserById = async (id) => {
+  const res = await axiosInstance.get(`/users/${id}`);
+  return res.data;
+};

@@ -1,5 +1,5 @@
 "use client";
-import VideoUploadForm from "@/app/admin/VideoUploadForm";
+import VideoUploadForm from "@/app/ducati127/VideoUploadForm";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getAllUsers } from "@/service/user.service";
@@ -58,9 +58,10 @@ const Admin = () => {
           <span className="uppercase text-gray-500 text-6xl mx-8">B</span>
           <span className="w-[40%] border-t border-muted-foreground"></span>
         </div>
-        <div className="grid lg:grid-cols-3 gap-4">
-          {userList.map((user) => (
+        <div className="grid lg:grid-cols-3 gap-4 ml-2">
+          {userList.map((user, idx) => (
             <SearchUser
+              idx={idx}
               user={user}
               key={user?._id}
               handleSearchUserClick={handleSearchUserClick}

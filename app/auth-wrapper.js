@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import Navbar from "./Navbar";
 import NavbarBelow from "./NavbarBelow";
+import socket from "@/lib/socket"; // 👈 import socket
 
 export default function AuthWrapper({ children }) {
-  const { setUser, clearUser } = userStore();
+  const { user, setUser, clearUser } = userStore();
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,15 @@ export default function AuthWrapper({ children }) {
         if (result.isAuthenticated) {
           setUser(result?.user);
           setIsAuthenticated(true);
+
+          // 👇 Connect socket after login
+          if (!socket.connected) {
+            socket.connect();
+          }
+          if (result?.user?._id) {
+            socket.emit("join", result.user._id);
+            console.log("✅ Joined socket as:", result.user._id);
+          }
         } else {
           await handleLogout();
         }
@@ -44,6 +54,12 @@ export default function AuthWrapper({ children }) {
       }
       if (!isLoginPage) {
         router.push("/user-login");
+      }
+
+      // 👇 Disconnect socket on logout
+      if (socket.connected) {
+        socket.disconnect();
+        console.log("❌ Socket disconnected");
       }
     };
 
