@@ -20,11 +20,11 @@ export default function ChatWindow({ chatId, peerId }) {
   }, [messages]);
 
   return (
-    <div className="flex flex-col flex-1 h-full bg-gray-200 dark:bg-[rgb(20,20,20)]">
+    <div className="flex flex-col flex-1 h-full bg-green-300 dark:bg-[rgb(20,20,20)]">
       {/* Header */}
       <div className="flex items-center gap-3 p-2 bg-white dark:bg-[rgb(10,10,10)]">
         <Avatar>
-          <AvatarImage src={user?.profilePicture} className="object-cover" />
+          <AvatarImage src={chatId?.profilePicture} className="object-cover" />
           <AvatarFallback className="bg-gray-400 dark:bg-gray-700 capitalize">
             {peerId?.username?.[0]}
           </AvatarFallback>

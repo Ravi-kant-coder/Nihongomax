@@ -28,12 +28,15 @@ const ChatList = ({ activeChatId, onSelectUser }) => {
         <div
           key={user?._id}
           onClick={() => onSelectUser(user)}
-          isActive={activeChatId === user?._id}
           className={`cursor-pointer ${
             activeChatId === user._id ? "bg-amber-50 dark:bg-gray-800" : ""
           }`}
         >
-          <ChatUser user={user} hrefLink={user?._id} />
+          <ChatUser
+            user={user}
+            hrefLink={user?._id}
+            isActive={activeChatId === user?._id}
+          />
         </div>
       ))}
     </div>

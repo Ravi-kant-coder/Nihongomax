@@ -74,7 +74,7 @@ export default function ChatPage() {
         ) : (
           <div
             className="flex items-center justify-center h-full text-gray-600
-          dark:text-gray-300 text-2xl"
+          dark:text-gray-300 text-2xl bg-gray-300"
           >
             Select a name to start messaging
           </div>

@@ -2,7 +2,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 
-const ChatUser = ({ user, handleSearchUserClick, isActive, hrefLink }) => {
+const ChatUser = ({ user, isActive, hrefLink }) => {
   const itemRef = useRef(null);
 
   useEffect(() => {
@@ -13,6 +13,10 @@ const ChatUser = ({ user, handleSearchUserClick, isActive, hrefLink }) => {
       });
     }
   }, [isActive]);
+
+  const handleSearchUserClick = (userId) => {
+    console.log("User clicked:", userId);
+  };
 
   return (
     <Link
