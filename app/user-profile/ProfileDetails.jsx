@@ -28,7 +28,6 @@ import { formatDateInDDMMYYY } from "@/lib/utils";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
 import WallCard from "../WallCard";
-import { motion } from "framer-motion";
 
 const ProfileDetails = ({
   activeTab,
@@ -43,8 +42,6 @@ const ProfileDetails = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [likePosts, setLikePosts] = useState(new Set());
   const {
-    posts,
-    fetchPost,
     userPosts,
     fetchUserPost,
     handleLikePost,
@@ -57,10 +54,6 @@ const ProfileDetails = ({
       fetchUserPost(id);
     }
   }, [id, fetchUserPost]);
-
-  // useEffect(() => {
-  //   fetchPost();
-  // }, [fetchPost]);
 
   useEffect(() => {
     const saveLikes = localStorage.getItem("likePosts");
@@ -217,23 +210,6 @@ const ProfileDetails = ({
           </CardContent>
         </Card>
         <MutualFriends id={id} isOwner={isOwner} profileData={profileData} />
-        {isOwner && (
-          <button
-            className="w-full border border-red-800 text-red-700 h-10 text-lg rounded-lg
-            cursor-pointer hover:bg-red-300 group flex items-center justify-center
-            bg-red-200 dark:bg-zinc-900 dark:border-red-400 dark:text-red-400
-            hover:dark:text-red-500 hover:dark:border-red-500"
-            onClick={() => {
-              setShowDeleteModal(true);
-            }}
-          >
-            <Trash2
-              className="h-5 w-6 mr-2 text-red-600 
-                 dark:text-red-400 group-hover:dark:text-red-500"
-            />{" "}
-            Delete Account
-          </button>
-        )}
       </div>
       {/*------------------------------Posts by You-----------------------------*/}
       <div className="w-full">
@@ -277,46 +253,6 @@ const ProfileDetails = ({
           ))
         )}
       </div>
-      {/* --------------------Account Delete Confirmation Modal------------------- */}
-      {showDeleteModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center"
-        >
-          <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-              Delete Account with Nihongomax Permanently{" "}
-              {user?.username.split(" ")[0]}?
-            </h2>
-            <p className="text-sm dark:text-gray-300 text-center my-2">
-              Account Cannot be Recovered.
-            </p>
-
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => {
-                  setShowDeleteModal(false);
-                }}
-                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
-                    dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
-              cursor-pointer text-white text-sm"
-                onClick={() => {
-                  setShowDeleteModal(false);
-                  // handleAccountDelete();
-                }}
-              >
-                Yes, Delete
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
       <EditBio
         isOpen={isEditBioModel}
         onClose={() => setIsEditBioModel(false)}

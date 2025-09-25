@@ -99,7 +99,8 @@ const Login = () => {
       <div className="flex items-center justify-center">
         <form
           onSubmit={handleSubmitLogin(onSubmitLogin)}
-          className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900"
+          className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900 fixed
+           top-5 z-10 right-5"
         >
           <div>
             <p className="text-center text-sm dark:text-gray-300">
@@ -139,7 +140,7 @@ const Login = () => {
               <p className="text-red-500">{errorsLogin.password.message}</p>
             )}
           </div>
-          <p className="text-xs text-center mb-2 dark:text-gray-300">
+          <p className="text-xs text-center mb-2 dark:text-gray-300 hover:underline cursor-pointer">
             Forgot Password?
           </p>
           <Button

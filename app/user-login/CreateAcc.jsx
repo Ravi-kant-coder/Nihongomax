@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
@@ -24,6 +24,7 @@ const CreateAcc = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
   const registerSchema = yup.object().shape({
     username: yup.string().required("Name is required"),
     email: yup
@@ -82,103 +83,125 @@ const CreateAcc = () => {
   return (
     <>
       <div className="flex items-center justify-center">
-        <form
-          onSubmit={handleSubmitSignUp(onSubmitRegister)}
-          className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900"
-        >
-          <div>
-            <p className="text-center text-sm mb-2 dark:text-gray-300">
-              New here? Create account
-            </p>
-
-            <Label htmlFor="signupName" className="sr-only">
-              Username
-            </Label>
-            <Input
-              id="signupName"
-              name="username"
-              type="text"
-              {...registerSignUp("username")}
-              placeholder="Create username"
-              className="col-span-3 bg-white "
-            />
-            {errorsSignUp.username && (
-              <p className="text-red-500">{errorsSignUp.username.message}</p>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="signupEmail" className="sr-only">
-              Email
-            </Label>
-            <Input
-              id="signupEmail"
-              name="email"
-              type="email"
-              {...registerSignUp("email")}
-              placeholder="Email (for Jobs & 4got pswd)"
-              className="col-span-3 bg-white"
-            />
-            {errorsSignUp.email && (
-              <p className="text-red-500">{errorsSignUp.email.message}</p>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="signupPassword" className="sr-only">
-              Create New Password
-            </Label>
-            <Input
-              id="signPassword"
-              name="password"
-              type="password"
-              {...registerSignUp("password")}
-              placeholder="Create New Password"
-              className="col-span-3 bg-white"
-            />
-            {errorsSignUp.password && (
-              <p className="text-red-500">{errorsSignUp.password.message}</p>
-            )}
-          </div>
-          <div className="flex flex-col items-center">
-            <Controller
-              control={control}
-              name="profilePicture"
-              render={({ field: { onChange } }) => (
-                <>
-                  <Avatar
-                    onClick={() => profileImageInputRef.current?.click()}
-                    className="w-24 h-24 border-4 border-white cursor-pointer
-                     dark:border-gray-700"
-                  >
-                    <AvatarImage src={dpPreview} />
-                    <AvatarFallback
-                      className="dark:bg-black capitalize flex flex-col items-center 
-                      justify-center bg-gray-400"
-                    >
-                      <p className="font-semibold text-2xl">DP</p>
-                      <p className="text-sm">(optional)</p>
-                    </AvatarFallback>
-                  </Avatar>
-
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    ref={profileImageInputRef}
-                    onChange={handleDpCreate}
-                  />
-                </>
-              )}
-            />
-          </div>
-          <Button
-            className="w-full cursor-pointer dark:bg-black text-white"
-            type="submit"
+        {!isExpanded ? (
+          <motion.div
+            key="button"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
           >
-            <Upload className="mr-2 w-4 h-4" /> Create Account
-          </Button>
-        </form>
-      </div>
-      <div>
+            <Button
+              className="w-60 h-10 cursor-pointer dark:bg-black text-white flex 
+              items-center  justify-center "
+              onClick={() => setIsExpanded(true)}
+            >
+              <p className="text-sm dark:text-gray-300">New here?</p>
+              <p className="text-sm flex">
+                <Upload className="mr-2 w-4 h-4" /> Create Account
+              </p>
+            </Button>
+          </motion.div>
+        ) : (
+          <motion.form
+            key="form"
+            onSubmit={handleSubmitSignUp(onSubmitRegister)}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900"
+          >
+            <div>
+              <p className="text-center text-sm mb-2 dark:text-gray-300">
+                New here? Create account
+              </p>
+
+              <Label htmlFor="signupName" className="sr-only">
+                Username
+              </Label>
+              <Input
+                id="signupName"
+                name="username"
+                type="text"
+                {...registerSignUp("username")}
+                placeholder="Create username"
+                className="col-span-3 bg-white "
+              />
+              {errorsSignUp.username && (
+                <p className="text-red-500">{errorsSignUp.username.message}</p>
+              )}
+            </div>
+            <div>
+              <Label htmlFor="signupEmail" className="sr-only">
+                Email
+              </Label>
+              <Input
+                id="signupEmail"
+                name="email"
+                type="email"
+                {...registerSignUp("email")}
+                placeholder="Email (For forgot paswrd)"
+                className="col-span-3 bg-white"
+              />
+              {errorsSignUp.email && (
+                <p className="text-red-500">{errorsSignUp.email.message}</p>
+              )}
+            </div>
+            <div>
+              <Label htmlFor="signupPassword" className="sr-only">
+                Create New Password
+              </Label>
+              <Input
+                id="signPassword"
+                name="password"
+                type="password"
+                {...registerSignUp("password")}
+                placeholder="Create New Password"
+                className="col-span-3 bg-white"
+              />
+              {errorsSignUp.password && (
+                <p className="text-red-500">{errorsSignUp.password.message}</p>
+              )}
+            </div>
+            <div className="flex flex-col items-center">
+              <Controller
+                control={control}
+                name="profilePicture"
+                render={({ field: { onChange } }) => (
+                  <>
+                    <Avatar
+                      onClick={() => profileImageInputRef.current?.click()}
+                      className="w-24 h-24 border-4 border-white cursor-pointer
+                     dark:border-gray-700"
+                    >
+                      <AvatarImage src={dpPreview} />
+                      <AvatarFallback
+                        className="dark:bg-black capitalize flex flex-col items-center 
+                      justify-center bg-gray-400"
+                      >
+                        <p className="font-semibold text-2xl">DP</p>
+                        <p className="text-sm">(optional)</p>
+                      </AvatarFallback>
+                    </Avatar>
+
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      ref={profileImageInputRef}
+                      onChange={handleDpCreate}
+                    />
+                  </>
+                )}
+              />
+            </div>
+            <Button
+              className="w-full cursor-pointer dark:bg-black text-white"
+              type="submit"
+            >
+              <Upload className="mr-2 w-4 h-4" /> Create Account
+            </Button>
+          </motion.form>
+        )}
         {isLoading && (
           <div
             className="fixed inset-0 flex items-center justify-center bg-white/30

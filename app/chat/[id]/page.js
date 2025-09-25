@@ -13,7 +13,7 @@ export default function ChatPage() {
 
   return (
     <div
-      className="flex md:h-165 h-130 bg-gray-100 dark:bg-gray-800 relative 
+      className="flex md:h-165 h-130 bg-gray-300 dark:bg-gray-800 relative 
     overflow-hidden md:mt-16 mt-30"
     >
       <div
@@ -43,7 +43,8 @@ export default function ChatPage() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="absolute z-50 w-3/4 h-full bg-white border-r shadow-lg md:hidden"
+              className="absolute z-50 w-3/4 h-full bg-white border-r
+               shadow-lg md:hidden"
             >
               {/* Mobile close button */}
               <div className="flex justify-end p-2 border-b">
@@ -68,15 +69,15 @@ export default function ChatPage() {
       </AnimatePresence>
 
       {/* Chat Window */}
-      <div className="flex-1 flex flex-col">
+      <div className=" w-full flex flex-col">
         {activeUser ? (
-          <ChatWindow chatId={activeUser?._id} peerId={activeUser} />
+          <ChatWindow user={activeUser} />
         ) : (
           <div
             className="flex items-center justify-center h-full text-gray-600
-          dark:text-gray-300 text-2xl bg-gray-300"
+          dark:text-gray-300 text-2xl bg-gray-200"
           >
-            Select a name to start messaging
+            Select a name to startr messaging
           </div>
         )}
       </div>
@@ -84,7 +85,7 @@ export default function ChatPage() {
       {/* Floating toggle button (only on mobile) */}
       <button
         onClick={() => setShowSidebar(!showSidebar)}
-        className="md:hidden fixed bottom-40 right-5 bg-green-500 text-black
+        className="md:hidden fixed bottom-40 right-5 bg-blue-500 text-black
          p-4 rounded-2xl hover:dark:bg-[rgb(60,60,60)] dark:bg-[rgb(80,80,80)]
           shadow-lg cursor-pointer z-50"
       >

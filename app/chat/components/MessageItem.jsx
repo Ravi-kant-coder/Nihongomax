@@ -6,8 +6,8 @@ export default function MessageItem({ msg }) {
       <div
         className={`px-3 py-2 rounded-lg max-w-xs ${
           isMe
-            ? "bg-green-300 text-black dark:bg-green-900 dark:text-white"
-            : "bg-white dark:bg-black dark:text-white text-black shadow shadow-black/20"
+            ? "bg-green-200 mr-10 text-black dark:bg-green-900 dark:text-white  text-sm"
+            : "bg-white dark:bg-black ml-10 dark:text-white text-black shadow shadow-black/40 text-sm"
         }`}
       >
         {msg.text}

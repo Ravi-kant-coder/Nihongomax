@@ -281,3 +281,17 @@ body {
   offset-path: path("M 100 400 C 200 100, 300 100, 400 400");
   offset-rotate: auto;
 }
+
+@keyframes buttonAnimation {
+  0% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(5deg);
+  }
+}
+
+.branch-animate {
+  transform-origin: left;
+  animation: buttonAnimation 2s infinite alternate ease-in-out;
+}
