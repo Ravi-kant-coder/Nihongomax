@@ -1,83 +1,217 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import LeftSideBar from "@/app/LeftSideBar";
-import ScrollupBtn from "../ScrollupBtn";
-import { useSchoolStore } from "@/store/useSchoolStore";
-import SchoolCard from "./SchoolCard";
-import { useBanner } from "../hooks/useBanner";
-import Banner from "../Banner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import SchoolTrigger from "./SchoolTrigger";
+import {
+  MapPin,
+  IndianRupee,
+  Mail,
+  Languages,
+  ArrowBigDown,
+  Phone,
+} from "lucide-react";
 
-const Schools = () => {
-  const { schools, fetchSchoolsZust } = useSchoolStore();
-  const { banner, showBanner } = useBanner();
-  const { deleteSchoolZust } = useSchoolStore();
-  const [isEditSchoolModel, setIsEditSchoolModel] = useState(false);
-
-  useEffect(() => {
-    fetchSchoolsZust();
-  }, [fetchSchoolsZust]);
-
-  const handleSchoolDelete = async (schoolId) => {
-    try {
-      const result = await deleteSchoolZust(schoolId);
-      showBanner("✅ School-Post deleted successfully", "success");
-    } catch (error) {
-      showBanner("❌ Failed to delete School-post", "error");
-    }
-  };
+const SchoolsInJapan = () => {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = today.toLocaleString("en-US", { month: "long" });
+  const year = today.getFullYear();
+  const formattedDate = `${day}-${month}-${year}`;
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="flex my-20">
-      <LeftSideBar />
-      <div className="md:ml-60 w-full md:mt-2 mt-10 flex flex-col">
-        <h1 className="md:text-4xl text-2xl text-center font-bold">
-          Schools in Japan Nihongomax has tie up with
-        </h1>
-        <button
-          className="text-2xl my-8 rounded-2xl p-4 bg-pink-200 dark:bg-pink-950 
-          dark:hover:bg-pink-900 border border-gray-500 cursor-pointer
-           hover:bg-pink-300 dark:text-gray-300  text-gray-700 mx-auto"
+    <div className="md:mt-20 mt-25 mb-20">
+      <div className="md:mt-15 p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
+        <LeftSideBar />
+      </div>
+
+      <div className="mx-3 md:ml-60 mb-20 ">
+        <h2
+          className=" font-semibold text-gray-600 text-center md:text-4xl text-lg md:mt-4
+        dark:text-gray-500"
         >
-          日本語学院を追加
-          <p className="dark:text-gray-300 text-sm text-gray-700">
-            For Japanese Schools
-          </p>
-        </button>
-        {schools?.length > 0 ? (
-          schools?.map((school) => (
-            <SchoolCard
-              school={school}
-              key={school?._id}
-              isOpen={isEditSchoolModel}
-              onClose={() => setIsEditSchoolModel(false)}
-              handleSchoolDelete={handleSchoolDelete}
-            />
-          ))
-        ) : (
-          <h2
-            className="text-center text-2xl rounded-2xl text-gray-500 border
-             border-gray-400 mx-auto p-10"
+          1万人以上に貴校情報をご掲載ください。完全に無料です。
+        </h2>
+        <h2
+          className="md:text-xl text-sm dark:text-gray-300 text-center dark:font-normal 
+          md:mt-2 font-semibold"
+        >
+          Show your School to over 10,000 students looking to study in Japan.
+        </h2>
+        <div className="flex justify-center items-center mt-6">
+          <SchoolTrigger />
+        </div>
+        <h2
+          className="md:text-2xl font-semibold flex justify-center
+        items-center dark:text-gray-400"
+        >
+          貴校情報は下記のような広告になります。
+          <ArrowBigDown fill="black" size={40} className="mx-2 shrink-0" />
+          (また、7678461209 まで、お電話を)
+        </h2>
+
+        {/* --------------------------Sample School Post---------------------------- */}
+        <div className="flex md:mx-20 md:my-8 flex-col mx-4 md:ml-30 mb-20 ">
+          <div
+            className="my-2 bg-white rounded-xl p-6 md:space-y-4 space-y-2 border
+                 border-black dark:border-gray-200 dark:bg-black"
           >
-            No Schools Available right now.
-            <br />
-            Plz check back later.
-            <p className="mt-4">
-              {" "}
-              少しお待ちくださいね。インドから学生募集が増えていますよ！
+            <div className="flex flex-col items-start justify-between">
+              <div className="flex items-center">
+                <div className="relative mx-auto my-auto overflow-hidden rounded mr-4">
+                  <Avatar className="w-30 h-20 rounded">
+                    <AvatarImage src={"/try.jpg"} className="object-cover" />
+                    <AvatarFallback
+                      className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
+                          font-semibold rounded mr-2 text-2xl"
+                    >
+                      N
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+                <div>
+                  <p
+                    className="font-semibold md:text-2xl text-xl text-gray-700
+                     dark:text-gray-300"
+                  >
+                    New Technologies xyz Pvt. Ltd.
+                  </p>
+                  <p
+                    className="text-xs flex flex-col md:text-sm
+                         text-gray-700 dark:text-gray-400"
+                  >
+                    {formattedDate}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <p className="md:text-xl font-semibold dark:font-normal">
+              Japanese Language Translator cum Interpreter, Product Manager
             </p>
-            <p className="text-lg">
-              {" "}
-              The number of applicants from India is increasing rapidly. <br />
-              And there are many schools offering admissions. Please wait for a
-              while.
-            </p>
-          </h2>
-        )}
-        <Banner banner={banner} />
-        <ScrollupBtn />
+            <div>
+              <div className="mb-2">
+                <p className="font-semibold flex items-center dark:font-normal">
+                  Requirements:
+                </p>
+                <span>
+                  {" "}
+                  New Technologies xyz Pvt. Ltd. is the largest private provider
+                  of IT services in Japan, We are looking for candidates who are
+                  driven and motivated in developing next generation
+                  technologies. We are excited to welcome you to our family
+                  brimming with innovation and the love for UI-UX.
+                </span>
+              </div>
+              <div className="dark:text-gray-400 md:space-y-3 space-y-1">
+                <div className="flex items-center text-sm">
+                  <MapPin size={18} strokeWidth={2} className="mr-2" />{" "}
+                  <p className="font-semibold mr-2">Location:</p>
+                  Gurgaon, Haryana, India
+                </div>
+                <div className="flex items-center text-sm">
+                  <IndianRupee size={16} strokeWidth={2} className="mr-2" />
+                  <p className="font-semibold mr-2">Salary:</p>
+                  50,000 - 60,000 per month
+                </div>
+                <div className="flex items-center text-sm">
+                  <Mail size={16} strokeWidth={2} className="mr-2" />
+                  <p className="font-semibold mr-2">Email:</p>
+                  dummy@email.com
+                </div>
+                <div className="flex items-center text-sm">
+                  <Phone size={16} strokeWidth={2} className="mr-2" />
+                  <p className="font-semibold mr-2">Mobile:</p>
+                  9999999999
+                </div>
+                <div className="items-center text-sm">
+                  <p className="font-semibold">Job&nbsp;Description:</p>
+                  <span>
+                    The candidate has to frequently travel to Japan, besides the
+                    breifing and translating the documents, the candidate will
+                    also be responsible for managing the product and ensuring
+                    the quality of the product. If you are driven and have a
+                    passion for technology and a desire to inspire and share
+                    your knowledge !
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-start items-center">
+              <div className="text-sm">
+                <button
+                  className="mt-4 bg-gray-400 dark:bg-red-900 cursor-pointer
+                     dark:hover:bg-red-700 hover:bg-gray-700  hover:text-white
+                      py-2 px-4 rounded font-semibold dark:font-normal"
+                >
+                  Edit this Job-Post
+                </button>
+                <p className="dark:text-gray-500">
+                  Only you will see this button
+                </p>
+              </div>
+              <div className="text-sm md:ml-10">
+                <button
+                  onClick={() => setShowModal(true)}
+                  className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer
+                     dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
+                      px-4 rounded font-semibold dark:font-normal"
+                >
+                  Delete this Job-Post
+                </button>
+                <p className="dark:text-gray-500">
+                  Only you will see this button
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/*-----------------------------Job Delete Modal-------------------------- */}
+          {showModal && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center
+                 bg-black/30"
+            >
+              <motion.div
+                initial={{ scale: 0, rotate: -50 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl "
+              >
+                <h2
+                  className="text-lg font-semibold text-center text-red-600
+                     dark:text-white dark:font-normal"
+                >
+                  Delete this Job-Post Forever?
+                </h2>
+                <p className="text-sm  dark:text-gray-300 text-center my-2">
+                  This cannot be Recovered.
+                </p>
+
+                <div className="flex justify-center gap-4 mt-6 ">
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
+                         dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
+                         cursor-pointer text-white text-sm"
+                  >
+                    Yes, Delete
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default Schools;
+export default SchoolsInJapan;

@@ -62,7 +62,7 @@ const LeftSideBar = () => {
         </div>
       )}
       <aside className="fixed h-full hidden w-70 md:p-1 md:flex flex-col z-50 md:z-0">
-        <nav className="space-y-4 flex-grow h-full flex flex-col overflow-y-auto">
+        <nav className="space-y-3 flex-grow h-full flex flex-col overflow-y-auto">
           <div
             onClick={() => {
               handleNavigation(`/user-profile/${user?._id}`);
@@ -70,7 +70,8 @@ const LeftSideBar = () => {
               closeNotificationBox();
             }}
             className="flex items-center group space-x-2 cursor-pointer hover:shadow-lg
-             dark:hover:bg-[rgb(55,55,55)] hover:bg-white p-1 rounded-md"
+             dark:hover:bg-[rgb(55,55,55)] hover:bg-white rounded-md border p-2
+             border-white dark:border-gray-600 mb-4"
           >
             {" "}
             <Avatar className="h-9 w-9 cursor-pointer">
@@ -201,8 +202,8 @@ const LeftSideBar = () => {
             },
             {
               id: 7,
-              label: "Schools in Japan",
-              navPath: "/schools-in-japan",
+              label: "Study in Japan",
+              navPath: "/study-in-japan",
               icon: School,
             },
             {
@@ -213,7 +214,7 @@ const LeftSideBar = () => {
             },
             {
               id: 8,
-              label: "Kanji Games",
+              label: "Word Game",
               navPath: "/games",
               icon: Dices,
             },

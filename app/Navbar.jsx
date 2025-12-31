@@ -412,7 +412,7 @@ const Navbar = () => {
               name: "About",
             },
             { icon: Handshake, path: "/jobs", name: "Jobs" },
-            { icon: School, path: "/schools-in-japan", name: "Schools" },
+            { icon: School, path: "/study-in-japan", name: "Schools" },
             { icon: Dices, path: "/games", name: "Games" },
             { icon: TvMinimalPlay, path: "/videos", name: "Videos" },
           ].map(({ icon: Icon, path, name }) => {

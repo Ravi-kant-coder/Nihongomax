@@ -36,7 +36,7 @@ const FriendSuggestion = ({ friend, onAction }) => {
             className="bg-gray-400 dark:bg-gray-500 text-black md:text-4xl
            text-2xl"
           >
-            {friend?.username.charAt(0).toUpperCase()}
+            {friend?.username?.charAt(0)?.toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </div>

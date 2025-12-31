@@ -46,7 +46,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
           dark:shadow-black"
         >
           <h2 className="text-xl font-semibold  dark:text-gray-300 capitalize">
-            {isOwner ? "Your" : `${profileData?.username.split(" ")[0]}'s`}{" "}
+            {isOwner ? "Your" : `${profileData?.username?.split(" ")[0]}'s`}{" "}
             Friends
           </h2>
           <p className="text-gray-700 text-sm flex dark:text-gray-500">
@@ -72,7 +72,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                           className="object-cover"
                         />
                         <AvatarFallback className="w-35 h-35 rounded text-4xl dark:text-black">
-                          {friend?.username.split(" ")[0][0]}
+                          {friend?.username?.split(" ")[0][0]}
                         </AvatarFallback>
                       </Avatar>
                       <div>

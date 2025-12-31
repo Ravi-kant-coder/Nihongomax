@@ -73,8 +73,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                 }
               >
                 <AvatarImage
-                  className={`hover:ring-2 hover:ring-gray-300 dark:hover:ring-gray-600
-                  ${
+                  className={`object-cover ${
                     comment?.user?._id !== user?._id &&
                     "hover:underline cursor-pointer"
                   }`}
@@ -106,7 +105,6 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                         hover:underline cursor-pointer"
                       >
                         {comment?.user?.username}
-                        {console.log(comment?.user?.username)}
                       </span>
                     )}
                   </p>
@@ -170,7 +168,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
 
       <div className="flex items-center px-4 p-2 mb-6">
         <Avatar className="h-8 w-8 rounded-full mr-3">
-          <AvatarImage src={user?.profilePicture} />
+          <AvatarImage src={user?.profilePicture} className="object-cover" />
           <AvatarFallback className="dark:bg-gray-800 bg-gray-400 capitalize">
             {user?.username.charAt(0).toUpperCase()}
           </AvatarFallback>

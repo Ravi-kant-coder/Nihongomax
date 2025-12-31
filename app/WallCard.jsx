@@ -98,7 +98,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
             className="relative mx-auto my-auto overflow-hidden rounded p-1"
             onClick={handleDpClick}
           >
-            <Avatar className="cursor-pointer h-10 w-10 mr-3 hover:ring-2 ring-gray-500">
+            <Avatar className="cursor-pointer h-10 w-10 mr-3 hover:ring-1 ring-gray-500">
               <AvatarImage
                 src={post?.user?.profilePicture}
                 className="object-cover"

@@ -295,3 +295,21 @@ body {
   transform-origin: left;
   animation: buttonAnimation 2s infinite alternate ease-in-out;
 }
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.cursor {
+  width: 2px;
+  height: 24px;
+  background: black;
+  animation: blink 1s infinite;
+}

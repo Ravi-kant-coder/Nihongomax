@@ -1,153 +1,230 @@
 "use client";
-import { useState, useEffect } from "react";
-import LeftSideBar from "@/app/LeftSideBar";
-import { ArrowBigRight } from "lucide-react";
+import { useEffect, useState } from "react";
 import ScrollupBtn from "../ScrollupBtn";
+import LeftSideBar from "../LeftSideBar";
+import { Arrow } from "@radix-ui/react-dropdown-menu";
+import Row from "./Row";
 
-const wordsList = [
-  "ALBUM",
-  "HINGE",
-  "MONEY",
-  "SCRAP",
-  "GAMER",
-  "GLASS",
-  "AMPLE",
-  "CHEEK",
-  "SHAME",
-  "MINCE",
-  "CHUNK",
-  "ROYAL",
-  "SQUAD",
-  "REBUT",
-  "CIGAR",
+const WORDS = [
+  { word: "SAKANA", hint: "Swims in rivers and oceans" },
+  { word: "KURUMA", hint: "It has usually four wheels" },
+  { word: "TABAKO", hint: "Don't make it a habit" },
+  { word: "HASAMI", hint: "Cuts paper or cloth" },
+  { word: "HIKOKI", hint: "Flies in the sky" },
+  { word: "NOBITA", hint: "Dearest Friend of Doraemon" },
+  { word: "YAMADA", hint: "Very Common name of Japanese" },
+  { word: "SENSEI", hint: "A teacher or instructor" },
+  { word: "ARUKOU", hint: "Short form of Arukimasho" },
+  { word: "GINKOU", hint: "You save money here" },
+  { word: "OKAERI", hint: "Greeting saying welcome home" },
 ];
 
-// https://api.frontendexpert.io/api/fe/wordle-words
+const WORD_LENGTH = 6;
+const MAX_ATTEMPTS = 6;
 
 const WordGame = () => {
   const [solution, setSolution] = useState("");
-  const [guesses, setGuesses] = useState(Array(6).fill(null));
-  const [currentGuess, setCurrentGuess] = useState("");
-  const [isCurrentGuess, setIsCurrentGuess] = useState("");
-  const randomIndex = Math.floor(Math.random() * wordsList.length);
-  const initialSolution = wordsList[randomIndex];
+  const [hint, setHint] = useState("");
+  const [grid, setGrid] = useState(
+    Array(MAX_ATTEMPTS)
+      .fill(null)
+      .map(() => Array(WORD_LENGTH).fill(""))
+  );
+  const [currentRow, setCurrentRow] = useState(0);
+  const [currentCol, setCurrentCol] = useState(0);
+  const [status, setStatus] = useState("playing"); // playing | win | lose
+  const [lastWord, setLastWord] = useState(null);
 
+  // Initialize game
   useEffect(() => {
-    const handleType = (e) => {
-      setCurrentGuess((oldGuess) => oldGuess + e.key);
+    resetGame();
+  }, []);
+
+  // Keyboard handling
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (status !== "playing") return;
+
+      if (e.key === "Backspace") {
+        handleBackspace();
+      } else if (e.key === "Enter") {
+        submitGuess();
+      } else if (/^[a-zA-Z]$/.test(e.key)) {
+        handleLetter(e.key.toUpperCase());
+      }
     };
-    window.addEventListener("keydown", handleType);
-    console.log(currentGuess);
-    return () => window.removeEventListener("keydown", handleType);
-  }, []);
 
-  useEffect(() => {
-    const fetchWord = async () => {
-      const randomWord =
-        wordsList[Math.floor(Math.random() * wordsList.length)];
-      setSolution(randomWord);
-    };
-    fetchWord();
-  }, []);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentRow, currentCol, grid, status]);
 
-  useEffect(() => {
-    setSolution(initialSolution);
-  }, []);
+  const handleLetter = (letter) => {
+    if (currentCol >= WORD_LENGTH) return;
+
+    const newGrid = grid.map((row) => [...row]);
+    newGrid[currentRow][currentCol] = letter;
+    setGrid(newGrid);
+    setCurrentCol(currentCol + 1);
+  };
+
+  const handleBackspace = () => {
+    if (currentCol === 0) return;
+
+    const newGrid = grid.map((row) => [...row]);
+    newGrid[currentRow][currentCol - 1] = "";
+    setGrid(newGrid);
+    setCurrentCol(currentCol - 1);
+  };
+
+  const submitGuess = () => {
+    if (currentCol < WORD_LENGTH) return;
+
+    const guess = grid[currentRow].join("");
+
+    if (guess === solution) {
+      setCurrentRow((prev) => prev + 1); // mark row as submitted
+      setStatus("win");
+      return;
+    }
+
+    if (currentRow === MAX_ATTEMPTS - 1) {
+      setCurrentRow((prev) => prev + 1); // mark row as submitted
+
+      setStatus("lose");
+      return;
+    }
+
+    setCurrentRow(currentRow + 1);
+    setCurrentCol(0);
+  };
+
+  const resetGame = () => {
+    let random;
+
+    do {
+      random = WORDS[Math.floor(Math.random() * WORDS.length)];
+    } while (random.word === lastWord && WORDS.length > 1);
+
+    setLastWord(random.word);
+    setSolution(random.word);
+    setHint(random.hint);
+
+    setGrid(
+      Array(MAX_ATTEMPTS)
+        .fill(null)
+        .map(() => Array(WORD_LENGTH).fill(""))
+    );
+    setCurrentRow(0);
+    setCurrentCol(0);
+    setStatus("playing");
+  };
 
   return (
-    <div className="mb-20 mt-15">
-      <div className="p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
-        <LeftSideBar />
-      </div>
-      <div className="flex flex-col md:ml-70">
-        <div
-          className="text-center text-3xl font-semibold text-green-900 dark:text-green-600
-           my-2"
-        >
-          Guess the Word (generated by machine) with the help of the Hint.
-          <br />{" "}
-          <span className="text-red-900 dark:text-red-500 text-2xl">
-            You have 6 attempts.
-          </span>
-          <p
-            className="mb-1 text-black dark:text-gray-400 text-xl flex
-             justify-center items-center"
-          >
-            1. If your alphabet is in the word, it wil be shown in Gray color
-            like this
-            <span
-              className="ml-1 text-white p-1 bg-black/50 dark:bg-gray-600 border 
-              border-black w-10 h-10 flex items-center justify-center font-bold text-2xl"
-            >
-              N
-            </span>
-          </p>
-          <p
-            className="dark:text-gray-400 text-black text-xl flex justify-center
-             items-center"
-          >
-            2. If it is there and also at right place, it wil be shown in Black
-            color like this
-            <span
-              className="ml-1 text-white p-1 bg-black border 
-              border-black w-10 h-10 flex items-center justify-center font-bold text-2xl"
-            >
-              N
-            </span>
-          </p>
+    <>
+      <div className="mb-20 mt-15">
+        <div className="p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
+          <LeftSideBar />
         </div>
-        <div
-          className="dark:bg-[rgb(50,50,50)] border dark:border-[rgb(100,100,100)] 
-          md:mx-8 mx-2 border-black h-[80vh] rounded-xl p-4"
-        >
-          <p className="text-center text-2xl dark:text-teal-400 my-5">
-            Hint : {solution}
-          </p>
-          {guesses.map((guess, i) => {
-            const isCurrentGuess =
-              i === guesses.findIndex((val) => val == null);
-            <Line
-              className="text-white p-1 bg-gray-500 border-black w-10 h-10 flex
-                 items-center justify-center font-bold text-2xl dark:bg-gray-600"
-              key={guess}
-              guess={isCurrentGuess ? currentGuess : guess ?? ""}
-            />;
-          })}
-
-          <div className="flex justify-around items-center">
-            <button
-              className="px-2 border hover:bg-gray-700 hover:text-white
-                 dark:hover:border-black dark:bg-black dark:hover:bg-gray-900
-                  p-1 border-black hover:border-gray-700
-                  cursor-pointer rounded flex items-center justify-center"
+        <div className="flex flex-col md:ml-70">
+          <div
+            className="text-center text-3xl font-semibold text-green-900 dark:text-green-600
+           my-4"
+          >
+            Guess the Japanese Word (generated by machine) <br /> with the help
+            of the Hint given.
+            <br />{" "}
+            <span className="text-red-900 dark:text-red-500 text-2xl">
+              You have 6 attempts.
+            </span>
+            <p
+              className="my-4 text-black dark:text-gray-400 text-xl flex
+             justify-center items-center"
             >
-              Enter
-              <ArrowBigRight className="w-5 h-5" />
-            </button>
-            <div className="text-xl bg-gray-300 p-1 rounded-lg text-black">
-              Your Score
+              1. If your alphabet is in the word, it will turn in Gray color
+              like this
+              <span
+                className="ml-1 text-white p-1 bg-black/50 dark:bg-gray-600 border 
+              border-black w-10 h-10 flex items-center justify-center font-bold text-2xl"
+              >
+                N
+              </span>
+            </p>
+            <p
+              className="dark:text-gray-400 text-black text-xl flex justify-center
+             items-center my-4"
+            >
+              2. If it is there and also at right place, it will turn in Black
+              color like this
+              <span
+                className="ml-1 text-white p-1 bg-black border 
+              border-black w-10 h-10 flex items-center justify-center font-bold text-2xl"
+              >
+                N
+              </span>
+            </p>
+          </div>
+          <div
+            className="dark:bg-[rgb(50,50,50)] border dark:border-[rgb(100,100,100)] 
+          md:mx-8 mx-2 border-black h-[80vh] rounded-xl p-4"
+          >
+            <div className="max-w-xl mx-auto p-6 text-center">
+              <p className="text-center text-2xl dark:text-teal-400 my-5">
+                Hint : {hint}
+              </p>
+
+              <div className="space-y-3">
+                {grid.map((row, rowIndex) => (
+                  <Row
+                    key={rowIndex}
+                    row={row}
+                    rowIndex={rowIndex}
+                    solution={solution}
+                    currentRow={currentRow}
+                    currentCol={currentCol}
+                    isSubmitted={rowIndex < currentRow}
+                    isPlaying={status === "playing"}
+                    onEnter={submitGuess}
+                    WORD_LENGTH={WORD_LENGTH}
+                    MAX_ATTEMPTS={MAX_ATTEMPTS}
+                  />
+                ))}
+              </div>
+
+              {status === "win" && (
+                <div className="mt-5">
+                  <p className="text-xl text-green-800 dark:text-green-600">
+                    <b>Yayy!! Correct!! 当たりました</b>
+                  </p>
+                  <button
+                    onClick={resetGame}
+                    className="mt-3 px-4 py-2 border rounded dark:border-white
+                    border-black hover:bg-gray-500 hover:text-white cursor-pointer"
+                  >
+                    PLAY AGAIN
+                  </button>
+                </div>
+              )}
+
+              {status === "lose" && (
+                <div className="mt-5">
+                  <p className="text-xl text-red-600 dark:text-red-400">
+                    Correct word was: <b>{solution}</b>
+                  </p>
+                  <button
+                    onClick={resetGame}
+                    className="mt-3 px-4 py-2 border rounded 
+                    border-black hover:bg-gray-700 hover:text-white cursor-pointer"
+                  >
+                    PLAY AGAIN
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
+        <ScrollupBtn />
       </div>
-      <ScrollupBtn />
-    </div>
+    </>
   );
 };
-function Line({ guess }) {
-  const tiles = [];
-  for (let i = 0; i < 6; i++) {
-    const char = guess[i];
-    tiles.push(
-      <div
-        key={i}
-        className="border border-gray-600 w-10 h-10 flex items-center justify-center 
-            font-bold text-2xl"
-      >
-        {char}
-      </div>
-    );
-  }
-  return <div className="">{tiles}</div>;
-}
 export default WordGame;

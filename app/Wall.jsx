@@ -58,7 +58,6 @@ const Wall = () => {
       <StorySection />
       {posts?.map((post) => (
         <WallCard
-          // namaye={isOwner}
           key={post?._id}
           post={post}
           onLike={() => handleLike(post?._id)}

@@ -8,8 +8,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { LogIn } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { LogIn, Eye, EyeOff } from "lucide-react";
 import { loginUser, registerUser } from "@/service/auth.service";
 import userStore from "@/store/userStore";
 import Spinner from "../Spinner";
@@ -18,6 +17,7 @@ const Login = () => {
   const router = useRouter();
   const { setUser } = userStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const registerSchema = yup.object().shape({
     username: yup.string().required("Name is required"),
@@ -97,16 +97,16 @@ const Login = () => {
   return (
     <>
       <div className="flex items-center justify-center">
-        <form
+        <motion.form
           onSubmit={handleSubmitLogin(onSubmitLogin)}
-          className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900 fixed
-           top-5 z-10 right-5"
+          className="space-y-2 p-4 rounded-lg bg-gray-400 fixed
+           top-5 right-5 dark:bg-gray-800 z-100"
         >
           <div>
-            <p className="text-center text-sm dark:text-gray-300">
+            <p className="text-center text-sm dark:text-white">
               Already have account
             </p>
-            <p className="text-xs text-center mb-2 dark:text-gray-300">
+            <p className="text-xs text-center mb-2 dark:text-white">
               with Nihongomax?
             </p>
             <Label htmlFor="loginEmail" className="sr-only">
@@ -130,26 +130,31 @@ const Login = () => {
             </Label>
             <Input
               id="loginPassword"
+              type={showPassword ? "text" : "password"}
               name="password"
-              type="password"
               {...registerLogin("password")}
               placeholder="Password"
-              className="col-span-3  bg-white"
+              className="col-span-3 bg-white pr-10"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-6 top-1/2 translate-y-1/2
+               text-gray-600 hover:text-gray-800"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
             {errorsLogin.password && (
               <p className="text-red-500">{errorsLogin.password.message}</p>
             )}
           </div>
-          <p className="text-xs text-center mb-2 dark:text-gray-300 hover:underline cursor-pointer">
-            Forgot Password?
-          </p>
           <Button
             className="w-full cursor-pointer dark:bg-black text-white"
             type="submit"
           >
             <LogIn className="mr-2 w-4 h-4" /> Log in
           </Button>
-        </form>
+        </motion.form>
       </div>
       <div>
         {isLoading && (

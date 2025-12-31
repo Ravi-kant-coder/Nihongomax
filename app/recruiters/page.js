@@ -70,7 +70,10 @@ const Recruiters = () => {
               <div className="flex items-center">
                 <div className="relative mx-auto my-auto overflow-hidden rounded mr-4">
                   <Avatar className="w-30 h-20 rounded">
-                    <AvatarImage src={"/try.jpg"} className="object-cover" />
+                    <AvatarImage
+                      src={"/tsukimi.png"}
+                      className="object-cover"
+                    />
                     <AvatarFallback
                       className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
                           font-semibold rounded mr-2 text-2xl"
@@ -96,7 +99,8 @@ const Recruiters = () => {
               </div>
             </div>
             <p className="md:text-xl font-semibold dark:font-normal">
-              Japanese Language Translator cum Interpreter, Product Manager
+              Japanese Language Translator, Product Manager, Sales Executive -
+              IT Sector
             </p>
             <div>
               <div className="mb-2">

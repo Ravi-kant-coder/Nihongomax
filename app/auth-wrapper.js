@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import Navbar from "./Navbar";
 import NavbarBelow from "./NavbarBelow";
-import socket from "@/lib/socket"; // 👈 import socket
+import socket from "@/lib/socket";
 
 export default function AuthWrapper({ children }) {
   const { user, setUser, clearUser } = userStore();
@@ -16,6 +16,7 @@ export default function AuthWrapper({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const isLoginPage = pathname === "/user-login";
+  const isFreeClassPage = pathname.startsWith("/free-classes");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -52,7 +53,9 @@ export default function AuthWrapper({ children }) {
       } catch (error) {
         console.log("logout failed please try again later", error);
       }
-      if (!isLoginPage) {
+
+      // 👇 Don't redirect for login page or free class pages
+      if (!isLoginPage && !isFreeClassPage) {
         router.push("/user-login");
       }
 
@@ -63,14 +66,16 @@ export default function AuthWrapper({ children }) {
       }
     };
 
-    if (!isLoginPage) {
+    // ✅ Skip auth check for login page AND free class pages
+    if (!isLoginPage && !isFreeClassPage) {
       checkAuth();
     } else {
       setLoading(false);
     }
-  }, [isLoginPage, router, setUser, clearUser]);
+  }, [isLoginPage, isFreeClassPage, router, setUser, clearUser]);
 
-  if (!isAuthenticated && !isLoginPage) {
+  // ✅ Spinner only while checking auth (not on free pages)
+  if (loading && !isFreeClassPage) {
     return <Spinner />;
   }
 
@@ -82,7 +87,7 @@ export default function AuthWrapper({ children }) {
           <NavbarBelow />
         </>
       )}
-      {(isAuthenticated || isLoginPage) && children}
+      {(isAuthenticated || isLoginPage || isFreeClassPage) && children}
     </>
   );
 }

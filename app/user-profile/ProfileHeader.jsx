@@ -9,7 +9,7 @@ import {
   Upload,
   X,
   Dot,
-  Bell,
+  MessageCircle,
   User2,
   Users,
 } from "lucide-react";
@@ -194,9 +194,9 @@ const ProfileHeader = ({
           >
             {isOwner
               ? `Put Cover Photo
-          ${profileData?.username.split(" ")[0]}`
+          ${profileData?.username?.split(" ")[0]}`
               : `No Cover Photo of
-          ${profileData?.username.split(" ")[0]}`}
+          ${profileData?.username?.split(" ")[0]}`}
           </div>
         ) : (
           profileData?.coverPhoto && (
@@ -261,13 +261,13 @@ const ProfileHeader = ({
             <div className="flex flex-col justify-center items-center mt-4 md:mt-0">
               {true ? (
                 <p className="text-sm truncate">
-                  {profileData?.username.split(" ")[0]} is not your friend{" "}
-                  {user?.username.split(" ")[0]}
+                  {profileData?.username?.split(" ")[0]} is not your friend{" "}
+                  {user?.username?.split(" ")[0]}
                 </p>
               ) : (
                 <p className="text-sm truncate">
                   {profileData?.username.split(" ")[0]} is already your friend{" "}
-                  {user?.username.split(" ")[0]}
+                  {user?.username?.split(" ")[0]}
                 </p>
               )}
               <Button
@@ -296,10 +296,10 @@ const ProfileHeader = ({
               className="z-11 cursor-pointer flex items-center mt-2
              dark:hover:bg-black bg-black text-white hover:bg-gray-800"
 
-              // onClick={() => setIsEditCoverModel(!isEditCoverModel)}
+              // onClick={() => Divert on Message page}
             >
-              <Bell className=" mr-0 md:mr-1 h-4 w-4" />
-              <span>Message {profileData?.username.split(" ")[0]}</span>
+              <MessageCircle className=" ml-0 md:ml-1 h-4 w-4" />
+              <span>Message {profileData?.username?.split(" ")[0]}</span>
             </Button>
           )}
         </div>
@@ -321,11 +321,11 @@ const ProfileHeader = ({
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  Put/Change/Delete DP
+                  Put/Change/Remove DP
                 </h2>
                 <Button
-                  className="cursor-pointer bg-accent hover:bg-gray-200 dark:bg-gray-900
-                  dark:hover:bg-black"
+                  className="cursor-pointer hover:bg-gray-300 dark:bg-gray-900
+                  dark:hover:bg-black bg-gray-200"
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsEditProfileModel(false)}
@@ -340,9 +340,10 @@ const ProfileHeader = ({
                 <div className="flex flex-col items-center mb-4">
                   <Avatar
                     className="w-24 h-24 border-4 border-white
-                   dark:border-gray-700 mb-2"
+                   dark:border-gray-700 mb-2 object-cover"
                   >
                     <AvatarImage
+                      className="object-cover"
                       src={profilePicturePreview || profileData?.profilePicture}
                       alt={profileData?.username}
                     />
@@ -382,7 +383,11 @@ const ProfileHeader = ({
                 </div>
                 <div>
                   <Label htmlFor="username">Username</Label>
-                  <Input id="username" {...register("username")} />
+                  <Input
+                    className="border-gray-400 mt-2 dark:border-gray-700"
+                    id="username"
+                    {...register("username")}
+                  />
                 </div>
                 <Button
                   type="submit"
@@ -503,7 +508,7 @@ const ProfileHeader = ({
               className="text-center text-red-600 dark:text-white font-semibold text-xl 
             capitalize"
             >
-              Remove DP {user?.username.split(" ")[0]}?
+              Remove DP {user?.username?.split(" ")[0]}?
             </h2>
             <p className="text-sm dark:text-gray-300 text-center my-2">
               You can put it again later
@@ -539,7 +544,7 @@ const ProfileHeader = ({
         >
           <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
             <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-              Delete Cover Photo {user?.username.split(" ")[0]}?
+              Delete Cover Photo {user?.username?.split(" ")[0]}?
             </h2>
             <p className="text-sm dark:text-gray-300 text-center my-2">
               This cannot be recovered.

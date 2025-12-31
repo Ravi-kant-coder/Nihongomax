@@ -32,10 +32,10 @@ const Jobs = () => {
       <div className="md:ml-60 w-full">
         <h1 className="text-4xl text-center font-bold">Apply for Jobs</h1>
         {jobs?.length > 0 ? (
-          jobs?.map((job) => (
+          jobs?.map((job, index) => (
             <JobCard
               job={job}
-              key={job?._id}
+              key={job?._id || index}
               isOpen={isEditJobModel}
               onClose={() => setIsEditJobModel(false)}
               handleJobDelete={handleJobDelete}

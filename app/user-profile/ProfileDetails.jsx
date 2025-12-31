@@ -92,7 +92,7 @@ const ProfileDetails = ({
             shadow-lg dark:shadow-black"
           >
             <h2 className="text-xl font-semibold mb-4 dark:text-gray-300 capitalize">
-              {isOwner ? "Your" : `${profileData?.username.split(" ")[0]}'s`}{" "}
+              {isOwner ? "Your" : `${profileData?.username?.split(" ")[0]}'s`}{" "}
               Introduction
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
@@ -183,7 +183,7 @@ const ProfileDetails = ({
                 "you"
               ) : (
                 <span className="capitalize">
-                  {profileData?.username.split(" ")[0]}
+                  {profileData?.username?.split(" ")[0]}
                 </span>
               )}
             </h2>

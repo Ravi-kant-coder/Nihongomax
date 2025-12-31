@@ -183,7 +183,7 @@ const StoryCard = ({ isAddStory, story }) => {
                     className="w-full h-full flex justify-center text-xl 
                     bg-gray-400 items-center dark:text-white dark:bg-[rgb(55,55,55)]"
                   >
-                    {story?.user?.username.split(" ")[0][0]?.toUpperCase()}
+                    {story?.user?.username?.split(" ")[0][0]?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -206,7 +206,7 @@ const StoryCard = ({ isAddStory, story }) => {
                 onClick={handleStoryUsernameClick}
               >
                 By{" "}
-                {user?._id === story?.user?._id ? "you" : story?.user.username}
+                {user?._id === story?.user?._id ? "you" : story?.user?.username}
               </p>
             </>
           )}
@@ -221,7 +221,7 @@ const StoryCard = ({ isAddStory, story }) => {
         >
           <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
             <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-              Delete this story {user?.username.split(" ")[0]}?
+              Delete this story {user?.username?.split(" ")[0]}?
             </h2>
             <p className="text-sm dark:text-gray-300 text-center my-2">
               This cannot be recovered.
