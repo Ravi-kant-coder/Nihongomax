@@ -67,6 +67,7 @@ const SchoolTrigger = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
     setSelectedFile(file);
     setFileType(file.type);
     setFilePreview(URL.createObjectURL(file));
@@ -118,11 +119,10 @@ const SchoolTrigger = () => {
             <p className="font-semibold">{user?.username}</p>
           </div>
         </div>
-        <p className="font-semibold mr-4">学院情報</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* -----------------------School Image Upload ---------------------*/}
+        {/* -----------------------School Image/video Upload ---------------------*/}
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
           <div
             className="relative md:w-50 cursor-pointer border-2 border-dashed border-gray-700
@@ -137,6 +137,12 @@ const SchoolTrigger = () => {
                   alt="preview_img"
                   className="w-full h-auto max-h-[200px] object-cover rounded"
                 />
+              ) : fileType === "video/avi" ? (
+                <p className="text-sm text-center">
+                  プレビューは表示されませんが、送信後に再生可能です。
+                  <br />
+                  ご安心ください。
+                </p>
               ) : (
                 <video
                   controls
@@ -275,7 +281,7 @@ const SchoolTrigger = () => {
         </div>
         入学案内
         <Textarea
-          placeholder="入学手続きの詳細を軽く書いてください..."
+          placeholder="入学手続きの詳細やコメント・備考などを軽く書いてください..."
           className={`min-h-[100px] text-lg border-1 border-white bg-white
              dark:bg-black rounded-md dark:border-gray-700 
              ${

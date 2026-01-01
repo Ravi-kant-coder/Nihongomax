@@ -11,7 +11,9 @@ import {
   Languages,
   ArrowBigDown,
   Phone,
+  MonitorSmartphone as Mobile,
 } from "lucide-react";
+import AutoLoopVideo from "../AutoLoopVideo";
 
 const SchoolsInJapan = () => {
   const today = new Date();
@@ -47,9 +49,9 @@ const SchoolsInJapan = () => {
           className="md:text-2xl font-semibold flex justify-center
         items-center dark:text-gray-400"
         >
-          貴校情報は下記のような広告になります。
+          貴校募集情報は下記のようになります。
           <ArrowBigDown fill="black" size={40} className="mx-2 shrink-0" />
-          (また、7678461209 まで、お電話を)
+          (または、nihongomax@gmail.com まで、ご連絡)
         </h2>
 
         {/* --------------------------Sample School Post---------------------------- */}
@@ -59,16 +61,29 @@ const SchoolsInJapan = () => {
                  border-black dark:border-gray-200 dark:bg-black"
           >
             <div className="flex flex-col items-start justify-between">
-              <div className="flex items-center">
-                <div className="relative mx-auto my-auto overflow-hidden rounded mr-4">
-                  <Avatar className="w-30 h-20 rounded">
-                    <AvatarImage src={"/try.jpg"} className="object-cover" />
-                    <AvatarFallback
-                      className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
-                          font-semibold rounded mr-2 text-2xl"
-                    >
-                      N
-                    </AvatarFallback>
+              <div className="items-center">
+                <div
+                  className="relative mx-auto my-auto overflow-hidden rounded flex
+                     space-x-2 mb-2 flex-wrap"
+                >
+                  <Avatar className="w-55 h-50 rounded">
+                    <AvatarImage
+                      src={"/japan-buildings.jpg"}
+                      className="object-cover"
+                    />
+                  </Avatar>
+                  <Avatar className="w-55 h-50 rounded">
+                    <AvatarImage src={"/art.jpg"} className="object-cover" />
+                  </Avatar>
+                  <div className="w-55 h-50 rounded">
+                    <AutoLoopVideo src={"/JapanVideo.mp4"} />
+                  </div>
+
+                  <Avatar className="w-55 h-50 rounded">
+                    <AvatarImage
+                      src={"/Himeji-Castle.jpg"}
+                      className="object-cover"
+                    />
                   </Avatar>
                 </div>
                 <div>
@@ -76,7 +91,7 @@ const SchoolsInJapan = () => {
                     className="font-semibold md:text-2xl text-xl text-gray-700
                      dark:text-gray-300"
                   >
-                    New Technologies xyz Pvt. Ltd.
+                    模擬日本語学校 Academy
                   </p>
                   <p
                     className="text-xs flex flex-col md:text-sm
@@ -87,54 +102,57 @@ const SchoolsInJapan = () => {
                 </div>
               </div>
             </div>
-            <p className="md:text-xl font-semibold dark:font-normal">
-              Japanese Language Translator cum Interpreter, Product Manager
+            <p className="md:text-lg text-sm text-gray-800 dark:text-gray-200">
+              模擬日本語学校 Academy
+              は、2020年から日本全国での外国人向けの日本語教育を実践している学校です。
+              <br />
+              模擬日本語学校 Academy is a reputed Japanese Language school in
+              Japan that Provides excellent Japanese Language courses for
+              Foreigner students since 2020.
+              本校は、初心者から上級者まで幅広いレベルの学習者を対象とした日本語学校です。
+              経験豊富な講師陣による丁寧な指導と、実践的なカリキュラムを提供しています。
+              進学・就職を目指す方を全力でサポートいたします。
             </p>
             <div>
               <div className="mb-2">
-                <p className="font-semibold flex items-center dark:font-normal">
-                  Requirements:
+                <p className="font-semibold flex items-center dark:font-normal md:text-md">
+                  年間募集回数 - &nbsp;<span> 春、秋、冬、夏、年4回です。</span>
                 </p>
-                <span>
-                  {" "}
-                  New Technologies xyz Pvt. Ltd. is the largest private provider
-                  of IT services in Japan, We are looking for candidates who are
-                  driven and motivated in developing next generation
-                  technologies. We are excited to welcome you to our family
-                  brimming with innovation and the love for UI-UX.
-                </span>
               </div>
               <div className="dark:text-gray-400 md:space-y-3 space-y-1">
                 <div className="flex items-center text-sm">
                   <MapPin size={18} strokeWidth={2} className="mr-2" />{" "}
-                  <p className="font-semibold mr-2">Location:</p>
-                  Gurgaon, Haryana, India
+                  <p className="font-semibold mr-2">住所 - &nbsp;</p>T -123,
+                  Sample Building, Shinjuku, Tokyo, Japan
                 </div>
                 <div className="flex items-center text-sm">
-                  <IndianRupee size={16} strokeWidth={2} className="mr-2" />
-                  <p className="font-semibold mr-2">Salary:</p>
-                  50,000 - 60,000 per month
+                  <Mobile size={16} strokeWidth={2} className="mr-2" />
+                  <p className="font-semibold mr-2">ホームページ - &nbsp;</p>
+                  <a
+                    href="https://learnjapanesedelhi.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    www.japaneseschool.com
+                  </a>
                 </div>
                 <div className="flex items-center text-sm">
                   <Mail size={16} strokeWidth={2} className="mr-2" />
-                  <p className="font-semibold mr-2">Email:</p>
-                  dummy@email.com
+                  <p className="font-semibold mr-2">メール - &nbsp;</p>
+                  marumaru@email.com
                 </div>
                 <div className="flex items-center text-sm">
                   <Phone size={16} strokeWidth={2} className="mr-2" />
-                  <p className="font-semibold mr-2">Mobile:</p>
-                  9999999999
+                  <p className="font-semibold mr-2">連絡先 - &nbsp;</p>
+                  +81-99999999
                 </div>
-                <div className="items-center text-sm">
-                  <p className="font-semibold">Job&nbsp;Description:</p>
-                  <span>
-                    The candidate has to frequently travel to Japan, besides the
-                    breifing and translating the documents, the candidate will
-                    also be responsible for managing the product and ensuring
-                    the quality of the product. If you are driven and have a
-                    passion for technology and a desire to inspire and share
-                    your knowledge !
-                  </span>
+                <div>
+                  <p>
+                    本校では、日本語能力の向上だけでなく、日本社会で必要とされる実践力の習得を重視しています。
+                    留学ビザの取得から進学・就職まで、総合的なサポートを行っています。入学をご希望の方は、
+                    Nihongomaxの所定の申込書をご提出ください。入学経路は、オンライン面接または対面面接のいずれかを選択できます。
+                    書類審査および面接後、合否結果をご連絡いたします。
+                  </p>
                 </div>
               </div>
             </div>
@@ -145,11 +163,9 @@ const SchoolsInJapan = () => {
                      dark:hover:bg-red-700 hover:bg-gray-700  hover:text-white
                       py-2 px-4 rounded font-semibold dark:font-normal"
                 >
-                  Edit this Job-Post
+                  編集 Edit
                 </button>
-                <p className="dark:text-gray-500">
-                  Only you will see this button
-                </p>
+                <p className="dark:text-gray-500">このボタンはご本人のみ表示</p>
               </div>
               <div className="text-sm md:ml-10">
                 <button
@@ -158,16 +174,14 @@ const SchoolsInJapan = () => {
                      dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
                       px-4 rounded font-semibold dark:font-normal"
                 >
-                  Delete this Job-Post
+                  削除 Delete
                 </button>
-                <p className="dark:text-gray-500">
-                  Only you will see this button
-                </p>
+                <p className="dark:text-gray-500">このボタンはご本人のみ表示</p>
               </div>
             </div>
           </div>
 
-          {/*-----------------------------Job Delete Modal-------------------------- */}
+          {/*-----------------------------School Delete Modal-------------------------- */}
           {showModal && (
             <div
               className="fixed inset-0 z-50 flex items-center justify-center

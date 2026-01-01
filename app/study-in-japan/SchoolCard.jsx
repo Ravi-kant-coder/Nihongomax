@@ -7,6 +7,7 @@ import { formateDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
 import EditJob from "./EditSchool";
 import JobTrigger from "../recruiters/JobTrigger";
+import Linkify from "linkify-react";
 
 const SchoolCard = ({ school, handleSchoolDelete }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -73,6 +74,20 @@ const SchoolCard = ({ school, handleSchoolDelete }) => {
                 <p className="font-semibold mr-2">Location:</p>
                 {school?.location || "Remote"}
               </div>
+              リンクだけを入力ください
+              <Linkify
+                options={{
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                }}
+              >
+                Visit https://learnjapanesedelhi.com for details
+              </Linkify>
+              {/* {website && (
+                <a href={website} target="_blank" rel="noopener noreferrer">
+                  {website}
+                </a>
+              )} */}
               <div className="flex items-center text-sm">
                 <IndianRupee size={16} strokeWidth={2} className="mr-2" />
                 <p className="font-semibold mr-2">Salary:</p>

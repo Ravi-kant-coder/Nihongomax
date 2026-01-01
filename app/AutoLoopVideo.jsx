@@ -28,7 +28,7 @@ const AutoLoopVideo = ({ src }) => {
             }
           });
         }
-      }, 4000);
+      }, 5000);
     };
 
     startAutoLoop();
