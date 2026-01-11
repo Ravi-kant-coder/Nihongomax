@@ -251,7 +251,7 @@ const Page = () => {
             height={300}
             className="w-80"
           />
-          <p className="font-semibold">Some Features' Overview</p>
+          <p className="font-semibold">Some Features Overview</p>
           <ul className="list-disc list-outside text-left mt-2">
             <li>
               Complete courses with explanation perfectly divided from JLPT N5
