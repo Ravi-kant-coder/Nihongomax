@@ -462,7 +462,7 @@ const Page = () => {
         undisturbed and to remain the sprits high, Nihongomax has Online
         Japanese language courses for the students who were already enrolled in
         classes and for the new ones who want to keep their lives safe and at
-        the same time they don’t want to waste their time in contemporary era
+        the same time they do not want to waste their time in contemporary era
         where everyone is indulged in making his/her career on the fast track.
         There are the courses that are tailor made for the students who know
         nothing about Japanese language and want to learn it from the very
@@ -701,7 +701,7 @@ const Page = () => {
         Japanese language courses provided on nihongomax.com have been set high
         for the students who want to learn till advanced Japanese language in
         short time. The fee is set very low as Nihongomax understands the heart
-        of students who want to build their career and still don’t have enough
+        of students who want to build their career and still do not have enough
         amount to pay. Also it is said by the students who come to Nihongomax
         after studying from other institutes, that the quality of all the
         Japanese language courses in Nihongomax are excellent as compared to any
