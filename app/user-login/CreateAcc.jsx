@@ -116,7 +116,7 @@ const CreateAcc = () => {
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900 z-1000"
+          className="space-y-2 p-4 rounded-lg bg-gray-400 dark:bg-gray-900 z-1000 relative"
         >
           <p className="text-center text-sm mb-2 dark:text-gray-300">
             New here? Create account
@@ -139,7 +139,9 @@ const CreateAcc = () => {
               className="col-span-3 bg-white"
             />
             {errorsSignUp.username && (
-              <p className="text-red-500">{errorsSignUp.username.message}</p>
+              <p className="text-red-700 dark:text-red-400 text-center text-sm">
+                {errorsSignUp.username.message}
+              </p>
             )}
           </div>
           <div>
@@ -154,11 +156,13 @@ const CreateAcc = () => {
               className="col-span-3 bg-white"
             />
             {errorsSignUp.email && (
-              <p className="text-red-500">{errorsSignUp.email.message}</p>
+              <p className="text-red-700 dark:text-red-400 text-center text-sm">
+                {errorsSignUp.email.message}
+              </p>
             )}
           </div>
 
-          {/* Password field with show/hide */}
+          {/* Password fields with show/hide eye*/}
           <div className="relative">
             <Label htmlFor="signupPassword" className="sr-only">
               Create New Password
@@ -173,17 +177,18 @@ const CreateAcc = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500
-               hover:text-gray-700"
+              className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-600
+               hover:text-gray-800 cursor-pointer"
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
             </button>
-            {errorsSignUp.password && (
-              <p className="text-red-500">{errorsSignUp.password.message}</p>
-            )}
           </div>
-
-          {/* Confirm password field */}
+          {errorsSignUp.password && (
+            <p className="text-red-700 dark:text-red-400 text-center text-sm">
+              {errorsSignUp.password.message}
+            </p>
+          )}
+          {/* Confirm password field with show/hide eye*/}
           <div className="relative">
             <Label htmlFor="confirmPassword" className="sr-only">
               Confirm Password
@@ -193,23 +198,22 @@ const CreateAcc = () => {
               type={showConfirmPassword ? "text" : "password"}
               {...registerSignUp("confirmPassword")}
               placeholder="Confirm Password"
-              className="col-span-3 bg-white pr-10"
+              className="col-span-3 bg-white"
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500
-               hover:text-gray-700"
+              className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-600
+               hover:text-gray-800 cursor-pointer"
             >
-              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showConfirmPassword ? <Eye size={18} /> : <EyeOff size={18} />}
             </button>
-            {errorsSignUp.confirmPassword && (
-              <p className="text-red-500">
-                {errorsSignUp.confirmPassword.message}
-              </p>
-            )}
           </div>
-
+          {errorsSignUp.confirmPassword && (
+            <p className="text-red-700 dark:text-red-400 text-center text-sm">
+              {errorsSignUp.confirmPassword.message}
+            </p>
+          )}
           <div className="flex flex-col items-center">
             <Controller
               control={control}

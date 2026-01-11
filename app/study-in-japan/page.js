@@ -42,9 +42,13 @@ const StudyInJapan = () => {
             <h1> Click to Learn all about Study in Japan</h1>
           </div>
         </a>
-        <h1 className="md:text-4xl text-2xl text-center font-bold mb-4">
+        <h1 className="md:text-4xl text-2xl text-center font-bold">
           Study in Japan
         </h1>
+        <h2 className="text-2xl text-center my-4 font-medium">
+          Prestigeous Schools, Academies and Institutions in Japan Nihongomax
+          has tie-up with.
+        </h2>
         {schools?.length > 0 ? (
           schools?.map((school, index) => (
             <SchoolCard

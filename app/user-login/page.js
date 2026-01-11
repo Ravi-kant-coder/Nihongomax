@@ -3,6 +3,7 @@ import Login from "./Login";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TryWithoutLogin from "./TryWithoutLogin";
+import ForgotPassword from "./ForgotPassword";
 
 const Page = () => {
   return (
@@ -70,7 +71,7 @@ const Page = () => {
               <CreateAcc />
               <Avatar className="w-70 h-70 n5-animate my-2">
                 <AvatarImage
-                  src="/tsukimi2.png"
+                  src="/tsukimi.png"
                   className="object-cover opacity-80"
                 />
                 <AvatarFallback
@@ -147,7 +148,7 @@ const Page = () => {
           Just Create Account and get N5 to N1. <br />
           Also Apply for Jobs, <br />
           Schools in Japan, <br />
-          Play Kanji Games,
+          Play Japanese words Games,
           <br />
           Show your profile to Recruiters.
         </p>

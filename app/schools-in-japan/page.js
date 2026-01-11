@@ -6,9 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import SchoolTrigger from "./SchoolTrigger";
 import {
   MapPin,
-  IndianRupee,
   Mail,
-  Languages,
   ArrowBigDown,
   Phone,
   MonitorSmartphone as Mobile,
@@ -42,7 +40,7 @@ const SchoolsInJapan = () => {
         >
           Show your School to over 10,000 students looking to study in Japan.
         </h2>
-        <div className="flex justify-center items-center mt-6">
+        <div className="flex justify-center items-center mt-4">
           <SchoolTrigger />
         </div>
         <h2
@@ -58,54 +56,51 @@ const SchoolsInJapan = () => {
         <div className="flex md:mx-20 md:my-8 flex-col mx-4 md:ml-30 mb-20 ">
           <div
             className="my-2 bg-white rounded-xl p-6 md:space-y-4 space-y-2 border
-                 border-black dark:border-gray-200 dark:bg-black"
+                 border-black dark:bg-black"
           >
             <div className="flex flex-col items-start justify-between">
-              <div className="items-center">
-                <div
-                  className="relative mx-auto my-auto overflow-hidden rounded flex
+              <div
+                className="relative mx-auto my-auto overflow-hidden rounded flex
                      space-x-2 mb-2 flex-wrap"
-                >
-                  <Avatar className="w-55 h-50 rounded">
-                    <AvatarImage
-                      src={"/japan-buildings.jpg"}
-                      className="object-cover"
-                    />
-                  </Avatar>
-                  <Avatar className="w-55 h-50 rounded">
-                    <AvatarImage src={"/art.jpg"} className="object-cover" />
-                  </Avatar>
-                  <div className="w-55 h-50 rounded">
-                    <AutoLoopVideo src={"/JapanVideo.mp4"} />
-                  </div>
+              >
+                <Avatar className="w-55 h-50 rounded">
+                  <AvatarImage
+                    src={"/japan-buildings.jpg"}
+                    className="object-cover"
+                  />
+                </Avatar>
+                <Avatar className="w-55 h-50 rounded">
+                  <AvatarImage src={"/art.jpg"} className="object-cover" />
+                </Avatar>
+                <div className="w-55 h-50 rounded">
+                  <AutoLoopVideo src={"/JapanVideo.mp4"} />
+                </div>
 
-                  <Avatar className="w-55 h-50 rounded">
-                    <AvatarImage
-                      src={"/Himeji-Castle.jpg"}
-                      className="object-cover"
-                    />
-                  </Avatar>
-                </div>
-                <div>
-                  <p
-                    className="font-semibold md:text-2xl text-xl text-gray-700
+                <Avatar className="w-55 h-50 rounded">
+                  <AvatarImage
+                    src={"/Himeji-Castle.jpg"}
+                    className="object-cover"
+                  />
+                </Avatar>
+              </div>
+              <div>
+                <p
+                  className="font-semibold md:text-2xl text-xl text-gray-700
                      dark:text-gray-300"
-                  >
-                    模擬日本語学校 Academy
-                  </p>
-                  <p
-                    className="text-xs flex flex-col md:text-sm
+                >
+                  模擬日本語学校 Academy
+                </p>
+                <p
+                  className="text-xs flex flex-col md:text-sm
                          text-gray-700 dark:text-gray-400"
-                  >
-                    {formattedDate}
-                  </p>
-                </div>
+                >
+                  {formattedDate}
+                </p>
               </div>
             </div>
             <p className="md:text-lg text-sm text-gray-800 dark:text-gray-200">
               模擬日本語学校 Academy
               は、2020年から日本全国での外国人向けの日本語教育を実践している学校です。
-              <br />
               模擬日本語学校 Academy is a reputed Japanese Language school in
               Japan that Provides excellent Japanese Language courses for
               Foreigner students since 2020.

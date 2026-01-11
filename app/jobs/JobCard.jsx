@@ -6,7 +6,6 @@ import { MapPin, IndianRupee, Mail, Languages, Phone } from "lucide-react";
 import { formateDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
 import EditJob from "./EditJob";
-import JobTrigger from "../recruiters/JobTrigger";
 
 const JobCard = ({ job, handleJobDelete }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -26,28 +25,29 @@ const JobCard = ({ job, handleJobDelete }) => {
             <div className="flex items-center">
               <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
                 <Avatar className="w-30 h-20 rounded mr-2">
-                  {job?.mediaUrl && (
-                    <AvatarImage src={job?.mediaUrl} className="object-cover" />
-                  )}
-
+                  <AvatarImage src={job?.mediaUrl} className="object-cover" />
                   <AvatarFallback
                     className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
-                          font-semibold rounded mr-2 text-2xl"
+                 font-semibold rounded mr-2 text-2xl"
                   >
-                    {job?.company?.charAt(0).toUpperCase()}
+                    {job?.company?.charAt(0)?.toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </div>
+
               <div>
                 <div className="font-semibold text-2xl text-gray-800 dark:text-gray-300">
                   {job?.company}
                 </div>
                 <div
-                  className="text-xs flex flex-col md:text-sm
-                         text-gray-700 dark:text-gray-400 font-normal"
+                  className="text-xs flex flex-col md:text-sm text-gray-700 
+                  dark:text-gray-400 font-normal"
                 >
                   {formateDate(job?.createdAt)}
                 </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Posted by: {job?.user?.username}
+                </p>
               </div>
             </div>
           </div>

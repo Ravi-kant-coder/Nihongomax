@@ -2,7 +2,11 @@ import axiosInstance from "./url.service";
 
 export const createSchoolService = async (schoolData) => {
   try {
-    const result = await axiosInstance.post("/students/schools", schoolData);
+    const result = await axiosInstance.post("/students/schools", schoolData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return result?.data?.data;
   } catch (error) {
     console.error(error);

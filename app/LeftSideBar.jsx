@@ -70,8 +70,8 @@ const LeftSideBar = () => {
               closeNotificationBox();
             }}
             className="flex items-center group space-x-2 cursor-pointer hover:shadow-lg
-             dark:hover:bg-[rgb(55,55,55)] hover:bg-white rounded-md border p-2
-             border-white dark:border-gray-600 mb-4"
+             dark:bg-[rgb(55,55,55)] rounded-md p-2 bg-white mb-4 
+             dark:hover:bg-[rgb(65,65,65)]"
           >
             {" "}
             <Avatar className="h-9 w-9 cursor-pointer">

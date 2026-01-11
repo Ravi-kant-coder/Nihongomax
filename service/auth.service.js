@@ -1,6 +1,5 @@
 import axiosInstance from "./url.service";
 
-//signUp user
 export const registerUser = async (userData) => {
   console.log("Service me FormData:", [...userData.entries()]);
   try {
@@ -12,7 +11,6 @@ export const registerUser = async (userData) => {
   }
 };
 
-//login user
 export const loginUser = async (userData) => {
   try {
     const response = await axiosInstance.post("/auth/login", userData);
@@ -22,7 +20,18 @@ export const loginUser = async (userData) => {
   }
 };
 
-//logout user
+export const sendResetLink = async (email) => {
+  const res = await axiosInstance.post("/auth/forgot-password", { email });
+  return res.data;
+};
+
+export const resetPassword = async (token, password) => {
+  const res = await axiosInstance.post(`/auth/reset-password/${token}`, {
+    password,
+  });
+  return res.data;
+};
+
 export const logout = async () => {
   try {
     const response = await axiosInstance.get("/auth/logout");
@@ -32,7 +41,6 @@ export const logout = async () => {
   }
 };
 
-//check auth api
 export const checkUserAuth = async () => {
   try {
     const response = await axiosInstance.get("users/check-auth");

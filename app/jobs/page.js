@@ -20,9 +20,9 @@ const Jobs = () => {
   const handleJobDelete = async (jobId) => {
     try {
       const result = await deleteJobZust(jobId);
-      showBanner("✅ Job-Post deleted successfully", "success");
+      showBanner("Job-Post deleted successfully", "success");
     } catch (error) {
-      showBanner("❌ Failed to delete job-post", "error");
+      showBanner("Failed to delete job-post", "error");
     }
   };
 

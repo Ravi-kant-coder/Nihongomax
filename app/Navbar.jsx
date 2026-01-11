@@ -28,7 +28,7 @@ import MsgBox from "./MsgBox";
 import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
 import { Input } from "@/components/ui/input";
-
+import Link from "next/link";
 const Navbar = () => {
   const { closeStudyBox } = useStudyStore();
   const router = useRouter();
@@ -266,7 +266,6 @@ const Navbar = () => {
               <h1> Nihongomax 7678461209</h1>
             </div>
           </a>
-
           {/* -----------------------Notifications button (Mobile)---------------   */}
 
           <div className="md:hidden flex items-center justify-center">

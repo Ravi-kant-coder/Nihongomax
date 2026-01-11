@@ -15,7 +15,7 @@ export const useSchoolStore = create((set) => ({
     set({ loading: true });
     try {
       const schools = await fetchSchoolsService();
-      set({ jobs, loading: false });
+      set({ schools, loading: false });
     } catch (error) {
       set({ error, loading: false });
     }
@@ -26,7 +26,7 @@ export const useSchoolStore = create((set) => ({
     try {
       await deleteSchoolService(schoolId);
       set((state) => ({
-        schools: state.schools.filter((p) => s._id !== schoolId),
+        schools: state.schools.filter((school) => school._id !== schoolId),
         loading: false,
       }));
     } catch (error) {
@@ -36,8 +36,8 @@ export const useSchoolStore = create((set) => ({
   },
 
   createSchoolZust: async (schoolData) => {
-    console.log("Zustand data object:", schoolData);
-    set({ loading: true });
+    console.log("Zustand SchoolData object:", schoolData);
+    set({ loading: true, error: null });
     try {
       const newSchool = await createSchoolService(schoolData);
       set((state) => ({

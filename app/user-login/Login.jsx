@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -12,12 +12,14 @@ import { LogIn, Eye, EyeOff } from "lucide-react";
 import { loginUser, registerUser } from "@/service/auth.service";
 import userStore from "@/store/userStore";
 import Spinner from "../Spinner";
+import ForgotPassword from "./ForgotPassword";
 
 const Login = () => {
   const router = useRouter();
   const { setUser } = userStore();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const registerSchema = yup.object().shape({
     username: yup.string().required("Name is required"),
@@ -38,7 +40,7 @@ const Login = () => {
       .required("Email is required"),
     password: yup
       .string()
-      .min(6, "Password must be at least 6 characters")
+      .min(6, "At least 6 characters")
       .required("Password is required"),
   });
 
@@ -81,14 +83,22 @@ const Login = () => {
 
   const onSubmitLogin = async (data) => {
     setIsLoading(true);
+    setLoginError(""); // clear old error
+
     try {
       const result = await loginUser(data);
+
       if (result?.status === "success") {
         setUser(result.user);
         router.push("/");
+      } else {
+        // 👇 backend error message
+        setLoginError(result?.message || "Invalid email or password");
       }
     } catch (error) {
-      console.error(error);
+      setLoginError(
+        error?.response?.data?.message || "Something went wrong. Try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -96,11 +106,13 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center">
+      <div
+        className="space-y-4 p-4 rounded-lg bg-gray-400 fixed top-5 right-5
+      dark:bg-gray-800 z-100 w-[200px] md:w-[250px]"
+      >
         <motion.form
           onSubmit={handleSubmitLogin(onSubmitLogin)}
-          className="space-y-2 p-4 rounded-lg bg-gray-400 fixed
-           top-5 right-5 dark:bg-gray-800 z-100"
+          className="space-y-2"
         >
           <div>
             <p className="text-center text-sm dark:text-white">
@@ -121,10 +133,12 @@ const Login = () => {
               className="col-span-3 bg-white"
             />
             {errorsLogin.email && (
-              <p className="text-red-500">{errorsLogin.email.message}</p>
+              <p className="text-red-700 dark:text-red-400 text-center text-sm">
+                {errorsLogin.email.message}
+              </p>
             )}
           </div>
-          <div>
+          <div className="relative">
             <Label htmlFor="loginPassword" className="sr-only">
               Password
             </Label>
@@ -134,20 +148,27 @@ const Login = () => {
               name="password"
               {...registerLogin("password")}
               placeholder="Password"
-              className="col-span-3 bg-white pr-10"
+              className="col-span-3 bg-white"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-6 top-1/2 translate-y-1/2
-               text-gray-600 hover:text-gray-800"
+              className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-600
+               hover:text-gray-800 cursor-pointer"
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
             </button>
-            {errorsLogin.password && (
-              <p className="text-red-500">{errorsLogin.password.message}</p>
-            )}
           </div>
+          {errorsLogin.password && (
+            <p className="text-red-700 dark:text-red-400 text-center text-sm">
+              {errorsLogin.password.message}
+            </p>
+          )}
+          {loginError && (
+            <p className="text-center text-sm text-red-700 dark:text-red-400">
+              {loginError}
+            </p>
+          )}
           <Button
             className="w-full cursor-pointer dark:bg-black text-white"
             type="submit"
@@ -155,6 +176,7 @@ const Login = () => {
             <LogIn className="mr-2 w-4 h-4" /> Log in
           </Button>
         </motion.form>
+        <ForgotPassword />
       </div>
       <div>
         {isLoading && (

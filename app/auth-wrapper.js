@@ -14,9 +14,9 @@ export default function AuthWrapper({ children }) {
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const isResetPasswordPage = pathname.startsWith("/reset-password");
   const isLoginPage = pathname === "/user-login";
-  const isFreeClassPage = pathname.startsWith("/free-classes");
+  const isPublicPage = isLoginPage || isResetPasswordPage;
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -55,7 +55,7 @@ export default function AuthWrapper({ children }) {
       }
 
       // 👇 Don't redirect for login page or free class pages
-      if (!isLoginPage && !isFreeClassPage) {
+      if (!isPublicPage) {
         router.push("/user-login");
       }
 
@@ -67,15 +67,14 @@ export default function AuthWrapper({ children }) {
     };
 
     // ✅ Skip auth check for login page AND free class pages
-    if (!isLoginPage && !isFreeClassPage) {
+    if (!isPublicPage) {
       checkAuth();
     } else {
       setLoading(false);
     }
-  }, [isLoginPage, isFreeClassPage, router, setUser, clearUser]);
+  }, [isLoginPage, isResetPasswordPage, router, setUser, clearUser]);
 
-  // ✅ Spinner only while checking auth (not on free pages)
-  if (loading && !isFreeClassPage) {
+  if (loading && !isPublicPage) {
     return <Spinner />;
   }
 
@@ -87,7 +86,7 @@ export default function AuthWrapper({ children }) {
           <NavbarBelow />
         </>
       )}
-      {(isAuthenticated || isLoginPage || isFreeClassPage) && children}
+      {(isAuthenticated || isPublicPage) && children}
     </>
   );
 }

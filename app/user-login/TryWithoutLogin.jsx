@@ -49,7 +49,7 @@ const TryWithoutLogin = () => {
           {
             id: 2,
             label: "N5 Class 1",
-            navPath: "/free-classes/n5class1.html",
+            navPath: "/friends",
             icon: BookOpen,
           },
           {

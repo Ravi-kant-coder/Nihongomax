@@ -41,7 +41,6 @@ const jobSchema = yup.object().shape({
 const JobTrigger = () => {
   const [filePreview, setFilePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fileType, setFileType] = useState("");
   const { user } = userStore();
   const fileInputRef = useRef(null);
   const today = new Date();
@@ -53,7 +52,6 @@ const JobTrigger = () => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
-
   const {
     register,
     handleSubmit,
@@ -64,9 +62,13 @@ const JobTrigger = () => {
   });
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      e.target.value = "";
+      return;
+    }
     setSelectedFile(file);
-    setFileType(file.type);
     setFilePreview(URL.createObjectURL(file));
   };
 
@@ -129,30 +131,20 @@ const JobTrigger = () => {
             onClick={() => fileInputRef.current.click()}
           >
             {filePreview ? (
-              fileType.startsWith("image") ? (
-                <img
-                  src={filePreview}
-                  alt="preview_img"
-                  className="w-full h-auto max-h-[200px] object-cover rounded"
-                />
-              ) : (
-                <video
-                  controls
-                  src={filePreview}
-                  className="w-full h-auto max-h-[200px] object-cover"
-                />
-              )
+              <img
+                src={filePreview}
+                alt="Can't Upload"
+                className="w-full h-auto max-h-[200px] object-cover rounded"
+              />
             ) : (
               <div className="flex flex-col items-center">
                 <Plus className="h-12 w-12 dark:text-gray-400 text-gray-700 mb-2" />
-                <p className="text-center dark:text-gray-400">
-                  Add Company Photo/video
-                </p>
+                <p className="text-center dark:text-gray-400">Add Photo</p>
               </div>
             )}
             <input
               type="file"
-              accept="image/*,video/*"
+              accept="image/*"
               className="hidden"
               onChange={handleFileChange}
               ref={fileInputRef}
@@ -294,7 +286,7 @@ const JobTrigger = () => {
             className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
            ${
              submitted
-               ? "bg-green-300 hover:bg-green-300 text-black dark:bg-green-950 dark:text-white dark:hover:bg-green-950"
+               ? "bg-green-600 text-black dark:bg-green-900 dark:text-white"
                : "bg-black dark:text-gray-400 hover:bg-gray-900"
            }`}
             disabled={loading}
