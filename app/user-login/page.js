@@ -243,7 +243,7 @@ const Page = () => {
         </div>
       </div>
       <div className="flex justify-center items-center mx-20">
-        <div className="text-center text-xl text-gray-800  my-5">
+        <div className="text-center text-xl text-gray-800 my-5">
           <Image
             src="/svgs/nihongomax_features.svg"
             alt="japanese_career"
@@ -251,6 +251,7 @@ const Page = () => {
             height={300}
             className="w-80"
           />
+          <p className="font-semibold">Some features</p>
           <ul className="list-disc list-outside text-left mt-2">
             <li>
               Complete courses with explanation perfectly divided from JLPT N5
