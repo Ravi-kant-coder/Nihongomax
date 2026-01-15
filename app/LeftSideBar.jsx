@@ -13,8 +13,9 @@ import {
   Handshake,
   ChartNoAxesCombined,
   TvMinimalPlay,
-  Search,
+  Building2,
   BookOpen,
+  PlusCircle,
 } from "lucide-react";
 import useMsgStore from "@/store/useMsgStore";
 import useNotificationStore from "@/store/useNotificationStore";
@@ -52,16 +53,10 @@ const LeftSideBar = () => {
 
   return (
     <>
-      {" "}
-      {isPending && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-white/30
-        dark:bg-black/60 backdrop-blur-xs z-[9999]"
-        >
-          <Spinner />
-        </div>
-      )}
-      <aside className="fixed h-full hidden w-70 md:p-1 md:flex flex-col z-50 md:z-0">
+      <aside
+        className="fixed h-full hidden md:p-1 md:flex flex-col z-50 md:z-0 md:mt-20 p-2 md:w-1/6 overflow-y-auto 
+      scroll-smooth overscroll-contain md:ml-2"
+      >
         <nav className="space-y-3 flex-grow h-full flex flex-col overflow-y-auto">
           <div
             onClick={() => {
@@ -83,9 +78,9 @@ const LeftSideBar = () => {
                 {user?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <div>
+            <div className="max-w-[200px]">
               <div className="font-semibold capitalize">My profile</div>
-              <div className="capitalize text-xs truncate">
+              <div className="capitalize text-xs truncate w-full">
                 {user?.username}
               </div>
             </div>
@@ -107,8 +102,8 @@ const LeftSideBar = () => {
             }}
           >
             <div className="relative">
-              <div className="flex">
-                <Users className="mr-4 w-5 h-5" />
+              <div className="flex items-center">
+                <Users className="mr-4 w-6 h-6" />
                 Friends
               </div>
               {unreadCount > 0 && (
@@ -129,15 +124,15 @@ const LeftSideBar = () => {
                 ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                 : "bg-transparent"
             } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold flex
-             items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
+             items-center justify-start p-2 rounded-md hover:shadow-lg`}
             onClick={() => {
               toggleNotificationBox();
               closeMsgBox();
             }}
           >
             <div className="relative">
-              <div className="flex">
-                <Bell className="mr-4 w-5 h-5" />
+              <div className="flex items-center">
+                <Bell className="mr-4 w-6 h-6" />
                 Notifications
               </div>
               {unreadCount > 0 && (
@@ -166,8 +161,8 @@ const LeftSideBar = () => {
             }}
           >
             <div className="relative">
-              <div className="flex">
-                <MessageCircle className="mr-4 w-5 h-5" />
+              <div className="flex items-center">
+                <MessageCircle className="mr-4 w-6 h-6" />
                 Messages
               </div>
               {unreadCount > 0 && (
@@ -183,52 +178,58 @@ const LeftSideBar = () => {
 
           {[
             {
-              id: 4,
+              id: 1,
               label: "Home",
               navPath: "/",
               icon: Home,
             },
             {
-              id: 5,
+              id: 2,
               label: "Videos",
               navPath: "/videos",
               icon: TvMinimalPlay,
             },
             {
-              id: 6,
+              id: 3,
               label: "About Jobs in Japan",
               navPath: "/about-jobs",
               icon: BriefcaseBusiness,
             },
             {
-              id: 7,
+              id: 4,
               label: "Study in Japan",
               navPath: "/study-in-japan",
               icon: School,
             },
             {
-              id: 11,
+              id: 5,
               label: "Notes",
               navPath: "/notes",
               icon: BookOpen,
             },
             {
-              id: 8,
+              id: 6,
               label: "Word Game",
               navPath: "/games",
               icon: Dices,
             },
             {
-              id: 9,
+              id: 7,
               label: "Apply for Jobs",
               navPath: "/jobs",
               icon: Handshake,
             },
             {
-              id: 10,
+              id: 8,
               label: "For Recruiters",
               navPath: "/recruiters",
               icon: ChartNoAxesCombined,
+            },
+            {
+              id: 9,
+              label: "学校掲載投稿",
+              navPath: "/schools-in-japan",
+              icon: Building2,
             },
           ].map(({ id, label, icon: Icon, navPath }) => {
             const isActive = pathname === navPath;
@@ -249,13 +250,21 @@ const LeftSideBar = () => {
                 }}
                 key={id}
               >
-                <Icon className="mr-4 w-5 h-5" />
+                <Icon className="mr-4 w-6 h-6" />
                 {label}
               </motion.button>
             );
           })}
         </nav>
       </aside>
+      {isPending && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/30
+        dark:bg-black/60 backdrop-blur-xs z-[9999]"
+        >
+          <Spinner />
+        </div>
+      )}
     </>
   );
 };

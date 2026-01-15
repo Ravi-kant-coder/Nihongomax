@@ -50,7 +50,7 @@ const Wall = () => {
   };
 
   return (
-    <div className="md:px-10 md:p-1 mb-20">
+    <div className="mb-20 dark:bg-[rgb(30,30,30)] p-2 md:max-w-1/2 gap-4">
       <PostTrigger
         isPostTriggerOpen={isPostTriggerOpen}
         setIsPostTriggerOpen={setIsPostTriggerOpen}

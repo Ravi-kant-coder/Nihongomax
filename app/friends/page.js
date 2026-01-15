@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import LeftSideBar from "@/app/LeftSideBar";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import FriendRequestCard from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";
@@ -41,12 +40,9 @@ const Page = () => {
   };
 
   return (
-    <div className="md:mt-18 mt-25 mb-20">
-      <div className="p-2 w-1/5 overflow-y-auto scroll-smooth overscroll-contain">
-        <LeftSideBar />
-      </div>
-      <div className="">
-        <main className="md:ml-80 mx-4 mb-20">
+    <>
+      <div>
+        <div className="mb-20">
           <h1 className="text-2xl font-semibold mb-6">
             {friendRequest.length > 0
               ? `You Received ${friendRequest.length} `
@@ -74,7 +70,17 @@ const Page = () => {
               ))
             )}
           </div>
-
+          {friendRequest.length > 5 && (
+            <div className="mt-2 flex justify-center">
+              <p
+                className="cursor-pointer hover:bg-gray-100 rounded-md 
+            py-1 px-50 border-white border-2 dark:border-gray-500 dark:hover:bg-black
+            dark:text-gray-300"
+              >
+                Show more...
+              </p>
+            </div>
+          )}
           <h1 className="text-2xl font-semibold my-6">People you may know</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {loading ? (
@@ -95,10 +101,21 @@ const Page = () => {
               ))
             )}
           </div>
-        </main>
+          {friendSuggestion.length > 5 && (
+            <div className="mt-2 flex justify-center">
+              <p
+                className="cursor-pointer hover:bg-gray-100 rounded-md 
+            py-1 px-50 border-white border-2 dark:border-gray-500 dark:hover:bg-black
+            dark:text-gray-300"
+              >
+                Show more...
+              </p>
+            </div>
+          )}
+        </div>
       </div>
       <ScrollupBtn />
-    </div>
+    </>
   );
 };
 

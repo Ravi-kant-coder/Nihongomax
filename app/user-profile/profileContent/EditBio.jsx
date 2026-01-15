@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogTitle,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -35,6 +36,9 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogTitle className="text-center">
+        Edit Your Profile Information
+      </DialogTitle>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="bg-[rgb(240,240,240)] text-black rounded mt-2 pl-1">
           Provide your details to let the Employers know you better. (Try to

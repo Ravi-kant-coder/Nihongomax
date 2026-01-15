@@ -101,7 +101,7 @@ const StoryCard = ({ isAddStory, story }) => {
 
   return (
     <div
-      className="md:min-w-[100px] md:h-[180px] min-w-[80px] overflow-hidden rounded-md 
+      className="md:min-w-[120px] md:h-[200px] min-w-[80px] overflow-hidden rounded-md 
       shadow-lg shadow-gray-400 dark:shadow-[rgb(20,20,20)] mb-4"
     >
       <Card

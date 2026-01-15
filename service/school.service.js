@@ -1,6 +1,6 @@
 import axiosInstance from "./url.service";
 
-export const createSchoolService = async (schoolData) => {
+export const createSchoolService = async (schoolData, onProgress) => {
   try {
     const result = await axiosInstance.post("/students/schools", schoolData, {
       headers: {

@@ -19,6 +19,7 @@ import {
   Plane,
   Rss,
   Trash2,
+  BookHeart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MutualFriends from "./profileContent/MutualFriends";
@@ -81,7 +82,6 @@ const ProfileDetails = ({
       console.error(error);
     }
   };
-  // const filteredPosts = posts.filter((post) => post?.user?._id === id);
   return (
     <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 md:px-0 mt-8">
       <div className="w-full md:min-w-[40%] space-x-0 space-y-6 mb-4">
@@ -91,7 +91,7 @@ const ProfileDetails = ({
             className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 
             shadow-lg dark:shadow-black"
           >
-            <h2 className="text-xl font-semibold mb-4 dark:text-gray-300 capitalize">
+            <h2 className="text-xl font-semibold dark:text-gray-300 capitalize">
               {isOwner ? "Your" : `${profileData?.username?.split(" ")[0]}'s`}{" "}
               Introduction
             </h2>
@@ -99,41 +99,54 @@ const ProfileDetails = ({
               {profileData?.bio?.bioText}
             </p>
             <div className="space-y-2 mb-4 dark:text-gray-300">
-              <div className="flex items-center">
-                <GraduationCap className="w-5 h-5 mr-2 shrink-0" />
-                Education:
-                <span className="ml-2"> {profileData?.bio?.liveIn}</span>
+              <div className="flex flex-col">
+                <div className="flex items-center font-semibold">
+                  <GraduationCap className="w-5 h-5 mr-1 shrink-0" />
+                  Education:
+                </div>
+                <span className="ml-2">{profileData?.bio?.liveIn}</span>
               </div>
-              <div className="flex items-center">
-                <Languages className="w-5 h-5 mr-2 shrink-0" />
-                JLPT/NAT cleared:
+              <div className="flex flex-col">
+                <div className="flex items-center font-semibold">
+                  <Languages className="w-5 h-5 mr-1 shrink-0" />
+                  JLPT/NAT cleared:
+                </div>
                 <span className="ml-2">{profileData?.bio?.relationship}</span>
               </div>
-              <div className="flex items-center">
-                <MapPin className="w-5 h-5 mr-2 shrink-0" />
-                Work Place:
+              <div className="flex flex-col">
+                <div className="flex items-center font-semibold">
+                  <MapPin className="w-5 h-5 mr-1 shrink-0" />
+                  Work Place:
+                </div>
+                <span className="ml-2">{profileData?.bio?.workplace}</span>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center font-semibold">
+                  <Briefcase className="w-5 h-5 mr-1 shrink-0" />
+                  Work Experience:
+                </div>
+                <span className="ml-2">{profileData?.bio?.education}</span>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center font-semibold">
+                  <BookOpenCheck className="w-5 h-5 mr-1 shrink-0" />
+                  Certifications:
+                </div>
                 <span className="ml-2">{profileData?.bio?.hometown}</span>
               </div>
-              <div className="flex items-center">
-                <Briefcase className="w-5 h-5 mr-2 shrink-0" />
-                Work Experience:
-                <span className="ml-2"> {profileData?.bio?.workplace}</span>
+              <div className="flex flex-col">
+                <div className="flex items-center font-semibold">
+                  <Plane className="w-5 h-5 mr-1 shrink-0" />
+                  Japan Experience:
+                </div>
+                <span className="ml-2">{profileData?.bio?.birthday}</span>
               </div>
-              <div className="flex items-center">
-                <BookOpenCheck className="w-5 h-5 mr-2 shrink-0" />
-                Certifications:
-                <span className="ml-2"> {profileData?.bio?.education}</span>
-              </div>
-              <div className="flex items-center">
-                <Plane className="w-5 h-5 mr-2 shrink-0" />
-                Japan Experience:
-                <span className="ml-2">{profileData?.bio?.phone}</span>
-              </div>
-              <div className="">
-                <p>About Me:</p>
-                <span className=" text-gray-800 dark:text-gray-300">
-                  {profileData?.bio?.address}
-                </span>
+              <div className="flex flex-col">
+                <div className="flex items-center font-semibold">
+                  <BookHeart className="w-5 h-5 mr-1 shrink-0" />
+                  About Me:
+                </div>
+                <span className="ml-2">{profileData?.bio?.address}</span>
               </div>
             </div>
             <div className="flex items-center justify-center my-4">
@@ -146,12 +159,14 @@ const ProfileDetails = ({
             <div className="flex items-center mt-2">
               <Mail className="w-5 h-5 mr-2 shrink-0" />
               Email:
-              <span className="ml-2">{profileData?.email}</span>
+              <span className="ml-2">
+                {profileData?.email || "Undisclosed"}
+              </span>
             </div>
             <div className="flex items-center">
               <Phone className="w-5 h-5 mr-2 shrink-0" />
               Phone:
-              <span className="ml-2"> {profileData?.bio?.education}</span>
+              <span className="ml-2"> {profileData?.bio?.phone}</span>
             </div>
             <div className="flex items-center mb-4 dark:text-gray-300">
               <Rss className="w-5 h-5 mr-2 shrink-0" />

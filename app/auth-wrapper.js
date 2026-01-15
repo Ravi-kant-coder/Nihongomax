@@ -7,6 +7,7 @@ import Spinner from "./Spinner";
 import Navbar from "./Navbar";
 import NavbarBelow from "./NavbarBelow";
 import socket from "@/lib/socket";
+import LeftSideBar from "./LeftSideBar";
 
 export default function AuthWrapper({ children }) {
   const { user, setUser, clearUser } = userStore();
@@ -83,6 +84,7 @@ export default function AuthWrapper({ children }) {
       {!isLoginPage && isAuthenticated && (
         <>
           <Navbar />
+          <LeftSideBar />
           <NavbarBelow />
         </>
       )}

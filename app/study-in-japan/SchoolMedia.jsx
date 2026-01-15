@@ -1,46 +1,52 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import ShowSchoolPreview from "./ShowSchoolPreview";
+import MediaPreview from "./MediaPreview";
 import { useState } from "react";
 
 const SchoolMedia = ({ media, school }) => {
-  const [showSchoolPreview, setShowSchoolPreview] = useState(false);
+  const [showMediaPreview, setShowMediaPreview] = useState(false);
   const handleSchoolPreview = () => {
-    setShowSchoolPreview(true);
+    setShowMediaPreview(true);
   };
   return (
     <>
       <div
-        className="relative mx-auto my-auto overflow-hidden rounded p-1"
+        className="relative overflow-hidden rounded-lg bg-black/5 w-full sm:w-[220px] md:w-[240px] lg:w-[260px] ease-in-out
+      aspect-[4/3] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300"
         onClick={() => handleSchoolPreview()}
       >
-        <Avatar className="rounded mr-2 w-55 h-50 cursor-pointer">
-          {media?.url &&
-            (media?.type === "video" ? (
-              <video
-                src={media?.url}
-                className="object-cover rounded"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="metadata"
-              />
-            ) : (
-              <AvatarImage src={media?.url} className="object-cover" />
-            ))}
-          <AvatarFallback
-            className="bg-gray-400 dark:bg-gray-500 lg:text-4xl font-semibold rounded 
-            mr-2 text-2xl"
+        {media?.url ? (
+          media.type === "video" ? (
+            <video
+              src={media.url}
+              className="w-full h-full object-cover absolute inset-0"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+            />
+          ) : (
+            <img
+              src={media.url}
+              className="max-w-full max-h-full object-contain"
+              loading="lazy"
+              alt=""
+            />
+          )
+        ) : (
+          <div
+            className="flex items-center justify-center w-full h-full bg-gray-400 dark:bg-gray-600 text-2xl font-semibold
+           text-white"
           >
             {school?.schoolName?.charAt(0)?.toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+          </div>
+        )}
       </div>
-      {showSchoolPreview && (
-        <ShowSchoolPreview
-          onClose={() => setShowSchoolPreview(false)}
-          picUrl={media.url}
-          mediaType={media.type}
+      {showMediaPreview && (
+        <MediaPreview
+          onClose={() => setShowMediaPreview(false)}
+          url={media.url}
+          type={media.type}
         />
       )}
     </>

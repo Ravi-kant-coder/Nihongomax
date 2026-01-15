@@ -44,6 +44,7 @@ export const useSchoolStore = create((set) => ({
         schools: [newSchool, ...state.schools],
         loading: false,
       }));
+      return newSchool;
     } catch (error) {
       set({ error, loading: false });
       throw error;

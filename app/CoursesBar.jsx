@@ -2,7 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 const CoursesBar = () => {
   return (
-    <div className="fixed flex flex-wrap gap-4">
+    <div
+      className="md:flex flex-wrap gap-4 fixed md:top-20 h-full hidden md:right-20 lg:right-10 p-2 md:w-1/3
+    overflow-y-auto scroll-smooth overscroll-contain"
+    >
       <div
         className="relative text-3xl text-gray-700 font-semibold
        p-2 rounded-xl bg-white border border-gray-300 hover:scale-102

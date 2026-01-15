@@ -55,7 +55,6 @@ export default function ChatPage() {
                   <X size={20} />
                 </button>
               </div>
-
               <ChatList
                 activeChatId={activeUser?._id}
                 onSelectUser={(user) => {
@@ -67,17 +66,15 @@ export default function ChatPage() {
           </>
         )}
       </AnimatePresence>
-
-      {/* Chat Window */}
-      <div className=" w-full flex flex-col">
+      <div className="w-full flex flex-col h-screen md:h-160">
         {activeUser ? (
           <ChatWindow user={activeUser} />
         ) : (
           <div
             className="flex items-center justify-center h-full text-gray-600
-          dark:text-gray-300 text-2xl bg-gray-200"
+          dark:text-gray-300 text-2xl bg-gray-300"
           >
-            Select a name to startr messaging
+            Select a Name to Start Messaging
           </div>
         )}
       </div>

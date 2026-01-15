@@ -44,11 +44,7 @@ const MediaSlot = ({
               className="w-full h-auto max-h-[200px] object-cover rounded"
             />
           ) : fileType === "video/avi" ? (
-            <p className="text-sm text-center">
-              プレビューは表示されませんが、送信後に再生可能です。
-              <br />
-              ご安心ください。
-            </p>
+            <p className="text-sm text-center">AVIフォーマット不可</p>
           ) : (
             <video
               controls
@@ -70,12 +66,12 @@ const MediaSlot = ({
         >
           {fileName}
           <br />
-          {slot?.file?.size && <span>({formatFileSize(slot.file.size)})</span>}
+          {slot?.file?.size && <span>{formatFileSize(slot.file.size)}</span>}
         </p>
       )}
       {filePreview && sizeStatus === "large" && (
-        <p className={`text-xs ${borderColor} text-center`}>
-          写真・動画のファイルサイズが大きすぎます。2MB以下のファイルを選択してください。
+        <p className={`text-xs ${borderColor} text-center max-w-[100px]`}>
+          ファイルサイズ2MB以上不可
         </p>
       )}
     </div>

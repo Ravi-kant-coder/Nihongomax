@@ -87,9 +87,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                 <div className="">
                   <p>
                     {user?._id === comment?.user?._id ? (
-                      <span className="font-semibold dark:font-normal text-xs">
-                        You
-                      </span>
+                      <span className="text-xs">You</span>
                     ) : (
                       <span
                         onClick={() => {
@@ -101,8 +99,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                             }
                           });
                         }}
-                        className="font-semibold dark:font-normal text-xs capitalize 
-                        hover:underline cursor-pointer"
+                        className="text-xs capitalize hover:underline cursor-pointer"
                       >
                         {comment?.user?.username}
                       </span>

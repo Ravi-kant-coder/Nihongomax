@@ -1053,8 +1053,8 @@ const Page = () => {
        dark:text-black"
       >
         <div className="text-gray-800 py-4 ">
-          Nihongomax (Formerly Nihonkai) is a Japanese Language Online/Offline
-          Institute in North Campus Delhi
+          Nihongomax is a Japanese Language Online/Offline Institute in North
+          Campus Delhi
           <h1>Mail us: nihongomax@gmail.com</h1>
           <p>
             <a
@@ -1068,7 +1068,7 @@ const Page = () => {
           </p>
         </div>
         <p className="text-gray-600 pb-4">
-          Copyright &copy; 2025 Nihongomax. All rights reserved.
+          Copyright &copy; 2026 Nihongomax. All rights reserved.
           <br /> Any unauthorized use, reproduction, or distribution of content
           will lead to legal action.
         </p>

@@ -53,8 +53,7 @@ const SchoolTrigger = () => {
   const month = today.toLocaleString("en-US", { month: "long" });
   const year = today.getFullYear();
   const formattedDate = `${day}-${month}-${year}`;
-  const { createSchoolZust } = useSchoolStore();
-  const [loading, setLoading] = useState(false);
+  const { createSchoolZust, loading } = useSchoolStore();
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [mediaSlots, setMediaSlots] = useState(Array(4).fill(null));
@@ -66,7 +65,6 @@ const SchoolTrigger = () => {
     if (kb < 1024) {
       return `${kb.toFixed(1)} KB`;
     }
-
     const mb = kb / 1024;
     return `${mb.toFixed(1)} MB`;
   };
@@ -118,7 +116,6 @@ const SchoolTrigger = () => {
 
   const onSubmit = async (data) => {
     try {
-      setLoading(true);
       const schoolData = new FormData();
       schoolData.append("schoolName", data.schoolName);
       schoolData.append("intakes", data.intakes);
@@ -145,7 +142,7 @@ const SchoolTrigger = () => {
     } catch (error) {
       console.error("Click Handler-Error School:", error);
     } finally {
-      setLoading(false);
+      console.log("School submission process completed.");
     }
   };
 
@@ -313,7 +310,7 @@ const SchoolTrigger = () => {
               <Input
                 type="tel"
                 inputMode="numeric"
-                placeholder="ハイフンなし（例: 9012345678）"
+                placeholder="ハイフンなし（例: 7012345678）"
                 className="bg-white dark:bg-black dark:border-gray-700"
                 {...register("mobile", {
                   setValueAs: (value) => value?.replace(/\D/g, ""), // remove dashes/spaces
@@ -370,7 +367,6 @@ const SchoolTrigger = () => {
           >
             {loading ? "送信中..." : submitted ? feedback : "送信する"}
           </Button>
-
           <p className="mb-2 mt-1 dark:text-gray-300 text-sm ml-2">
             編集・削除はいつでも可能です。
           </p>

@@ -1,5 +1,4 @@
 "use client";
-import AutoLoopVideo from "../AutoLoopVideo";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -13,8 +12,9 @@ import { formateDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
 import EditSchool from "./EditSchool";
 import SchoolMedia from "./SchoolMedia";
+import Spinner from "../Spinner";
 
-const SchoolCard = ({ school, handleSchoolDelete }) => {
+const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSchoolEditModal, setShowSchoolEditModal] = useState(false);
   const { user } = userStore();
@@ -32,7 +32,7 @@ const SchoolCard = ({ school, handleSchoolDelete }) => {
       : `https://${school.homepage}`;
 
   return (
-    <div className="md:mx-20 md:my-8 m-6">
+    <div className="md:mx-20 xl:mx-40 md:my-8 m-6">
       <div
         className=" bg-white rounded-xl p-6 md:space-y-4 space-y-2 border border-black
          dark:border-gray-200 dark:bg-black"
@@ -69,10 +69,7 @@ const SchoolCard = ({ school, handleSchoolDelete }) => {
           <div className="font-semibold flex items-center dark:font-normal">
             <MonitorSmartphone size={18} strokeWidth={2} className="mr-2" />{" "}
             Website ホームページ - &nbsp;
-            <span
-              className="ml-2 font-normal text-blue-800 dark:text-blue-500 
-                hover:underline"
-            >
+            <span className="ml-2 font-normal text-blue-800 dark:text-blue-500 hover:underline">
               {school?.homepage && (
                 <a
                   href={homepageUrl}
@@ -108,9 +105,8 @@ const SchoolCard = ({ school, handleSchoolDelete }) => {
             {user?._id === school?.user?._id && (
               <>
                 <button
-                  className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer
-                     dark:hover:bg-gray-900 hover:bg-gray-700  hover:text-white py-2
-                      px-4 rounded font-semibold dark:font-normal"
+                  className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer dark:hover:bg-gray-900 hover:bg-gray-700
+                  hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
                   onClick={() => {
                     setShowSchoolEditModal(true);
                     console.log("Edit school clicked");
@@ -129,9 +125,8 @@ const SchoolCard = ({ school, handleSchoolDelete }) => {
               <>
                 <button
                   onClick={() => setShowDeleteModal(true)}
-                  className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer
-                     dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
-                      px-4 rounded font-semibold dark:font-normal"
+                  className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500
+                  hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
                 >
                   削除する
                 </button>
@@ -143,7 +138,15 @@ const SchoolCard = ({ school, handleSchoolDelete }) => {
           </div>
         </div>
       </div>
-      {/*-----------------------------Job Delete Modal-------------------------- */}
+      {loading && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/30
+              dark:bg-black/60 backdrop-blur-xs z-[9999]"
+        >
+          <Spinner />
+        </div>
+      )}
+      {/*-----------------------------School Delete Confirmation-------------------------- */}
       {showDeleteModal && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center
@@ -187,7 +190,7 @@ const SchoolCard = ({ school, handleSchoolDelete }) => {
           </motion.div>
         </div>
       )}
-      {/*-----------------------------Job Edit Modal-------------------------- */}
+      {/*-----------------------------School Edit Modal-------------------------- */}
       {showSchoolEditModal && (
         <EditSchool
           school={school}
