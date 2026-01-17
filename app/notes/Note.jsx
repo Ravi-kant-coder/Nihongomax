@@ -118,13 +118,14 @@ const Note = ({ initialNote, note }) => {
             </div>
           </>
         )}
-        {/* ----------------------Date--------------------------- */}
-        <div
-          className="absolute bottom-0 right-0 rounded-br-lg flex items-center group shadow-lg
-          rounded-tl-2xl text-xs pb-1 px-2"
-        >
-          {formateDate(note?.createdAt)}
+        {/* ----------------------Created and Updated Date--------------------------- */}
+        <div className="absolute bottom-0 right-0 rounded-br-lg flex items-center group shadow-lg rounded-tl-2xl text-xs pb-1 px-2">
+          Created:&nbsp;{formateDate(note?.createdAt)}
+          {note?.updatedAt && note.updatedAt !== note.createdAt && (
+            <>&nbsp;| Updated:&nbsp;{formateDate(note.updatedAt)}</>
+          )}
         </div>
+
         {/* --------------------Delete Confirmation Modal------------------- */}
         {showDeleteModal && (
           <motion.div

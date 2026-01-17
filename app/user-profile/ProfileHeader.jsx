@@ -2,6 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
   Camera,
   PenLine,
@@ -12,6 +13,7 @@ import {
   MessageCircle,
   User2,
   Users,
+  UserPlus,
 } from "lucide-react";
 import { useRef, useState, useTransition } from "react";
 import { Label } from "@/components/ui/label";
@@ -61,6 +63,7 @@ const ProfileHeader = ({
     friendSuggestion,
     mutualFriends,
   } = userFriendStore();
+  const router = useRouter();
 
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
@@ -70,6 +73,14 @@ const ProfileHeader = ({
 
   const profileImageInputRef = useRef();
   const coverImageInputRef = useRef();
+
+  // -----------------Object state logic---------------------
+
+  const [friendStatus, setFriendStatus] = useState(
+    `${
+      profileData?.username?.split(" ")[0]
+    } is not your friend ${user?.username?.split(" ")[0]}`
+  );
 
   const onSubmitProfile = async (data) => {
     try {
@@ -112,8 +123,6 @@ const ProfileHeader = ({
   const handleAction = async (action, userId) => {
     if (action === "confirm") {
       await followUser(userId);
-      fetchFriendRequest();
-      fetchFriendSuggestion();
     } else if (action === "delete") {
       await deleteUserFromRequest(userId);
       fetchFriendRequest();
@@ -181,8 +190,7 @@ const ProfileHeader = ({
 
   return (
     <div className="relative">
-      {/* --------------------- Cover Photo & Cover Button---------------------------- */}
-
+      {/* ---------------------------- Cover Photo & Cover Button---------------------------- */}
       <div
         className="relative md:h-80 lg:w-[70vw] md:w-[80vw] mx-auto md:rounded-lg h-50
        bg-gray-400  dark:bg-gray-900 overflow-hidden"
@@ -241,7 +249,6 @@ const ProfileHeader = ({
               {profileData?.username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-
           <div
             className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center
             md:text-left flex-grow"
@@ -259,23 +266,17 @@ const ProfileHeader = ({
           </div>
           {!isOwner && (
             <div className="flex flex-col justify-center items-center mt-4 md:mt-0">
-              {true ? (
-                <p className="text-sm truncate">
-                  {profileData?.username?.split(" ")[0]} is not your friend{" "}
-                  {user?.username?.split(" ")[0]}
-                </p>
-              ) : (
-                <p className="text-sm truncate">
-                  {profileData?.username.split(" ")[0]} is already your friend{" "}
-                  {user?.username?.split(" ")[0]}
+              {true && (
+                <p className="text-sm truncate capitalize text-gray-700 dark:text-gray-300 mb-1">
+                  {friendStatus}
                 </p>
               )}
               <Button
                 className="cursor-pointer bg-black text-white dark:hover:bg-black/60
-                 hover:bg-black/80"
-                // onClick={() => handleAction("confirm", friend?._id)}
+                 hover:bg-black/70"
+                // onClick={() => handleAction("confirm", profileData?.username?._id)}
               >
-                <Users className="w-4 h-4 mr-2" />
+                <UserPlus className="w-4 h-4 mr-2" />
                 Send Friend Request
               </Button>
             </div>
@@ -293,18 +294,23 @@ const ProfileHeader = ({
             </Button>
           ) : (
             <Button
-              className="z-11 cursor-pointer flex items-center mt-2
-             dark:hover:bg-black bg-black text-white hover:bg-gray-800"
-
-              // onClick={() => Divert on Message page}
+              className={`z-11 cursor-pointer flex items-center mt-2 ${
+                false
+                  ? "dark:hover:bg-black bg-black text-white hover:bg-black/70"
+                  : "bg-gray-500 hover:bg-gray-500 text-gray-200 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400"
+              }`}
+              // onClick={false ? () => router.push("/messages") : undefined}
             >
               <MessageCircle className=" ml-0 md:ml-1 h-4 w-4" />
-              <span>Message {profileData?.username?.split(" ")[0]}</span>
+              {false ? (
+                <span>Message {profileData?.username?.split(" ")[0]}</span>
+              ) : (
+                <span>Cannot Message</span>
+              )}
             </Button>
           )}
         </div>
       </div>
-
       {/*------------------------------Edit/Delete DP modal-----------------------------*/}
       <AnimatePresence>
         {isEditProfileModel && (
@@ -456,8 +462,8 @@ const ProfileHeader = ({
                     onChange={handleCoverPhotoChange}
                   />
                   <Button
-                    className="w-full hover:dark:bg-black bg-gray-200 dark:text-white mb-2
-                    hover:border-gray-400 border-gray-300 cursor-pointer hover:bg-gray-300"
+                    className="w-full hover:dark:bg-black bg-gray-200 dark:text-white mb-2 hover:border-gray-400 
+                    border-gray-300 cursor-pointer hover:bg-gray-300"
                     type="button"
                     variant="outline"
                     size="sm"
@@ -482,8 +488,7 @@ const ProfileHeader = ({
                 </div>
 
                 <Button
-                  className="w-full bg-gray-800 dark:bg-gray-900 hover:bg-black
-                   text-white cursor-pointer dark:hover:bg-black"
+                  className="w-full bg-gray-800 dark:bg-gray-900 hover:bg-black text-white cursor-pointer dark:hover:bg-black"
                   onClick={onSubmitCoverPhoto}
                   disabled={!coverPhotoFile}
                   type="button"
@@ -496,6 +501,7 @@ const ProfileHeader = ({
           </motion.div>
         )}
       </AnimatePresence>
+
       {/* --------------------Delete DP Confirmation Modal------------------- */}
       {showDeleteDpModal && (
         <motion.div
@@ -504,16 +510,12 @@ const ProfileHeader = ({
           className="fixed inset-0 z-[9999] flex items-center justify-center"
         >
           <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-            <h2
-              className="text-center text-red-600 dark:text-white font-semibold text-xl 
-            capitalize"
-            >
+            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl capitalize">
               Remove DP {user?.username?.split(" ")[0]}?
             </h2>
             <p className="text-sm dark:text-gray-300 text-center my-2">
               You can put it again later
             </p>
-
             <div className="flex justify-center gap-4 mt-6">
               <button
                 onClick={() => {
@@ -574,9 +576,8 @@ const ProfileHeader = ({
       {/* ------------------------Spinner-------------------------- */}
       {isPending && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-white/60
-                       dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
-                        duration-300 opacity-100"
+          className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm z-[9999] 
+          transition-opacity duration-300 opacity-100"
         >
           <Spinner />
         </div>

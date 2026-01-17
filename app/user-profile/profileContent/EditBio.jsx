@@ -36,7 +36,7 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTitle className="text-center">
+      <DialogTitle className="text-center sr-only">
         Edit Your Profile Information
       </DialogTitle>
       <DialogContent className="sm:max-w-[425px]">

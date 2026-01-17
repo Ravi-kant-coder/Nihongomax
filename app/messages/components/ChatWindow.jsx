@@ -39,8 +39,8 @@ export default function ChatWindow({ user }) {
   }, [messages]);
 
   return (
-    <div className="flex flex-col flex-1 h-full bg-gray-300 dark:bg-[rgb(20,20,20)]">
-      <div className="flex items-center gap-3 p-2 bg-gray-100 dark:bg-[rgb(10,10,10)]">
+    <div className="flex flex-col flex-1 h-full bg-[rgb(210,210,210)] dark:bg-[rgb(50,50,50)]">
+      <div className="flex items-center gap-3 p-2 bg-gray-100 dark:bg-[rgb(40,40,40)]">
         <Avatar className={"w-10 h-10"}>
           <AvatarImage src={user?.profilePicture} className="object-cover" />
           <AvatarFallback className="bg-gray-400 dark:bg-gray-700 capitalize">

@@ -25,13 +25,7 @@ const ChatList = ({ activeChatId, onSelectUser }) => {
   return (
     <div className="h-full overflow-y-auto dark:bg-[rgb(20,20,20)]">
       {userList.map((user) => (
-        <div
-          key={user?._id}
-          onClick={() => onSelectUser(user)}
-          className={`cursor-pointer ${
-            activeChatId === user._id ? "bg-amber-50 dark:bg-gray-800" : ""
-          }`}
-        >
+        <div key={user?._id} onClick={() => onSelectUser(user)}>
           <ChatUser
             user={user}
             hrefLink={user?._id}

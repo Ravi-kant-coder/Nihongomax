@@ -17,10 +17,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
   };
 
   return (
-    <div
-      className="flex flex-col items-center bg-white dark:bg-black shadow-md
-  rounded-xl p-2 w-full max-w-[220px]"
-    >
+    <div className="flex flex-col items-center bg-white dark:bg-black shadow-md rounded-xl p-2 w-full max-w-[220px]">
       <div className="relative overflow-hidden rounded-lg w-full aspect-square mb-2">
         <Avatar
           className="cursor-pointer h-full w-full rounded-lg"
@@ -61,7 +58,6 @@ const FriendRequestCard = ({ friend, onAction }) => {
           <UserPlus className="h-4 w-4 mr-2" />
           Accept
         </button>
-
         <button
           className="w-full bg-gray-300 hover:bg-gray-400 cursor-pointer
       dark:bg-red-950 dark:hover:bg-red-900
@@ -73,7 +69,6 @@ const FriendRequestCard = ({ friend, onAction }) => {
           Delete
         </button>
       </div>
-
       {isPending && (
         <div
           className="fixed inset-0 flex items-center justify-center

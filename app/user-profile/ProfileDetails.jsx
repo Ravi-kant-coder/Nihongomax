@@ -1,43 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Book,
-  BookOpen,
   BookOpenCheck,
   Briefcase,
-  Cake,
-  CakeIcon,
   GraduationCap,
-  Heart,
-  Home,
   HomeIcon,
   Languages,
   Mail,
   MapPin,
   Phone,
-  Pi,
   Plane,
   Rss,
-  Trash2,
   BookHeart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MutualFriends from "./profileContent/MutualFriends";
 import EditBio from "./profileContent/EditBio";
 import { usePostStore } from "@/store/usePostStore";
-import { formatDateInDDMMYYY } from "@/lib/utils";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
 import WallCard from "../WallCard";
 
-const ProfileDetails = ({
-  activeTab,
-  id,
-  profileData,
-  isOwner,
-  fetchProfile,
-  user,
-}) => {
+const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
   const [isEditBioModel, setIsEditBioModel] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -83,8 +67,8 @@ const ProfileDetails = ({
     }
   };
   return (
-    <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 md:px-0 mt-8">
-      <div className="w-full md:min-w-[40%] space-x-0 space-y-6 mb-4">
+    <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 md:px-0 mt-8 justify-center">
+      <div className="w-full md:w-[60%] space-x-0 space-y-6 mb-4">
         {/*------------------------------Details About You-----------------------------*/}
         <Card>
           <CardContent

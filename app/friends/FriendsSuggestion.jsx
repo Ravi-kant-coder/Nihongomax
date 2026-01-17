@@ -16,14 +16,10 @@ const FriendSuggestion = ({ friend, onAction }) => {
   };
 
   return (
-    <div
-      className="flex items-center lg:block bg-white dark:bg-black lg:p-4 p-2
-     shadow-lg rounded-lg"
-    >
-      <div className="relative lg:mx-auto my-auto overflow-hidden rounded p-1">
+    <div className="flex flex-col items-center bg-white dark:bg-black shadow-md rounded-xl p-2 w-full max-w-[220px]">
+      <div className="relative overflow-hidden rounded-lg w-full aspect-square mb-2">
         <Avatar
-          className="cursor-pointer h-12 w-12 lg:h-30 lg:w-30 hover:ring-3
-         hover:ring-gray-600 hover:ring-offset-1 transition duration-100 mx-5"
+          className="cursor-pointer h-full w-full rounded-lg"
           onClick={handleDpClick}
         >
           <AvatarImage
@@ -33,35 +29,31 @@ const FriendSuggestion = ({ friend, onAction }) => {
           />
 
           <AvatarFallback
-            className="bg-gray-400 dark:bg-gray-500 text-black md:text-4xl
-           text-2xl"
+            className="absolute flex items-center justify-center bg-gray-300 dark:bg-gray-600 w-full h-full
+             text-black dark:text-white md:text-6xl font-semibold rounded-lg"
           >
             {friend?.username?.charAt(0)?.toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </div>
-      <div className="pb-1">
-        <h3
-          className="text-lg hover:underline cursor-pointer font-semibold text-center
-          truncate capitalize"
-          onClick={handleDpClick}
+      <h3
+        className="capitalize truncate font-semibold cursor-pointer hover:underline w-full text-center"
+        onClick={handleDpClick}
+      >
+        {friend?.username}
+      </h3>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">
+        {friend?.followerCount}{" "}
+        {friend?.followerCount === 1 ? "Friend" : "Friends"}
+      </p>
+      <div className="w-full space-y-2">
+        <button
+          className="w-full bg-gray-600 hover:bg-black cursor-pointer dark:bg-gray-700 dark:hover:bg-gray-600 py-2
+            rounded-sm flex items-center justify-center text-white font-medium transition-colors duration-200"
+          onClick={() => onAction("confirm", friend?._id)}
         >
-          {friend?.username}
-        </h3>
-        <p className="md:mb-4 text-gray-600 text-center">
-          {friend?.followerCount}{" "}
-          {friend?.followerCount === 1 ? "Friend" : "Friends"}
-        </p>
-        <div className="flex md:flex-col md:justify-between">
-          <button
-            className="bg-black dark:bg-gray-700 hover:dark:text-white text-white
-             lg:p-2 p-1 rounded flex justify-evenly items-center hover:bg-gray-800
-              dark:text-black cursor-pointer"
-            onClick={() => onAction("confirm", friend?._id)}
-          >
-            <UserPlus className="mr-2 lg:mr-0 h-4 w-4" /> Send Request
-          </button>
-        </div>
+          <UserPlus className="h-4 w-4 mr-2" /> Send Request
+        </button>
       </div>
       {isPending && (
         <div

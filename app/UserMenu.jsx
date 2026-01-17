@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, MessageCircle, LogOutIcon } from "lucide-react";
+import { Users, MessageCircle, LogOutIcon, User2 } from "lucide-react";
 import { useTransition } from "react";
 import userStore from "@/store/userStore";
 import {
@@ -78,7 +78,7 @@ const UserMenu = ({ handleLogout }) => {
               handleNavigation(`/user-profile/${user?._id}`);
             }}
           >
-            <Users /> <span className="ml-2">My Profile</span>
+            <User2 /> <span className="ml-2">My Profile</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -87,9 +87,19 @@ const UserMenu = ({ handleLogout }) => {
               handleNavigation("/friends");
             }}
           >
-            <MessageCircle /> <span className="ml-2">Friends</span>
+            <Users /> <span className="ml-2">Friends</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
+              handleNavigation("/messages");
+            }}
+          >
+            <MessageCircle /> <span className="ml-2">Messages</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+
           <DropdownMenuItem className="cursor-pointer">
             <ThemeToggle />
           </DropdownMenuItem>

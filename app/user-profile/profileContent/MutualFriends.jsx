@@ -62,17 +62,16 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                   <div
                     key={friend?._id}
                     onClick={() => handlefriendClick(friend?._id)}
-                    className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 
-                    rounded-lg relative group"
+                    className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg relative group p-2"
                   >
                     <div className="flex flex-col justify-center items-center mt-8">
-                      <Avatar className="w-35 h-35 rounded">
+                      <Avatar className="w-30 h-30 rounded">
                         <AvatarImage
                           src={friend?.profilePicture}
                           className="object-cover"
                         />
-                        <AvatarFallback className="w-35 h-35 rounded text-4xl dark:text-black">
-                          {friend?.username?.split(" ")[0][0]}
+                        <AvatarFallback className="rounded text-4xl dark:text-black w-full h-full">
+                          {friend?.username?.split(" ")[0][0].toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <div>
@@ -83,7 +82,10 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                           {friend?.username}
                         </p>
                         <p className="text-sm text-gray-500">
-                          {friend?.followerCount} followers
+                          {friend?.followerCount}{" "}
+                          {friend?.followerCount === 1
+                            ? "follower"
+                            : "followers"}
                         </p>
                       </div>
                     </div>
@@ -112,9 +114,8 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
       {/* ------------------------Spinner-------------------------- */}
       {isPending && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-white/60
-                       dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
-                        duration-300 opacity-100"
+          className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm z-[9999] 
+          transition-opacity duration-300 opacity-100"
         >
           <Spinner />
         </div>

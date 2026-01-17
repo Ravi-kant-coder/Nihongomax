@@ -38,7 +38,7 @@ const Notes = () => {
           id="note"
           type="text"
           className="bg-white dark:bg-[rgb(10,10,10)] "
-          placeholder="Make Notes..."
+          placeholder="Type and Enter..."
           disabled={isPending}
           autoFocus
           onChange={(e) => setInitialNote(e.target.value)}
