@@ -81,7 +81,7 @@ export const updateUserProfile = async (userId, updateData) => {
   try {
     const response = await axiosInstance.put(
       `/users/profile/${userId}`,
-      updateData
+      updateData,
     );
     return response?.data?.data;
   } catch (error) {
@@ -94,7 +94,7 @@ export const updateUserCoverPhoto = async (userId, updateData) => {
   try {
     const response = await axiosInstance.put(
       `/users/profile/cover-photo/${userId}`,
-      updateData
+      updateData,
     );
     return response?.data?.data;
   } catch (error) {
@@ -126,14 +126,14 @@ export const getAllUsers = async () => {
 export const deleteUserDp = async (userId) => {
   try {
     const result = await axiosInstance.delete(
-      `/users/${userId}/profilePicture`
+      `/users/${userId}/profilePicture`,
     );
 
     return result?.data?.message;
   } catch (error) {
     console.error(
       "Delete Dp Error in Service:",
-      error.response?.data || error.message
+      error.response?.data || error.message,
     );
     throw error;
   }
@@ -147,7 +147,7 @@ export const deleteUserCover = async (userId) => {
   } catch (error) {
     console.error(
       "Delete Cover Error in Service:",
-      error.response?.data || error.message
+      error.response?.data || error.message,
     );
     throw error;
   }

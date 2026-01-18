@@ -7,19 +7,20 @@ import FriendsSuggestion from "./FriendsSuggestion";
 import { userFriendStore } from "@/store/userFriendsStore";
 import ScrollupBtn from "../ScrollupBtn";
 import { UserX } from "lucide-react";
+// import { handlefriendClick, handleUnfriend } from "@/lib/friendUtils";these are ideas for owner centralization
+// import { isOwner, id } from "@/lib/ownerCheck"; these are ideas for owner centralization
+import user from "@/store/userStore";
 
 const Page = () => {
   const {
     followUser,
     loading,
-    UnfollowUser,
     fetchFriendRequest,
     fetchFriendSuggestion,
     deleteUserFromRequest,
     fetchMutualFriends,
     friendRequest,
     friendSuggestion,
-    mutualFriends,
   } = userFriendStore();
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const Page = () => {
           ) : friendRequest.length === 0 ? (
             <NoFriendsMessage
               text="No Friend Requests"
-              description="Why not explore Nihongomax and connect with new people?"
+              description="Why not connect with new people?"
             />
           ) : (
             friendRequest.map((friend) => (
@@ -96,10 +97,7 @@ const Page = () => {
           {loading ? (
             <FriendCardSkeleton />
           ) : friendSuggestion.length === 0 ? (
-            <NoFriendsMessage
-              text="No Friends Suggestion"
-              description="Why not explore Nihongomax and connect with new people?"
-            />
+            <NoFriendsMessage text="No Friends Suggestion" description="" />
           ) : (
             friendSuggestion.map((friend) => (
               <FriendsSuggestion
@@ -122,6 +120,7 @@ const Page = () => {
           </div>
         )}
       </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2"></div>
       <ScrollupBtn />
     </>
   );

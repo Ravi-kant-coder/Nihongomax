@@ -20,6 +20,7 @@ import { usePostStore } from "@/store/usePostStore";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
 import WallCard from "../WallCard";
+import { notFound } from "next/navigation";
 
 const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
   const [isEditBioModel, setIsEditBioModel] = useState(false);
@@ -57,7 +58,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
     setLikePosts(updatedLikePost);
     localStorage.setItem(
       "likePosts",
-      JSON.stringify(Array.from(updatedLikePost))
+      JSON.stringify(Array.from(updatedLikePost)),
     );
     try {
       await handleLikePost(postId);
@@ -88,49 +89,77 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   <GraduationCap className="w-5 h-5 mr-1 shrink-0" />
                   Education:
                 </div>
-                <span className="ml-2">{profileData?.bio?.liveIn}</span>
+                <span className="ml-2">
+                  {profileData?.bio?.liveIn || (
+                    <p className="text-gray-500">Not mentioned</p>
+                  )}
+                </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <Languages className="w-5 h-5 mr-1 shrink-0" />
                   JLPT/NAT cleared:
                 </div>
-                <span className="ml-2">{profileData?.bio?.relationship}</span>
+                <span className="ml-2">
+                  {profileData?.bio?.relationship || (
+                    <p className="text-gray-500">Not mentioned</p>
+                  )}
+                </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <MapPin className="w-5 h-5 mr-1 shrink-0" />
                   Work Place:
                 </div>
-                <span className="ml-2">{profileData?.bio?.workplace}</span>
+                <span className="ml-2">
+                  {profileData?.bio?.workplace || (
+                    <p className="text-gray-500">Not mentioned</p>
+                  )}
+                </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <Briefcase className="w-5 h-5 mr-1 shrink-0" />
                   Work Experience:
                 </div>
-                <span className="ml-2">{profileData?.bio?.education}</span>
+                <span className="ml-2">
+                  {profileData?.bio?.education || (
+                    <p className="text-gray-500">Not mentioned</p>
+                  )}
+                </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <BookOpenCheck className="w-5 h-5 mr-1 shrink-0" />
                   Certifications:
                 </div>
-                <span className="ml-2">{profileData?.bio?.hometown}</span>
+                <span className="ml-2">
+                  {profileData?.bio?.hometown || (
+                    <p className="text-gray-500">Not mentioned</p>
+                  )}
+                </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <Plane className="w-5 h-5 mr-1 shrink-0" />
                   Japan Experience:
                 </div>
-                <span className="ml-2">{profileData?.bio?.birthday}</span>
+                <span className="ml-2">
+                  {profileData?.bio?.birthday || (
+                    <p className="text-gray-500">Not mentioned</p>
+                  )}
+                </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <BookHeart className="w-5 h-5 mr-1 shrink-0" />
                   About Me:
                 </div>
-                <span className="ml-2">{profileData?.bio?.address}</span>
+                <span className="ml-2">
+                  {profileData?.bio?.address || (
+                    <p className="text-gray-500">Not mentioned</p>
+                  )}
+                </span>
               </div>
             </div>
             <div className="flex items-center justify-center my-4">
@@ -144,13 +173,20 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
               <Mail className="w-5 h-5 mr-2 shrink-0" />
               Email:
               <span className="ml-2">
-                {profileData?.email || "Undisclosed"}
+                {profileData?.email || (
+                  <p className="text-gray-500">Undisclosed</p>
+                )}
               </span>
             </div>
             <div className="flex items-center">
               <Phone className="w-5 h-5 mr-2 shrink-0" />
               Phone:
-              <span className="ml-2"> {profileData?.bio?.phone}</span>
+              <span className="ml-2">
+                {" "}
+                {profileData?.bio?.phone || (
+                  <p className="text-gray-500">Undisclosed</p>
+                )}
+              </span>
             </div>
             <div className="flex items-center mb-4 dark:text-gray-300">
               <Rss className="w-5 h-5 mr-2 shrink-0" />
@@ -188,13 +224,13 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             </h2>
             <div className="grid grid-cols-2 gap-4">
               {userPosts?.filter(
-                (post) => post?.mediaType === "image" && post?.mediaUrl
+                (post) => post?.mediaType === "image" && post?.mediaUrl,
               ).length === 0 ? (
                 <PicsSkeleton text="No Photos" />
               ) : (
                 userPosts
                   ?.filter(
-                    (post) => post?.mediaType === "image" && post?.mediaUrl
+                    (post) => post?.mediaType === "image" && post?.mediaUrl,
                   )
                   .map((post) => (
                     <img

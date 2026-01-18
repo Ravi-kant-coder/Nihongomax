@@ -74,12 +74,15 @@ const ProfileHeader = ({
   const profileImageInputRef = useRef();
   const coverImageInputRef = useRef();
 
-  // -----------------Object state logic---------------------
+  // Take from store
+  const [requestSent, setRequestSent] = useState(false);
+  const [friendRequestAccepted, setFriendRequestAccepted] = useState(true);
 
+  // -----------------Object state logic---------------------
   const [friendStatus, setFriendStatus] = useState(
     `${
       profileData?.username?.split(" ")[0]
-    } is not your friend ${user?.username?.split(" ")[0]}`
+    } is not your friend ${user?.username?.split(" ")[0]}`,
   );
 
   const onSubmitProfile = async (data) => {
@@ -253,7 +256,7 @@ const ProfileHeader = ({
             className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center
             md:text-left flex-grow"
           >
-            <h1 className="text-3xl font-semibold capitalize truncate max-w-200">
+            <h1 className="text-3xl font-semibold capitalize truncate max-w-150">
               {profileData?.username}
               {isOwner ? "(You)" : ""}
             </h1>
@@ -268,17 +271,36 @@ const ProfileHeader = ({
             <div className="flex flex-col justify-center items-center mt-4 md:mt-0">
               {true && (
                 <p className="text-sm truncate capitalize text-gray-700 dark:text-gray-300 mb-1">
-                  {friendStatus}
+                  {!requestSent && friendStatus}
                 </p>
               )}
-              <Button
-                className="cursor-pointer bg-black text-white dark:hover:bg-black/60
-                 hover:bg-black/70"
-                // onClick={() => handleAction("confirm", profileData?.username?._id)}
-              >
-                <UserPlus className="w-4 h-4 mr-2" />
-                Send Friend Request
-              </Button>
+              {!requestSent ? (
+                <button
+                  onClick={async () => {
+                    await handleAction("confirm", profileData?._id);
+                    setRequestSent(true);
+                  }}
+                  className="px-4 py-2 bg-black text-white text-sm cursor-pointer rounded-md 
+                  hover:bg-gray-800 dark:hover:bg-gray-700 flex items-center"
+                >
+                  <UserPlus className="w-4 h-4 mr-2" />
+                  Send Friend request
+                </button>
+              ) : (
+                <>
+                  {friendRequestAccepted ? (
+                    <div className="text-sm text-green-600 dark:text-green-400 mb-1">
+                      Friend request accepted
+                    </div>
+                  ) : (
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
+                      Friend request sent
+                      <br />
+                      Not accepted yet
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           )}
           {isOwner ? (
@@ -294,12 +316,11 @@ const ProfileHeader = ({
             </Button>
           ) : (
             <Button
-              className={`z-11 cursor-pointer flex items-center mt-2 ${
-                false
-                  ? "dark:hover:bg-black bg-black text-white hover:bg-black/70"
-                  : "bg-gray-500 hover:bg-gray-500 text-gray-200 cursor-not-allowed dark:bg-gray-800 dark:text-gray-400"
+              className={`z-11 cursor-pointer flex items-center mt-2 dark:hover:bg-black bg-black text-white hover:bg-black/90"
+                   hover:bg-gray-500  dark:bg-gray-800 dark:text-gray-400"
               }`}
-              // onClick={false ? () => router.push("/messages") : undefined}
+              onClick={() => router.push("/notes")}
+              disabled={!friendRequestAccepted}
             >
               <MessageCircle className=" ml-0 md:ml-1 h-4 w-4" />
               {false ? (
