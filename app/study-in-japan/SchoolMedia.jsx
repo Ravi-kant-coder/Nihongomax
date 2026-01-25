@@ -35,7 +35,7 @@ const SchoolMedia = ({ media, school }) => {
           )
         ) : (
           <div
-            className="flex items-center justify-center w-full h-full bg-gray-400 dark:bg-gray-600 text-2xl font-semibold
+            className="flex items-center justify-center w-full h-full bg-gray-400 dark:bg-gray-600 text-4xl font-semibold
            text-white"
           >
             {school?.schoolName?.charAt(0)?.toUpperCase()}

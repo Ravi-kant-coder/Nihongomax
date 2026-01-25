@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AnimatePresence, motion } from "framer-motion";
-import { ImageIcon, Laugh, Plus, VideoIcon, X } from "lucide-react";
+import { ImageIcon, Laugh, Send, Plus, VideoIcon, X } from "lucide-react";
 import userStore from "@/store/userStore";
 import { usePostStore } from "@/store/usePostStore";
 import dynamic from "next/dynamic";
@@ -22,20 +22,21 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [filePreview, setFilePreview] = useState(null);
   const [filePreviews, setFilePreviews] = useState([]);
+  const [showImageUpload, setShowImageUpload] = useState(false);
   const [postContent, setPostContent] = useState("");
   const { user } = userStore();
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showImageUpload, setShowImageUpload] = useState(false);
   const fileInputRef = useRef(null);
+
   const handleEmojiClick = (emoji) => {
     setPostContent((prev) => prev + emojiObject.emoji);
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file), setFileType(file.type);
+    (setSelectedFile(file), setFileType(file.type));
     setFilePreview(URL.createObjectURL(file));
   };
 
@@ -77,9 +78,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
               <DialogTrigger className="w-full">
                 <div className="flex items-center">
                   <Input
-                    placeholder={`Ask or Answer ${
-                      user?.username.split(" ")[0]
-                    }`}
+                    placeholder={`Ask or Answer ${user?.username.split(" ")[0]}`}
                     readOnly
                     className="rounded-full border-1 border-gray-300 dark:border-gray-500
                      cursor-pointer h-10 dark:bg-[rgb(75,75,75)]"
@@ -116,7 +115,9 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
             </div>
             <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)]">
               <DialogHeader>
-                <DialogTitle className="text-center">Create Post</DialogTitle>
+                <DialogTitle className="text-center">
+                  Create a Public Post
+                </DialogTitle>
               </DialogHeader>
               <div className="flex items-center space-x-3 py-4">
                 <Avatar>
@@ -129,7 +130,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-semibold">{user?.username}</p>
+                  <p>{user?.username}</p>
                 </div>
               </div>
               <Textarea
@@ -192,7 +193,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                 )}
               </AnimatePresence>
               <div className="bg-gray-300 p-4 rounded-lg mt-4 dark:bg-[rgb(40,40,40)]">
-                <p className="font-semibold mb-2">Add to your Post</p>
+                <p className="font-[450] mb-2">Add to your Post</p>
                 <div className="flex space-x-2">
                   <Button
                     variant="outline"
@@ -246,11 +247,12 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
               )}
               <div className="flex justify-end mt-4 ">
                 <Button
-                  className="bg-gray-800 w-1/3 text-white dark:bg-black
+                  className="bg-gray-700 w-1/3 text-white dark:bg-black
                  dark:hover:bg-gray-900 cursor-pointer hover:bg-black"
                   onClick={handlePost}
                 >
-                  {loading ? "Posting..." : "POST"}
+                  {loading ? "Sending..." : "SEND"}
+                  <Send className="h-4 w-4" />
                 </Button>
               </div>
             </DialogContent>

@@ -44,7 +44,7 @@ const Note = ({ initialNote, note }) => {
 
   return (
     <div
-      className="relative text-xl my-8 md:mx-20 mx-10 p-8 border-gray-400
+      className="relative text-xl my-8 md:mx-20 mx-10 p-8
         border rounded-lg dark:bg-[rgb(36,37,38)]
         dark:border-gray-600 shadow-lg"
     >

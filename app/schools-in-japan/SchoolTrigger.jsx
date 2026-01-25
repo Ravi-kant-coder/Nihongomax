@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useSchoolStore } from "@/store/useSchoolStore";
 import MediaSlot from "./MediaSlot";
+import { motion, AnimatePresence } from "framer-motion";
 
 const schoolSchema = yup.object().shape({
   schoolName: yup.string().required("学校名は必須です"),
@@ -27,7 +28,7 @@ const schoolSchema = yup.object().shape({
         if (!val) return true; // ✅ allow empty
         const phoneRegex = /^[0-9]{10}$/;
         return phoneRegex.test(val);
-      }
+      },
     ),
 
   email: yup
@@ -56,7 +57,15 @@ const SchoolTrigger = () => {
   const { createSchoolZust, loading } = useSchoolStore();
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
-  const [mediaSlots, setMediaSlots] = useState(Array(4).fill(null));
+  const [mediaSlots, setMediaSlots] = useState(
+    Array.from({ length: 4 }, () => null),
+  );
+  const [visibleSlots, setVisibleSlots] = useState(1);
+  const handleAddMoreSlot = () => {
+    setVisibleSlots((prev) => Math.min(prev + 1, 4));
+  };
+
+  const canAddMore = visibleSlots < 4 && mediaSlots[visibleSlots - 1] !== null;
 
   const formatFileSize = (bytes) => {
     if (!bytes) return "";
@@ -103,7 +112,7 @@ const SchoolTrigger = () => {
   const hasTooLargeFile = mediaSlots.some((slot) => {
     if (!slot || !slot.file) return false;
     const sizeInMB = slot.file.size / (1024 * 1024);
-    return sizeInMB > 2;
+    return sizeInMB > 4;
   });
 
   const cleanupPreviews = () => {
@@ -135,7 +144,7 @@ const SchoolTrigger = () => {
       cleanupPreviews();
       setMediaSlots(Array(4).fill(null));
       setFeedback(
-        `${user?.username?.split(" ")[0]}様、ご掲載ありがとうございました。`
+        `${user?.username?.split(" ")[0]}様、ご掲載ありがとうございました。`,
       );
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 3000);
@@ -151,7 +160,7 @@ const SchoolTrigger = () => {
       className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] mb-10 p-2 md:p-4 rounded-lg
      bg-[rgb(170,170,170)] "
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3 py-2">
           <Avatar>
             <AvatarImage className="object-cover" src={user?.profilePicture} />
@@ -174,22 +183,49 @@ const SchoolTrigger = () => {
         {/* ------------------School Image/video 4 Upload media slots---------------------*/}
         <div
           className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 
-        md:space-x-4 mb-4 md:justify-center"
+        md:space-x-4 mb-4 md:justify-start"
         >
-          {mediaSlots.map((slot, index) => (
-            <MediaSlot
-              key={index}
-              slot={slot}
-              filePreview={slot ? slot.preview : null}
-              fileName={slot?.file ? slot.file.name : null}
-              fileType={slot ? slot.type : null}
-              formatFileSize={formatFileSize}
-              fileSize={slot?.file ? slot.file.size : null}
-              handleFileChange={handleFileChange}
-              fileInputRef={fileInputRef}
-              onClick={() => handleSlotClick(index)}
-            />
-          ))}{" "}
+          <AnimatePresence>
+            {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+              >
+                <MediaSlot
+                  key={index}
+                  slot={slot}
+                  filePreview={slot ? slot.preview : null}
+                  fileName={slot?.file ? slot.file.name : null}
+                  fileType={slot ? slot.type : null}
+                  formatFileSize={formatFileSize}
+                  fileSize={slot?.file ? slot.file.size : null}
+                  handleFileChange={handleFileChange}
+                  fileInputRef={fileInputRef}
+                  onClick={() => handleSlotClick(index)}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+          {canAddMore && (
+            <motion.button
+              type="button"
+              onClick={handleAddMoreSlot}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.8 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
+              className="w-[120px] flex flex-col items-center justify-center cursor-pointer p-4
+              border border-dashed border-white rounded-xl text-white hover:border-gray-700 hover:text-gray-700
+               dark:hover:border-white dark:hover:text-white"
+            >
+              <span className="text-4xl">+</span>
+              <span className="text-sm mt-1">アップロード</span>
+              <span className="text-sm mt-1">写真/ビデオ</span>
+            </motion.button>
+          )}
           <input
             type="file"
             accept="image/*,video/*"

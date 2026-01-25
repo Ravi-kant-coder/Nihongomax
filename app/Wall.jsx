@@ -39,7 +39,7 @@ const Wall = () => {
     setLikePosts(updatedLikePost);
     localStorage.setItem(
       "likePosts",
-      JSON.stringify(Array.from(updatedLikePost))
+      JSON.stringify(Array.from(updatedLikePost)),
     );
     try {
       await handleLikePost(postId);

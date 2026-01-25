@@ -15,7 +15,7 @@ const MediaSlot = ({
 
     const sizeInMB = fileSize / (1024 * 1024);
 
-    if (sizeInMB > 2) return "large";
+    if (sizeInMB > 4) return "large";
     return "ok";
   };
 
@@ -44,7 +44,9 @@ const MediaSlot = ({
               className="w-full h-auto max-h-[200px] object-cover rounded"
             />
           ) : fileType === "video/avi" ? (
-            <p className="text-sm text-center">AVIフォーマット不可</p>
+            <p className="text-sm text-center text-red-800">
+              AVIフォーマット不可
+            </p>
           ) : (
             <video
               controls
@@ -71,7 +73,7 @@ const MediaSlot = ({
       )}
       {filePreview && sizeStatus === "large" && (
         <p className={`text-xs ${borderColor} text-center max-w-[100px]`}>
-          ファイルサイズ2MB以上不可
+          ファイルサイズ4MB以上不可
         </p>
       )}
     </div>

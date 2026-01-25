@@ -11,11 +11,9 @@ import {
   X,
   Dot,
   MessageCircle,
-  User2,
-  Users,
   UserPlus,
 } from "lucide-react";
-import { useRef, useState, useTransition } from "react";
+import { useRef, useState, useEffect, useTransition } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -47,11 +45,11 @@ const ProfileHeader = ({
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
   const [loading, setLaoding] = useState(false);
   const [showDpPreview, setShowDpPreview] = useState(false);
-  const [filePreview, setFilePreview] = useState(null);
   const { setUser } = userStore();
   const [isPending, startTransition] = useTransition();
   const [showDeleteDpModal, setShowDeleteDpModal] = useState(false);
   const [showDeleteCoverModal, setShowDeleteCoverModal] = useState(false);
+  const [friendsFeedback, setFriendsFeedback] = useState(null);
   const {
     followUser,
     UnfollowUser,
@@ -63,6 +61,7 @@ const ProfileHeader = ({
     friendSuggestion,
     mutualFriends,
   } = userFriendStore();
+
   const router = useRouter();
 
   const { register, handleSubmit, setValue } = useForm({
@@ -74,16 +73,11 @@ const ProfileHeader = ({
   const profileImageInputRef = useRef();
   const coverImageInputRef = useRef();
 
-  // Take from store
-  const [requestSent, setRequestSent] = useState(false);
-  const [friendRequestAccepted, setFriendRequestAccepted] = useState(true);
-
-  // -----------------Object state logic---------------------
-  const [friendStatus, setFriendStatus] = useState(
-    `${
-      profileData?.username?.split(" ")[0]
-    } is not your friend ${user?.username?.split(" ")[0]}`,
-  );
+  useEffect(() => {
+    if (id) {
+      fetchMutualFriends(id);
+    }
+  }, [id, fetchMutualFriends]);
 
   const onSubmitProfile = async (data) => {
     try {
@@ -191,12 +185,39 @@ const ProfileHeader = ({
     });
   };
 
+  const [requestNotSent, setRequestNotSent] = useState(
+    friendSuggestion?.some((u) => u._id === profileData?._id),
+  );
+
+  useEffect(() => {
+    setRequestNotSent(
+      friendSuggestion?.some((u) => u._id === profileData?._id),
+    );
+  }, [friendSuggestion, profileData?._id]);
+
+  useEffect(() => {
+    if (!profileData?._id) return;
+
+    const isFriend = mutualFriends?.some(
+      (friend) => friend._id === profileData._id,
+    );
+
+    if (isFriend) {
+      setFriendsFeedback(null);
+    }
+  }, [mutualFriends, profileData?._id]);
+
+  const canMessage = mutualFriends.some((u) => {
+    const match = String(u._id).trim() === String(user?._id).trim();
+    return match;
+  });
+
   return (
     <div className="relative">
       {/* ---------------------------- Cover Photo & Cover Button---------------------------- */}
       <div
-        className="relative md:h-80 lg:w-[70vw] md:w-[80vw] mx-auto md:rounded-lg h-50
-       bg-gray-400  dark:bg-gray-900 overflow-hidden"
+        className="relative md:h-80 lg:w-[70vw] md:w-[80vw] mx-auto md:rounded-lg h-50 bg-gray-400 dark:bg-gray-900 
+      overflow-hidden"
       >
         {!profileData?.coverPhoto ? (
           <div
@@ -252,11 +273,8 @@ const ProfileHeader = ({
               {profileData?.username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div
-            className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center
-            md:text-left flex-grow"
-          >
-            <h1 className="text-3xl font-semibold capitalize truncate max-w-150">
+          <div className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center md:text-left flex-grow">
+            <h1 className="text-3xl font-semibold capitalize truncate max-w-120">
               {profileData?.username}
               {isOwner ? "(You)" : ""}
             </h1>
@@ -269,37 +287,36 @@ const ProfileHeader = ({
           </div>
           {!isOwner && (
             <div className="flex flex-col justify-center items-center mt-4 md:mt-0">
-              {true && (
-                <p className="text-sm truncate capitalize text-gray-700 dark:text-gray-300 mb-1">
-                  {!requestSent && friendStatus}
-                </p>
-              )}
-              {!requestSent ? (
+              {requestNotSent && (
                 <button
                   onClick={async () => {
                     await handleAction("confirm", profileData?._id);
-                    setRequestSent(true);
+                    fetchFriendSuggestion();
+                    fetchMutualFriends();
+                    setFriendsFeedback(
+                      <div className="mt-2 text-center flex items-center flex-col justify-center">
+                        <p className="text-green-900 dark:text-green-500 text-sm">
+                          Request sent to {profileData?.username?.split(" ")[0]}
+                        </p>
+                        <p className="text-xs text-red-900 dark:text-red-400">
+                          Wait for acceptance by{" "}
+                          {profileData?.username?.split(" ")[0]}
+                        </p>
+                      </div>,
+                    );
                   }}
-                  className="px-4 py-2 bg-black text-white text-sm cursor-pointer rounded-md 
-                  hover:bg-gray-800 dark:hover:bg-gray-700 flex items-center"
+                  className="px-4 py-2 bg-black text-white text-sm cursor-pointer rounded-md flex items-center 
+                hover:bg-gray-800 dark:hover:bg-gray-700 disabled:opacity-60"
                 >
                   <UserPlus className="w-4 h-4 mr-2" />
                   Send Friend request
                 </button>
-              ) : (
-                <>
-                  {friendRequestAccepted ? (
-                    <div className="text-sm text-green-600 dark:text-green-400 mb-1">
-                      Friend request accepted
-                    </div>
-                  ) : (
-                    <div className="text-sm text-gray-700 dark:text-gray-300">
-                      Friend request sent
-                      <br />
-                      Not accepted yet
-                    </div>
-                  )}
-                </>
+              )}
+
+              {friendsFeedback && (
+                <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                  {friendsFeedback}
+                </div>
               )}
             </div>
           )}
@@ -316,17 +333,26 @@ const ProfileHeader = ({
             </Button>
           ) : (
             <Button
-              className={`z-11 cursor-pointer flex items-center mt-2 dark:hover:bg-black bg-black text-white hover:bg-black/90"
-                   hover:bg-gray-500  dark:bg-gray-800 dark:text-gray-400"
-              }`}
+              className={`z-11 flex items-center mt-2 bg-black text-white hover:bg-black/90 dark:bg-gray-500
+                dark:text-gray-100`}
               onClick={() => router.push("/notes")}
-              disabled={!friendRequestAccepted}
+              disabled={!canMessage}
             >
               <MessageCircle className=" ml-0 md:ml-1 h-4 w-4" />
-              {false ? (
-                <span>Message {profileData?.username?.split(" ")[0]}</span>
+              {canMessage ? (
+                <span className="cursor-pointer hover:bg-black/70">
+                  Message{" "}
+                  <span className="capitalize">
+                    {profileData?.username?.split(" ")[0]}
+                  </span>
+                </span>
               ) : (
-                <span>Cannot Message</span>
+                <span className="truncate w-40 cursor-not-allowed">
+                  Cannot Msg{" "}
+                  <span className="capitalize">
+                    {profileData?.username?.split(" ")[0]}
+                  </span>
+                </span>
               )}
             </Button>
           )}
@@ -436,7 +462,7 @@ const ProfileHeader = ({
           onClose={() => setShowDpPreview(false)}
         />
       )}
-      {/* -------------------Edit Cover photo Model------------------------ */}
+      {/* ---------------------------Edit Cover photo Model------------------------ */}
       <AnimatePresence>
         {isEditCoverModel && (
           <motion.div
@@ -509,7 +535,8 @@ const ProfileHeader = ({
                 </div>
 
                 <Button
-                  className="w-full bg-gray-800 dark:bg-gray-900 hover:bg-black text-white cursor-pointer dark:hover:bg-black"
+                  className="w-full bg-gray-800 dark:bg-gray-900 hover:bg-black text-white cursor-pointer 
+                  dark:hover:bg-black"
                   onClick={onSubmitCoverPhoto}
                   disabled={!coverPhotoFile}
                   type="button"

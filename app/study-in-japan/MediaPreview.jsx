@@ -19,7 +19,7 @@ const MediaPreview = ({ onClose, url, type }) => {
         onClick={(e) => e.stopPropagation()} // 👈 prevent close when clicking media
       >
         <Button
-          className="absolute top-3 right-3 z-10 bg-black/70 text-white cursor-pointer hover:bg-black"
+          className="absolute top-3 right-3 z-10 bg-black/50 hover:text-white cursor-pointer hover:bg-black text-white"
           variant="ghost"
           onClick={onClose}
         >

@@ -6,10 +6,8 @@ import FriendRequestCard from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";
 import { userFriendStore } from "@/store/userFriendsStore";
 import ScrollupBtn from "../ScrollupBtn";
-import { UserX } from "lucide-react";
 // import { handlefriendClick, handleUnfriend } from "@/lib/friendUtils";these are ideas for owner centralization
 // import { isOwner, id } from "@/lib/ownerCheck"; these are ideas for owner centralization
-import user from "@/store/userStore";
 
 const Page = () => {
   const {

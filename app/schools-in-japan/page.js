@@ -62,26 +62,22 @@ const SchoolsInJapan = () => {
         className="my-2 bg-white rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:bg-black flex 
           md:mx-20 md:my-8 flex-col mx-4 md:ml-30 mb-20 dark:border-gray-500"
       >
+        <div>
+          <p className="font-semibold md:text-2xl text-xl text-gray-700 dark:text-gray-300">
+            模擬日本語学校 Academy
+          </p>
+          <p
+            className="text-xs flex flex-col md:text-sm
+                         text-gray-700 dark:text-gray-400"
+          >
+            {formattedDate}
+          </p>
+        </div>
         <div className="flex flex-col items-start justify-between">
           <div className="relative overflow-hidden flex space-x-2 mb-2 flex-wrap">
             {SCHOOL_PREVIEW_MEDIA.map((item, index) => (
               <SchoolMedia key={index} media={item} />
             ))}
-          </div>
-
-          <div>
-            <p
-              className="font-semibold md:text-2xl text-xl text-gray-700
-                     dark:text-gray-300"
-            >
-              模擬日本語学校 Academy
-            </p>
-            <p
-              className="text-xs flex flex-col md:text-sm
-                         text-gray-700 dark:text-gray-400"
-            >
-              {formattedDate}
-            </p>
           </div>
         </div>
         <p className="md:text-lg text-sm text-gray-800 dark:text-gray-200">

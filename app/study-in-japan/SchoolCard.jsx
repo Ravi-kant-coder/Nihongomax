@@ -38,7 +38,7 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
          dark:border-gray-200 dark:bg-black"
       >
         <div className="flex flex-col items-start justify-between">
-          <div>
+          <div className="mb-4">
             <p className="font-semibold md:text-2xl text-xl dark:text-gray-300">
               {school?.schoolName}
             </p>
@@ -93,7 +93,7 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
             <p className="font-semibold mr-2">Contact 連絡先 - &nbsp;</p>
             {`+81-${school?.mobile?.slice(0, 2)}-${school?.mobile?.slice(
               2,
-              6
+              6,
             )}-${school?.mobile?.slice(6)}` || "Not disclosed"}
           </div>
           <div className="items-center">

@@ -6,14 +6,12 @@ import { UserX } from "lucide-react";
 import { userFriendStore } from "@/store/userFriendsStore";
 import { useRouter } from "next/navigation";
 import Spinner from "@/app/Spinner";
-import { NoFriendsMessage } from "@/lib/Skeleten";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
 
 const MutualFriends = ({ id, isOwner, profileData }) => {
   const { fetchMutualFriends, mutualFriends, UnfriendUser } = userFriendStore();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [loading, setLoading] = useState(false);
 
   const handlefriendClick = (id) => {
     startTransition(() => {
@@ -29,6 +27,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
     }
   }, [id, fetchMutualFriends]);
 
+  // Why useEffect is not in handleundfriend?
   const handleUnfriend = async (userId) => {
     await UnfriendUser(userId);
   };
@@ -57,6 +56,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
             {mutualFriends.length === 0 ? (
               <PicsSkeleton text="No Friends" />
             ) : (
+              // How is it different from mutualFriends.map((f) => [f._id, f])).map
               [...new Map(mutualFriends.map((f) => [f._id, f])).values()].map(
                 (friend) => (
                   <div
@@ -105,7 +105,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                       </div>
                     )}
                   </div>
-                )
+                ),
               )
             )}
           </div>
