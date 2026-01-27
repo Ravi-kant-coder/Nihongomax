@@ -9,7 +9,7 @@ import {
   Phone,
   MonitorSmartphone as Mobile,
 } from "lucide-react";
-import SchoolMedia from "../study-in-japan/SchoolMedia";
+import SchoolMedia from "../components/MediaShowcase";
 
 const SchoolsInJapan = () => {
   const today = new Date();

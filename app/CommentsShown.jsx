@@ -94,7 +94,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                           startTransition(() => {
                             if (comment?.user?._id) {
                               router.push(
-                                `/user-profile/${comment?.user?._id}`
+                                `/user-profile/${comment?.user?._id}`,
                               );
                             }
                           });

@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePostStore } from "@/store/usePostStore";
-import AutoLoopVideo from "./AutoLoopVideo";
 import PostContentEdit from "./PostContentEdit";
+import MediaGrid from "./MediaGrid";
 
 const WallCard = ({ post, onLike, onShare, onComment }) => {
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
@@ -117,7 +117,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           overflow-hidden hover:underline capitalize font-[450]"
               onClick={handleDpClick}
             >
-              By {user?._id === post?.user?._id ? "you" : post?.user.username}
+              By {user?._id === post?.user?._id ? "you" : post?.user?.username}
             </div>
             <div className="text-xs text-gray-600 dark:text-gray-500">
               {formateDate(post?.createdAt)}
@@ -165,16 +165,19 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           <PostContentEdit postId={post._id} initialContent={post.content} />
         </div>
       )}
-      {post?.mediaUrl && post.mediaType === "image" && (
-        <img
-          src={post?.mediaUrl}
-          alt="post_image"
-          className="w-full h-auto mb-4"
-        />
+      {post?.uploadedMedia?.length > 0 && (
+        <MediaGrid media={post?.uploadedMedia} />
       )}
-      {post?.mediaUrl && post.mediaType === "video" && (
-        <AutoLoopVideo src={post?.mediaUrl} />
-      )}
+      <WallCardButtons
+        onLike={onLike}
+        isShareDialogOpen={isShareDialogOpen}
+        setIsShareDialogOpen={setIsShareDialogOpen}
+        onComment={onComment}
+        commentInputRef={commentInputRef}
+        handleShare={handleShare}
+        handleDpClick={handleDpClick}
+        post={post}
+      />
       {/* --------------------Delete Confirmation Modal------------------- */}
       {showDeleteModal && (
         <motion.div
@@ -212,7 +215,6 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           </div>
         </motion.div>
       )}
-
       {/* ------------------------Spinner-------------------------- */}
       {isPending && (
         <div
@@ -223,16 +225,6 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
           <Spinner />
         </div>
       )}
-      <WallCardButtons
-        onLike={onLike}
-        isShareDialogOpen={isShareDialogOpen}
-        setIsShareDialogOpen={setIsShareDialogOpen}
-        onComment={onComment}
-        commentInputRef={commentInputRef}
-        handleShare={handleShare}
-        handleDpClick={handleDpClick}
-        post={post}
-      />
     </motion.div>
   );
 };

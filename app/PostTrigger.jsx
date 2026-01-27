@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,42 +16,128 @@ import { ImageIcon, Laugh, Send, Plus, VideoIcon, X } from "lucide-react";
 import userStore from "@/store/userStore";
 import { usePostStore } from "@/store/usePostStore";
 import dynamic from "next/dynamic";
-const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
+import PostMediaSlot from "./PostMediaSlot";
 
 const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
+  const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [filePreview, setFilePreview] = useState(null);
-  const [filePreviews, setFilePreviews] = useState([]);
-  const [showImageUpload, setShowImageUpload] = useState(false);
   const [postContent, setPostContent] = useState("");
   const { user } = userStore();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fileType, setFileType] = useState("");
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const activeIndexRef = useRef(null);
+  const { handleCreatePost } = usePostStore();
 
-  const handleEmojiClick = (emoji) => {
-    setPostContent((prev) => prev + emojiObject.emoji);
+  const handleEmojiClick = (emojiData) => {
+    setPostContent((prev) => prev + emojiData.emoji);
+    setShowEmojiPicker(false);
+  };
+
+  // useEffect(() => {
+  //   const close = () => setShowEmojiPicker(false);
+  //   window.addEventListener("click", close);
+  //   return () => window.removeEventListener("click", close);
+  // }, []);
+
+  // ------------------Post Media slots state---------------------
+  const maxSlots = 4;
+  const [mediaSlots, setMediaSlots] = useState(
+    Array.from({ length: maxSlots }, () => null),
+  );
+
+  const [visibleSlots, setVisibleSlots] = useState(1);
+
+  const handleAddMoreSlot = () => {
+    setVisibleSlots((prev) => Math.min(prev + 1, maxSlots));
+  };
+
+  const handleRemoveSlot = (index) => {
+    setMediaSlots((prev) => {
+      const updated = [...prev];
+
+      for (let i = index; i < maxSlots - 1; i++) {
+        updated[i] = updated[i + 1];
+      }
+
+      updated[maxSlots - 1] = null;
+      return updated;
+    });
+
+    setVisibleSlots((prev) => Math.max(prev - 1, 1));
+  };
+
+  const canAddMore =
+    visibleSlots < maxSlots && mediaSlots[visibleSlots - 1] !== null;
+
+  const formatFileSize = (bytes) => {
+    if (!bytes) return "";
+
+    const kb = bytes / 1024;
+    if (kb < 1024) {
+      return `${kb.toFixed(1)} KB`;
+    }
+    const mb = kb / 1024;
+    return `${mb.toFixed(1)} MB`;
+  };
+
+  const handleSlotClick = (index) => {
+    activeIndexRef.current = index;
+    fileInputRef.current.click();
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    (setSelectedFile(file), setFileType(file.type));
-    setFilePreview(URL.createObjectURL(file));
+    if (!file) return;
+
+    const preview = URL.createObjectURL(file);
+
+    setMediaSlots((prev) => {
+      const updated = [...prev];
+      updated[activeIndexRef.current] = {
+        file,
+        preview,
+        type: file.type,
+      };
+      return updated;
+    });
   };
 
-  const handlePost = async () => {
+  const hasTooLargeFile = mediaSlots.some((slot) => {
+    if (!slot || !slot.file) return false;
+    const sizeInMB = slot.file.size / (1024 * 1024);
+    return sizeInMB > 4;
+  });
+
+  const cleanupPreviews = () => {
+    mediaSlots.forEach((slot) => {
+      if (slot?.preview) {
+        URL.revokeObjectURL(slot.preview);
+      }
+    });
+  };
+
+  const submitPost = async () => {
+    const hasMedia = mediaSlots.some((slot) => slot?.file);
+    const hasContent = postContent.trim().length > 0;
+    if (!hasContent && !hasMedia) {
+      return;
+    }
     try {
       setLoading(true);
-      const formData = new FormData();
-      formData.append("content", postContent);
-      if (selectedFile) {
-        formData.append("media", selectedFile);
-      }
-      await usePostStore.getState().handleCreatePost(formData);
+      const postData = new FormData();
+      postData.append("content", postContent);
+      mediaSlots.forEach((slot) => {
+        if (slot?.file) {
+          postData.append("media", slot.file);
+        }
+      });
+      await handleCreatePost(postData);
+      cleanupPreviews();
+      setMediaSlots(Array(4).fill(null));
+      setVisibleSlots(1);
       setPostContent("");
       setSelectedFile(null);
-      setFilePreview(null);
       setIsPostTriggerOpen(false);
     } catch (error) {
       console.error(error);
@@ -113,7 +199,7 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                 </div>
               </DialogTrigger>
             </div>
-            <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)]">
+            <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full">
               <DialogHeader>
                 <DialogTitle className="text-center">
                   Create a Public Post
@@ -133,123 +219,114 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                   <p>{user?.username}</p>
                 </div>
               </div>
-              <Textarea
-                placeholder={`What's on your mind ${
-                  user?.username.split(" ")[0]
-                } ?`}
-                className="min-h-[80px] text-lg dark:bg-[rgb(90,90,90)]"
-                value={postContent}
-                onChange={(e) => setPostContent(e.target.value)}
-              />
-              <AnimatePresence>
-                {(showImageUpload || filePreviews.length > 0) && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="relative mt-4 cursor-pointer border border-dashed border-gray-400
-                    rounded-lg flex items-center justify-center hover:bg-gray-300 group
-                    dark:hover:bg-[rgb(36,37,38)] p-2"
-                    onClick={() => fileInputRef.current.click()}
+              <div className="relative">
+                <Textarea
+                  placeholder={`What's on your mind ${user?.username.split(" ")[0]} ?`}
+                  className="min-h-[80px] text-lg pr-12 dark:bg-[rgb(90,90,90)] border-gray-300"
+                  value={postContent}
+                  onChange={(e) => setPostContent(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="absolute bottom-2 right-2 text-yellow-500 hover:scale-115 cursor-pointer transition-transform"
+                  onClick={() => setShowEmojiPicker((prev) => !prev)}
+                >
+                  <Laugh className="h-7 w-7" />
+                </button>
+                {showEmojiPicker && (
+                  <div
+                    className="absolute top-0 right-0 z-50"
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    {filePreview ? (
-                      fileType.startsWith("image") ? (
-                        <img
-                          src={filePreview}
-                          alt="preview_img"
-                          className="w-full h-auto max-h-[200px] object-cover rounded"
-                        />
-                      ) : (
-                        <video
-                          controls
-                          src={filePreview}
-                          className="w-full h-auto max-h-[200px] object-cover"
-                        />
-                      )
-                    ) : (
-                      <div className="flex flex-col items-center">
-                        <Plus
-                          className="h-12 w-12 text-gray-400 mb-2 cursor-pointer 
-                        group-hover:text-gray-600 dark:group-hover:text-white"
-                        />
-                        <p
-                          className="text-center group-hover:text-black
-                        dark:group-hover:text-white text-gray-500 "
-                        >
-                          Add Photos/Videos
-                        </p>
-                      </div>
-                    )}
+                    <div className="relative">
+                      <Picker onEmojiClick={handleEmojiClick} />
 
-                    <input
-                      type="file"
-                      accept="image/*,video/*"
-                      className="hidden"
-                      multiple
-                      onChange={handleFileChange}
-                      ref={fileInputRef}
-                    />
-                  </motion.div>
+                      {/* Close button */}
+                      <button
+                        type="button"
+                        className="absolute -top-2 -right-2 bg-amber-200 rounded-full shadow p-1 cursor-pointer hover:bg-amber-300"
+                        onClick={() => setShowEmojiPicker(false)}
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </div>
+                  </div>
                 )}
-              </AnimatePresence>
-              <div className="bg-gray-300 p-4 rounded-lg mt-4 dark:bg-[rgb(40,40,40)]">
-                <p className="font-[450] mb-2">Add to your Post</p>
-                <div className="flex space-x-2">
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center hover:bg-green-200 
-                    cursor-pointer dark:hover:bg-gray-600"
-                    onClick={() => setShowImageUpload(!showImageUpload)}
-                  >
-                    <ImageIcon className="h-5 w-5 text-green-500" />
-                    <span>Photo</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center hover:bg-pink-200 
-                    cursor-pointer dark:hover:bg-gray-600"
-                    onClick={() => setShowImageUpload(!showImageUpload)}
-                  >
-                    <VideoIcon className="h-5 w-5 text-red-500" />
-                    <span>Video</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center hover:bg-yellow-200
-                    cursor-pointer dark:hover:bg-gray-600"
-                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                  >
-                    <Laugh className="h-5 w-5 text-yellow-500" />
-                    <span>Emoji</span>
-                  </Button>
-                </div>
               </div>
 
-              {showEmojiPicker && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  className="relative"
-                >
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-2 right-2 z-10 hover:bg-amber-200 cursor-pointer"
-                    onClick={() => {
-                      setShowEmojiPicker(false);
-                    }}
+              {/* ------------------Post Image/video 4 Upload media slots---------------------*/}
+              <div
+                className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 
+                 md:space-x-4 mb-4 md:justify-start"
+              >
+                <AnimatePresence>
+                  {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.7 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="relative"
+                    >
+                      {slot && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveSlot(index)}
+                          className="absolute -top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white 
+                          flex items-center justify-center text-sm hover:bg-black cursor-pointer"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      )}
+                      <PostMediaSlot
+                        key={index}
+                        slot={slot}
+                        filePreview={slot ? slot.preview : null}
+                        fileName={slot?.file ? slot.file.name : null}
+                        fileType={slot ? slot.type : null}
+                        formatFileSize={formatFileSize}
+                        fileSize={slot?.file ? slot.file.size : null}
+                        handleFileChange={handleFileChange}
+                        fileInputRef={fileInputRef}
+                        onClick={() => handleSlotClick(index)}
+                      />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                {canAddMore && (
+                  <motion.button
+                    type="button"
+                    onClick={handleAddMoreSlot}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.8 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                    className="w-[120px] flex flex-col items-center justify-center cursor-pointer dark:text-gray-400
+                     border border-gray-500 rounded-lg text-gray-500 hover:border-gray-700 hover:text-gray-700
+                   dark:hover:border-white dark:hover:text-white dark:border-gray-400"
                   >
-                    <X className="h-4 w-4" />
-                  </Button>
-                  <Picker onEmojiClick={handleEmojiClick} />
-                </motion.div>
-              )}
+                    <span className="text-4xl">
+                      <Plus className="h-6 w-6" />
+                    </span>
+                    <span className="text-sm ">Add</span>
+                    <span className="text-sm ">More</span>
+                  </motion.button>
+                )}
+                <input
+                  type="file"
+                  accept="image/*,video/*"
+                  className="hidden"
+                  onChange={handleFileChange}
+                  ref={fileInputRef}
+                />
+              </div>
               <div className="flex justify-end mt-4 ">
                 <Button
                   className="bg-gray-700 w-1/3 text-white dark:bg-black
                  dark:hover:bg-gray-900 cursor-pointer hover:bg-black"
-                  onClick={handlePost}
+                  onClick={submitPost}
+                  disabled={hasTooLargeFile || loading}
                 >
                   {loading ? "Sending..." : "SEND"}
                   <Send className="h-4 w-4" />

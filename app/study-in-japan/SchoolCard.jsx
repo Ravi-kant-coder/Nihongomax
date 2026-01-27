@@ -11,8 +11,8 @@ import {
 import { formateDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
 import EditSchool from "./EditSchool";
-import SchoolMedia from "./SchoolMedia";
 import Spinner from "../Spinner";
+import MediaShowcase from "../components/MediaShowcase";
 
 const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -46,9 +46,9 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
               Posted {formateDate(school?.createdAt)}
             </p>
           </div>
-          <div className="relative mx-auto my-auto overflow-hidden rounded flex space-x-2 mb-2 flex-wrap">
+          <div className="relative my-auto overflow-hidden rounded flex space-x-2 mb-2 flex-wrap">
             {school.uploadedMedia.map((media, index) => (
-              <SchoolMedia school={school} media={media} key={index} />
+              <MediaShowcase parent={school} media={media} key={index} />
             ))}
           </div>
         </div>

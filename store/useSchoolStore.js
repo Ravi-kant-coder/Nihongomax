@@ -36,7 +36,6 @@ export const useSchoolStore = create((set) => ({
   },
 
   createSchoolZust: async (schoolData) => {
-    console.log("Zustand SchoolData object:", schoolData);
     set({ loading: true, error: null });
     try {
       const newSchool = await createSchoolService(schoolData);
@@ -56,7 +55,7 @@ export const useSchoolStore = create((set) => ({
       await updateSchoolService(schoolId, newContent);
       set((state) => ({
         schools: state.schools.map((school) =>
-          school._id === schoolId ? { ...school, ...newContent } : school
+          school._id === schoolId ? { ...school, ...newContent } : school,
         ),
       }));
     } catch (error) {

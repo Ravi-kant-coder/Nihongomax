@@ -70,7 +70,7 @@ export const usePostStore = create((set) => ({
           return {
             ...post,
             comments: post.comments.filter(
-              (comment) => comment._id !== commentId
+              (comment) => comment._id !== commentId,
             ),
           };
         }),
@@ -80,7 +80,7 @@ export const usePostStore = create((set) => ({
           return {
             ...post,
             comments: post.comments.filter(
-              (comment) => comment._id !== commentId
+              (comment) => comment._id !== commentId,
             ),
           };
         }),
@@ -116,8 +116,7 @@ export const usePostStore = create((set) => ({
   },
 
   handleCreatePost: async (postData) => {
-    console.log("Zustand Postdata object:", postData);
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
       const newPostRaw = await createPost(postData);
       const { user } = userStore.getState();
@@ -133,7 +132,7 @@ export const usePostStore = create((set) => ({
         posts: [newPost, ...state.posts],
         loading: false,
       }));
-      return newPost; // Return the new post for further use
+      return newPost;
     } catch (error) {
       set({ error, loading: false });
       throw error;
@@ -145,10 +144,10 @@ export const usePostStore = create((set) => ({
       await updatePostContentAPI(postId, newContent);
       set((state) => ({
         posts: state.posts.map((post) =>
-          post._id === postId ? { ...post, ...newContent } : post
+          post._id === postId ? { ...post, ...newContent } : post,
         ),
         userPosts: state.userPosts.map((post) =>
-          post._id === postId ? { ...post, ...newContent } : post
+          post._id === postId ? { ...post, ...newContent } : post,
         ),
       }));
     } catch (error) {
@@ -167,7 +166,7 @@ export const usePostStore = create((set) => ({
           return {
             ...post,
             comments: post.comments.map((comment) =>
-              comment._id === commentId ? { ...comment, ...newText } : comment
+              comment._id === commentId ? { ...comment, ...newText } : comment,
             ),
           };
         }),
@@ -176,7 +175,7 @@ export const usePostStore = create((set) => ({
           return {
             ...post,
             comments: post.comments.map((comment) =>
-              comment._id === commentId ? { ...comment, ...newText } : comment
+              comment._id === commentId ? { ...comment, ...newText } : comment,
             ),
           };
         }),
@@ -195,7 +194,7 @@ export const usePostStore = create((set) => ({
         posts: state.posts.map((post) =>
           post?._id === postId
             ? { ...post, comments: [...post.comments, newComments] }
-            : post
+            : post,
         ),
       }));
     } catch (error) {

@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 
-const MediaSlot = ({
+const PostMediaSlot = ({
   slot,
   onClick,
   fileType,
@@ -9,7 +9,6 @@ const MediaSlot = ({
   fileName,
   fileSize,
   formatFileSize,
-  slotBorderSize,
 }) => {
   const getFileSizeStatus = (file) => {
     if (!file) return "empty";
@@ -32,7 +31,7 @@ const MediaSlot = ({
   return (
     <div className="flex flex-col items-center justify-center">
       <div
-        className={`relative cursor-pointer border-dashed overflow-hidden ${slotBorderSize}
+        className={`relative cursor-pointer border-dashed overflow-hidden border-1
         ${borderColor} rounded-lg flex items-center justify-center hover:bg-gray-300 group
         dark:hover:bg-[rgb(36,37,38)] dark:border-gray-400 md:w-40 md:h-40 w-32 h-28`}
         onClick={onClick}
@@ -46,7 +45,7 @@ const MediaSlot = ({
             />
           ) : fileType === "video/avi" ? (
             <p className="text-sm text-center text-red-800">
-              AVIフォーマット不可
+              AVI Format is not allowed
             </p>
           ) : (
             <video
@@ -57,8 +56,11 @@ const MediaSlot = ({
           )
         ) : (
           <div className="flex flex-col items-center">
-            <Plus className="h-12 w-12 dark:text-gray-400 text-gray-700 mb-2" />
-            <p className="text-center dark:text-gray-400">貴校写真/ビデオ</p>
+            <Plus className="md:h-10 md:w-10 dark:text-gray-400 text-gray-500 mb-2" />
+            <p className="text-center dark:text-gray-400">
+              Add
+              <br /> Photos/Videos
+            </p>
           </div>
         )}
       </div>
@@ -73,12 +75,14 @@ const MediaSlot = ({
         </p>
       )}
       {filePreview && sizeStatus === "large" && (
-        <p className={`text-xs ${borderColor} text-center max-w-[100px]`}>
-          ファイルサイズ4MB以上不可
+        <p
+          className={`text-xs text-red-600 dark:text-red-500 text-center max-w-[100px]`}
+        >
+          File size exceeds 4MB
         </p>
       )}
     </div>
   );
 };
 
-export default MediaSlot;
+export default PostMediaSlot;

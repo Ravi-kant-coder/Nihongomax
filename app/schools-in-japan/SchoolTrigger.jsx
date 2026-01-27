@@ -57,15 +57,36 @@ const SchoolTrigger = () => {
   const { createSchoolZust, loading } = useSchoolStore();
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
+
+  // ------------------School Media slots state---------------------
+  const maxSlots = 4;
   const [mediaSlots, setMediaSlots] = useState(
-    Array.from({ length: 4 }, () => null),
+    Array.from({ length: maxSlots }, () => null),
   );
+
   const [visibleSlots, setVisibleSlots] = useState(1);
+
   const handleAddMoreSlot = () => {
-    setVisibleSlots((prev) => Math.min(prev + 1, 4));
+    setVisibleSlots((prev) => Math.min(prev + 1, maxSlots));
   };
 
-  const canAddMore = visibleSlots < 4 && mediaSlots[visibleSlots - 1] !== null;
+  const handleRemoveSlot = (index) => {
+    setMediaSlots((prev) => {
+      const updated = [...prev];
+
+      for (let i = index; i < maxSlots - 1; i++) {
+        updated[i] = updated[i + 1];
+      }
+
+      updated[maxSlots - 1] = null;
+      return updated;
+    });
+
+    setVisibleSlots((prev) => Math.max(prev - 1, 1));
+  };
+
+  const canAddMore =
+    visibleSlots < maxSlots && mediaSlots[visibleSlots - 1] !== null;
 
   const formatFileSize = (bytes) => {
     if (!bytes) return "";
@@ -143,6 +164,7 @@ const SchoolTrigger = () => {
       reset();
       cleanupPreviews();
       setMediaSlots(Array(4).fill(null));
+      setVisibleSlots(1);
       setFeedback(
         `${user?.username?.split(" ")[0]}様、ご掲載ありがとうございました。`,
       );
@@ -192,7 +214,18 @@ const SchoolTrigger = () => {
                 initial={{ opacity: 0, scale: 0.7 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
+                className="relative"
               >
+                {slot && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveSlot(index)}
+                    className="absolute -top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white 
+                     flex items-center justify-center text-sm hover:bg-black cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                )}
                 <MediaSlot
                   key={index}
                   slot={slot}
@@ -204,6 +237,7 @@ const SchoolTrigger = () => {
                   handleFileChange={handleFileChange}
                   fileInputRef={fileInputRef}
                   onClick={() => handleSlotClick(index)}
+                  slotBorderSize="border-2"
                 />
               </motion.div>
             ))}
@@ -217,13 +251,13 @@ const SchoolTrigger = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
-              className="w-[120px] flex flex-col items-center justify-center cursor-pointer p-4
-              border border-dashed border-white rounded-xl text-white hover:border-gray-700 hover:text-gray-700
+              className="w-[120px] flex flex-col items-center justify-center cursor-pointer
+              border border-white rounded-xl text-white hover:border-gray-700 hover:text-gray-700
                dark:hover:border-white dark:hover:text-white"
             >
               <span className="text-4xl">+</span>
-              <span className="text-sm mt-1">アップロード</span>
-              <span className="text-sm mt-1">写真/ビデオ</span>
+              <span className="text-sm ">アップロード</span>
+              <span className="text-sm ">もっと</span>
             </motion.button>
           )}
           <input
@@ -396,12 +430,18 @@ const SchoolTrigger = () => {
             className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
            ${
              submitted
-               ? "bg-green-600 text-black dark:bg-green-900 dark:text-white dark:font-normal"
+               ? "bg-green-800 text-white"
                : "bg-black dark:text-gray-400 hover:bg-gray-900"
            }`}
             disabled={hasTooLargeFile || loading}
           >
-            {loading ? "送信中..." : submitted ? feedback : "送信する"}
+            {loading ? (
+              "送信中..."
+            ) : submitted ? (
+              <span className="text-white">{feedback}</span>
+            ) : (
+              "送信する"
+            )}
           </Button>
           <p className="mb-2 mt-1 dark:text-gray-300 text-sm ml-2">
             編集・削除はいつでも可能です。
