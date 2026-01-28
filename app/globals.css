@@ -313,3 +313,8 @@ body {
   background: black;
   animation: blink 1s infinite;
 }
+.emoji-span {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
+  font-size: 1.4em;
+  line-height: 1;
+}

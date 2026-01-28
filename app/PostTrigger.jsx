@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -15,12 +15,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ImageIcon, Laugh, Send, Plus, VideoIcon, X } from "lucide-react";
 import userStore from "@/store/userStore";
 import { usePostStore } from "@/store/usePostStore";
-import dynamic from "next/dynamic";
 import PostMediaSlot from "./PostMediaSlot";
+import EmojiPickerButton from "./components/EmojiPickerButton";
 
-const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
-  const Picker = dynamic(() => import("emoji-picker-react"), { ssr: false });
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+const PostTrigger = () => {
+  const [isPostTriggerOpen, setIsPostTriggerOpen] = useState(false);
   const [postContent, setPostContent] = useState("");
   const { user } = userStore();
   const [selectedFile, setSelectedFile] = useState(null);
@@ -28,17 +27,6 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
   const fileInputRef = useRef(null);
   const activeIndexRef = useRef(null);
   const { handleCreatePost } = usePostStore();
-
-  const handleEmojiClick = (emojiData) => {
-    setPostContent((prev) => prev + emojiData.emoji);
-    setShowEmojiPicker(false);
-  };
-
-  // useEffect(() => {
-  //   const close = () => setShowEmojiPicker(false);
-  //   window.addEventListener("click", close);
-  //   return () => window.removeEventListener("click", close);
-  // }, []);
 
   // ------------------Post Media slots state---------------------
   const maxSlots = 4;
@@ -219,6 +207,8 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                   <p>{user?.username}</p>
                 </div>
               </div>
+
+              {/* -----------------------Post Trigger Textarea with Emoji--------------------------*/}
               <div className="relative">
                 <Textarea
                   placeholder={`What's on your mind ${user?.username.split(" ")[0]} ?`}
@@ -226,35 +216,14 @@ const PostTrigger = ({ isPostTriggerOpen, setIsPostTriggerOpen }) => {
                   value={postContent}
                   onChange={(e) => setPostContent(e.target.value)}
                 />
-                <button
-                  type="button"
-                  className="absolute bottom-2 right-2 text-yellow-500 hover:scale-115 cursor-pointer transition-transform"
-                  onClick={() => setShowEmojiPicker((prev) => !prev)}
-                >
-                  <Laugh className="h-7 w-7" />
-                </button>
-                {showEmojiPicker && (
-                  <div
-                    className="absolute top-0 right-0 z-50"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <div className="relative">
-                      <Picker onEmojiClick={handleEmojiClick} />
-
-                      {/* Close button */}
-                      <button
-                        type="button"
-                        className="absolute -top-2 -right-2 bg-amber-200 rounded-full shadow p-1 cursor-pointer hover:bg-amber-300"
-                        onClick={() => setShowEmojiPicker(false)}
-                      >
-                        <X className="h-5 w-5" />
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <div className="absolute bottom-0 right-2">
+                  <EmojiPickerButton
+                    onSelect={(emoji) => setPostContent((prev) => prev + emoji)}
+                  />
+                </div>
               </div>
 
-              {/* ------------------Post Image/video 4 Upload media slots---------------------*/}
+              {/* ------------------Image/video 4 media slots---------------------*/}
               <div
                 className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 
                  md:space-x-4 mb-4 md:justify-start"

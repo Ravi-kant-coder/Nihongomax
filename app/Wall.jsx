@@ -7,7 +7,6 @@ import { usePostStore } from "@/store/usePostStore";
 import ScrollupBtn from "./ScrollupBtn";
 
 const Wall = () => {
-  const [isPostTriggerOpen, setIsPostTriggerOpen] = useState(false);
   const {
     posts,
     fetchPost,
@@ -51,10 +50,7 @@ const Wall = () => {
 
   return (
     <div className="mb-20 dark:bg-[rgb(30,30,30)] p-2 md:max-w-1/2 gap-4">
-      <PostTrigger
-        isPostTriggerOpen={isPostTriggerOpen}
-        setIsPostTriggerOpen={setIsPostTriggerOpen}
-      />
+      <PostTrigger />
       <StorySection />
       {posts?.map((post) => (
         <WallCard

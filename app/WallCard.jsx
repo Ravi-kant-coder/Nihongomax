@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import userStore from "@/store/userStore";
 import WallCardButtons from "./WallCardButtons";
 import { formateDate } from "@/lib/utils";
+import { wrapEmojis } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";
@@ -159,10 +160,10 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
 
       {/* --------------------------Actual post content----------------------- */}
       {user?._id !== post?.user?._id ? (
-        <p className="font-[450] p-4">{post?.content}</p>
+        <p className="font-[450] p-4">{wrapEmojis(post?.content)}</p>
       ) : (
         <div className="p-2">
-          <PostContentEdit postId={post._id} initialContent={post.content} />
+          <PostContentEdit postId={post._id} initialContent={post?.content} />
         </div>
       )}
       {post?.uploadedMedia?.length > 0 && (

@@ -3,7 +3,10 @@ import { useState, useTransition } from "react";
 import { SquarePen, Trash2 } from "lucide-react";
 import { usePostStore } from "@/store/usePostStore";
 import { motion, AnimatePresence } from "framer-motion";
+import { wrapEmojis } from "@/lib/utils";
 import Spinner from "./Spinner";
+import { Textarea } from "@/components/ui/textarea";
+import EmojiPickerButton from "./components/EmojiPickerButton";
 
 const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -61,7 +64,7 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
         {!isEditing ? (
           <div>
             <p className="text-gray-800 dark:text-gray-300 text-md font-semibold">
-              {initComment}
+              {wrapEmojis(initComment)}
             </p>
             <div className="flex items-center mt-2">
               <span className="text-xs text-gray-500">Only you can</span>
@@ -84,13 +87,20 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
           </div>
         ) : (
           <>
-            <textarea
-              className="w-full p-2 border rounded ring-offset focus:outline-none
+            <div className="relative">
+              <Textarea
+                className="w-full p-2 border rounded ring-offset focus:outline-none
              focus:ring focus:ring-gray-600"
-              rows="2"
-              value={tempComment}
-              onChange={(e) => setTempComment(e.target.value)}
-            />
+                rows="2"
+                value={tempComment}
+                onChange={(e) => setTempComment(e.target.value)}
+              />
+              <div className="absolute bottom-0 right-2">
+                <EmojiPickerButton
+                  onSelect={(emoji) => setTempComment((prev) => prev + emoji)}
+                />
+              </div>
+            </div>
             <div className="flex gap-2">
               <button
                 className="px-2 bg-white dark:text-green-400 flex items-center text-xs

@@ -10,6 +10,8 @@ import CommentEdit from "./CommentEdit";
 import { motion, AnimatePresence } from "framer-motion";
 import Spinner from "./Spinner";
 import { usePostStore } from "@/store/usePostStore";
+import EmojiPickerButton from "./components/EmojiPickerButton";
+import { wrapEmojis } from "@/lib/utils";
 
 const CommentsShown = ({ post, onComment, commentInputRef }) => {
   const [showAllComments, setShowAllComments] = useState(false);
@@ -109,7 +111,9 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                     {formateDate(comment?.createdAt)}
                   </div>
                   {user?._id !== comment?.user?._id ? (
-                    <p className="text-md font-semibold">{comment?.text}</p>
+                    <p className="text-md font-semibold">
+                      {wrapEmojis(comment?.text)}
+                    </p>
                   ) : (
                     <CommentEdit
                       post={post}
@@ -170,19 +174,25 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
             {user?.username.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <Input
-          className="flex-1 mr-2 dark:border-gray-100 border-gray-400 lg:min-w-120
-           md:min-w-100"
-          placeholder={`Comment as ${
-            user?.username
-              ? user.username.charAt(0).toUpperCase() + user.username.slice(1)
-              : ""
-          }...`}
-          value={commentText}
-          ref={commentInputRef}
-          onChange={(e) => setCommentText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleCommentSubmit()}
-        />
+        <div className="flex-1 mr-2 relative">
+          <Input
+            className="dark:border-gray-100 border-gray-400 w-full md:w-[400px] lg:w-[560px]  pr-10"
+            placeholder={`Comment as ${
+              user?.username
+                ? user.username.charAt(0).toUpperCase() + user.username.slice(1)
+                : ""
+            }...`}
+            value={commentText}
+            ref={commentInputRef}
+            onChange={(e) => setCommentText(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleCommentSubmit()}
+          />
+          <div className="absolute -bottom-1 right-1">
+            <EmojiPickerButton
+              onSelect={(emoji) => setCommentText((prev) => prev + emoji)}
+            />
+          </div>
+        </div>
         <Button
           className="cursor-pointer bg-gray-700 hover:bg-black dark:bg-gray-600
                dark:text-white dark:hover:bg-gray-700"
