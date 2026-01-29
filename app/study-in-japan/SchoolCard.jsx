@@ -88,14 +88,21 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
             <p className="font-semibold mr-2">Email メール - &nbsp;</p>
             {school?.email || "Not Provided"}
           </div>
-          <div className="flex items-center ">
+          <div className="flex items-center">
             <Phone size={16} strokeWidth={2} className="mr-2" />
-            <p className="font-semibold mr-2">Contact 連絡先 - &nbsp;</p>
-            {`+81-${school?.mobile?.slice(0, 2)}-${school?.mobile?.slice(
-              2,
-              6,
-            )}-${school?.mobile?.slice(6)}` || "Not disclosed"}
+            <p className="font-semibold mr-2">Contact 連絡先 </p>&nbsp;
+            {school?.mobile ? (
+              <span>
+                +81-{school.mobile.slice(0, 2)}-{school.mobile.slice(2, 6)}-
+                {school.mobile.slice(6)}
+              </span>
+            ) : (
+              <span className="text-gray-600 dark:text-gray-400">
+                Not provided here
+              </span>
+            )}
           </div>
+
           <div className="items-center">
             {school?.schoolDescription || "No details provided by this School."}
           </div>

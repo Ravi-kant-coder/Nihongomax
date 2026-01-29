@@ -11,6 +11,7 @@ import {
   Languages,
   ArrowBigDown,
   Phone,
+  MonitorSmartphone,
 } from "lucide-react";
 
 const Recruiters = () => {
@@ -116,17 +117,29 @@ const Recruiters = () => {
               <div className="flex items-center text-sm">
                 <IndianRupee size={16} strokeWidth={2} className="mr-2" />
                 <p className="font-semibold mr-2">Salary:</p>
-                50,000 - 60,000 per month
+                INR 50,000 - 60,000 per month
               </div>
               <div className="flex items-center text-sm">
                 <Mail size={16} strokeWidth={2} className="mr-2" />
                 <p className="font-semibold mr-2">Email:</p>
-                dummy@email.com
+                company@email.com
               </div>
               <div className="flex items-center text-sm">
                 <Phone size={16} strokeWidth={2} className="mr-2" />
                 <p className="font-semibold mr-2">Mobile:</p>
                 9999999999
+              </div>
+              <div className="flex items-center text-sm">
+                <MonitorSmartphone size={16} strokeWidth={2} className="mr-2" />
+                <p className="font-semibold mr-2">Website:</p>
+                <a
+                  href={`https://learnjapanesedelhi.com`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-800 dark:text-blue-500 hover:underline break-all"
+                >
+                  learnjapanesedelhi.com
+                </a>
               </div>
               <div className="items-center text-sm">
                 <p className="font-semibold">Job&nbsp;Description:</p>

@@ -6,15 +6,25 @@ import { wrapEmojis } from "@/lib/utils";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { Textarea } from "@/components/ui/textarea";
 
-const PostContentEdit = ({ postId, initialContent }) => {
+const PostContentEdit = ({
+  postId,
+  initialContent,
+  handlePostDelete,
+  post,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState(initialContent);
   const [tempContent, setTempContent] = useState(initialContent);
   const updatePostContent = usePostStore((state) => state.updatePostContent);
 
+  const trimmed = tempContent.trim();
   const handleSave = async () => {
-    const trimmed = tempContent.trim();
-    if (!trimmed) return;
+    // Case 1: No text, no media → delete post
+    if (!trimmed && post.uploadedMedia.length === 0) {
+      await handlePostDelete(postId);
+      return;
+    }
+    // Case 2: Media exists → update text only (even empty string)
     try {
       await updatePostContent(postId, trimmed);
       setContent(trimmed);
@@ -59,9 +69,15 @@ const PostContentEdit = ({ postId, initialContent }) => {
             <div className="absolute bottom-0 right-2">
               <EmojiPickerButton
                 onSelect={(emoji) => setTempContent((prev) => prev + emoji)}
+                emojiSize={"h-8 w-8"}
               />
             </div>
           </div>
+          {!trimmed && post.uploadedMedia.length === 0 && (
+            <p className="text-xs text-gray-700 italic my-1 dark:text-gray-400 ">
+              Saving will delete this post
+            </p>
+          )}
           <div className="flex gap-2">
             <button
               className="px-2 bg-white dark:text-green-400 flex items-center text-xs

@@ -18,9 +18,14 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
   const [isPending, startTransition] = useTransition();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  const trimmed = tempComment.trim();
   const handleSave = async () => {
-    const trimmed = tempComment.trim();
-    if (!trimmed) return;
+    // Empty comment → delete
+    if (!trimmed) {
+      await handleCommentDelete(postId, commentId);
+      setIsEditing(false);
+      return;
+    }
     try {
       await updateComment(postId, commentId, trimmed);
       setComment(trimmed);
@@ -30,23 +35,20 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
     }
   };
 
-  const handleCancel = () => {
-    setTempComment(tempComment);
-    setIsEditing(false);
+  const handleCommentDelete = async (postId, commentId) => {
+    try {
+      await deleteComment(postId, commentId);
+      await fetchPost();
+    } catch (err) {
+      console.error("Error deleting comment", err);
+    } finally {
+      setShowDeleteModal(false);
+    }
   };
 
-  const handleCommentDelete = async (postId, commentId) => {
-    setShowDeleteModal(false);
-    startTransition(async () => {
-      if (postId) {
-        try {
-          await deleteComment(postId, commentId);
-        } catch (err) {
-          console.error("Error in handler", err);
-        }
-      }
-    });
-    fetchPost();
+  const handleCancel = () => {
+    setTempComment(initComment);
+    setIsEditing(false);
   };
 
   const cancelCommentDelete = () => {
@@ -98,9 +100,15 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
               <div className="absolute bottom-0 right-2">
                 <EmojiPickerButton
                   onSelect={(emoji) => setTempComment((prev) => prev + emoji)}
+                  emojiSize={"h-8 w-8"}
                 />
               </div>
             </div>
+            {isEditing && !trimmed && (
+              <p className="text-xs text-gray-700 mt-1 italic dark:text-gray-400">
+                Saving empty will delete this comment
+              </p>
+            )}
             <div className="flex gap-2">
               <button
                 className="px-2 bg-white dark:text-green-400 flex items-center text-xs

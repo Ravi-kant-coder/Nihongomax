@@ -1,8 +1,8 @@
-import { SmilePlus, X } from "lucide-react";
+import { SmilePlus } from "lucide-react";
 import { useState, useRef } from "react";
 import EmojiPickerPortal from "./EmojiPickerPortal";
 
-const EmojiPickerButton = ({ onSelect }) => {
+const EmojiPickerButton = ({ onSelect, emojiSize }) => {
   const [open, setOpen] = useState(false);
   const btnRef = useRef(null);
 
@@ -11,11 +11,11 @@ const EmojiPickerButton = ({ onSelect }) => {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="cursor-pointer hover:scale-115 transition-transform text-gray-500 hover:text-gray-700 dark:text-gray-400
+        className="cursor-pointer hover:scale-115 transition-transform text-amber-600 dark:text-gray-400
         dark:hover:text-gray-200"
         ref={btnRef}
       >
-        <SmilePlus className="h-8 w-8" strokeWidth={1.4} shrink={0} />
+        <SmilePlus className={emojiSize} strokeWidth={1.5} shrink={0} />
       </button>
 
       {open && (

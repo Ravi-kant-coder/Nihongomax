@@ -13,7 +13,7 @@ import {
   deletePost,
   deleteStory,
   updatePostContent as updatePostContentAPI,
-  deleteComment as deleteCommentAPI,
+  deleteComment,
   updateComment as updateCommentAPI,
 } from "@/service/post.service";
 
@@ -61,7 +61,7 @@ export const usePostStore = create((set) => ({
 
   deleteComment: async (postId, commentId) => {
     try {
-      await deleteCommentAPI(postId, commentId);
+      await deleteComment(postId, commentId);
 
       set((state) => ({
         posts: state.posts.map((post) => {

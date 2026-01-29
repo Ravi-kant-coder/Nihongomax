@@ -120,7 +120,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
             >
               By {user?._id === post?.user?._id ? "you" : post?.user?.username}
             </div>
-            <div className="text-xs text-gray-600 dark:text-gray-500">
+            <div className="text-xs text-gray-600 dark:text-gray-400">
               {formateDate(post?.createdAt)}
             </div>
           </div>
@@ -163,7 +163,12 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
         <p className="font-[450] p-4">{wrapEmojis(post?.content)}</p>
       ) : (
         <div className="p-2">
-          <PostContentEdit postId={post._id} initialContent={post?.content} />
+          <PostContentEdit
+            postId={post._id}
+            initialContent={post?.content}
+            handlePostDelete={handlePostDelete}
+            post={post}
+          />
         </div>
       )}
       {post?.uploadedMedia?.length > 0 && (

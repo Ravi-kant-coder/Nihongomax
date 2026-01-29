@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { X } from "lucide-react";
@@ -19,15 +19,11 @@ const EditSchool = ({ onClose, school }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
-      title: school?.title || "",
-      requirements: school?.requirements || "",
+      intakes: school?.intakes || "",
+      intro: school?.intro || "",
       location: school?.location || "",
-      salary: school?.salary || "",
-      email: school?.email || "",
-      mobile: school?.mobile || "",
       schoolDescription: school?.schoolDescription || "",
     },
   });
@@ -37,7 +33,7 @@ const EditSchool = ({ onClose, school }) => {
       await updateSchoolZust(school._id, data);
       onClose();
     } catch (error) {
-      console.log("UpdateschoolHandler me error", error);
+      console.log("UpdateschoolHandler error", error);
     }
   };
 
@@ -45,19 +41,23 @@ const EditSchool = ({ onClose, school }) => {
     <div
       className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] p-2 md:p-4 rounded-lg
      bg-[rgb(170,170,170)] lg:max-w-200 fixed inset-0 z-50 m-auto overflow-y-auto
-     shadow-lg border border-gray-300 dark:border-gray-700 h-160"
+     shadow-lg border border-gray-300 dark:border-gray-700 h-150"
     >
       <div>
-        <div className="flex items-center justify-between mb-2">
-          <p className="font-semibold dark:font-normal text-lg">
-            Edit this School post {user?.username}
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <p className="text-lg">
+              {user?.username}様、基本情報編集は可能です。{" "}
+            </p>
+            <p className="text-sm text-red-900 dark:text-red-600">
+              連絡先などは不可能です。{" "}
+            </p>
+          </div>
           <button
             onClick={onClose}
-            className="bg-[rgba(23,23,23,0.5)] dark:bg-[rgb(0,30,30)]
-            hover:bg-black text-white p-1 mr-4
-            dark:hover:bg-black cursor-pointer border-2 border-white/80 
-            dark:border-[rgb(200,200,200)] rounded-lg top-1 z-50"
+            className="bg-[rgba(23,23,23,0.5)] dark:bg-[rgb(40,40,40)]
+            hover:bg-black text-white p-1 mr-4 dark:hover:bg-[rgb(60,60,60)] cursor-pointer  
+             rounded-lg top-1 z-50"
           >
             <X className="w-7 h-7" />
           </button>
@@ -65,7 +65,7 @@ const EditSchool = ({ onClose, school }) => {
 
         {/* ------------------------School edit Form--------------------------- */}
         <form onSubmit={handleSubmit(handleEditSchool)}>
-          School Title
+          年間募集回数
           <Input
             className={` bg-white dark:bg-black dark:border-gray-700 
           ${
@@ -78,7 +78,7 @@ const EditSchool = ({ onClose, school }) => {
           {errors.title && (
             <p className="text-red-700 text-xs mb-4">{errors.title.message}</p>
           )}
-          Requirements
+          学校紹介
           <Textarea
             className={`text-lg border-1 border-white bg-white
              dark:bg-black rounded-md dark:border-gray-700 
@@ -94,7 +94,7 @@ const EditSchool = ({ onClose, school }) => {
               {errors.requirements.message}
             </p>
           )}
-          Job Location
+          学校の場所
           <Input
             className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
           ${
@@ -109,51 +109,7 @@ const EditSchool = ({ onClose, school }) => {
               {errors.location.message}
             </p>
           )}
-          Salary offered
-          <Input
-            className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
-          ${
-            errors.salary
-              ? "border-red-500 dark:border-red-900 mb-0"
-              : "border-gray-300 mb-4"
-          }`}
-            {...register("salary")}
-          />
-          {errors.salary && (
-            <p className="text-red-700 text-xs mb-4">{errors.salary.message}</p>
-          )}
-          <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-            <div>
-              Email
-              <Input
-                className={`bg-white dark:bg-black dark:border-gray-700 
-          ${
-            errors.email
-              ? "border-red-500 dark:border-red-900 mb-0"
-              : "border-gray-300 mb-4"
-          }`}
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-red-700 text-xs mb-2">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-            <div>
-              Mobile (Optional)
-              <Input
-                className=" bg-white dark:bg-black dark:border-gray-700 "
-                {...register("mobile")}
-              />
-              {errors.mobile && (
-                <p className="text-red-700 text-xs mb-4">
-                  {errors.mobile.message}
-                </p>
-              )}
-            </div>
-          </div>
-          School Description
+          学校詳細や入学案内など
           <Textarea
             className={`text-lg border-1 border-white bg-white
              dark:bg-black rounded-md dark:border-gray-700 
@@ -180,7 +136,7 @@ const EditSchool = ({ onClose, school }) => {
            }`}
               disabled={loading}
             >
-              {loading ? "Saving..." : submitted ? feedback : "Save"}
+              {loading ? "送信中..." : submitted ? feedback : "送信"}
             </Button>
           </div>
         </form>

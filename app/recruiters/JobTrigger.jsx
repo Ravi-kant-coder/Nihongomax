@@ -18,10 +18,9 @@ const jobSchema = yup.object().shape({
     .string()
     .nullable()
     .transform((value) => (value === "" ? null : value))
-    .test("valid-mobile", "Not a valid 10 digit number", (val) => {
-      if (!val) return true; // ✅ allow empty
-      const phoneRegex = /^[0-9]{10}$/;
-      return phoneRegex.test(val);
+    .matches(/^\d{10}$/, {
+      message: "Mobile number must be exactly 10 digits",
+      excludeEmptyString: true,
     }),
 
   email: yup
@@ -32,6 +31,7 @@ const jobSchema = yup.object().shape({
       const emailRegex = /^\S+@\S+\.\S+$/;
       return emailRegex.test(val);
     }),
+  homepage: yup.string().required("Website is required"),
   jobDescription: yup
     .string()
     .required("Job description is required")
@@ -79,18 +79,19 @@ const JobTrigger = () => {
       if (selectedFile) jobData.append("media", selectedFile);
       jobData.append("company", data.company);
       jobData.append("title", data.title);
+      jobData.append("requirements", data.requirements);
       jobData.append("location", data.location);
       jobData.append("salary", data.salary);
       jobData.append("mobile", data.mobile);
       jobData.append("email", data.email);
-      jobData.append("requirements", data.requirements);
+      jobData.append("homepage", data.homepage);
       jobData.append("jobDescription", data.jobDescription);
       await createJobZust(jobData);
       reset();
       setSelectedFile(null);
       setFilePreview(null);
       setFeedback(
-        `Thank you ${user?.username?.split(" ")[0]} for posting the job!`
+        `Thank you ${user?.username?.split(" ")[0]} for posting the job!`,
       );
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 3000);
@@ -138,6 +139,7 @@ const JobTrigger = () => {
               />
             ) : (
               <div className="flex flex-col items-center">
+                <p className="text-center dark:text-gray-400">Click to</p>
                 <Plus className="h-12 w-12 dark:text-gray-400 text-gray-700 mb-2" />
                 <p className="text-center dark:text-gray-400">Add Photo</p>
               </div>
@@ -153,7 +155,7 @@ const JobTrigger = () => {
 
           {/* ---------------------Company Name and Date-------------------- */}
           <div className="flex flex-col w-full">
-            Company
+            Company Name
             <Input
               placeholder="Enter Company's name"
               className={` bg-white dark:bg-black dark:border-gray-700 
@@ -263,6 +265,20 @@ const JobTrigger = () => {
             )}
           </div>
         </div>
+        Company Website
+        <Input
+          placeholder="Enter Company Website URL"
+          className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
+          ${
+            errors.homepage
+              ? "border-red-500 dark:border-red-900 mb-0"
+              : "border-gray-300 mb-4"
+          }`}
+          {...register("homepage")}
+        />
+        {errors.homepage && (
+          <p className="text-red-700 text-xs mb-4">{errors.homepage.message}</p>
+        )}
         Job Description
         <Textarea
           placeholder="Write a description/details about the job..."
@@ -286,7 +302,7 @@ const JobTrigger = () => {
             className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
            ${
              submitted
-               ? "bg-green-600 text-black dark:bg-green-900 dark:text-white"
+               ? "bg-green-600 text-white dark:bg-green-900"
                : "bg-black dark:text-gray-400 hover:bg-gray-900"
            }`}
             disabled={loading}

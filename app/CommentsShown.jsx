@@ -190,6 +190,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
           <div className="absolute -bottom-1 right-1">
             <EmojiPickerButton
               onSelect={(emoji) => setCommentText((prev) => prev + emoji)}
+              emojiSize={"h-7 w-7"}
             />
           </div>
         </div>

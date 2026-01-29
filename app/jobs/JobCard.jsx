@@ -2,7 +2,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MapPin, IndianRupee, Mail, Languages, Phone } from "lucide-react";
+import {
+  MapPin,
+  IndianRupee,
+  Mail,
+  Languages,
+  Phone,
+  MonitorSmartphone,
+} from "lucide-react";
 import { formateDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
 import EditJob from "./EditJob";
@@ -13,6 +20,11 @@ const JobCard = ({ job, handleJobDelete }) => {
   const { user } = userStore();
 
   if (!job) return null;
+
+  const homepageUrl =
+    job.homepage.startsWith("http://") || job.homepage.startsWith("https://")
+      ? job.homepage
+      : `https://${job.homepage}`;
 
   return (
     <div>
@@ -45,7 +57,7 @@ const JobCard = ({ job, handleJobDelete }) => {
                 >
                   {formateDate(job?.createdAt)}
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">
                   Posted by: {job?.user?.username}
                 </p>
               </div>
@@ -86,6 +98,27 @@ const JobCard = ({ job, handleJobDelete }) => {
                 {job?.mobile && job.mobile !== "null"
                   ? job.mobile
                   : "Not Provided"}
+              </div>
+              <div className="font-semibold flex items-center dark:font-normal">
+                <MonitorSmartphone size={18} strokeWidth={2} className="mr-2" />{" "}
+                Website - &nbsp;
+                <span className="ml-2 font-normal text-blue-800 dark:text-blue-500 hover:underline">
+                  {job?.homepage && (
+                    <a
+                      href={homepageUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="break-all"
+                    >
+                      {job.homepage.replace(/^https?:\/\//, "")}
+                    </a>
+                  )}
+                  {!job?.homepage && (
+                    <span className="text-gray-500 dark:text-gray-400 hover:no-underline">
+                      Website not provided
+                    </span>
+                  )}
+                </span>
               </div>
               <div className="items-center text-sm">
                 <p className="font-semibold">Job&nbsp;Description:</p>

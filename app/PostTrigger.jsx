@@ -219,6 +219,7 @@ const PostTrigger = () => {
                 <div className="absolute bottom-0 right-2">
                   <EmojiPickerButton
                     onSelect={(emoji) => setPostContent((prev) => prev + emoji)}
+                    emojiSize={"h-8 w-8"}
                   />
                 </div>
               </div>

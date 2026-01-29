@@ -19,15 +19,12 @@ const EditJob = ({ onClose, job }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
       title: job?.title || "",
       requirements: job?.requirements || "",
       location: job?.location || "",
       salary: job?.salary || "",
-      email: job?.email || "",
-      mobile: job?.mobile || "",
       jobDescription: job?.jobDescription || "",
     },
   });
@@ -37,7 +34,7 @@ const EditJob = ({ onClose, job }) => {
       await updateJobZust(job._id, data);
       onClose();
     } catch (error) {
-      console.log("UpdateJobHandler me error", error);
+      console.log("UpdateJobHandler error", error);
     }
   };
 
@@ -122,37 +119,6 @@ const EditJob = ({ onClose, job }) => {
           {errors.salary && (
             <p className="text-red-700 text-xs mb-4">{errors.salary.message}</p>
           )}
-          <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-            <div>
-              Email
-              <Input
-                className={`bg-white dark:bg-black dark:border-gray-700 
-          ${
-            errors.email
-              ? "border-red-500 dark:border-red-900 mb-0"
-              : "border-gray-300 mb-4"
-          }`}
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-red-700 text-xs mb-2">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-            <div>
-              Mobile (Optional)
-              <Input
-                className=" bg-white dark:bg-black dark:border-gray-700 "
-                {...register("mobile")}
-              />
-              {errors.mobile && (
-                <p className="text-red-700 text-xs mb-4">
-                  {errors.mobile.message}
-                </p>
-              )}
-            </div>
-          </div>
           Job Description
           <Textarea
             className={`text-lg border-1 border-white bg-white
