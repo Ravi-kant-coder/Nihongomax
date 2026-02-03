@@ -287,21 +287,7 @@ const SchoolTrigger = () => {
             </p>
           )}
         </div>
-        {/* ------------------------Other Inputs--------------------------- */}
-        年間募集回数
-        <Input
-          placeholder="年に何回どの時期に募集を入力してください"
-          className={` bg-white dark:bg-black dark:border-gray-700 
-          ${
-            errors.intakes
-              ? "border-red-500 dark:border-red-900 mb-0"
-              : "border-gray-300 mb-4"
-          }`}
-          {...register("intakes")}
-        />
-        {errors.intakes && (
-          <p className="text-red-700 text-xs mb-4">{errors.intakes.message}</p>
-        )}
+        {/* ------------------------School Intro--------------------------- */}
         学校紹介
         <Textarea
           placeholder="貴校の説明を書いてください..."
@@ -317,9 +303,25 @@ const SchoolTrigger = () => {
         {errors.intro && (
           <p className="text-red-700 text-xs">{errors.intro.message}</p>
         )}
+        {/* ------------------------Intakes--------------------------- */}
+        年間募集回数
+        <Input
+          placeholder="年に何回どの時期に募集を入力してください"
+          className={` bg-white dark:bg-black dark:border-gray-700 
+          ${
+            errors.intakes
+              ? "border-red-500 dark:border-red-900 mb-0"
+              : "border-gray-300 mb-4"
+          }`}
+          {...register("intakes")}
+        />
+        {errors.intakes && (
+          <p className="text-red-700 text-xs mb-4">{errors.intakes.message}</p>
+        )}
+        {/* ------------------------Location--------------------------- */}
         学校の場所
         <Input
-          placeholder="区、市または州などを入力してください"
+          placeholder="区、市、州など"
           className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
           ${
             errors.location
@@ -331,6 +333,7 @@ const SchoolTrigger = () => {
         {errors.location && (
           <p className="text-red-700 text-xs mb-4">{errors.location.message}</p>
         )}
+        {/* ------------------------Website--------------------------- */}
         ホームページ
         <Input
           placeholder="ホームページのURLを入力してください"
@@ -345,6 +348,7 @@ const SchoolTrigger = () => {
         {errors.homepage && (
           <p className="text-red-700 text-xs mb-4">{errors.homepage.message}</p>
         )}
+        {/* ------------------------E-mail--------------------------- */}
         <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
           <div>
             問い合わせ用メール
@@ -364,6 +368,7 @@ const SchoolTrigger = () => {
               </p>
             )}
           </div>
+          {/* ------------------------Phone--------------------------- */}
           <div className="mb-4">
             <label className="block">
               電話番号（任意）
@@ -375,8 +380,6 @@ const SchoolTrigger = () => {
               <span className="px-3 py-2 rounded-md bg-gray-300 dark:bg-gray-800 text-sm">
                 +81
               </span>
-
-              {/* Phone Number input */}
               <Input
                 type="tel"
                 inputMode="numeric"
@@ -424,29 +427,27 @@ const SchoolTrigger = () => {
             {errors.schoolDescription.message}
           </p>
         )}
-        <div>
-          <Button
-            type="submit"
-            className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
+        <Button
+          type="submit"
+          className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
            ${
              submitted
-               ? "bg-green-800 text-white"
+               ? "bg-green-800 hover:bg-green-800"
                : "bg-black dark:text-gray-400 hover:bg-gray-900"
            }`}
-            disabled={hasTooLargeFile || loading}
-          >
-            {loading ? (
-              "送信中..."
-            ) : submitted ? (
-              <span className="text-white">{feedback}</span>
-            ) : (
-              "送信する"
-            )}
-          </Button>
-          <p className="mb-2 mt-1 dark:text-gray-300 text-sm ml-2">
-            編集・削除はいつでも可能です。
-          </p>
-        </div>
+          disabled={hasTooLargeFile || loading}
+        >
+          {loading ? (
+            "送信中..."
+          ) : submitted ? (
+            <span className="text-white">{feedback}</span>
+          ) : (
+            "送信する"
+          )}
+        </Button>
+        <p className="mb-2 mt-1 dark:text-gray-300 text-sm ml-2">
+          編集・削除はいつでも可能です。
+        </p>
       </form>
     </div>
   );

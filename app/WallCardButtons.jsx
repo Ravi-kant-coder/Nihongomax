@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import userStore from "@/store/userStore";
 import { AnimatePresence, motion } from "framer-motion";
 import CommentsShown from "./CommentsShown";
-// import useLikeStore from "@/store/useLikeStore";
 
 const WallCardButtons = ({
   onLike,
@@ -27,9 +26,8 @@ const WallCardButtons = ({
 }) => {
   const { user } = userStore();
   const [likeEffect, setLikeEffect] = useState(false);
-  const isLiked = post.likes.includes(user?._id);
+  const isLiked = post?.likes.includes(user?._id);
   const [showComments, setShowComments] = useState(true);
-  // const { isLiked, handleLike } = useLikeStore();
 
   useEffect(() => {
     if (likeEffect) {
@@ -76,7 +74,6 @@ const WallCardButtons = ({
                 return;
               }
               onLike();
-              // () => handleLike(post?._id, fetchPost);
               setLikeEffect(true);
             }}
           >

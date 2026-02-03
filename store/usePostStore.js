@@ -1,17 +1,12 @@
 import { create } from "zustand";
-import userStore from "@/store/userStore";
-import { persist } from "zustand/middleware";
 import {
   createPost,
   getAllPosts,
-  getAllStory,
   getAllUserPosts,
   likePost,
   sharePost,
-  createStory,
   commentsPost,
   deletePost,
-  deleteStory,
   updatePostContent as updatePostContentAPI,
   deleteComment,
   updateComment as updateCommentAPI,
@@ -20,7 +15,6 @@ import {
 export const usePostStore = create((set) => ({
   posts: [],
   userPosts: [],
-  story: [],
   loading: false,
   error: null,
 
@@ -31,6 +25,21 @@ export const usePostStore = create((set) => ({
       set({ posts, loading: false });
     } catch (error) {
       set({ error, loading: false });
+    }
+  },
+
+  handleCreatePost: async (postData) => {
+    set({ loading: true, error: null });
+    try {
+      const newPost = await createPost(postData);
+      set((state) => ({
+        posts: [newPost, ...state.posts],
+        loading: false,
+      }));
+      return newPost;
+    } catch (error) {
+      set({ error, loading: false });
+      throw error;
     }
   },
 
@@ -88,54 +97,6 @@ export const usePostStore = create((set) => ({
     } catch (error) {
       console.error("Zustand Delete Error:", error);
       set({ error });
-    }
-  },
-
-  deleteUserStory: async (storyId) => {
-    set({ loading: true });
-    try {
-      await deleteStory(storyId);
-      set((state) => ({
-        story: state.story.filter((st) => st._id !== storyId),
-        loading: false,
-      }));
-    } catch (error) {
-      set({ error, loading: false });
-      console.error("Zustand nahi kar paya story delete", error);
-    }
-  },
-
-  fetchStoryPost: async () => {
-    set({ loading: true });
-    try {
-      const story = await getAllStory();
-      set({ story, loading: false });
-    } catch (error) {
-      set({ error, loading: false });
-    }
-  },
-
-  handleCreatePost: async (postData) => {
-    set({ loading: true, error: null });
-    try {
-      const newPostRaw = await createPost(postData);
-      const { user } = userStore.getState();
-      const newPost = {
-        ...newPostRaw,
-        user: {
-          _id: user._id,
-          username: user.username,
-          profilePicture: user.profilePicture,
-        },
-      };
-      set((state) => ({
-        posts: [newPost, ...state.posts],
-        loading: false,
-      }));
-      return newPost;
-    } catch (error) {
-      set({ error, loading: false });
-      throw error;
     }
   },
 
@@ -199,31 +160,6 @@ export const usePostStore = create((set) => ({
       }));
     } catch (error) {
       set({ error, loading: false });
-    }
-  },
-
-  handleCreateStory: async (storyData) => {
-    set({ loading: true });
-    try {
-      const newStoryRaw = await createStory(storyData);
-      const { user } = userStore.getState();
-      const newStory = {
-        ...newStoryRaw,
-        user: {
-          _id: user._id,
-          username: user.username,
-          profilePicture: user.profilePicture,
-        },
-      };
-      set((state) => ({
-        story: [newStory, ...state.story],
-        loading: false,
-      }));
-
-      return newStory;
-    } catch (error) {
-      set({ error, loading: false });
-      throw error;
     }
   },
 

@@ -31,7 +31,7 @@ const Wall = () => {
   const handleLike = async (postId) => {
     const updatedLikePost = new Set(likePosts);
     if (updatedLikePost.has(postId)) {
-      updatedLikePost.delete(postId);
+      return;
     } else {
       updatedLikePost.add(postId);
     }

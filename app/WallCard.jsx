@@ -104,11 +104,8 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
                 src={post?.user?.profilePicture}
                 className="object-cover"
               />
-              <AvatarFallback className="bg-gray-400 dark:bg-black capitalize">
-                {post?.user?.username
-                  ?.split(" ")
-                  .map((name) => name[0])
-                  .join("")}
+              <AvatarFallback className="bg-gray-300 dark:bg-black capitalize">
+                {post?.user?.username[0]}
               </AvatarFallback>
             </Avatar>
           </div>

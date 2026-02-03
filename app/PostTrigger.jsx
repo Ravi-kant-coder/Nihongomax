@@ -280,7 +280,7 @@ const PostTrigger = () => {
                       <Plus className="h-6 w-6" />
                     </span>
                     <span className="text-sm ">Add</span>
-                    <span className="text-sm ">More</span>
+                    <span className="text-sm ">More?</span>
                   </motion.button>
                 )}
                 <input

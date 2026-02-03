@@ -85,7 +85,26 @@ const LeftSideBar = () => {
               </div>
             </div>
           </div>
-
+          <motion.button
+            whileHover={{ y: -3 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className={`w-full cursor-pointer dark:font-normal ${
+              pathname === "/"
+                ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
+                : "bg-transparent"
+            } dark:hover:bg-[rgb(55,55,55)]  hover:bg-white text-sm font-semibold
+             flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
+            onClick={() => {
+              handleNavigation("/");
+            }}
+          >
+            <div className="relative">
+              <div className="flex items-center">
+                <Home className="mr-4 w-6 h-6" />
+                Home
+              </div>
+            </div>
+          </motion.button>
           <motion.button
             whileHover={{ y: -3 }}
             transition={{ type: "spring", stiffness: 300 }}
@@ -178,12 +197,6 @@ const LeftSideBar = () => {
 
           {[
             {
-              id: 1,
-              label: "Home",
-              navPath: "/",
-              icon: Home,
-            },
-            {
               id: 2,
               label: "Videos",
               navPath: "/videos",
@@ -226,7 +239,7 @@ const LeftSideBar = () => {
               icon: ChartNoAxesCombined,
             },
             {
-              id: 9,
+              id: 1,
               label: "学校掲載投稿",
               navPath: "/schools-in-japan",
               icon: Building2,

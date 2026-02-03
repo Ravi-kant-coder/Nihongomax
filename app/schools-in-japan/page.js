@@ -120,7 +120,7 @@ const SchoolsInJapan = () => {
             <div className="flex items-center text-sm">
               <Phone size={16} strokeWidth={2} className="mr-2" />
               <p className="font-semibold mr-2">連絡先 - &nbsp;</p>
-              +81-99999999
+              +81-99-999-999
             </div>
             <div>
               <p>

@@ -2,11 +2,7 @@ import axiosInstance from "./url.service";
 
 export const createPost = async (postData) => {
   try {
-    console.log("Post object in Service:", postData);
-    console.log([...postData.entries()]);
     const result = await axiosInstance.post("/users/posts", postData);
-    //This result?.data?.data may be used to display the post somewhere
-    console.log(result?.data?.data);
     return result?.data?.data;
   } catch (error) {
     console.error(error);
@@ -22,9 +18,22 @@ export const updatePostContent = async (postId, content) => {
     return result?.data?.data;
   } catch (error) {
     console.error(
-      "post.service me content update me Error:",
+      "post.service content update Error:",
       error.response?.data || error.message,
     );
+    throw error;
+  }
+};
+
+export const commentsPost = async (postId, comment) => {
+  try {
+    const result = await axiosInstance.post(
+      `/users/posts/comments/${postId}`,
+      comment,
+    );
+    return result?.data?.data;
+  } catch (error) {
+    console.error(error);
     throw error;
   }
 };
@@ -55,29 +64,6 @@ export const deletePost = async (postId) => {
   }
 };
 
-export const createStory = async (postData) => {
-  try {
-    const result = await axiosInstance.post("/users/story", postData);
-    return result?.data?.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const deleteStory = async (storyId) => {
-  try {
-    const result = await axiosInstance.delete(`/users/story/${storyId}`);
-    return result?.data?.message;
-  } catch (error) {
-    console.error(
-      "post.service Nahi kar paya delete",
-      error.response?.data || error.message,
-    );
-    throw error;
-  }
-};
-
 export const deleteComment = async (postId, commentId) => {
   console.log(postId, commentId);
   try {
@@ -97,16 +83,6 @@ export const deleteComment = async (postId, commentId) => {
 export const getAllPosts = async () => {
   try {
     const result = await axiosInstance.get("/users/posts");
-    return result?.data?.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const getAllStory = async () => {
-  try {
-    const result = await axiosInstance.get("/users/story");
     return result?.data?.data;
   } catch (error) {
     console.error(error);
@@ -137,19 +113,6 @@ export const sharePost = async (postId) => {
 export const getAllUserPosts = async (userId) => {
   try {
     const result = await axiosInstance.get(`/users/posts/user/${userId}`);
-    return result?.data?.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const commentsPost = async (postId, comment) => {
-  try {
-    const result = await axiosInstance.post(
-      `/users/posts/comments/${postId}`,
-      comment,
-    );
     return result?.data?.data;
   } catch (error) {
     console.error(error);

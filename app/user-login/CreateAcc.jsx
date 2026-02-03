@@ -26,18 +26,29 @@ const CreateAcc = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const registerSchema = yup.object().shape({
-    username: yup.string().required("Name is required"),
+    username: yup
+      .string()
+      .trim()
+      .min(3, "Username must be at least 3 characters")
+      .max(30, "Username too long")
+      .required("Name is required"),
+
     email: yup
       .string()
+      .trim()
+      .lowercase()
       .email("Invalid email format")
       .required("Email is required"),
+
     password: yup
       .string()
       .min(6, "Password must be at least 6 characters")
+      .matches(/[0-9]/, "Password must contain at least one number")
       .required("Password is required"),
+
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref("password"), null], "Passwords must match")
+      .oneOf([yup.ref("password")], "Passwords must match")
       .required("Confirm Password is required"),
   });
 
@@ -46,6 +57,7 @@ const CreateAcc = () => {
     control,
     handleSubmit: handleSubmitSignUp,
     reset: resetSignUpForm,
+    setError,
     formState: { errors: errorsSignUp },
   } = useForm({
     resolver: yupResolver(registerSchema),
@@ -55,27 +67,46 @@ const CreateAcc = () => {
     setIsLoading(true);
     try {
       const formData = new FormData();
-      formData.append("username", data.username);
-      formData.append("email", data.email);
+      formData.append("username", data.username.trim());
+      formData.append("email", data.email.trim().toLowerCase());
       formData.append("password", data.password);
+
       if (dpCreate) {
         formData.append("profilePicture", dpCreate);
       }
 
-      console.log("Handler me:", [...formData.entries()]);
       const result = await registerUser(formData);
-      console.log("Handler me result:", result);
 
       if (result?.status === "success") {
+        resetSignUpForm();
+        setDpCreate(null);
+        setDpPreview(null);
         router.push("/");
+      } else if (result?.message === "This email already exists") {
+        setError("email", {
+          type: "server",
+          message: "This email already exists",
+        });
       }
     } catch (error) {
-      console.error(error);
+      if (error.response?.data?.message === "This email already exists") {
+        setError("email", {
+          type: "server",
+          message: "This email already exists",
+        });
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDpCreate = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      alert("Only image files are allowed");
+      return;
+    }
     setDpCreate(file);
     setDpPreview(URL.createObjectURL(file));
   };
@@ -248,8 +279,10 @@ const CreateAcc = () => {
           <Button
             className="w-full cursor-pointer dark:bg-black text-white"
             type="submit"
+            disabled={isLoading}
           >
-            <Upload className="mr-2 w-4 h-4" /> Create Account
+            <Upload className="mr-2 w-4 h-4" />
+            {isLoading ? "Creating..." : "Create Account"}
           </Button>
         </motion.form>
       )}

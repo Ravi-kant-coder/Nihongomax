@@ -45,7 +45,7 @@ const PostContentEdit = ({
         <div className="text-gray-800 font-[450] p-4 dark:text-gray-300">
           {wrapEmojis(content)}
           <div>
-            <span className="text-xs text-gray-500">Only you can</span>
+            <span className="text-xs text-gray-500">You can</span>
             <button
               className=" items-center text-xs inline-flex cursor-pointer underline rounded 
               p-1 hover:bg-gray-300 dark:hover:bg-black"
@@ -53,7 +53,7 @@ const PostContentEdit = ({
             >
               Edit/Add
             </button>
-            <span className="text-xs text-gray-500">this</span>
+            <span className="text-xs text-gray-500">for 24 hours</span>
           </div>
         </div>
       ) : (

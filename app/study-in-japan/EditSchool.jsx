@@ -21,8 +21,8 @@ const EditSchool = ({ onClose, school }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      intakes: school?.intakes || "",
       intro: school?.intro || "",
+      intakes: school?.intakes || "",
       location: school?.location || "",
       schoolDescription: school?.schoolDescription || "",
     },
@@ -50,7 +50,7 @@ const EditSchool = ({ onClose, school }) => {
               {user?.username}様、基本情報編集は可能です。{" "}
             </p>
             <p className="text-sm text-red-900 dark:text-red-600">
-              連絡先などは不可能です。{" "}
+              貴校名や連絡先などは編集不可です。{" "}
             </p>
           </div>
           <button
@@ -65,34 +65,32 @@ const EditSchool = ({ onClose, school }) => {
 
         {/* ------------------------School edit Form--------------------------- */}
         <form onSubmit={handleSubmit(handleEditSchool)}>
-          年間募集回数
+          学校紹介
           <Input
             className={` bg-white dark:bg-black dark:border-gray-700 
           ${
-            errors.title
+            errors.intro
               ? "border-red-500 dark:border-red-900 mb-0"
               : "border-gray-300 mb-4"
           }`}
-            {...register("title")}
+            {...register("intro")}
           />
-          {errors.title && (
-            <p className="text-red-700 text-xs mb-4">{errors.title.message}</p>
+          {errors.intro && (
+            <p className="text-red-700 text-xs mb-4">{errors.intro.message}</p>
           )}
-          学校紹介
+          年間募集回数
           <Textarea
             className={`text-lg border-1 border-white bg-white
              dark:bg-black rounded-md dark:border-gray-700 
              ${
-               errors.requirements
+               errors.intakes
                  ? "border-red-500 dark:border-red-900 mb-0"
                  : "border-gray-300 mb-4"
              }`}
-            {...register("requirements")}
+            {...register("intakes")}
           />
-          {errors.requirements && (
-            <p className="text-red-700 text-xs">
-              {errors.requirements.message}
-            </p>
+          {errors.intakes && (
+            <p className="text-red-700 text-xs">{errors.intakes.message}</p>
           )}
           学校の場所
           <Input
@@ -118,7 +116,7 @@ const EditSchool = ({ onClose, school }) => {
                  ? "border-red-500 dark:border-red-900 mb-0"
                  : "border-gray-300 mb-4"
              }`}
-            {...register("jobDescription")}
+            {...register("schoolDescription")}
           />
           {errors.schoolDescription && (
             <p className="text-red-700 text-xs">

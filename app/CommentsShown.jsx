@@ -170,7 +170,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
       <div className="flex items-center px-4 p-2 mb-6">
         <Avatar className="h-8 w-8 rounded-full mr-3">
           <AvatarImage src={user?.profilePicture} className="object-cover" />
-          <AvatarFallback className="dark:bg-gray-800 bg-gray-400 capitalize">
+          <AvatarFallback className="dark:bg-gray-800 bg-gray-300 capitalize">
             {user?.username.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>

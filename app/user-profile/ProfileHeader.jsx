@@ -27,6 +27,8 @@ import { userFriendStore } from "@/store/userFriendsStore";
 import { useForm } from "react-hook-form";
 import ShowDpPreview from "./[id]/ShowDpPreview";
 import Spinner from "../Spinner";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const ProfileHeader = ({
   id,
@@ -64,11 +66,31 @@ const ProfileHeader = ({
 
   const router = useRouter();
 
-  const { register, handleSubmit, setValue } = useForm({
+  const profileSchema = yup.object().shape({
+    username: yup
+      .string()
+      .trim()
+      .min(1, "Username is too short")
+      .required("Username is required"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(profileSchema),
     defaultValues: {
-      username: profileData?.username,
+      username: profileData?.username || "",
     },
   });
+
+  useEffect(() => {
+    if (profileData?.username) {
+      reset({ username: profileData.username });
+    }
+  }, [profileData, reset]);
 
   const profileImageInputRef = useRef();
   const coverImageInputRef = useRef();
@@ -177,12 +199,32 @@ const ProfileHeader = ({
       try {
         setUser({ ...profileData, coverPhoto: null });
         await deleteUserCover(user._id);
+        if (coverPhotoPreview) {
+          URL.revokeObjectURL(coverPhotoPreview);
+          setCoverPhotoPreview(null);
+        }
         setIsEditCoverModel(false);
         await fetchProfile();
       } catch (err) {
         console.error("Failed to delete Cover", err);
       }
     });
+  };
+
+  const handleCoverModelClose = () => {
+    if (coverPhotoPreview) {
+      URL.revokeObjectURL(coverPhotoPreview);
+      setCoverPhotoPreview(null);
+    }
+    setIsEditCoverModel(false);
+  };
+
+  const handleDpModelClose = () => {
+    if (profilePicturePreview) {
+      URL.revokeObjectURL(profilePicturePreview);
+      setProfilePicturePreview(null);
+    }
+    setIsEditProfileModel(false);
   };
 
   const [requestNotSent, setRequestNotSent] = useState(
@@ -381,7 +423,7 @@ const ProfileHeader = ({
                   dark:hover:bg-black bg-gray-200"
                   variant="ghost"
                   size="icon"
-                  onClick={() => setIsEditProfileModel(false)}
+                  onClick={handleDpModelClose}
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -435,12 +477,17 @@ const ProfileHeader = ({
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="username">Username</Label>
+                  <Label htmlFor="username">Change Username</Label>
                   <Input
                     className="border-gray-400 mt-2 dark:border-gray-700"
                     id="username"
                     {...register("username")}
                   />
+                  {errors.username && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.username.message}
+                    </p>
+                  )}
                 </div>
                 <Button
                   type="submit"
@@ -487,7 +534,7 @@ const ProfileHeader = ({
                   size="icon"
                   className="bg-gray-200 hover:bg-gray-300 cursor-pointer 
                   dark:bg-gray-900 hover:dark:bg-black"
-                  onClick={() => setIsEditCoverModel(false)}
+                  onClick={handleCoverModelClose}
                 >
                   <X className="w-4 h-4" />
                 </Button>
