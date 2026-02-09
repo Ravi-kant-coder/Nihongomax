@@ -1,15 +1,23 @@
 import { useEffect, useState, useRef } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import userStore from "@/store/userStore";
+import { Trash2 } from "lucide-react";
+import { useStoryStore } from "@/store/useStoryStore";
+import { Button } from "@/components/ui/button";
+import { formatDate } from "@/lib/utils";
 
-const STORY_DURATION = 5000;
+const STORY_DURATION = 7000;
 
-const StoryViewer = ({ story, onClose }) => {
+const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [videoDuration, setVideoDuration] = useState(null);
   const videoRef = useRef(null);
   const advancingRef = useRef(false); // critical lock
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { user } = userStore();
+  const { handleLikeStory } = useStoryStore();
 
   /* ---------- Build slides ---------- */
   const slides = [];
@@ -46,7 +54,7 @@ const StoryViewer = ({ story, onClose }) => {
     return () => clearTimeout(t);
   }, [story.createdAt, onClose]);
 
-  /* ---------- Text & Image timer ---------- */
+  /* ---------- Text & Image 5 sec timer ---------- */
   useEffect(() => {
     if (!current || current.type === "video") return;
 
@@ -83,6 +91,10 @@ const StoryViewer = ({ story, onClose }) => {
     if (index > 0) setIndex((i) => i - 1);
   };
 
+  const handleCancel = () => {
+    setShowDeleteModal(false);
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -94,7 +106,7 @@ const StoryViewer = ({ story, onClose }) => {
       >
         <button
           onClick={handlePrev}
-          className="hidden lg:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-[300px]
+          className="hidden lg:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-[300px] cursor-pointer
           z-10 p-6 bg-black/80 text-white rounded-full hover:scale-110 transition-all"
         >
           <ChevronLeft />
@@ -104,16 +116,35 @@ const StoryViewer = ({ story, onClose }) => {
           initial={{ scale: 0.9, y: -30, opacity: 0 }}
           animate={{ scale: 1, y: 0, opacity: 1 }}
           exit={{ scale: 0.9, y: -30, opacity: 0 }}
-          onClick={(e) => e.stopPropagation()}
         >
+          {user?._id === story?.user?._id && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowDeleteModal(true);
+              }}
+              className="absolute flex group px-4 border border-gray-500 rounded cursor-pointer hover:border-red-700
+                justify-center items-center text-gray-300 py-1 top-10 ml-2 z-100"
+            >
+              <Trash2
+                className=" group-hover:text-red-700 text-white/70 mr-2 w-5 h-5 dark:text-gray-300
+                group-hover:dark:text-red-500 shrink-0"
+              />
+              <p className="group-hover:text-red-700 text-white/70 capitalize">
+                {story?.user?.username.split(" ")[0]} Delete?
+              </p>
+            </button>
+          )}
           <button
             onClick={onClose}
-            className="absolute top-6 right-4 z-30 text-white/70 hover:text-white cursor-pointer p-2 rounded
-            border border-gray-500"
+            className="absolute right-4 top-8 text-white/70 hover:text-white cursor-pointer p-2 rounded bg-black/70
+            border border-gray-500 z-100"
           >
             <X size={18} />
           </button>
-
+          <div className="text-xs text-gray-300 top-4 absolute flex justify-center w-full">
+            <p>{formatDate(story?.createdAt)}</p>
+          </div>
           <div className="absolute top-2 left-2 right-2 flex gap-1 z-20">
             {slides.map((_, i) => (
               <div key={i} className="flex-1 h-1 bg-white/30 rounded">
@@ -127,6 +158,30 @@ const StoryViewer = ({ story, onClose }) => {
               </div>
             ))}
           </div>
+          <Button
+            className={`absolute bottom-20 right-10 z-1000 hover:bg-green-200 hover:text-green-800 cursor-pointer border-2 
+              disabled:opacity-100 h-15 w-15 border-green-700 dark:border-gray-500 dark:hover:bg-black rounded-full 
+              flex justify-center items-center text-lg
+                ${
+                  story?.isLiked
+                    ? "text-green-500 border-green-300 dark:border-green-900 hover:bg-white cursor-auto"
+                    : ""
+                } dark:text-gray-300`}
+            disabled={story?.isLiked}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (story?.isLiked) return;
+              handleLikeStory(story?._id, user);
+            }}
+          >
+            <Heart
+              className="heart-beat"
+              fill={story?.isLiked ? "green" : "none"}
+              color={story?.isLiked ? "green" : "currentColor"}
+            />
+            {story?.likeCount > 0 && story?.likeCount}
+          </Button>
+
           <div
             onClick={handlePrev}
             className="absolute left-0 top-0 w-1/3 h-full z-10"
@@ -146,7 +201,6 @@ const StoryViewer = ({ story, onClose }) => {
             {current?.type === "image" && (
               <img src={current.url} className="w-full h-full object-contain" />
             )}
-
             {current?.type === "video" && (
               <video
                 ref={videoRef}
@@ -167,9 +221,8 @@ const StoryViewer = ({ story, onClose }) => {
                 }}
               />
             )}
-
             {current?.caption && (
-              <div className="absolute bottom-16 left-4 right-4 text-white text-sm bg-black/40 px-3 py-1 rounded text-center">
+              <div className="absolute bottom-20 left-4 right-4 text-white bg-black/40 px-3 text-center rounded py-1">
                 {current.caption}
               </div>
             )}
@@ -177,11 +230,45 @@ const StoryViewer = ({ story, onClose }) => {
         </motion.div>
         <button
           onClick={handleNext}
-          className="hidden lg:flex absolute left-1/2 top-1/2 -translate-y-1/2 translate-x-[230px]
+          className="hidden lg:flex absolute left-1/2 top-1/2 -translate-y-1/2 translate-x-[230px] cursor-pointer
           z-10 p-6 bg-black/80 text-white rounded-full hover:scale-110 transition-all"
         >
           <ChevronRight />
         </button>
+        {/* --------------------Delete Confirmation Modal------------------- */}
+        {showDeleteModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center"
+          >
+            <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
+              <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
+                Delete this story {user?.username?.split(" ")[0]}?
+              </h2>
+              <p className="text-sm dark:text-gray-300 text-center my-2">
+                This cannot be recovered.
+              </p>
+
+              <div className="flex justify-center gap-4 mt-6">
+                <button
+                  onClick={handleCancel}
+                  className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
+                          dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
+                    cursor-pointer text-white text-sm"
+                  onClick={handleStoryDelete}
+                >
+                  Yes, Delete
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
       </motion.div>
     </AnimatePresence>
   );

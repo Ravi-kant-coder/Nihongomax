@@ -32,17 +32,7 @@ export const deleteStory = async (storyId) => {
 
 export const likeStory = async (storyId) => {
   try {
-    const result = await axiosInstance.post(`/users/posts/likes/${storyId}`);
-    return result?.data?.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const shareStory = async (storyId) => {
-  try {
-    const result = await axiosInstance.post(`/users/posts/share/${storyId}`);
+    const result = await axiosInstance.post(`/users/stories/likes/${storyId}`);
     return result?.data?.data;
   } catch (error) {
     console.error(error);

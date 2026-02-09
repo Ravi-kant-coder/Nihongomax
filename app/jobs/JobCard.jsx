@@ -10,7 +10,7 @@ import {
   Phone,
   MonitorSmartphone,
 } from "lucide-react";
-import { formateDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
 import EditJob from "./EditJob";
 
@@ -55,7 +55,7 @@ const JobCard = ({ job, handleJobDelete }) => {
                   className="text-xs flex flex-col md:text-sm text-gray-700 
                   dark:text-gray-400 font-normal"
                 >
-                  {formateDate(job?.createdAt)}
+                  {formatDate(job?.createdAt)}
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">
                   Posted by: {job?.user?.username}

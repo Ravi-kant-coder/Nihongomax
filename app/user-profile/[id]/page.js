@@ -4,8 +4,8 @@ import { useParams } from "next/navigation";
 import { fetchUserProfile } from "@/service/user.service";
 import userStore from "@/store/userStore";
 import ScrollupBtn from "@/app/ScrollupBtn";
-import ProfileHeader from "../ProfileHeader";
-import ProfileDetails from "../ProfileDetails";
+import ProfileHeader from "../components/ProfileHeader";
+import ProfileDetails from "../components/ProfileDetails";
 
 const Page = () => {
   const { user } = userStore();

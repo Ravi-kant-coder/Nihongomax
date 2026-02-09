@@ -24,12 +24,12 @@ export default function Banner({ banner }) {
       ? "bg-red-600"
       : banner.type === "warning"
         ? "bg-yellow-600"
-        : "bg-green-700";
+        : "bg-green-600";
 
   return (
-    <div className="fixed z-500 flex items-start justify-center mt-50 ml-50">
+    <div className="fixed z-500 flex items-center justify-center inset-0 pointer-events-none">
       <div
-        className={`${color} text-white px-4 py-2 rounded-lg shadow-md transition-all
+        className={`${color} text-white px-20 py-5 rounded-lg shadow-md transition-all
          duration-900
           ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"

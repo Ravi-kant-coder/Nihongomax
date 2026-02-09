@@ -5,6 +5,7 @@ import { usePostStore } from "@/store/usePostStore";
 import { wrapEmojis } from "@/lib/utils";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { Textarea } from "@/components/ui/textarea";
+import { useEmojiInsert } from "./hooks/useEmojiInsert";
 
 const PostContentEdit = ({
   postId,
@@ -13,21 +14,20 @@ const PostContentEdit = ({
   post,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [content, setContent] = useState(initialContent);
   const [tempContent, setTempContent] = useState(initialContent);
   const updatePostContent = usePostStore((state) => state.updatePostContent);
+  const { inputRef, insertEmoji } = useEmojiInsert();
 
   const trimmed = tempContent.trim();
+
   const handleSave = async () => {
-    // Case 1: No text, no media → delete post
     if (!trimmed && post.uploadedMedia.length === 0) {
       await handlePostDelete(postId);
       return;
     }
-    // Case 2: Media exists → update text only (even empty string)
     try {
       await updatePostContent(postId, trimmed);
-      setContent(trimmed);
+      setTempContent(trimmed);
       setIsEditing(false);
     } catch (error) {
       console.error("Edit failed:", error);
@@ -35,7 +35,7 @@ const PostContentEdit = ({
   };
 
   const handleCancel = () => {
-    setTempContent(content);
+    setTempContent(initialContent);
     setIsEditing(false);
   };
 
@@ -43,7 +43,7 @@ const PostContentEdit = ({
     <div>
       {!isEditing ? (
         <div className="text-gray-800 font-[450] p-4 dark:text-gray-300">
-          {wrapEmojis(content)}
+          {wrapEmojis(tempContent)}
           <div>
             <span className="text-xs text-gray-500">You can</span>
             <button
@@ -60,15 +60,22 @@ const PostContentEdit = ({
         <>
           <div className="relative">
             <Textarea
-              className="w-full p-2 border rounded mb-2 ring-offset focus:outline-none pr-12
+              className="w-full p-2 border rounded mb-2 ring-offset focus:outline-none pr-10
              focus:ring focus:ring-gray-600"
               rows="3"
               value={tempContent}
+              ref={inputRef}
               onChange={(e) => setTempContent(e.target.value)}
             />
             <div className="absolute bottom-0 right-2">
               <EmojiPickerButton
-                onSelect={(emoji) => setTempContent((prev) => prev + emoji)}
+                onSelect={(emoji) =>
+                  insertEmoji({
+                    emoji,
+                    value: tempContent,
+                    setValue: setTempContent,
+                  })
+                }
                 emojiSize={"h-8 w-8"}
               />
             </div>

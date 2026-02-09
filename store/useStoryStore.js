@@ -51,21 +51,47 @@ export const useStoryStore = create((set) => ({
     }
   },
 
-  handleStoryLike: async (storyId) => {
-    set({ loading: true });
+  handleLikeStory: async (storyId, currentUser) => {
+    // Optimistic UI first
+    set((state) => ({
+      stories: state.stories.map((story) =>
+        story._id === storyId
+          ? {
+              ...story,
+              isLiked: true,
+              likeCount: story.likeCount + 1,
+              likes: [
+                ...(story.likes || []),
+                {
+                  _id: currentUser._id,
+                  username: currentUser.username,
+                  profilePicture: currentUser.profilePicture,
+                },
+              ],
+            }
+          : story,
+      ),
+    }));
+
     try {
+      // Real Db update
       await likeStory(storyId);
     } catch (error) {
-      set({ error, loading: false });
-    }
-  },
+      // Rollback if backend fails
+      set((state) => ({
+        stories: state.stories.map((story) =>
+          story._id === storyId
+            ? {
+                ...story,
+                isLiked: false,
+                likeCount: story.likeCount - 1,
+                likes: story.likes.filter((u) => u._id !== currentUser._id),
+              }
+            : story,
+        ),
+      }));
 
-  handleStoryShare: async (storyId) => {
-    set({ loading: true });
-    try {
-      await shareStory(storyId);
-    } catch (error) {
-      set({ error, loading: false });
+      console.error(error);
     }
   },
 }));

@@ -4,7 +4,6 @@ import {
   getAllPosts,
   getAllUserPosts,
   likePost,
-  sharePost,
   commentsPost,
   deletePost,
   updatePostContent as updatePostContentAPI,
@@ -12,7 +11,7 @@ import {
   updateComment as updateCommentAPI,
 } from "@/service/post.service";
 
-export const usePostStore = create((set) => ({
+export const usePostStore = create((set, get) => ({
   posts: [],
   userPosts: [],
   loading: false,
@@ -20,6 +19,7 @@ export const usePostStore = create((set) => ({
 
   fetchPost: async () => {
     set({ loading: true });
+
     try {
       const posts = await getAllPosts();
       set({ posts, loading: false });
@@ -105,10 +105,10 @@ export const usePostStore = create((set) => ({
       await updatePostContentAPI(postId, newContent);
       set((state) => ({
         posts: state.posts.map((post) =>
-          post._id === postId ? { ...post, ...newContent } : post,
+          post._id === postId ? { ...post, content: newContent } : post,
         ),
         userPosts: state.userPosts.map((post) =>
-          post._id === postId ? { ...post, ...newContent } : post,
+          post._id === postId ? { ...post, content: newContent } : post,
         ),
       }));
     } catch (error) {
@@ -116,6 +116,22 @@ export const usePostStore = create((set) => ({
       set({ error });
     }
   },
+  // updatePostContent: async (postId, newContent) => {
+  //   try {
+  //     const updatedPost = await updatePostContentAPI(postId, newContent);
+  //     set((state) => ({
+  //       posts: state.posts.map((post) =>
+  //         post._id === postId ? updatedPost : post,
+  //       ),
+  //       userPosts: state.userPosts.map((post) =>
+  //         post._id === postId ? updatedPost : post,
+  //       ),
+  //     }));
+  //   } catch (error) {
+  //     console.error("Zustand Update Error:", error);
+  //     set({ error });
+  //   }
+  // },
 
   updateComment: async (postId, commentId, newText) => {
     try {
@@ -127,7 +143,9 @@ export const usePostStore = create((set) => ({
           return {
             ...post,
             comments: post.comments.map((comment) =>
-              comment._id === commentId ? { ...comment, ...newText } : comment,
+              comment._id === commentId
+                ? { ...comment, text: newText }
+                : comment,
             ),
           };
         }),
@@ -136,7 +154,9 @@ export const usePostStore = create((set) => ({
           return {
             ...post,
             comments: post.comments.map((comment) =>
-              comment._id === commentId ? { ...comment, ...newText } : comment,
+              comment._id === commentId
+                ? { ...comment, text: newText }
+                : comment,
             ),
           };
         }),
@@ -163,21 +183,63 @@ export const usePostStore = create((set) => ({
     }
   },
 
-  handleLikePost: async (postId) => {
-    set({ loading: true });
+  handleLikePost: async (postId, currentUser) => {
+    // Optimistic UI on posts
+    set((state) => ({
+      posts: state.posts.map((post) =>
+        post._id === postId
+          ? {
+              ...post,
+              isLiked: true,
+              likeCount: post.likeCount + 1,
+              likes: [
+                ...(post.likes || []),
+                {
+                  _id: currentUser._id,
+                  username: currentUser.username,
+                  profilePicture: currentUser.profilePicture,
+                },
+              ],
+            }
+          : post,
+      ),
+      userPosts: state.userPosts.map((post) =>
+        post._id === postId
+          ? {
+              ...post,
+              isLiked: true,
+              likeCount: post.likeCount + 1,
+              likes: [
+                ...(post.likes || []),
+                {
+                  _id: currentUser._id,
+                  username: currentUser.username,
+                  profilePicture: currentUser.profilePicture,
+                },
+              ],
+            }
+          : post,
+      ),
+    }));
     try {
+      // Real Db update
       await likePost(postId);
     } catch (error) {
-      set({ error, loading: false });
-    }
-  },
+      // Rollback if backend fails
+      set((state) => ({
+        posts: state.posts.map((post) =>
+          post._id === postId
+            ? {
+                ...post,
+                isLiked: false,
+                likeCount: post.likeCount - 1,
+                likes: post.likes.filter((u) => u._id !== currentUser._id),
+              }
+            : post,
+        ),
+      }));
 
-  handleSharePost: async (postId) => {
-    set({ loading: true });
-    try {
-      await sharePost(postId);
-    } catch (error) {
-      set({ error, loading: false });
+      console.error(error);
     }
   },
 }));

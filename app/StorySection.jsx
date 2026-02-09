@@ -62,7 +62,7 @@ const StorySection = () => {
           initial={{ y: -500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           onClick={scrollLeft}
-          className="hidden lg:flex absolute left-1 top-1/2 -translate-y-1/2 z-10 h-20 w-8 bg-black/80 text-white rounded 
+          className="hidden md:flex absolute left-1 top-1/2 -translate-y-1/2 z-10 h-20 w-8 bg-black/80 text-white rounded 
           shadow-md hover:scale-110 items-center justify-center cursor-pointer hover:bg-black -translate-x-1/2"
         >
           ◀
@@ -92,7 +92,7 @@ const StorySection = () => {
           initial={{ y: -500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           onClick={scrollRight}
-          className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10h-20 w-8 bg-black/80 text-white rounded 
+          className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10h-20 w-8 bg-black/80 text-white rounded h-20
           shadow-md hover:scale-110 items-center justify-center cursor-pointer hover:bg-black translate-x-1/2"
         >
           ▶

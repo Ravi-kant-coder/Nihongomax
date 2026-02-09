@@ -22,6 +22,7 @@ import useNotificationStore from "@/store/useNotificationStore";
 import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import Spinner from "./Spinner";
+import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 
 const LeftSideBar = () => {
   const { user } = userStore();
@@ -181,7 +182,7 @@ const LeftSideBar = () => {
           >
             <div className="relative">
               <div className="flex items-center">
-                <MessageCircle className="mr-4 w-6 h-6" />
+                <ChatBubbleLeftRightIcon className="mr-4 w-6 h-6" />
                 Messages
               </div>
               {unreadCount > 0 && (

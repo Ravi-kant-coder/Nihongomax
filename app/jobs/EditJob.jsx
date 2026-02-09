@@ -7,6 +7,18 @@ import { X } from "lucide-react";
 import userStore from "@/store/userStore";
 import { useForm } from "react-hook-form";
 import { useJobStore } from "@/store/useJobStore";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import EmojiPickerButton from "../components/EmojiPickerButton";
+import { useEmojiInsert } from "../hooks/useEmojiInsert";
+
+const jobSchema = yup.object().shape({
+  title: yup.string().required("Job title is required"),
+  jobDescription: yup
+    .string()
+    .required("Job description is required")
+    .min(10, "Description must be at least 10 characters"),
+});
 
 const EditJob = ({ onClose, job }) => {
   const { user } = userStore();
@@ -14,12 +26,17 @@ const EditJob = ({ onClose, job }) => {
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
   const { updateJobZust } = useJobStore();
+  const introEmoji = useEmojiInsert();
 
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
+    reset,
   } = useForm({
+    resolver: yupResolver(jobSchema),
     defaultValues: {
       title: job?.title || "",
       requirements: job?.requirements || "",
@@ -120,16 +137,35 @@ const EditJob = ({ onClose, job }) => {
             <p className="text-red-700 text-xs mb-4">{errors.salary.message}</p>
           )}
           Job Description
-          <Textarea
-            className={`text-lg border-1 border-white bg-white
+          <div className="relative">
+            <Textarea
+              className={`text-lg border-1 border-white bg-white pr-10
              dark:bg-black rounded-md dark:border-gray-700 
              ${
                errors.jobDescription
                  ? "border-red-500 dark:border-red-900 mb-0"
                  : "border-gray-300 mb-4"
              }`}
-            {...register("jobDescription")}
-          />
+              {...register("jobDescription")}
+              ref={(e) => {
+                register("jobDescription").ref(e);
+                introEmoji.inputRef.current = e;
+              }}
+            />
+            <div className="absolute bottom-0 right-2">
+              <EmojiPickerButton
+                onSelect={(emoji) =>
+                  introEmoji.insertEmoji({
+                    emoji,
+                    fieldName: "jobDescription",
+                    getValues,
+                    rhfSetValue: setValue,
+                  })
+                }
+                emojiSize={"h-8 w-8"}
+              />
+            </div>
+          </div>
           {errors.jobDescription && (
             <p className="text-red-700 text-xs">
               {errors.jobDescription.message}

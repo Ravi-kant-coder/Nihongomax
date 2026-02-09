@@ -14,13 +14,12 @@ import {
   BookHeart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import MutualFriends from "./profileContent/MutualFriends";
-import EditBio from "./profileContent/EditBio";
+import MutualFriends from "./MutualFriends";
+import EditBio from "./EditBio";
 import { usePostStore } from "@/store/usePostStore";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
-import WallCard from "../WallCard";
-import { notFound } from "next/navigation";
+import WallCard from "../../WallCard";
 
 const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
   const [isEditBioModel, setIsEditBioModel] = useState(false);

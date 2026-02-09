@@ -11,15 +11,19 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createOrUpdateUserBio } from "@/service/user.service";
 import { Save } from "lucide-react";
-import React from "react";
 import { useForm } from "react-hook-form";
+import EmojiPickerButton from "@/app/components/EmojiPickerButton";
+import { useEmojiInsert } from "@/app/hooks/useEmojiInsert";
 
 const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
+  const introEmoji = useEmojiInsert();
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
+    getValues,
     formState: { isSubmitting },
+    reset,
   } = useForm({
     defaultValues: initialData,
   });
@@ -46,15 +50,32 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
         </DialogHeader>
         <form onSubmit={handleSubmit(handleEditBio)}>
           <div className="grid gap-2 py-2">
-            <div className="grid grid-cols-4 items-center gap-2">
+            <div className="grid grid-cols-4 items-center gap-2 relative">
               <Label htmlFor="bio" className="text-right">
                 About you
               </Label>
               <Textarea
                 id="bioText"
-                className="col-span-3 border-gray-400"
+                className="col-span-3 border-gray-400 pr-10"
                 {...register("bioText")}
+                ref={(e) => {
+                  register("bioText").ref(e);
+                  introEmoji.inputRef.current = e;
+                }}
               />
+              <div className="absolute bottom-0 right-2">
+                <EmojiPickerButton
+                  onSelect={(emoji) =>
+                    introEmoji.insertEmoji({
+                      emoji,
+                      fieldName: "bioText",
+                      getValues,
+                      rhfSetValue: setValue,
+                    })
+                  }
+                  emojiSize={"h-8 w-8"}
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">

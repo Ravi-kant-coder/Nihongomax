@@ -1,9 +1,9 @@
 "use client";
-import { useState, useRef, useTransition } from "react";
+import { useState, useEffect, useRef, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import userStore from "@/store/userStore";
 import WallCardButtons from "./WallCardButtons";
-import { formateDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { wrapEmojis } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import Spinner from "./Spinner";
@@ -14,8 +14,7 @@ import { usePostStore } from "@/store/usePostStore";
 import PostContentEdit from "./PostContentEdit";
 import MediaGrid from "./MediaGrid";
 
-const WallCard = ({ post, onLike, onShare, onComment }) => {
-  const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
+const WallCard = ({ post, onComment }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { deleteUserPost, fetchPost } = usePostStore();
   const commentInputRef = useRef(null);
@@ -34,34 +33,6 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
     });
   };
 
-  const generateSharedLink = () => {
-    return `http://localhost:3000/${post?._id}`;
-  };
-
-  const handleShare = (platform) => {
-    const url = generateSharedLink();
-    let shareUrl;
-    switch (platform) {
-      case "facebook":
-        shareUrl = `https://www.facebook.com`;
-        break;
-      case "twitter":
-        shareUrl = `https://twitter.com`;
-        break;
-      case "linkedin":
-        shareUrl = `https://www.linkedin.com`;
-        break;
-      case "copy":
-        navigator.clipboard.writeText(url);
-        setIsShareDialogOpen(false);
-        return;
-      default:
-        return;
-    }
-    window.open(shareUrl, "_blank");
-    setIsShareDialogOpen(false);
-  };
-
   const handlePostDelete = async () => {
     setShowDeleteModal(false);
     startTransition(async () => {
@@ -75,6 +46,10 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
       }
     });
   };
+
+  useEffect(() => {
+    fetchPost();
+  }, []);
 
   return (
     <motion.div
@@ -118,7 +93,7 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
               By {user?._id === post?.user?._id ? "you" : post?.user?.username}
             </div>
             <div className="text-xs text-gray-600 dark:text-gray-400">
-              {formateDate(post?.createdAt)}
+              {formatDate(post?.createdAt)}
             </div>
           </div>
         </div>
@@ -172,14 +147,10 @@ const WallCard = ({ post, onLike, onShare, onComment }) => {
         <MediaGrid media={post?.uploadedMedia} />
       )}
       <WallCardButtons
-        onLike={onLike}
-        isShareDialogOpen={isShareDialogOpen}
-        setIsShareDialogOpen={setIsShareDialogOpen}
+        post={post}
         onComment={onComment}
         commentInputRef={commentInputRef}
-        handleShare={handleShare}
         handleDpClick={handleDpClick}
-        post={post}
       />
       {/* --------------------Delete Confirmation Modal------------------- */}
       {showDeleteModal && (

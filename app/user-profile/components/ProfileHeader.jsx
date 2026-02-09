@@ -25,8 +25,8 @@ import {
 import userStore from "@/store/userStore";
 import { userFriendStore } from "@/store/userFriendsStore";
 import { useForm } from "react-hook-form";
-import ShowDpPreview from "./[id]/ShowDpPreview";
-import Spinner from "../Spinner";
+import ShowDpPreview from "./ShowDpPreview";
+import Spinner from "../../Spinner";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -318,7 +318,6 @@ const ProfileHeader = ({
           <div className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center md:text-left flex-grow">
             <h1 className="text-3xl font-semibold capitalize truncate max-w-120">
               {profileData?.username}
-              {isOwner ? "(You)" : ""}
             </h1>
             <p className="text-gray-800 flex dark:text-gray-300 ">
               {mutualFriends.length}{" "}

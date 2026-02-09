@@ -19,9 +19,9 @@ const StudyInJapan = () => {
   const handleSchoolDelete = async (schoolId) => {
     try {
       const result = await deleteSchoolZust(schoolId);
-      showBanner("✅ School-Post deleted successfully", "success");
+      showBanner("広告削除されました。", "success");
     } catch (error) {
-      showBanner("❌ Failed to delete School-post", "error");
+      showBanner("すみませんでした。またお願いします。", "error");
     }
   };
 

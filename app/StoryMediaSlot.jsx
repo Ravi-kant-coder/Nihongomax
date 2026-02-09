@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { Input } from "@/components/ui/input";
+import { useEmojiInsert } from "./hooks/useEmojiInsert";
 
 const StoryMediaSlot = ({
   slot,
@@ -12,13 +13,12 @@ const StoryMediaSlot = ({
   fileSize,
   formatFileSize,
   onChange,
-  onCaptionEmoji,
 }) => {
+  const { inputRef, insertEmoji } = useEmojiInsert();
+
   const getFileSizeStatus = (file) => {
     if (!file) return "empty";
-
     const sizeInMB = fileSize / (1024 * 1024);
-
     if (sizeInMB > 4) return "large";
     return "ok";
   };
@@ -36,19 +36,18 @@ const StoryMediaSlot = ({
     <div className="flex flex-col items-center justify-center">
       {fileName && (
         <p
-          className={`text-xs text-center font-semibold ${borderColor} truncate max-w-[100px] 
-          mt-2`}
+          className={`text-xs text-center font-semibold ${borderColor} truncate max-w-[100px] mt-2`}
         >
           {slot?.file?.size && <span>{formatFileSize(slot.file.size)}</span>}
         </p>
       )}
+
       {filePreview && sizeStatus === "large" && (
-        <p
-          className={`text-xs text-red-600 dark:text-red-500 text-center max-w-[100px]`}
-        >
+        <p className="text-xs text-red-600 dark:text-red-500 text-center max-w-[100px]">
           File size exceeds 4MB
         </p>
       )}
+
       <div
         className={`relative cursor-pointer border-dashed overflow-hidden border-1
         ${borderColor} rounded-lg flex items-center justify-center hover:bg-gray-300 group
@@ -83,29 +82,34 @@ const StoryMediaSlot = ({
           </div>
         )}
       </div>
+
       {fileName && (
         <div className="flex-1 mr-2 relative">
           <Input
             className="dark:border-gray-100 border-gray-400 w-full pr-8 md:w-[150px]"
-            placeholder={`Add Caption`}
+            placeholder="Add Caption"
             value={slot?.caption || ""}
             maxLength={300}
             onChange={onChange}
+            ref={inputRef}
           />
+
           <div className="absolute -bottom-1 right-1">
             <EmojiPickerButton
-              onSelect={onCaptionEmoji}
+              onSelect={(emoji) =>
+                insertEmoji({
+                  emoji,
+                  value: slot?.caption || "",
+                  setValue: (newText) =>
+                    onChange({
+                      target: { value: newText },
+                    }),
+                })
+              }
               emojiSize={"h-7 w-7"}
             />
           </div>
         </div>
-      )}
-      {filePreview && sizeStatus === "large" && (
-        <p
-          className={`text-xs text-red-600 dark:text-red-500 text-center max-w-[100px]`}
-        >
-          File size exceeds 4MB
-        </p>
       )}
     </div>
   );

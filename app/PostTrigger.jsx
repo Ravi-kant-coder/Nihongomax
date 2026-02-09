@@ -1,6 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useState, useRef } from "react";
 import {
   Dialog,
@@ -9,14 +6,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AnimatePresence, motion } from "framer-motion";
-import { ImageIcon, Laugh, Send, Plus, VideoIcon, X } from "lucide-react";
+import { Send, Plus, X, Clapperboard, SmilePlus } from "lucide-react";
+import { PhotoIcon } from "@heroicons/react/24/solid";
 import userStore from "@/store/userStore";
 import { usePostStore } from "@/store/usePostStore";
 import PostMediaSlot from "./PostMediaSlot";
 import EmojiPickerButton from "./components/EmojiPickerButton";
+import { useEmojiInsert } from "./hooks/useEmojiInsert";
 
 const PostTrigger = () => {
   const [isPostTriggerOpen, setIsPostTriggerOpen] = useState(false);
@@ -27,6 +29,7 @@ const PostTrigger = () => {
   const fileInputRef = useRef(null);
   const activeIndexRef = useRef(null);
   const { handleCreatePost } = usePostStore();
+  const { inputRef, insertEmoji } = useEmojiInsert();
 
   // ------------------Post Media slots state---------------------
   const maxSlots = 4;
@@ -135,176 +138,174 @@ const PostTrigger = () => {
   };
 
   return (
-    <Card className="lg:mb-2 shadow-md shadow-gray-400 dark:shadow-[rgb(20,20,20)] w-full">
-      <CardContent className="dark:bg-[rgb(45,45,45)] lg:py-6 py-4 lg:pb-2 md:pb-2 rounded-lg">
-        <div className="flex ">
-          <Avatar className="h-9 w-9">
-            <AvatarImage className="object-cover" src={user?.profilePicture} />
-            <AvatarFallback
-              className="bg-gray-300 dark:bg-gray-500 hover:bg-gray-300
+    <Card className="lg:mb-2 shadow-md shadow-gray-400 dark:shadow-black w-full">
+      <CardContent className="dark:bg-[rgb(45,45,45)] py-4">
+        <Dialog open={isPostTriggerOpen} onOpenChange={setIsPostTriggerOpen}>
+          <DialogTrigger className="w-full flex cursor-pointer justify-between items-center">
+            <Avatar className="h-9 w-9 mr-1">
+              <AvatarImage
+                className="object-cover"
+                src={user?.profilePicture}
+              />
+              <AvatarFallback
+                className="bg-gray-300 dark:bg-gray-500 hover:bg-gray-300
              dark:text-white"
-            >
-              {user?.username.charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <Dialog open={isPostTriggerOpen} onOpenChange={setIsPostTriggerOpen}>
-            <div className="w-full px-4 cursor-pointer ">
-              <DialogTrigger className="w-full">
-                <div className="flex items-center">
-                  <Input
-                    placeholder={`Ask or Answer ${user?.username.split(" ")[0]}`}
-                    readOnly
-                    className="rounded-full border-1 border-gray-300 dark:border-gray-500
-                     cursor-pointer h-10 dark:bg-[rgb(75,75,75)]"
-                  />
-                  <ImageIcon className="h-5 w-5 text-green-500 ml-4 lg:hidden md:hidden " />
-                </div>
-                <div className="lg:flex md:flex md:justify-center hidden lg:justify-between">
-                  <div
-                    className="px-4 p-2 cursor-pointer rounded-lg flex items-center mt-2
-                   justify-center hover:bg-gray-300 dark:hover:bg-black
-                    dark:text-white"
-                  >
-                    <ImageIcon className="h-5 w-5 text-green-500 mr-2" />
-                    <span className="md:hidden lg:flex">Photo</span>
-                  </div>
-                  <div
-                    className="px-4 p-2 hover:bg-gray-300 cursor-pointer rounded-lg
-                   flex items-center mt-2 justify-center dark:hover:bg-black
-                    dark:text-white"
-                  >
-                    <VideoIcon className="h-5 w-5 text-red-500 mr-2" />
-                    <span className="md:hidden lg:flex">Video</span>
-                  </div>
-                  <div
-                    className="px-4 p-2 cursor-pointer rounded-lg flex items-center mt-2
-                   justify-center hover:bg-gray-300 dark:hover:bg-black
-                    dark:text-white"
-                  >
-                    <Laugh className="h-5 w-5 text-yellow-500 mr-2" />
-                    <span className="md:hidden lg:flex">Emoji</span>
-                  </div>
-                </div>
-              </DialogTrigger>
-            </div>
-            <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full">
-              <DialogHeader>
-                <DialogTitle className="text-center">
-                  Create a Public Post
-                </DialogTitle>
-              </DialogHeader>
-              <div className="flex items-center space-x-3 py-4">
-                <Avatar>
-                  <AvatarImage
-                    className="object-cover"
-                    src={user?.profilePicture}
-                  />
-                  <AvatarFallback className="dark:bg-gray-800">
-                    {user?.username.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p>{user?.username}</p>
-                </div>
-              </div>
-
-              {/* -----------------------Post Trigger Textarea with Emoji--------------------------*/}
-              <div className="relative">
-                <Textarea
-                  placeholder={`What's on your mind ${user?.username.split(" ")[0]} ?`}
-                  className="min-h-[80px] text-lg pr-12 dark:bg-[rgb(90,90,90)] border-gray-300"
-                  value={postContent}
-                  onChange={(e) => setPostContent(e.target.value)}
-                />
-                <div className="absolute bottom-0 right-2">
-                  <EmojiPickerButton
-                    onSelect={(emoji) => setPostContent((prev) => prev + emoji)}
-                    emojiSize={"h-8 w-8"}
-                  />
-                </div>
-              </div>
-
-              {/* ------------------Image/video 4 media slots---------------------*/}
-              <div
-                className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 
-                 md:space-x-4 mb-4 md:justify-start"
               >
-                <AnimatePresence>
-                  {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, scale: 0.7 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.25, ease: "easeOut" }}
-                      className="relative"
-                    >
-                      {slot && (
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveSlot(index)}
-                          className="absolute -top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white 
+                {user?.username.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex items-center w-full relative">
+              <Input
+                placeholder={`Ask or Answer ${user?.username.split(" ")[0]}`}
+                readOnly
+                className="rounded-xl border-1 border-gray-300 dark:border-gray-500 
+                     cursor-pointer h-10 dark:bg-[rgb(75,75,75)]"
+              />
+              <SmilePlus className=" absolute right-0 h-6 w-6 text-yellow-500 mr-2" />
+            </div>
+            <div className="flex justify-center items-center">
+              <div
+                className="ml-1 p-2 cursor-pointer rounded-lg flex items-center
+                   justify-center hover:bg-gray-200 dark:hover:bg-black
+                    dark:text-white"
+              >
+                <PhotoIcon className="h-5 w-5 text-green-600 mr-1" />
+                <span className="md:hidden lg:flex">Photos</span>
+              </div>
+              <div
+                className=" p-2 hover:bg-gray-200 cursor-pointer rounded-lg
+                   flex items-center justify-center dark:hover:bg-black
+                    dark:text-white"
+              >
+                <Clapperboard className="h-5 w-5 text-red-600 mr-1" />
+                <span className="md:hidden lg:flex">Videos</span>
+              </div>
+            </div>
+          </DialogTrigger>
+          <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full">
+            <DialogHeader>
+              <DialogTitle className="text-center">
+                Create a Public Post
+              </DialogTitle>
+            </DialogHeader>
+            <div className="flex items-center space-x-3 py-4">
+              <Avatar>
+                <AvatarImage
+                  className="object-cover"
+                  src={user?.profilePicture}
+                />
+                <AvatarFallback className="dark:bg-gray-800">
+                  {user?.username.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <p>{user?.username}</p>
+              </div>
+            </div>
+
+            {/* -----------------------Post Trigger Textarea with Emoji--------------------------*/}
+            <div className="relative">
+              <Textarea
+                placeholder={`What's on your mind ${user?.username.split(" ")[0]} ?`}
+                className="min-h-[80px] text-lg dark:bg-[rgb(90,90,90)] border-gray-300 pr-10"
+                value={postContent}
+                ref={inputRef}
+                onChange={(e) => setPostContent(e.target.value)}
+              />
+              <div className="absolute bottom-0 right-2">
+                <EmojiPickerButton
+                  onSelect={(emoji) =>
+                    insertEmoji({
+                      emoji,
+                      value: postContent,
+                      setValue: setPostContent,
+                    })
+                  }
+                  emojiSize={"h-8 w-8"}
+                />
+              </div>
+            </div>
+
+            {/* ------------------Image/video 4 media slots---------------------*/}
+            <div
+              className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 
+                 md:space-x-4 mb-4 md:justify-start"
+            >
+              <AnimatePresence>
+                {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    className="relative"
+                  >
+                    {slot && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveSlot(index)}
+                        className="absolute -top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white 
                           flex items-center justify-center text-sm hover:bg-black cursor-pointer"
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      )}
-                      <PostMediaSlot
-                        key={index}
-                        slot={slot}
-                        filePreview={slot ? slot.preview : null}
-                        fileName={slot?.file ? slot.file.name : null}
-                        fileType={slot ? slot.type : null}
-                        formatFileSize={formatFileSize}
-                        fileSize={slot?.file ? slot.file.size : null}
-                        handleFileChange={handleFileChange}
-                        fileInputRef={fileInputRef}
-                        onClick={() => handleSlotClick(index)}
-                      />
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-                {canAddMore && (
-                  <motion.button
-                    type="button"
-                    onClick={handleAddMoreSlot}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.8 }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                    className="w-[120px] flex flex-col items-center justify-center cursor-pointer dark:text-gray-400
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                    <PostMediaSlot
+                      key={index}
+                      slot={slot}
+                      filePreview={slot ? slot.preview : null}
+                      fileName={slot?.file ? slot.file.name : null}
+                      fileType={slot ? slot.type : null}
+                      formatFileSize={formatFileSize}
+                      fileSize={slot?.file ? slot.file.size : null}
+                      handleFileChange={handleFileChange}
+                      fileInputRef={fileInputRef}
+                      onClick={() => handleSlotClick(index)}
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              {canAddMore && (
+                <motion.button
+                  type="button"
+                  onClick={handleAddMoreSlot}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.8 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-[120px] flex flex-col items-center justify-center cursor-pointer dark:text-gray-400
                      border border-gray-500 rounded-lg text-gray-500 hover:border-gray-700 hover:text-gray-700
                    dark:hover:border-white dark:hover:text-white dark:border-gray-400"
-                  >
-                    <span className="text-4xl">
-                      <Plus className="h-6 w-6" />
-                    </span>
-                    <span className="text-sm ">Add</span>
-                    <span className="text-sm ">More?</span>
-                  </motion.button>
-                )}
-                <input
-                  type="file"
-                  accept="image/*,video/*"
-                  className="hidden"
-                  onChange={handleFileChange}
-                  ref={fileInputRef}
-                />
-              </div>
-              <div className="flex justify-end mt-4 ">
-                <Button
-                  className="bg-gray-700 w-1/3 text-white dark:bg-black
-                 dark:hover:bg-gray-900 cursor-pointer hover:bg-black"
-                  onClick={submitPost}
-                  disabled={hasTooLargeFile || loading}
                 >
-                  {loading ? "Sending..." : "SEND"}
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
+                  <span className="text-4xl">
+                    <Plus className="h-6 w-6" />
+                  </span>
+                  <span className="text-sm ">Add</span>
+                  <span className="text-sm ">More?</span>
+                </motion.button>
+              )}
+              <input
+                type="file"
+                accept="image/*,video/*"
+                className="hidden"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+              />
+            </div>
+            <div className="flex justify-end mt-4 ">
+              <Button
+                className="bg-gray-700 w-1/3 text-white dark:bg-black
+                 dark:hover:bg-gray-900 cursor-pointer hover:bg-black"
+                onClick={submitPost}
+                disabled={hasTooLargeFile || loading}
+              >
+                {loading ? "Sending..." : "SEND"}
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   );

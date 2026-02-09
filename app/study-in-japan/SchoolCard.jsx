@@ -8,11 +8,12 @@ import {
   Phone,
   CalendarHeart,
 } from "lucide-react";
-import { formateDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
 import EditSchool from "./EditSchool";
 import Spinner from "../Spinner";
 import MediaShowcase from "../components/MediaShowcase";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -38,13 +39,36 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
          dark:border-gray-200 dark:bg-black"
       >
         <div className="flex flex-col items-start justify-between">
-          <div className="mb-4">
-            <p className="font-semibold md:text-2xl text-xl dark:text-gray-300">
-              {school?.schoolName}
-            </p>
-            <p className="text-xs flex flex-col md:text-sm text-gray-700 dark:text-gray-400">
-              Posted {formateDate(school?.createdAt)}
-            </p>
+          <div className="mb-4 w-full flex justify-between">
+            <div>
+              <p className="font-semibold md:text-2xl text-xl dark:text-gray-300">
+                {school?.schoolName}
+              </p>
+              <p className="text-xs flex flex-col md:text-sm text-gray-700 dark:text-gray-400">
+                Posted {formatDate(school?.createdAt)}
+              </p>
+            </div>
+            {school?.visibility ? (
+              <div className="flex items-center mr-4">
+                <Avatar>
+                  <AvatarImage
+                    className="object-cover"
+                    src={school?.user?.profilePicture}
+                  />
+                  <AvatarFallback className="dark:bg-gray-800">
+                    {school?.user?.username.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="ml-2">
+                  掲載者
+                  <p className="font-[450] capitalize">
+                    {school?.user?.username}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="relative my-auto overflow-hidden rounded flex space-x-2 mb-2 flex-wrap">
             {school.uploadedMedia.map((media, index) => (
@@ -104,7 +128,8 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
           </div>
 
           <div className="items-center">
-            {school?.schoolDescription || "No details provided by this School."}
+            {school?.schoolDescription ||
+              "No other details provided by this School."}
           </div>
         </div>
         <div className="flex justify-start items-center">

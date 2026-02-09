@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useState, useRef } from "react";
 import {
   Dialog,
@@ -16,10 +15,10 @@ import userStore from "@/store/userStore";
 import { useStoryStore } from "@/store/useStoryStore";
 import StoryMediaSlot from "./StoryMediaSlot";
 import EmojiPickerButton from "./components/EmojiPickerButton";
+import { useEmojiInsert } from "./hooks/useEmojiInsert";
 
 const StoryTrigger = () => {
   const [isStoryTriggerOpen, setIsStoryTriggerOpen] = useState(false);
-  const [caption, setCaption] = useState("");
   const [storyContent, setStoryContent] = useState("");
   const { user } = userStore();
   const [selectedFile, setSelectedFile] = useState(null);
@@ -27,6 +26,7 @@ const StoryTrigger = () => {
   const fileInputRef = useRef(null);
   const activeIndexRef = useRef(null);
   const { handleCreateStory } = useStoryStore();
+  const { inputRef, insertEmoji } = useEmojiInsert();
 
   // ------------------Story Media slots state---------------------
   const maxSlots = 4;
@@ -116,22 +116,16 @@ const StoryTrigger = () => {
     try {
       setLoading(true);
       const storyData = new FormData();
-
       storyData.append("content", storyContent);
-
       const captions = [];
-
       mediaSlots.forEach((slot) => {
         if (slot?.file) {
           storyData.append("media", slot.file);
           captions.push(slot.caption || "");
         }
       });
-
       storyData.append("mediaCaptions", JSON.stringify(captions));
-
       await handleCreateStory(storyData);
-
       cleanupPreviews();
       setMediaSlots(Array(4).fill(null));
       setVisibleSlots(1);
@@ -177,7 +171,7 @@ const StoryTrigger = () => {
     dark:bg-[rgb(45,45,45)] rounded-lg"
     >
       <Dialog open={isStoryTriggerOpen} onOpenChange={setIsStoryTriggerOpen}>
-        {/* -----------------------------------Story Trigger------------------------------------*/}
+        {/* -----------------------------------Story Trigger Button------------------------------------*/}
         <DialogTrigger className="w-full" asChild>
           <div
             className="relative w-full h-full cursor-pointer rounded-lg overflow-hidden bg-white dark:bg-[rgb(36,37,38)] 
@@ -208,10 +202,12 @@ const StoryTrigger = () => {
           </div>
         </DialogTrigger>
 
-        {/* -----------------------Story Trigger Opens Upload--------------------------*/}
+        {/* -----------------------Story Upload Panel--------------------------*/}
         <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full">
           <DialogHeader>
-            <DialogTitle className="text-center">Create a Story</DialogTitle>
+            <DialogTitle className="text-center">
+              Status/Story visible only for 24 hours
+            </DialogTitle>
           </DialogHeader>
           <div className="flex items-center space-x-3 py-4">
             <Avatar>
@@ -232,13 +228,20 @@ const StoryTrigger = () => {
           <div className="relative">
             <Textarea
               placeholder={`Say something ${user?.username.split(" ")[0]}`}
-              className="min-h-[80px] text-lg pr-12 dark:bg-[rgb(90,90,90)] border-gray-300"
+              className="min-h-[80px] text-lg dark:bg-[rgb(90,90,90)] border-gray-300 pr-10"
               value={storyContent}
               onChange={(e) => setStoryContent(e.target.value)}
+              ref={inputRef}
             />
             <div className="absolute bottom-0 right-2">
               <EmojiPickerButton
-                onSelect={(emoji) => setStoryContent((prev) => prev + emoji)}
+                onSelect={(emoji) =>
+                  insertEmoji({
+                    emoji,
+                    value: storyContent,
+                    setValue: setStoryContent,
+                  })
+                }
                 emojiSize={"h-8 w-8"}
               />
             </div>

@@ -11,9 +11,22 @@ import * as yup from "yup";
 import { useSchoolStore } from "@/store/useSchoolStore";
 import MediaSlot from "./MediaSlot";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import EmojiPickerButton from "../components/EmojiPickerButton";
+import { useEmojiInsert } from "../hooks/useEmojiInsert";
 
 const schoolSchema = yup.object().shape({
   schoolName: yup.string().required("学校名は必須です"),
+  intro: yup
+    .string()
+    .required("貴校の紹介は必須です")
+    .min(10, "紹介は少なくとも10文字でなければなりません"),
   intakes: yup.string().required("回数は必須です"),
   location: yup.string().required("場所は必須です"),
   homepage: yup.string().required("ホームページは必須です"),
@@ -25,12 +38,11 @@ const schoolSchema = yup.object().shape({
       "valid-mobile",
       "10桁の携帯番号または固定電話番号を入力してください",
       (val) => {
-        if (!val) return true; // ✅ allow empty
+        if (!val) return true; // allow empty
         const phoneRegex = /^[0-9]{10}$/;
         return phoneRegex.test(val);
       },
     ),
-
   email: yup
     .string()
     .required("メールは必須です")
@@ -39,10 +51,6 @@ const schoolSchema = yup.object().shape({
       const emailRegex = /^\S+@\S+\.\S+$/;
       return emailRegex.test(val);
     }),
-  schoolDescription: yup
-    .string()
-    .required("貴校の説明は必須です")
-    .min(10, "説明は少なくとも10文字でなければなりません"),
 });
 
 const SchoolTrigger = () => {
@@ -51,13 +59,24 @@ const SchoolTrigger = () => {
   const activeIndexRef = useRef(null);
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
-  const month = today.toLocaleString("en-US", { month: "long" });
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // +1 for month in Javascript
   const year = today.getFullYear();
-  const formattedDate = `${day}-${month}-${year}`;
+  const japaneseDate = `${year}年${month}月${day}日`;
   const { createSchoolZust, loading } = useSchoolStore();
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
-
+  const [visibility, setVisibility] = useState("false");
+  const introEmoji = useEmojiInsert();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schoolSchema),
+  });
   // ------------------School Media slots state---------------------
   const maxSlots = 4;
   const [mediaSlots, setMediaSlots] = useState(
@@ -99,15 +118,6 @@ const SchoolTrigger = () => {
     return `${mb.toFixed(1)} MB`;
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(schoolSchema),
-  });
-
   const handleSlotClick = (index) => {
     activeIndexRef.current = index;
     fileInputRef.current.click();
@@ -148,6 +158,7 @@ const SchoolTrigger = () => {
     try {
       const schoolData = new FormData();
       schoolData.append("schoolName", data.schoolName);
+      schoolData.append("visibility", visibility);
       schoolData.append("intakes", data.intakes);
       schoolData.append("intro", data.intro);
       schoolData.append("location", data.location);
@@ -180,25 +191,40 @@ const SchoolTrigger = () => {
   return (
     <div
       className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] mb-10 p-2 md:p-4 rounded-lg
-     bg-[rgb(170,170,170)] "
+     bg-[rgb(170,170,170)]"
     >
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-3 py-2">
-          <Avatar>
-            <AvatarImage className="object-cover" src={user?.profilePicture} />
-            <AvatarFallback className="dark:bg-gray-800">
-              {user?.username.charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            掲載者
-            <span className="text-gray-700 dark:text-gray-500 ml-1">
-              ※非公開
-            </span>
-            <p className="font-semibold">{user?.username}</p>
+        <div className="flex items-center">
+          <div className="flex items-center space-x-3 py-2 mr-4">
+            <Avatar>
+              <AvatarImage
+                className="object-cover"
+                src={user?.profilePicture}
+              />
+              <AvatarFallback className="dark:bg-gray-800">
+                {user?.username.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              掲載者
+              <p className="font-semibold capitalize">{user?.username}</p>
+            </div>
           </div>
+          <Select
+            value={visibility}
+            onValueChange={(value) => setVisibility(value)}
+          >
+            <SelectTrigger className="w-[150px] border border-gray-600 text-gray-700 dark:border-gray-400 dark:text-gray-400">
+              <SelectValue placeholder="公開設定" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="false">お名前非公開</SelectItem>
+              <SelectItem value="true">お名前公開</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <p className="text-xs dark:text-gray-300">{formattedDate}</p>
+        <p className="text-sm dark:text-gray-300">{japaneseDate}</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -289,17 +315,36 @@ const SchoolTrigger = () => {
         </div>
         {/* ------------------------School Intro--------------------------- */}
         学校紹介
-        <Textarea
-          placeholder="貴校の説明を書いてください..."
-          className={`min-h-[100px] text-lg border-1 border-white bg-white
-             dark:bg-black rounded-md dark:border-gray-700 
-             ${
-               errors.intro
-                 ? "border-red-500 dark:border-red-900 mb-0"
-                 : "border-gray-300 mb-4"
-             }`}
-          {...register("intro")}
-        />
+        <div className="relative ">
+          <Textarea
+            placeholder="貴校の説明を書いてください..."
+            className={`min-h-[100px] text-lg border-1 border-white bg-whitedark:bg-black rounded-md
+          dark:border-gray-700 bg-accent pr-10
+    ${
+      errors.intro
+        ? "border-red-500 dark:border-red-900 mb-0"
+        : "border-gray-300 mb-4"
+    }`}
+            {...register("intro")}
+            ref={(e) => {
+              register("intro").ref(e);
+              introEmoji.inputRef.current = e;
+            }}
+          />
+          <div className="absolute bottom-0 right-2">
+            <EmojiPickerButton
+              onSelect={(emoji) =>
+                introEmoji.insertEmoji({
+                  emoji,
+                  fieldName: "intro",
+                  getValues,
+                  rhfSetValue: setValue,
+                })
+              }
+              emojiSize={"h-8 w-8"}
+            />
+          </div>
+        </div>
         {errors.intro && (
           <p className="text-red-700 text-xs">{errors.intro.message}</p>
         )}
@@ -422,11 +467,6 @@ const SchoolTrigger = () => {
              }`}
           {...register("schoolDescription")}
         />
-        {errors.schoolDescription && (
-          <p className="text-red-700 text-xs">
-            {errors.schoolDescription.message}
-          </p>
-        )}
         <Button
           type="submit"
           className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 

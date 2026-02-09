@@ -7,20 +7,20 @@ import { wrapEmojis } from "@/lib/utils";
 import Spinner from "./Spinner";
 import { Textarea } from "@/components/ui/textarea";
 import EmojiPickerButton from "./components/EmojiPickerButton";
+import { useEmojiInsert } from "./hooks/useEmojiInsert";
 
-const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
+const CommentEdit = ({ postId, commentId, initialComment }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [initComment, setComment] = useState(initialComment);
   const [tempComment, setTempComment] = useState(initialComment);
   const updateComment = usePostStore((state) => state.updateComment);
   const { deleteComment, fetchPost } = usePostStore();
   const [readyTodel, setReadyTodel] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { inputRef, insertEmoji } = useEmojiInsert();
 
   const trimmed = tempComment.trim();
   const handleSave = async () => {
-    // Empty comment → delete
     if (!trimmed) {
       await handleCommentDelete(postId, commentId);
       setIsEditing(false);
@@ -28,10 +28,10 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
     }
     try {
       await updateComment(postId, commentId, trimmed);
-      setComment(trimmed);
+      setTempComment(trimmed);
       setIsEditing(false);
     } catch (error) {
-      console.error("Comment edit fail ho gaya", error);
+      console.error("Comment edit failed", error);
     }
   };
 
@@ -47,7 +47,7 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
   };
 
   const handleCancel = () => {
-    setTempComment(initComment);
+    setTempComment(initialComment);
     setIsEditing(false);
   };
 
@@ -66,7 +66,7 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
         {!isEditing ? (
           <div>
             <p className="text-gray-800 dark:text-gray-300 text-md font-semibold">
-              {wrapEmojis(initComment)}
+              {wrapEmojis(tempComment)}
             </p>
             <div className="flex items-center mt-2">
               <span className="text-xs text-gray-500">Only you can</span>
@@ -91,15 +91,21 @@ const CommentEdit = ({ comment, postId, commentId, initialComment }) => {
           <>
             <div className="relative">
               <Textarea
-                className="w-full p-2 border rounded ring-offset focus:outline-none
-             focus:ring focus:ring-gray-600"
+                className="w-full p-2 border rounded ring-offset focus:outline-none focus:ring focus:ring-gray-600 pr-10"
                 rows="2"
                 value={tempComment}
+                ref={inputRef}
                 onChange={(e) => setTempComment(e.target.value)}
               />
               <div className="absolute bottom-0 right-2">
                 <EmojiPickerButton
-                  onSelect={(emoji) => setTempComment((prev) => prev + emoji)}
+                  onSelect={(emoji) =>
+                    insertEmoji({
+                      emoji,
+                      value: tempComment,
+                      setValue: setTempComment,
+                    })
+                  }
                   emojiSize={"h-8 w-8"}
                 />
               </div>

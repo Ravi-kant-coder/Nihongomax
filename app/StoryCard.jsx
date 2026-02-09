@@ -19,7 +19,6 @@ const StoryCard = ({ story }) => {
   const [loading, setLoading] = useState(false);
   const { deleteUserStory, fetchStories } = useStoryStore();
   const [showPreview, setShowPreview] = useState(false);
-  const [isNewStory, setIsNewStory] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -38,11 +37,9 @@ const StoryCard = ({ story }) => {
     setSelectedFile(null);
     setFilePreview(null);
     setFileType(null);
-    setIsNewStory(false);
   };
 
   const handleStoryCardClick = () => {
-    setIsNewStory(false);
     setShowPreview(true);
   };
 
@@ -119,13 +116,16 @@ const StoryCard = ({ story }) => {
             {/* --------------------Story Delete Button------------------- */}
             {user?._id === story?.user?._id && (
               <button
-                onClick={() => setShowDeleteModal(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowDeleteModal(true);
+                }}
                 className="group absolute top-0 right-0"
               >
                 <Trash2
-                  className=" group-hover:text-red-700 text-white bg-black/70
-                     group-hover:bg-white/70 dark:text-gray-300 rounded py-1
-                     group-hover:dark:text-red-500 shrink-0"
+                  className=" hover:text-red-700 text-white bg-black/70
+                     hover:bg-white/70 dark:text-gray-300 rounded py-1
+                     hover:dark:text-red-500 shrink-0"
                 />
               </button>
             )}

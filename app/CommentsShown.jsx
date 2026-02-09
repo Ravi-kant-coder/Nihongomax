@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import userStore from "@/store/userStore";
 import { Input } from "@/components/ui/input";
-import { formateDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import CommentEdit from "./CommentEdit";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,14 +12,17 @@ import Spinner from "./Spinner";
 import { usePostStore } from "@/store/usePostStore";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { wrapEmojis } from "@/lib/utils";
+import { RocketLaunchIcon } from "@heroicons/react/24/solid";
+import { useEmojiInsert } from "./hooks/useEmojiInsert";
 
-const CommentsShown = ({ post, onComment, commentInputRef }) => {
+const CommentsShown = ({ post, onComment }) => {
   const [showAllComments, setShowAllComments] = useState(false);
   const [commentText, setCommentText] = useState("");
   const { user } = userStore();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { fetchPost } = usePostStore();
+  const { inputRef, insertEmoji } = useEmojiInsert();
 
   const visibleComments = showAllComments
     ? post?.comments
@@ -108,7 +111,7 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
                     )}
                   </p>
                   <div className="text-gray-600 dark:text-gray-400 text-xs normal-case">
-                    {formateDate(comment?.createdAt)}
+                    {formatDate(comment?.createdAt)}
                   </div>
                   {user?._id !== comment?.user?._id ? (
                     <p className="text-md font-semibold">
@@ -176,37 +179,39 @@ const CommentsShown = ({ post, onComment, commentInputRef }) => {
         </Avatar>
         <div className="flex-1 mr-2 relative">
           <Input
-            className="dark:border-gray-100 border-gray-400 w-full md:w-[400px] lg:w-[560px]  pr-10"
+            className="dark:border-gray-100 border-gray-400 w-full md:w-[400px] lg:w-[560px] pr-10"
             placeholder={`Comment as ${
               user?.username
                 ? user.username.charAt(0).toUpperCase() + user.username.slice(1)
                 : ""
             }...`}
             value={commentText}
-            ref={commentInputRef}
+            ref={inputRef}
             onChange={(e) => setCommentText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleCommentSubmit()}
           />
           <div className="absolute -bottom-1 right-1">
             <EmojiPickerButton
-              onSelect={(emoji) => setCommentText((prev) => prev + emoji)}
+              onSelect={(emoji) =>
+                insertEmoji({
+                  emoji,
+                  value: commentText,
+                  setValue: setCommentText,
+                })
+              }
               emojiSize={"h-7 w-7"}
             />
           </div>
         </div>
         <Button
-          className="cursor-pointer bg-gray-700 hover:bg-black dark:bg-gray-600
-               dark:text-white dark:hover:bg-gray-700"
+          className="cursor-pointer  hover:bg-gray-700 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
           onClick={handleCommentSubmit}
         >
-          <Send className="h-4 w-4" />
+          <RocketLaunchIcon className="!h-6 !w-6" />
         </Button>
       </div>
       {isPending && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-white/30
-        dark:bg-black/60 backdrop-blur-xs z-[9999]"
-        >
+        <div className="fixed inset-0 flex items-center justify-center bg-white/30 dark:bg-black/60 backdrop-blur-xs z-9999">
           <Spinner />
         </div>
       )}
