@@ -1,22 +1,23 @@
 "use client";
 import { useState, useTransition } from "react";
-import { formateDate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { SquarePen, Trash2 } from "lucide-react";
 import userStore from "@/store/userStore";
 import { useNoteStore } from "@/store/useNoteStore";
 import Spinner from "../Spinner";
 import { motion } from "framer-motion";
+import { useEmojiInsert } from "../hooks/useEmojiInsert";
+import { Textarea } from "@/components/ui/textarea";
+import EmojiPickerButton from "../components/EmojiPickerButton";
 
 const Note = ({ initialNote, note }) => {
   const [isEditing, setIsEditing] = useState(false);
-  // const [content, setContent] = useState(initialNote);
   const [tempNote, setTempNote] = useState(initialNote);
-  // const updateNoteContent = useNoteStore((state) => state.updateNoteContent);
-  // const handleUpdateNote = useNoteStore((state) => state.updateNote);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isPending, startTransition] = useTransition();
   const { user } = userStore();
   const { deleteUserNote, saveNoteEdit } = useNoteStore();
+  const { inputRef, insertEmoji } = useEmojiInsert();
 
   const handleSaveEditedNote = async (noteId) => {
     const trimmed = tempNote.trim();
@@ -87,13 +88,28 @@ const Note = ({ initialNote, note }) => {
           </p>
         ) : (
           <>
-            <textarea
-              className="w-full p-2 border rounded ring-offset focus:outline-none
+            <div className="relative">
+              <Textarea
+                className="w-full p-2 border rounded ring-offset focus:outline-none
              focus:ring focus:ring-gray-600"
-              rows="2"
-              value={tempNote}
-              onChange={(e) => setTempNote(e.target.value)}
-            />
+                rows="2"
+                value={tempNote}
+                onChange={(e) => setTempNote(e.target.value)}
+                ref={inputRef}
+              />
+              <div className="absolute bottom-0 right-2">
+                <EmojiPickerButton
+                  onSelect={(emoji) =>
+                    insertEmoji({
+                      emoji,
+                      value: tempNote,
+                      setValue: setTempNote,
+                    })
+                  }
+                  emojiSize={"h-8 w-8"}
+                />
+              </div>
+            </div>
             <div className="flex gap-2">
               <button
                 className="px-2 bg-white dark:text-green-400 flex items-center text-xs
@@ -120,9 +136,9 @@ const Note = ({ initialNote, note }) => {
         )}
         {/* ----------------------Created and Updated Date--------------------------- */}
         <div className="absolute bottom-0 right-0 rounded-br-lg flex items-center group shadow-lg rounded-tl-2xl text-xs pb-1 px-2">
-          Created:&nbsp;{formateDate(note?.createdAt)}
+          Created:&nbsp;{formatDate(note?.createdAt)}
           {note?.updatedAt && note.updatedAt !== note.createdAt && (
-            <>&nbsp;| Updated:&nbsp;{formateDate(note.updatedAt)}</>
+            <>&nbsp;| Updated:&nbsp;{formatDate(note.updatedAt)}</>
           )}
         </div>
 

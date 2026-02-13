@@ -19,6 +19,7 @@ import { usePostStore } from "@/store/usePostStore";
 import PostMediaSlot from "./PostMediaSlot";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { useEmojiInsert } from "./hooks/useEmojiInsert";
+import useT from "./hooks/useT";
 
 const PostTrigger = () => {
   const [isPostTriggerOpen, setIsPostTriggerOpen] = useState(false);
@@ -30,6 +31,7 @@ const PostTrigger = () => {
   const activeIndexRef = useRef(null);
   const { handleCreatePost } = usePostStore();
   const { inputRef, insertEmoji } = useEmojiInsert();
+  const t = useT();
 
   // ------------------Post Media slots state---------------------
   const maxSlots = 4;
@@ -156,7 +158,7 @@ const PostTrigger = () => {
             </Avatar>
             <div className="flex items-center w-full relative">
               <Input
-                placeholder={`Ask or Answer ${user?.username.split(" ")[0]}`}
+                placeholder={`${t("ask")} ${user?.username.split(" ")[0]}`}
                 readOnly
                 className="rounded-xl border-1 border-gray-300 dark:border-gray-500 
                      cursor-pointer h-10 dark:bg-[rgb(75,75,75)]"
@@ -170,15 +172,22 @@ const PostTrigger = () => {
                     dark:text-white"
               >
                 <PhotoIcon className="h-5 w-5 text-green-600 mr-1" />
-                <span className="md:hidden lg:flex">Photos</span>
+                <span className="hidden md:flex whitespace-nowrap">
+                  {t("photos")}
+                </span>
               </div>
               <div
                 className=" p-2 hover:bg-gray-200 cursor-pointer rounded-lg
                    flex items-center justify-center dark:hover:bg-black
                     dark:text-white"
               >
-                <Clapperboard className="h-5 w-5 text-red-600 mr-1" />
-                <span className="md:hidden lg:flex">Videos</span>
+                <Clapperboard
+                  className="h-5 w-5 text-red-600 mr-1"
+                  shrink={0}
+                />
+                <span className="hidden md:flex whitespace-nowrap">
+                  {t("videos")}
+                </span>
               </div>
             </div>
           </DialogTrigger>

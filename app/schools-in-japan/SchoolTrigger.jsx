@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import EmojiPickerButton from "../components/EmojiPickerButton";
 import { useEmojiInsert } from "../hooks/useEmojiInsert";
+import { formatJapaneseDate } from "@/lib/utils";
 
 const schoolSchema = yup.object().shape({
   schoolName: yup.string().required("学校名は必須です"),
@@ -57,11 +58,6 @@ const SchoolTrigger = () => {
   const { user } = userStore();
   const fileInputRef = useRef(null);
   const activeIndexRef = useRef(null);
-  const today = new Date();
-  const day = String(today.getDate()).padStart(2, "0");
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // +1 for month in Javascript
-  const year = today.getFullYear();
-  const japaneseDate = `${year}年${month}月${day}日`;
   const { createSchoolZust, loading } = useSchoolStore();
   const [submitted, setSubmitted] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -224,7 +220,7 @@ const SchoolTrigger = () => {
             </SelectContent>
           </Select>
         </div>
-        <p className="text-sm dark:text-gray-300">{japaneseDate}</p>
+        <p className="text-sm dark:text-gray-300">{formatJapaneseDate()}</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

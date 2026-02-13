@@ -16,6 +16,7 @@ import { useStoryStore } from "@/store/useStoryStore";
 import StoryMediaSlot from "./StoryMediaSlot";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { useEmojiInsert } from "./hooks/useEmojiInsert";
+import useT from "./hooks/useT";
 
 const StoryTrigger = () => {
   const [isStoryTriggerOpen, setIsStoryTriggerOpen] = useState(false);
@@ -27,7 +28,7 @@ const StoryTrigger = () => {
   const activeIndexRef = useRef(null);
   const { handleCreateStory } = useStoryStore();
   const { inputRef, insertEmoji } = useEmojiInsert();
-
+  const t = useT();
   // ------------------Story Media slots state---------------------
   const maxSlots = 4;
   const [mediaSlots, setMediaSlots] = useState(
@@ -192,10 +193,10 @@ const StoryTrigger = () => {
               <Plus className="text-white w-5 h-5" />
             </div>
             <div className="py-4 text-center border-t border-gray-200 dark:border-[rgb(58,59,60)]">
-              <p className="text-sm font-semibold text-black dark:text-white">
-                Create Story
+              <p className="text-sm font-[450] text-black dark:text-white">
+                {t("createStory")}
               </p>
-              <p className="text-sm font-semibold text-black dark:text-white">
+              <p className="text-sm font-[450] text-black dark:text-white">
                 {user?.username.split(" ")[0]}
               </p>
             </div>

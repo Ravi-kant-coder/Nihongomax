@@ -17,12 +17,13 @@ import {
   BookOpen,
   PlusCircle,
 } from "lucide-react";
+import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import useMsgStore from "@/store/useMsgStore";
 import useNotificationStore from "@/store/useNotificationStore";
 import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import Spinner from "./Spinner";
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
+import useT from "./hooks/useT";
 
 const LeftSideBar = () => {
   const { user } = userStore();
@@ -51,6 +52,7 @@ const LeftSideBar = () => {
     });
   };
   const pathname = usePathname();
+  const t = useT();
 
   return (
     <>
@@ -80,7 +82,9 @@ const LeftSideBar = () => {
               </AvatarFallback>
             </Avatar>
             <div className="max-w-[200px]">
-              <div className="font-semibold capitalize">My profile</div>
+              <div className="font-[450] capitalize">
+                <p>{t("myProfile")}</p>
+              </div>
               <div className="capitalize text-xs truncate w-full">
                 {user?.username}
               </div>
@@ -102,7 +106,7 @@ const LeftSideBar = () => {
             <div className="relative">
               <div className="flex items-center">
                 <Home className="mr-4 w-6 h-6" />
-                Home
+                <p>{t("home")}</p>
               </div>
             </div>
           </motion.button>
@@ -124,7 +128,7 @@ const LeftSideBar = () => {
             <div className="relative">
               <div className="flex items-center">
                 <Users className="mr-4 w-6 h-6" />
-                Friends
+                <p>{t("friends")}</p>
               </div>
               {unreadCount > 0 && (
                 <span
@@ -153,7 +157,7 @@ const LeftSideBar = () => {
             <div className="relative">
               <div className="flex items-center">
                 <Bell className="mr-4 w-6 h-6" />
-                Notifications
+                <p>{t("noti")}</p>
               </div>
               {unreadCount > 0 && (
                 <span
@@ -183,7 +187,7 @@ const LeftSideBar = () => {
             <div className="relative">
               <div className="flex items-center">
                 <ChatBubbleLeftRightIcon className="mr-4 w-6 h-6" />
-                Messages
+                <p>{t("msgs")}</p>
               </div>
               {unreadCount > 0 && (
                 <span
@@ -199,49 +203,49 @@ const LeftSideBar = () => {
           {[
             {
               id: 2,
-              label: "Videos",
+              label: <p>{t("videos")}</p>,
               navPath: "/videos",
               icon: TvMinimalPlay,
             },
             {
               id: 3,
-              label: "About Jobs in Japan",
+              label: <p>{t("blogs")}</p>,
               navPath: "/about-jobs",
               icon: BriefcaseBusiness,
             },
             {
               id: 4,
-              label: "Study in Japan",
+              label: <p>{t("studyInJapan")}</p>,
               navPath: "/study-in-japan",
               icon: School,
             },
             {
               id: 5,
-              label: "Notes",
+              label: <p>{t("notes")}</p>,
               navPath: "/notes",
               icon: BookOpen,
             },
             {
               id: 6,
-              label: "Word Game",
+              label: <p>{t("game")}</p>,
               navPath: "/games",
               icon: Dices,
             },
             {
               id: 7,
-              label: "Apply for Jobs",
+              label: <p>{t("jobApply")}</p>,
               navPath: "/jobs",
               icon: Handshake,
             },
             {
               id: 8,
-              label: "For Recruiters",
+              label: <p>{t("recruiters")}</p>,
               navPath: "/recruiters",
               icon: ChartNoAxesCombined,
             },
             {
               id: 1,
-              label: "学校掲載投稿",
+              label: <p>{t("schools")}</p>,
               navPath: "/schools-in-japan",
               icon: Building2,
             },

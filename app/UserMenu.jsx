@@ -14,10 +14,12 @@ import {
 import { useRouter } from "next/navigation";
 import ThemeToggle from "@/app/ThemeToggle";
 import Spinner from "./Spinner";
+import useT from "./hooks/useT";
 
 const UserMenu = ({ handleLogout }) => {
   const { user } = userStore();
   const [isPending, startTransition] = useTransition();
+  const t = useT();
   const router = useRouter();
   const handleNavigation = (path) => {
     startTransition(() => {
@@ -78,7 +80,10 @@ const UserMenu = ({ handleLogout }) => {
               handleNavigation(`/user-profile/${user?._id}`);
             }}
           >
-            <User2 /> <span className="ml-2">My Profile</span>
+            <User2 />{" "}
+            <span className="ml-2">
+              <p>{t("myProfile")}</p>
+            </span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -87,7 +92,10 @@ const UserMenu = ({ handleLogout }) => {
               handleNavigation("/friends");
             }}
           >
-            <Users /> <span className="ml-2">Friends</span>
+            <Users />{" "}
+            <span className="ml-2">
+              <p>{t("friends")}</p>
+            </span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -96,7 +104,10 @@ const UserMenu = ({ handleLogout }) => {
               handleNavigation("/messages");
             }}
           >
-            <MessageCircle /> <span className="ml-2">Messages</span>
+            <MessageCircle />{" "}
+            <span className="ml-2">
+              <p>{t("msgs")}</p>
+            </span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
 
@@ -110,7 +121,10 @@ const UserMenu = ({ handleLogout }) => {
               handleLogout();
             }}
           >
-            <LogOutIcon /> <span className="ml-2">Logout</span>
+            <LogOutIcon />{" "}
+            <span className="ml-2">
+              <p>{t("logout")}</p>
+            </span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

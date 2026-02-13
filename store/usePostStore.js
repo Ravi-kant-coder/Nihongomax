@@ -7,7 +7,7 @@ import {
   commentsPost,
   deletePost,
   updatePostContent as updatePostContentAPI,
-  deleteComment,
+  deleteComment as deleteCommentAPI,
   updateComment as updateCommentAPI,
 } from "@/service/post.service";
 
@@ -16,6 +16,7 @@ export const usePostStore = create((set, get) => ({
   userPosts: [],
   loading: false,
   error: null,
+  loadingComments: {},
 
   fetchPost: async () => {
     set({ loading: true });
@@ -70,7 +71,7 @@ export const usePostStore = create((set, get) => ({
 
   deleteComment: async (postId, commentId) => {
     try {
-      await deleteComment(postId, commentId);
+      await deleteCommentAPI(postId, commentId);
 
       set((state) => ({
         posts: state.posts.map((post) => {
@@ -116,22 +117,6 @@ export const usePostStore = create((set, get) => ({
       set({ error });
     }
   },
-  // updatePostContent: async (postId, newContent) => {
-  //   try {
-  //     const updatedPost = await updatePostContentAPI(postId, newContent);
-  //     set((state) => ({
-  //       posts: state.posts.map((post) =>
-  //         post._id === postId ? updatedPost : post,
-  //       ),
-  //       userPosts: state.userPosts.map((post) =>
-  //         post._id === postId ? updatedPost : post,
-  //       ),
-  //     }));
-  //   } catch (error) {
-  //     console.error("Zustand Update Error:", error);
-  //     set({ error });
-  //   }
-  // },
 
   updateComment: async (postId, commentId, newText) => {
     try {
@@ -168,18 +153,28 @@ export const usePostStore = create((set, get) => ({
   },
 
   handleCommentPost: async (postId, text) => {
-    set({ loading: true });
+    set({ loading: true, error: null });
     try {
-      const newComments = await commentsPost(postId, { text });
+      const newComment = await commentsPost(postId, { text });
       set((state) => ({
         posts: state.posts.map((post) =>
-          post?._id === postId
-            ? { ...post, comments: [...post.comments, newComments] }
+          post._id === postId
+            ? {
+                ...post,
+                comments: post.comments.map((c) =>
+                  c._id === newComment._id ? newComment : c,
+                ),
+              }
             : post,
         ),
+        loadingComments: {
+          ...state.loadingComments,
+          [postId]: false,
+        },
       }));
     } catch (error) {
-      set({ error, loading: false });
+      console.error("Comment failed", error);
+      set({ error: "Failed to add comment", loading: false });
     }
   },
 

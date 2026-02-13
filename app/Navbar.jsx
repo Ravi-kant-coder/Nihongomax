@@ -29,6 +29,7 @@ import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import LangToggleBtn from "./LangToggleBtn";
 const Navbar = () => {
   const { closeStudyBox } = useStudyStore();
   const router = useRouter();
@@ -146,7 +147,7 @@ const Navbar = () => {
         </span>
       ) : (
         part
-      )
+      ),
     );
   };
 
@@ -235,7 +236,7 @@ const Navbar = () => {
                                   <span className="truncate w-[90%]">
                                     {highlightMatch(
                                       user?.username,
-                                      debouncedSearchTerm
+                                      debouncedSearchTerm,
                                     )}
                                   </span>
                                 </div>
@@ -323,7 +324,6 @@ const Navbar = () => {
                 <Home />
               </div>
             </button>
-
             <button
               className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                 pathname === "/friends"
@@ -439,6 +439,9 @@ const Navbar = () => {
               </button>
             );
           })}
+          <div className="hidden md:block ml-2">
+            <LangToggleBtn />
+          </div>
           <div className="hidden md:block mr-2">
             <UserMenu handleLogout={handleLogout} />
           </div>

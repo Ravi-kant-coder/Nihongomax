@@ -180,23 +180,17 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
       )}
       {/*-----------------------------School Delete Confirmation-------------------------- */}
       {showDeleteModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center
-                 bg-black/30"
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
           <motion.div
             initial={{ scale: 0, rotate: -50 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 300 }}
-            className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl "
+            className="bg-white dark:bg-gray-800 p-14 rounded-lg"
           >
-            <h2
-              className="text-lg font-semibold text-center text-red-600
-                     dark:text-white dark:font-normal"
-            >
+            <h2 className="text-xl font-semibold text-center text-red-600 dark:text-white dark:font-normal">
               削除する {user?.username?.split(" ")[0]}?
             </h2>
-            <p className=" dark:text-gray-300 text-center my-2">
+            <p className=" dark:text-gray-300 text-center my-3 text-lg">
               削除後は元に戻せません
             </p>
 

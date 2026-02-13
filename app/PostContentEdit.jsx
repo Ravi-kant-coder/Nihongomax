@@ -6,6 +6,7 @@ import { wrapEmojis } from "@/lib/utils";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { Textarea } from "@/components/ui/textarea";
 import { useEmojiInsert } from "./hooks/useEmojiInsert";
+import useT from "./hooks/useT";
 
 const PostContentEdit = ({
   postId,
@@ -17,7 +18,7 @@ const PostContentEdit = ({
   const [tempContent, setTempContent] = useState(initialContent);
   const updatePostContent = usePostStore((state) => state.updatePostContent);
   const { inputRef, insertEmoji } = useEmojiInsert();
-
+  const t = useT();
   const trimmed = tempContent.trim();
 
   const handleSave = async () => {
@@ -45,15 +46,15 @@ const PostContentEdit = ({
         <div className="text-gray-800 font-[450] p-4 dark:text-gray-300">
           {wrapEmojis(tempContent)}
           <div>
-            <span className="text-xs text-gray-500">You can</span>
+            <span className="text-xs text-gray-500"> {t("onlyYouCan")}</span>
             <button
               className=" items-center text-xs inline-flex cursor-pointer underline rounded 
               p-1 hover:bg-gray-300 dark:hover:bg-black"
               onClick={() => setIsEditing(true)}
             >
-              Edit/Add
+              {t("edit")}
             </button>
-            <span className="text-xs text-gray-500">for 24 hours</span>
+            <span className="text-xs text-gray-500"> {t("thisComment")}</span>
           </div>
         </div>
       ) : (
@@ -82,7 +83,7 @@ const PostContentEdit = ({
           </div>
           {!trimmed && post.uploadedMedia.length === 0 && (
             <p className="text-xs text-gray-700 italic my-1 dark:text-gray-400 ">
-              Saving will delete this post
+              {t("emptyCommentSave")}
             </p>
           )}
           <div className="flex gap-2">
@@ -93,7 +94,7 @@ const PostContentEdit = ({
                  dark:shadow-none text-green-800"
               onClick={handleSave}
             >
-              <span>SAVE</span>
+              <span>{t("save")}</span>
               <SquarePen className="h-3 w-3 ml-2" />
             </button>
             <button
@@ -103,7 +104,7 @@ const PostContentEdit = ({
                  dark:shadow-none text-red-600"
               onClick={handleCancel}
             >
-              <span>CANCEL</span>
+              <span>{t("cancel")}</span>
               <SquarePen className="h-3 w-3 ml-2" />
             </button>
           </div>

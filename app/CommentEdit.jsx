@@ -1,28 +1,26 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { SquarePen, Trash2 } from "lucide-react";
 import { usePostStore } from "@/store/usePostStore";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrapEmojis } from "@/lib/utils";
-import Spinner from "./Spinner";
 import { Textarea } from "@/components/ui/textarea";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { useEmojiInsert } from "./hooks/useEmojiInsert";
+import useT from "./hooks/useT";
 
 const CommentEdit = ({ postId, commentId, initialComment }) => {
+  const { deleteComment } = usePostStore();
   const [isEditing, setIsEditing] = useState(false);
   const [tempComment, setTempComment] = useState(initialComment);
   const updateComment = usePostStore((state) => state.updateComment);
-  const { deleteComment, fetchPost } = usePostStore();
-  const [readyTodel, setReadyTodel] = useState(false);
-  const [isPending, startTransition] = useTransition();
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { inputRef, insertEmoji } = useEmojiInsert();
+  const t = useT();
 
   const trimmed = tempComment.trim();
   const handleSave = async () => {
     if (!trimmed) {
-      await handleCommentDelete(postId, commentId);
+      await deleteComment(postId, commentId);
       setIsEditing(false);
       return;
     }
@@ -35,56 +33,40 @@ const CommentEdit = ({ postId, commentId, initialComment }) => {
     }
   };
 
-  const handleCommentDelete = async (postId, commentId) => {
-    try {
-      await deleteComment(postId, commentId);
-      await fetchPost();
-    } catch (err) {
-      console.error("Error deleting comment", err);
-    } finally {
-      setShowDeleteModal(false);
-    }
-  };
-
   const handleCancel = () => {
     setTempComment(initialComment);
     setIsEditing(false);
   };
 
-  const cancelCommentDelete = () => {
-    setShowDeleteModal(false);
-  };
-
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, height: 0, rotate: -5 }}
-        animate={{ opacity: 1, height: "auto", rotate: readyTodel ? -5 : 0 }}
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: "auto" }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         {!isEditing ? (
           <div>
-            <p className="text-gray-800 dark:text-gray-300 text-md font-semibold">
+            <p className="text-gray-800 dark:text-gray-300 text-md font-semibold mt-2">
               {wrapEmojis(tempComment)}
             </p>
             <div className="flex items-center mt-2">
-              <span className="text-xs text-gray-500">Only you can</span>
+              <span className="text-xs text-gray-500 whitespace-nowrap">
+                {t("onlyYouCan")}
+              </span>
+
               <button
-                className="flex items-center text-xs cursor-pointer hover:underline ml-1"
+                className="flex items-center text-xs cursor-pointer hover:underline ml-1 whitespace-nowrap"
                 onClick={() => setIsEditing(true)}
               >
-                Edit
+                {t("edit")}
                 <SquarePen className="h-3 w-3 ml-1" />
               </button>
-              <button
-                className="flex items-center text-xs cursor-pointer hover:underline ml-3"
-                onClick={() => setShowDeleteModal(true)}
-              >
-                <span>Delete</span>
-                <Trash2 className="h-3 w-3 ml-1" />
-              </button>
-              <span className="text-xs ml-1 text-gray-500">this comment</span>
+
+              <span className="text-xs ml-1 text-gray-500 whitespace-nowrap">
+                {t("thisComment")}
+              </span>
             </div>
           </div>
         ) : (
@@ -112,7 +94,7 @@ const CommentEdit = ({ postId, commentId, initialComment }) => {
             </div>
             {isEditing && !trimmed && (
               <p className="text-xs text-gray-700 mt-1 italic dark:text-gray-400">
-                Saving empty will delete this comment
+                {t("emptyCommentSave")}
               </p>
             )}
             <div className="flex gap-2">
@@ -123,7 +105,7 @@ const CommentEdit = ({ postId, commentId, initialComment }) => {
                  dark:shadow-none text-green-800"
                 onClick={handleSave}
               >
-                <span>SAVE</span>
+                <span>{t("save")}</span>
                 <SquarePen className="h-3 w-3 ml-2" />
               </button>
               <button
@@ -133,58 +115,11 @@ const CommentEdit = ({ postId, commentId, initialComment }) => {
                  dark:shadow-none text-red-600"
                 onClick={handleCancel}
               >
-                <span>CANCEL</span>
+                <span>{t("cancel")}</span>
                 <SquarePen className="h-3 w-3 ml-2" />
               </button>
             </div>
           </>
-        )}
-        {/* --------------------Delete Confirmation Modal------------------- */}
-        {showDeleteModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center"
-          >
-            <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-              <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-                Sure want to delete this comment?
-              </h2>
-              <p className="text-sm dark:text-gray-300 text-center my-2">
-                This cannot be recovered.
-              </p>
-
-              <div className="flex justify-center gap-4 mt-6">
-                <button
-                  onClick={() => {
-                    cancelCommentDelete();
-                    setReadyTodel(false);
-                  }}
-                  className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
-                          dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
-                    cursor-pointer text-white text-sm"
-                  onClick={() => handleCommentDelete(postId, commentId)}
-                >
-                  Yes, Delete
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-        {/* ------------------------Spinner-------------------------- */}
-        {isPending && (
-          <div
-            className="fixed inset-0 flex items-center justify-center bg-white/60
-                             dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
-                              duration-300 opacity-100"
-          >
-            <Spinner />
-          </div>
         )}
       </motion.div>
     </AnimatePresence>
