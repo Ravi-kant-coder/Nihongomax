@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Heart, MessageCircle, CornerUpRight } from "lucide-react";
+import { Heart, MessageCircle, CornerUpRight, Check } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import CommentsShown from "./CommentsShown";
@@ -15,17 +15,11 @@ const WallCardButtons = ({ post }) => {
   const [likeEffect, setLikeEffect] = useState(false);
   const [saveEffect, setSaveEffect] = useState(false);
   const [showComments, setShowComments] = useState(true);
-  const { handleLikePost, handleCommentPost, fetchPost } = usePostStore();
-  const commentInputRef = useRef(null);
+  const { handleLikePost, handleSavePost, fetchPost } = usePostStore();
   const t = useT();
-  const likedUsernames = [...(post?.likes || [])].reverse();
-  const visibleLikes = likedUsernames.slice(0, 3);
-  const remainingLikes =
-    likedUsernames.length > 3 ? likedUsernames.length - 3 : 0;
-
-  useEffect(() => {
-    fetchPost();
-  }, [fetchPost]);
+  const allLikes = post?.likes || [];
+  const visibleLikes = [...allLikes].slice(-3).reverse();
+  const remainingLikes = allLikes.length > 3 ? allLikes.length - 3 : 0;
 
   useEffect(() => {
     if (likeEffect) {
@@ -44,12 +38,12 @@ const WallCardButtons = ({ post }) => {
   return (
     <div className="flex flex-col justify-center p-2 items-center dark:bg-[rgb(55,55,55)]">
       <div className="w-full text-sm flex justify-between items-center dark:text-gray-400 text-gray-700 md:px-8 mb-4">
-        {likedUsernames.length === 0 ? (
+        {allLikes.length === 0 ? (
           <p>
             0 <span>{t("likes")}</span>
           </p>
         ) : (
-          likedUsernames.length > 0 && (
+          allLikes.length > 0 && (
             <div className="items-center gap-1 text-sm whitespace-nowrap">
               <div className="flex flex-wrap items-center gap-x-1">
                 <Heart
@@ -85,8 +79,8 @@ const WallCardButtons = ({ post }) => {
           className="border-gray-400 cursor-pointer "
           onClick={() => setShowComments(!showComments)}
         >
-          {post?.commentCount}{" "}
-          {post?.commentCount === 1 ? (
+          {post?.comments?.length}{" "}
+          {post?.comments?.length === 1 ? (
             <span>{t("comment")}</span>
           ) : (
             <span>{t("comments")}</span>
@@ -150,42 +144,56 @@ const WallCardButtons = ({ post }) => {
           <span>{t("comment")}</span>
           <MessageCircle className="md:ml-1 h-4 w-4" />
         </Button>
-        <Button
-          variant="ghost"
-          // disabled={false}
-          className=" hover:bg-gray-300 cursor-pointer border flex items-center disabled:opacity-80
-           dark:hover:bg-background dark:text-gray-300 border-gray-300 dark:border-gray-500"
-          onClick={() => {
-            // if (post?.isSaved) return;
-            // handleSavePost(post?._id, user);
-            setSaveEffect(true);
-          }}
-        >
-          <span>
-            {false ? <span>{t("saved")}</span> : <span>{t("save")}</span>}
-          </span>
-          {true && <CornerUpRight className="md:ml-1 h-4 w-4" />}
-        </Button>
-        <AnimatePresence>
-          {saveEffect && (
-            <motion.div
-              className="absolute -top-4 left-2 text-sm dark:bg-gray-500
-                 text-gray-600 dark:text-gray-300  bg-gray-100 rounded-lg shadow-2xl p-2"
-              initial={{ opacity: 0, y: 0, rotate: 10 }}
-              animate={{ opacity: 1, y: -20, rotate: -10 }}
-              exit={{ opacity: 0, y: -60 }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-            >
-              <div className="capitalize">
-                <p>{t("saved")}</p> <p>{user?.username.split(" ")[0]}!</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="relative group">
+          <Button
+            variant="ghost"
+            disabled={post?.isSaved}
+            className={`" hover:bg-gray-300 cursor-pointer border flex items-center disabled:opacity-50
+           dark:hover:bg-background dark:text-gray-300 border-gray-300 dark:border-gray-500"  ${
+             post?.isSaved
+               ? "text-green-700 border-green-500 dark:border-green-800 hover:bg-white cursor-auto"
+               : "dark:text-gray-300"
+           }`}
+            onClick={() => {
+              if (post?.isSaved) return;
+              handleSavePost(post?._id, user);
+              setSaveEffect(true);
+            }}
+          >
+            <span>
+              {post?.isSaved ? (
+                <span>{t("saved")}</span>
+              ) : (
+                <span>{t("save")}</span>
+              )}
+            </span>
+            {post?.isSaved ? (
+              <Check className="h-4 w-4 " />
+            ) : (
+              <CornerUpRight className="md:ml-1 h-4 w-4" />
+            )}
+          </Button>
+          <AnimatePresence>
+            {saveEffect && (
+              <motion.div
+                className="absolute -top-4 left-2 text-sm dark:bg-gray-500 text-green-700 dark:text-gray-300  bg-green-100 rounded-lg shadow-2xl p-2"
+                initial={{ opacity: 0, y: 0, rotate: 10 }}
+                animate={{ opacity: 1, y: -20, rotate: -10 }}
+                exit={{ opacity: 0, y: -60 }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+              >
+                <div className="capitalize">
+                  <p>{t("saved")}</p> <p>{user?.username.split(" ")[0]}!</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
       <AnimatePresence>
         {showComments && (
           <motion.div
+            className="w-full mb-2 dark:bg-[rgb(55,55,55)]"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}

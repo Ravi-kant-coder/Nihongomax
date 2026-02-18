@@ -47,7 +47,7 @@ export const useNoteStore = create((set, get) => ({
       await noteEditService(noteId, newContent);
       set((state) => ({
         userNotes: state.userNotes.map((note) =>
-          note._id === noteId ? { ...note, ...newContent } : note
+          note._id === noteId ? { ...note, ...newContent } : note,
         ),
       }));
     } catch (error) {

@@ -1,18 +1,19 @@
 "use client";
 import { useTransition, useState, useEffect } from "react";
-import LeftSideBar from "../LeftSideBar";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useNoteStore } from "@/store/useNoteStore";
+import { usePostStore } from "@/store/usePostStore";
 import Note from "./Note";
 import userStore from "@/store/userStore";
 import EmojiPickerButton from "@/app/components/EmojiPickerButton";
 import { useEmojiInsert } from "../hooks/useEmojiInsert";
 import { Textarea } from "@/components/ui/textarea";
+import WallCard from "../WallCard";
 
 const Notes = () => {
   const { userNotes, fetchUserNotes } = useNoteStore();
+  const { savedPosts, fetchSavedPosts } = usePostStore();
   const [initialNote, setInitialNote] = useState("");
   const [isPending, startTransition] = useTransition();
   const { handleCreateNote } = useNoteStore();
@@ -21,7 +22,8 @@ const Notes = () => {
 
   useEffect(() => {
     fetchUserNotes();
-  }, [fetchUserNotes]);
+    fetchSavedPosts();
+  }, []);
 
   const handleNoteSubmit = async () => {
     if (initialNote.trim()) {
@@ -29,7 +31,7 @@ const Notes = () => {
       setInitialNote("");
     }
   };
-  let savedPosts = [];
+
   return (
     <div className="lg:mx-20">
       {/* --------------------------Note Input----------------------- */}
@@ -98,26 +100,26 @@ const Notes = () => {
       )}
 
       {/* ----------------------Saved posts--------------------------- */}
-      {savedPosts.length === 0 ? (
-        <h2 className="text-center text-2xl mt-8 text-gray-500 p-8 border rounded-2xl mb-4 border-gray-400">
-          Your saved posts will appear here{" "}
-          <span className="capitalize">{user?.username.split(" ")[0]} </span>
-          <br />
-          <br />
-          <p className="mt-4">保存されたポストがここで表示されます。</p>
-        </h2>
-      ) : (
-        <>
-          <h1 className="text-center font-semibold text-3xl text-gray-700 dark:text-gray-400">
-            Your saved Posts
-          </h1>
-          {savedPosts?.map((savedPost) => (
-            <p key={savedPost?._id} savedPost={savedPost}>
-              {savedPost}
-            </p>
-          ))}
-        </>
-      )}
+      <div className="mt-12 mb-4 max-w-[40vw] mx-auto">
+        {savedPosts.length === 0 ? (
+          <h2 className="text-center text-2xl mt-8 text-gray-500 p-8 border rounded-2xl mb-4 border-gray-400">
+            Your saved posts will appear here{" "}
+            <span className="capitalize">{user?.username.split(" ")[0]} </span>
+            <br />
+            <br />
+            <p className="mt-4">保存されたポストがここで表示されます。</p>
+          </h2>
+        ) : (
+          <>
+            <h1 className="text-center font-semibold text-3xl text-gray-700 dark:text-gray-400 mb-4">
+              Your saved Posts
+            </h1>
+            {savedPosts?.map((savedPost) => (
+              <WallCard key={savedPost?._id} post={savedPost} />
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 };

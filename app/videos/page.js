@@ -36,7 +36,9 @@ const YouTubeVideos = () => {
     return selectedTag === "All"
       ? videos
       : videos.filter((v) =>
-          v.tags?.some((tag) => tag.toLowerCase() === selectedTag.toLowerCase())
+          v.tags?.some(
+            (tag) => tag.toLowerCase() === selectedTag.toLowerCase(),
+          ),
         );
   }, [videos, selectedTag]);
 
@@ -64,8 +66,7 @@ const YouTubeVideos = () => {
               await syncYouTube();
               fetchVideos();
             }}
-            className="px-4 py-2 bg-red-600 text-white rounded cursor-pointer
-              dark:hover:bg-red-700 transition hover:bg-red-500 
+            className="px-4 py-2 bg-red-700 text-white rounded cursor-pointer dark:hover:bg-red-700 transition hover:bg-red-500 
               ml-4 md:ml-8 flex items-center dark:bg-red-800"
           >
             Refresh Videos

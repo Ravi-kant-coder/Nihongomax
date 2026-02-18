@@ -180,11 +180,16 @@ const StoryTrigger = () => {
 "
           >
             <div className="relative h-[140px] w-full overflow-hidden">
-              <img
-                src={user?.profilePicture}
-                alt={user?.username}
-                className="w-full h-full object-cover"
-              />
+              <Avatar className="h-full w-full rounded-none">
+                <AvatarImage
+                  src={user?.profilePicture}
+                  alt={user?.username}
+                  className="object-cover"
+                />
+                <AvatarFallback className="bg-gray-300 dark:bg-black capitalize">
+                  {user?.username.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
             </div>
             <div
               className="absolute left-1/2 top-[115px] -translate-x-1/2 w-10 h-10 bg-gray-500 rounded-full 

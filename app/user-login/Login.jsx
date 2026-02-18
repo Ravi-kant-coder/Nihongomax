@@ -13,6 +13,7 @@ import { loginUser, registerUser } from "@/service/auth.service";
 import userStore from "@/store/userStore";
 import Spinner from "../Spinner";
 import ForgotPassword from "./ForgotPassword";
+import { usePostStore } from "@/store/usePostStore";
 
 const Login = () => {
   const router = useRouter();
@@ -83,21 +84,22 @@ const Login = () => {
 
   const onSubmitLogin = async (data) => {
     setIsLoading(true);
-    setLoginError(""); // clear old error
+    setLoginError("");
 
     try {
       const result = await loginUser(data);
 
       if (result?.status === "success") {
+        usePostStore.getState().resetAll();
         setUser(result.user);
         router.push("/");
+        usePostStore.getState().fetchPost();
       } else {
-        // 👇 backend error message
         setLoginError(result?.message || "Invalid email or password");
       }
     } catch (error) {
       setLoginError(
-        error?.response?.data?.message || "Something went wrong. Try again."
+        error?.response?.data?.message || "Something went wrong. Try again.",
       );
     } finally {
       setIsLoading(false);

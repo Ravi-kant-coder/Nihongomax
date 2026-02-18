@@ -44,11 +44,7 @@ const Note = ({ initialNote, note }) => {
   };
 
   return (
-    <div
-      className="relative text-xl my-8 md:mx-20 mx-10 p-8
-        border rounded-lg dark:bg-[rgb(36,37,38)]
-        dark:border-gray-600 shadow-lg"
-    >
+    <div className="relative text-xl my-8 md:mx-20 lg:mx-30 mx-10 p-8 border rounded-lg dark:bg-[rgb(20,20,20)] dark:border-gray-600 shadow-lg bg-accent">
       {/* --------------------Above Edit and Delete buttons------------------- */}
       <button
         className="absolute top-0 left-0 rounded-tl-lg flex items-center group shadow-lg
@@ -112,20 +108,16 @@ const Note = ({ initialNote, note }) => {
             </div>
             <div className="flex gap-2">
               <button
-                className="px-2 bg-white dark:text-green-400 flex items-center text-xs
-               font-[Poppins] cursor-pointer border-green-600 border rounded p-0.5
-                hover:bg-green-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)]
-                 dark:shadow-none text-green-800"
+                className="px-2 bg-white dark:text-green-400 flex items-center text-xs font-[Poppins] cursor-pointer border-green-600 border rounded p-0.5
+                hover:bg-green-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)] dark:shadow-none text-green-800"
                 onClick={() => handleSaveEditedNote(note?._id)}
               >
                 <span>SAVE</span>
                 <SquarePen className="h-3 w-3 ml-2" />
               </button>
               <button
-                className="px-2 bg-white flex items-center text-xs dark:text-red-400
-               font-[Poppins] cursor-pointer border-red-400 border rounded p-0.5
-                hover:bg-red-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)]
-                 dark:shadow-none text-red-600"
+                className="px-2 bg-white flex items-center text-xs dark:text-red-400 font-[Poppins] cursor-pointer border-red-400 border rounded p-0.5
+                hover:bg-red-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)] dark:shadow-none text-red-600"
                 onClick={handleCancel}
               >
                 <span>CANCEL</span>

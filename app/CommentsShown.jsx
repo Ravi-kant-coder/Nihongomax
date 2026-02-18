@@ -1,33 +1,24 @@
-import { ChevronDown, ChevronUp, Send, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Send } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import userStore from "@/store/userStore";
-import { Input } from "@/components/ui/input";
-import { formatDate } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import CommentEdit from "./CommentEdit";
 import { motion, AnimatePresence } from "framer-motion";
 import Spinner from "./Spinner";
 import { usePostStore } from "@/store/usePostStore";
 import EmojiPickerButton from "./components/EmojiPickerButton";
-import { wrapEmojis } from "@/lib/utils";
 import { useEmojiInsert } from "./hooks/useEmojiInsert";
 import useT from "./hooks/useT";
-import useFormatRelativeTime from "./hooks/useFormatRelativeTime";
 import CommentCard from "./CommentCard";
+import { Input } from "@/components/ui/input";
 
 const CommentsShown = ({ post, commentText, setCommentText }) => {
   const [showAllComments, setShowAllComments] = useState(false);
   const { user } = userStore();
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
   const { inputRef, insertEmoji } = useEmojiInsert();
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [readyTodel, setReadyTodel] = useState(false);
-  const { deleteComment, handleCommentPost, fetchPost } = usePostStore();
+  const { handleCommentPost } = usePostStore();
   const t = useT();
-  const formatTime = useFormatRelativeTime();
   const loading = usePostStore((s) => s.loadingComments[post._id]);
 
   const visibleComments = showAllComments
@@ -39,7 +30,6 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
     if (!post?._id) return;
     await handleCommentPost(post._id, commentText);
     setCommentText("");
-    fetchPost();
   };
 
   return (
@@ -52,10 +42,7 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
           </p>
         </h3>
       )}
-      <div
-        className="max-h-100 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 
-      dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 p-2"
-      >
+      <div className="">
         <AnimatePresence>
           {visibleComments?.map((comment) => (
             <CommentCard
@@ -72,7 +59,7 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
 
         {post?.comments?.length > 2 && (
           <div
-            className="w-60 my-2 p-2 dark:text-gray-300"
+            className="w-60 p-2 dark:text-gray-300"
             onClick={() => setShowAllComments(!showAllComments)}
           >
             {showAllComments ? (
@@ -116,9 +103,9 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
             {user?.username.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <div className="flex-1 mr-2 relative">
+        <div className="flex-1 mr-2 relative w-full">
           <Input
-            className="border-gray-400 w-full md:w-[400px] lg:w-[560px] pr-10"
+            className="border-gray-400 pr-10"
             placeholder={`Comment as ${
               user?.username
                 ? user.username.charAt(0).toUpperCase() + user.username.slice(1)
@@ -131,7 +118,6 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
               if (e.key === "Enter") handleCommentSubmit();
             }}
           />
-
           <div className="absolute -bottom-1 right-1">
             <EmojiPickerButton
               onSelect={(emoji) =>

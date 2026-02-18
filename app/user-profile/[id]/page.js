@@ -6,6 +6,7 @@ import userStore from "@/store/userStore";
 import ScrollupBtn from "@/app/ScrollupBtn";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileDetails from "../components/ProfileDetails";
+import Spinner from "@/app/Spinner";
 
 const Page = () => {
   const { user } = userStore();
@@ -29,35 +30,36 @@ const Page = () => {
   };
 
   useEffect(() => {
-    if (id) {
-      fetchProfile();
-    }
+    if (!id) return;
+    fetchProfile();
   }, [id]);
 
   if (!profileData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <>
-      <div>
-        <ProfileHeader
-          user={user}
-          profileData={profileData}
-          setProfileData={setProfileData}
-          isOwner={isOwner}
-          id={id}
-          fetchProfile={fetchProfile}
-        />{" "}
-        <ProfileDetails
-          user={user}
-          profileData={profileData}
-          setProfileData={setProfileData}
-          isOwner={isOwner}
-          id={id}
-          fetchProfile={fetchProfile}
-        />
-      </div>
+      <ProfileHeader
+        user={user}
+        profileData={profileData}
+        setProfileData={setProfileData}
+        isOwner={isOwner}
+        id={id}
+        fetchProfile={fetchProfile}
+      />{" "}
+      <ProfileDetails
+        user={user}
+        profileData={profileData}
+        setProfileData={setProfileData}
+        isOwner={isOwner}
+        id={id}
+        fetchProfile={fetchProfile}
+      />
       <ScrollupBtn />
     </>
   );

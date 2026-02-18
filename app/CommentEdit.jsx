@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SquarePen, Trash2 } from "lucide-react";
 import { usePostStore } from "@/store/usePostStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,14 +10,18 @@ import { useEmojiInsert } from "./hooks/useEmojiInsert";
 import useT from "./hooks/useT";
 
 const CommentEdit = ({ postId, commentId, initialComment }) => {
-  const { deleteComment } = usePostStore();
+  const { deleteComment, fetchPost } = usePostStore();
   const [isEditing, setIsEditing] = useState(false);
-  const [tempComment, setTempComment] = useState(initialComment);
+  const [tempComment, setTempComment] = useState(initialComment || "");
   const updateComment = usePostStore((state) => state.updateComment);
   const { inputRef, insertEmoji } = useEmojiInsert();
   const t = useT();
 
-  const trimmed = tempComment.trim();
+  useEffect(() => {
+    setTempComment(initialComment || "");
+  }, [initialComment]);
+
+  const trimmed = (tempComment || "").trim();
   const handleSave = async () => {
     if (!trimmed) {
       await deleteComment(postId, commentId);
@@ -48,7 +52,7 @@ const CommentEdit = ({ postId, commentId, initialComment }) => {
       >
         {!isEditing ? (
           <div>
-            <p className="text-gray-800 dark:text-gray-300 text-md font-semibold mt-2">
+            <p className="text-gray-800 dark:text-gray-300 text-md font-semibold ">
               {wrapEmojis(tempComment)}
             </p>
             <div className="flex items-center mt-2">

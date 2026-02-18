@@ -80,12 +80,13 @@ export const deleteComment = async (postId, commentId) => {
   }
 };
 
-export const getAllPosts = async () => {
+export const getAllPosts = async (page = 1, limit = 10) => {
   try {
-    const result = await axiosInstance.get("/users/posts");
-    return result?.data?.data;
+    const result = await axiosInstance.get(
+      `/users/posts?page=${page}&limit=${limit}`,
+    );
+    return result?.data?.data; // { posts, hasMore }
   } catch (error) {
-    console.error(error);
     throw error;
   }
 };
@@ -100,9 +101,9 @@ export const likePost = async (postId) => {
   }
 };
 
-export const sharePost = async (postId) => {
+export const getAllUserPosts = async (userId) => {
   try {
-    const result = await axiosInstance.post(`/users/posts/share/${postId}`);
+    const result = await axiosInstance.get(`/users/posts/user/${userId}`);
     return result?.data?.data;
   } catch (error) {
     console.error(error);
@@ -110,12 +111,21 @@ export const sharePost = async (postId) => {
   }
 };
 
-export const getAllUserPosts = async (userId) => {
+export const savePost = async (postId) => {
   try {
-    const result = await axiosInstance.get(`/users/posts/user/${userId}`);
+    const result = await axiosInstance.post(`/users/posts/saved/${postId}`);
     return result?.data?.data;
   } catch (error) {
     console.error(error);
+    throw error;
+  }
+};
+
+export const getSavedPosts = async () => {
+  try {
+    const result = await axiosInstance.get("/users/posts/saved");
+    return result?.data?.data;
+  } catch (error) {
     throw error;
   }
 };

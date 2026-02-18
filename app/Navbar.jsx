@@ -10,6 +10,7 @@ import useStudyStore from "@/store/useStudyStore";
 import { logout } from "@/service/auth.service";
 import { getAllUsers } from "@/service/user.service";
 import userStore from "@/store/userStore";
+import { usePostStore } from "@/store/usePostStore";
 import {
   Home,
   Users,
@@ -28,7 +29,6 @@ import MsgBox from "./MsgBox";
 import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import LangToggleBtn from "./LangToggleBtn";
 const Navbar = () => {
   const { closeStudyBox } = useStudyStore();
@@ -76,8 +76,9 @@ const Navbar = () => {
     try {
       const result = await logout();
       if (result?.status == "success") {
-        router.push("/user-login");
+        usePostStore.getState().resetAll();
         clearUser();
+        router.push("/user-login");
       }
     } catch (error) {
       console.log(error);

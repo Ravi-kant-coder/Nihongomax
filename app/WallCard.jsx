@@ -17,7 +17,7 @@ import useFormatRelativeTime from "./hooks/useFormatRelativeTime";
 
 const WallCard = ({ post }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { deleteUserPost, fetchPost } = usePostStore();
+  const { deleteUserPost } = usePostStore();
   const [isPending, startTransition] = useTransition();
   const [readyTodel, setReadyTodel] = useState(false);
   const { user } = userStore();
@@ -41,17 +41,12 @@ const WallCard = ({ post }) => {
       if (post?._id) {
         try {
           await deleteUserPost(post._id);
-          await fetchPost();
         } catch (err) {
           console.error("Delete failed", err);
         }
       }
     });
   };
-
-  useEffect(() => {
-    fetchPost();
-  }, []);
 
   return (
     <>
@@ -61,11 +56,8 @@ const WallCard = ({ post }) => {
         animate={{ opacity: 1, height: "auto", rotate: readyTodel ? -5 : 0 }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className={` ${
-          readyTodel ? "bg-[rgb(255,200,200)]" : "bg-white"
-        } dark:bg-[rgb(55,55,55)] dark:shadow-black rounded-lg
-    shadow-gray-400 dark:text-gray-300 shadow-lg dark:border-gray-500 
-    overflow-hidden mb-6`}
+        className={`rounded-lg ${readyTodel ? "bg-[rgb(255,200,200)]" : "bg-white"} dark:bg-[rgb(55,55,55)] dark:shadow-black
+    shadow-gray-400 dark:text-gray-300 shadow-lg dark:border-gray-500 overflow-hidden mb-6`}
       >
         {/* --------------------------Post Header (User information)-------------------------- */}
         <div
@@ -89,8 +81,7 @@ const WallCard = ({ post }) => {
             </div>
             <div>
               <div
-                className="lg:w-70 md:w-50 truncate w-40 cursor-pointer 
-          overflow-hidden hover:underline capitalize font-[450]"
+                className="lg:w-70 md:w-50 truncate w-40 cursor-pointer overflow-hidden hover:underline capitalize font-[450]"
                 onClick={handleDpClick}
               >
                 {t("by")}{" "}
@@ -112,25 +103,15 @@ const WallCard = ({ post }) => {
                   setShowDeleteModal(true);
                   setReadyTodel(true);
                 }}
-                className="dark:bg-black/20 cursor-pointer pt-0.5 px-2 group
-               rounded border border-gray-400 bg-gray-100 
+                className="dark:bg-black/20 cursor-pointer pt-0.5 px-2 group rounded border border-gray-400 bg-gray-100 
               flex flex-col items-center justify-center hover:border-red-600"
               >
                 {" "}
-                <span
-                  className="text-[10px] capitalize truncate max-w-10
-              group-hover:dark:text-red-500 group-hover:text-red-700"
-                >
+                <span className="text-[10px] capitalize truncate max-w-10 group-hover:dark:text-red-500 group-hover:text-red-700">
                   {post?.user?.username.split(" ")[0]}
                 </span>
-                <Trash2
-                  className="h-5 w-6 group-hover:text-red-700 text-gray-600
-                 dark:text-gray-300 group-hover:dark:text-red-500"
-                />
-                <span
-                  className="text-[10px] group-hover:text-red-700
-               group-hover:dark:text-red-500"
-                >
+                <Trash2 className="h-5 w-6 group-hover:text-red-700 text-gray-600 dark:text-gray-300 group-hover:dark:text-red-500" />
+                <span className="text-[10px] group-hover:text-red-700group-hover:dark:text-red-500">
                   {t("delete")}?
                 </span>
               </button>

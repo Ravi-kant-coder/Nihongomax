@@ -1,32 +1,25 @@
-import { ChevronDown, ChevronUp, Send, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import userStore from "@/store/userStore";
-import { Input } from "@/components/ui/input";
-import { formatDate } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import CommentEdit from "./CommentEdit";
 import { motion, AnimatePresence } from "framer-motion";
-import Spinner from "./Spinner";
 import { usePostStore } from "@/store/usePostStore";
-import EmojiPickerButton from "./components/EmojiPickerButton";
 import { wrapEmojis } from "@/lib/utils";
-import { useEmojiInsert } from "./hooks/useEmojiInsert";
 import useT from "./hooks/useT";
 import useFormatRelativeTime from "./hooks/useFormatRelativeTime";
 
 const CommentCard = ({ comment, post, postId, commentId }) => {
-  const [showAllComments, setShowAllComments] = useState(false);
   const { user } = userStore();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const { fetchPost, deleteComment } = usePostStore();
-  const { inputRef, insertEmoji } = useEmojiInsert();
+  const { deleteComment } = usePostStore();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [readyTodel, setReadyTodel] = useState(false);
   const t = useT();
   const formatTime = useFormatRelativeTime();
+
   const handleDpClick = () => {
     startTransition(() => {
       if (comment?.user?._id) {
@@ -34,17 +27,16 @@ const CommentCard = ({ comment, post, postId, commentId }) => {
       }
     });
   };
+
   const handleCommentDelete = async (postId, commentId) => {
     try {
       await deleteComment(postId, commentId);
-      await fetchPost();
     } catch (err) {
       console.error("Error deleting comment", err);
     } finally {
       setShowDeleteModal(false);
     }
   };
-  console.log("COMMENT OBJECT =", comment);
 
   return (
     <>
@@ -57,26 +49,26 @@ const CommentCard = ({ comment, post, postId, commentId }) => {
         }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className={`flex items-start space-x-2 m-4 rounded-md p-2 text-sm
-                ${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(120,0,0)]" : "bg-gray-300 dark:bg-[rgb(35,35,35)]"}`}
+        className={`flex items-start m-2 p-2 text-sm flex-col rounded-lg
+                ${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(120,0,0)]" : "bg-gray-200 dark:bg-[rgb(35,35,35)]"}`}
       >
-        {/* --------------------------Comment (User information)-------------------------- */}
-        <div onClick={handleDpClick} className="cursor-pointer">
-          <Avatar className="cursor-pointer h-8 w-8 mr-3 hover:ring-1 ring-gray-500">
+        {/* --------------------------Comment user info-------------------------- */}
+        <div className="flex w-full">
+          <Avatar
+            className="cursor-pointer h-8 w-8 mr-3 hover:ring-1 ring-gray-500"
+            onClick={handleDpClick}
+          >
             <AvatarImage
               src={comment?.user?.profilePicture || ""}
               className="object-cover"
             />
             <AvatarFallback className="bg-gray-300 dark:bg-black capitalize">
-              {comment?.user?.username?.[0] || "U"}
+              {comment?.user?.username?.[0].toUpperCase()}
             </AvatarFallback>
           </Avatar>
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="">
+          <div className="w-full">
             <div
-              className="lg:w-70 md:w-50 truncate w-40 cursor-pointer 
-             overflow-hidden hover:underline capitalize font-[450]"
+              className="lg:w-70 md:w-50 truncate cursor-pointer overflow-hidden hover:underline capitalize font-[450]"
               onClick={handleDpClick}
             >
               {user?._id === comment?.user?._id ? (
@@ -88,37 +80,40 @@ const CommentCard = ({ comment, post, postId, commentId }) => {
             <div className="text-gray-600 dark:text-gray-400 text-xs normal-case">
               {formatTime(comment?.createdAt)}
             </div>
-
-            {/* --------------------------Actual Comment----------------------- */}
+            {/* --------------------------Comment text-------------------------- */}
 
             {user?._id !== comment?.user?._id ? (
-              <p className="text-md font-semibold mt-2">
+              <p className="text-md font-semibold w-full break-words whitespace-pre-wrap">
                 {wrapEmojis(comment?.text)}
               </p>
             ) : (
               <CommentEdit
                 post={post}
-                postId={post?.id}
+                postId={postId}
                 comment={comment}
-                commentId={comment?._id}
+                commentId={commentId}
                 initialComment={comment?.text}
               />
             )}
           </div>
           {user?._id === comment?.user?._id && (
             <button
-              className="flex items-center text-xs cursor-pointer hover:underline ml-3"
+              className="rounded px-1 flex items-center justify-center text-xs cursor-pointer dark:border-gray-500 hover:border-red-600 group
+              group border border-gray-400 dark:hover:border-red-600 h-8"
               onClick={() => {
                 setShowDeleteModal(true);
                 setReadyTodel(true);
               }}
             >
-              <span className="whitespace-nowrap">{t("delete")}</span>
-              <Trash2 className="h-3 w-3 ml-1" />
+              <p className="whitespace-nowrap group-hover:text-red-700 group-hover:dark:text-red-500 text-gray-600 dark:text-gray-400 text-xs">
+                {t("delete")}?
+              </p>
+              <Trash2 className="h-4 w-4 group-hover:text-red-700 text-gray-600 dark:text-gray-400 group-hover:dark:text-red-500 ml-1" />
             </button>
           )}
         </div>
       </motion.div>
+
       {/* --------------------Delete Confirmation Modal------------------- */}
       {showDeleteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">

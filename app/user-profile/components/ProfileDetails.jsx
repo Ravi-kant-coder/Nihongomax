@@ -67,7 +67,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
     }
   };
   return (
-    <div className="flex flex-col md:flex-row gap-6 max-w-6xl mx-auto px-4 md:px-0 mt-8 justify-center">
+    <div className="flex flex-col md:flex-row gap-6 mx-auto px-4 md:px-0 mt-8 justify-center lg:w-[60vw] md:w-[80vw]">
       <div className="w-full md:w-[60%] space-x-0 space-y-6 mb-4">
         {/*------------------------------Details About You-----------------------------*/}
         <Card>

@@ -313,6 +313,7 @@ body {
   background: black;
   animation: blink 1s infinite;
 }
+
 .emoji-span {
   font-family:
     system-ui,
