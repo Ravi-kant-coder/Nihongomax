@@ -7,7 +7,7 @@ import { wrapEmojis } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import Spinner from "./Spinner";
 import { useRouter } from "next/navigation";
-import { Trash2 } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePostStore } from "@/store/usePostStore";
 import PostContentEdit from "./PostContentEdit";
@@ -17,7 +17,7 @@ import useFormatRelativeTime from "./hooks/useFormatRelativeTime";
 
 const WallCard = ({ post }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { deleteUserPost } = usePostStore();
+  const { deleteUserPost, handleSavePost } = usePostStore();
   const [isPending, startTransition] = useTransition();
   const [readyTodel, setReadyTodel] = useState(false);
   const { user } = userStore();
@@ -60,10 +60,7 @@ const WallCard = ({ post }) => {
     shadow-gray-400 dark:text-gray-300 shadow-lg dark:border-gray-500 overflow-hidden mb-6`}
       >
         {/* --------------------------Post Header (User information)-------------------------- */}
-        <div
-          className="flex items-center justify-between p-2 dark:bg-[rgb(55,55,55)]
-       rounded-t-lg border-b"
-        >
+        <div className="flex items-center justify-between p-2 dark:bg-[rgb(55,55,55)]">
           <div className="flex items-center ">
             <div
               className="relative mx-auto my-auto overflow-hidden rounded p-1"
@@ -97,6 +94,24 @@ const WallCard = ({ post }) => {
             </div>
           </div>
           <div className="flex">
+            {post?.isSaved && (
+              <button
+                onClick={() => {
+                  handleSavePost(post?._id, user);
+                }}
+                className="dark:bg-black/20 cursor-pointer pt-0.5 px-2 group rounded border border-gray-400 bg-gray-100 
+              flex flex-col items-center justify-center hover:border-red-600 mr-2"
+              >
+                {" "}
+                <span className="text-[10px] capitalize truncate max-w-10 group-hover:dark:text-red-500 group-hover:text-red-700">
+                  {user?.username.split(" ")[0]}
+                </span>
+                <X className="h-5 w-6 group-hover:text-red-700 text-gray-600 dark:text-gray-300 group-hover:dark:text-red-500" />
+                <span className="text-[10px] group-hover:text-red-700group-hover:dark:text-red-500">
+                  {t("remove")}?
+                </span>
+              </button>
+            )}
             {user?._id === post?.user?._id && (
               <button
                 onClick={() => {
@@ -120,18 +135,25 @@ const WallCard = ({ post }) => {
         </div>
 
         {/* --------------------------Actual post content----------------------- */}
-        {user?._id !== post?.user?._id ? (
-          <p className="font-[450] p-4">{wrapEmojis(post?.content)}</p>
-        ) : (
-          <div className="p-2">
-            <PostContentEdit
-              post={post}
-              postId={post._id}
-              initialContent={post?.content}
-              handlePostDelete={handlePostDelete}
-            />
-          </div>
-        )}
+        <div className="bg-gray-200 dark:bg-[rgb(35,35,35)] p-2">
+          {user?._id !== post?.user?._id ? (
+            <p className="font-[450] p-4">{wrapEmojis(post?.content)}</p>
+          ) : (
+            <div className="p-2">
+              <PostContentEdit
+                post={post}
+                postId={post._id}
+                initialContent={post?.content}
+                handlePostDelete={handlePostDelete}
+              />
+            </div>
+          )}
+          {post.contentUpdatedAt && (
+            <span className="text-xs text-gray-700 dark:text-gray-300 ml-4">
+              {t("edited")}
+            </span>
+          )}
+        </div>
         {post?.uploadedMedia?.length > 0 && (
           <MediaGrid media={post?.uploadedMedia} />
         )}

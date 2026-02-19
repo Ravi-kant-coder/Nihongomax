@@ -176,7 +176,7 @@ const WallCardButtons = ({ post }) => {
           <AnimatePresence>
             {saveEffect && (
               <motion.div
-                className="absolute -top-4 left-2 text-sm dark:bg-gray-500 text-green-700 dark:text-gray-300  bg-green-100 rounded-lg shadow-2xl p-2"
+                className="absolute -top-4 left-2 text-sm dark:bg-gray-500 text-green-900 dark:text-gray-300  bg-green-100 rounded-lg shadow-2xl p-2"
                 initial={{ opacity: 0, y: 0, rotate: 10 }}
                 animate={{ opacity: 1, y: -20, rotate: -10 }}
                 exit={{ opacity: 0, y: -60 }}

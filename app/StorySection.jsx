@@ -8,10 +8,6 @@ import StoryTrigger from "./StoryTrigger";
 const StorySection = () => {
   const { stories, fetchStories } = useStoryStore();
 
-  const validStories = stories.filter(
-    (s) => Date.now() - new Date(s.createdAt).getTime() < 24 * 60 * 60 * 1000,
-  );
-
   const storyRef = useRef(null);
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -79,7 +75,7 @@ const StorySection = () => {
           <StoryTrigger />
         </div>
 
-        {validStories?.map((story) => (
+        {stories?.map((story) => (
           <div key={story._id} className="snap-start shrink-0">
             <StoryCard story={story} />
           </div>

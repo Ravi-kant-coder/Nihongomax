@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SquarePen } from "lucide-react";
 import { usePostStore } from "@/store/usePostStore";
 import { wrapEmojis } from "@/lib/utils";
@@ -20,6 +20,28 @@ const PostContentEdit = ({
   const { inputRef, insertEmoji } = useEmojiInsert();
   const t = useT();
   const trimmed = tempContent.trim();
+  const ONE_HOUR = 60 * 60 * 1000;
+  const [canEdit, setCanEdit] = useState(true);
+
+  const [minutesLeft, setMinutesLeft] = useState(0);
+
+  useEffect(() => {
+    const ONE_HOUR = 60 * 60 * 1000;
+
+    const updateTime = () => {
+      const timePassed = Date.now() - new Date(post.createdAt).getTime();
+
+      const timeLeft = ONE_HOUR - timePassed;
+
+      setMinutesLeft(Math.max(0, Math.floor(timeLeft / (60 * 1000))));
+    };
+
+    updateTime();
+
+    const interval = setInterval(updateTime, 60000); // update every minute
+
+    return () => clearInterval(interval);
+  }, [post.createdAt]);
 
   const handleSave = async () => {
     if (!trimmed && post.uploadedMedia.length === 0) {
@@ -45,17 +67,29 @@ const PostContentEdit = ({
       {!isEditing ? (
         <div className="text-gray-800 font-[450] p-4 dark:text-gray-300">
           {wrapEmojis(tempContent)}
-          <div>
-            <span className="text-xs text-gray-500"> {t("onlyYouCan")}</span>
-            <button
-              className=" items-center text-xs inline-flex cursor-pointer underline rounded 
+          {minutesLeft > 0 && (
+            <div>
+              <span className="text-xs text-gray-500"> {t("onlyYouCan")}</span>
+              <button
+                className=" items-center text-xs inline-flex cursor-pointer underline rounded 
               p-1 hover:bg-gray-300 dark:hover:bg-black"
-              onClick={() => setIsEditing(true)}
-            >
-              {t("edit")}
-            </button>
-            <span className="text-xs text-gray-500"> {t("thisComment")}</span>
-          </div>
+                onClick={() => setIsEditing(true)}
+              >
+                {t("edit")}
+              </button>
+              <span className="text-xs text-gray-500">
+                {" "}
+                {t("thisComment")} for {minutesLeft} minutes
+              </span>
+            </div>
+          )}
+          {!canEdit && (
+            <div>
+              <span className="text-xs text-gray-500">
+                {t("editWindowExpired")}
+              </span>
+            </div>
+          )}
         </div>
       ) : (
         <>

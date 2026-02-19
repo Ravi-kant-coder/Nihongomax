@@ -10,6 +10,7 @@ import EmojiPickerButton from "@/app/components/EmojiPickerButton";
 import { useEmojiInsert } from "../hooks/useEmojiInsert";
 import { Textarea } from "@/components/ui/textarea";
 import WallCard from "../WallCard";
+import useT from "../hooks/useT";
 
 const Notes = () => {
   const { userNotes, fetchUserNotes } = useNoteStore();
@@ -19,6 +20,7 @@ const Notes = () => {
   const { handleCreateNote } = useNoteStore();
   const { user } = userStore();
   const { inputRef, insertEmoji } = useEmojiInsert();
+  const t = useT();
 
   useEffect(() => {
     fetchUserNotes();
@@ -36,9 +38,9 @@ const Notes = () => {
     <div className="lg:mx-20">
       {/* --------------------------Note Input----------------------- */}
       <h1 className="text-center lg:text-4xl text-2xl font-semibold text-gray-700 dark:text-gray-400">
-        Make Notes
+        {t("makeNotes")}
       </h1>
-      <p className="text-center mb-4">Only you can see them</p>
+      <p className="text-center mb-4">{t("onlyYouCanSee")}</p>
       <div className="flex justify-center items-center md:w-[60%] md:mx-auto">
         <div className="relative w-full">
           <Textarea
@@ -74,7 +76,7 @@ const Notes = () => {
           onClick={handleNoteSubmit}
         >
           <Plus className=" h-4 w-4" />
-          <span>Enter</span>
+          <span>{t("enter")}</span>
         </Button>
       </div>
 
