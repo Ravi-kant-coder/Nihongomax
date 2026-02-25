@@ -13,27 +13,38 @@ export const userFriendStore = create((set, get) => ({
   friendSuggestion: [],
   mutualFriends: [],
   loading: false,
+  requestHasMore: true,
+  suggestionHasMore: true,
 
-  fetchFriendRequest: async () => {
-    set({ loading: true });
+  fetchFriendRequest: async (page = 1) => {
     try {
-      const friend = await getAllFriendsRequest();
-      set({ friendRequest: friend.data, loading: false });
+      set({ loading: true });
+      const response = await getAllFriendsRequest(page);
+      const { users, hasMore } = response.data;
+      set((state) => ({
+        friendRequest: page === 1 ? users : [...state.friendRequest, ...users],
+        requestHasMore: hasMore,
+        loading: false,
+      }));
     } catch (error) {
-      set({ error, loading: false });
-    } finally {
+      console.error("Error fetching friend requests:", error);
       set({ loading: false });
     }
   },
 
-  fetchFriendSuggestion: async () => {
-    set({ loading: true });
+  fetchFriendSuggestion: async (page = 1) => {
     try {
-      const friend = await getAllFriendsSuggestion();
-      set({ friendSuggestion: friend.data, isLoading: false });
+      set({ loading: true });
+      const response = await getAllFriendsSuggestion(page);
+      const { users, hasMore } = response.data;
+      set((state) => ({
+        friendSuggestion:
+          page === 1 ? users : [...state.friendSuggestion, ...users],
+        suggestionHasMore: hasMore,
+        loading: false,
+      }));
     } catch (error) {
-      set({ error, loading: false });
-    } finally {
+      console.error("Error fetching friend suggestions:", error);
       set({ loading: false });
     }
   },

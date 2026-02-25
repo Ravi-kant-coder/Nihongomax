@@ -1,60 +1,18 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
-import LeftSideBar from "@/app/LeftSideBar";
+import { useState, useEffect } from "react";
 import ScrollupBtn from "../ScrollupBtn";
 import useVideoStore from "@/store/useVideoStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RefreshCw } from "lucide-react";
 
-const tags = [
-  "All",
-  "Spoken",
-  "Grammar",
-  "JLPT",
-  "Visa",
-  "Jobs",
-  "Japan",
-  "Motivation",
-  "Advanced",
-  "Nihongomax",
-  "Study ways",
-];
-
-const VIDEOS_PER_PAGE = 12;
-
 const YouTubeVideos = () => {
   const { videos, fetchVideos, syncYouTube } = useVideoStore();
-  const [selectedTag, setSelectedTag] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = useVideoStore((state) => state.totalPages);
 
   useEffect(() => {
-    fetchVideos();
-  }, []);
-
-  //  ---------------Filter videos by tag-------------------
-  const filtered = useMemo(() => {
-    return selectedTag === "All"
-      ? videos
-      : videos.filter((v) =>
-          v.tags?.some(
-            (tag) => tag.toLowerCase() === selectedTag.toLowerCase(),
-          ),
-        );
-  }, [videos, selectedTag]);
-
-  //---------------------Pagination logic---------------------
-  const totalPages = Math.ceil(filtered.length / VIDEOS_PER_PAGE);
-
-  const paginated = useMemo(() => {
-    const start = (currentPage - 1) * VIDEOS_PER_PAGE;
-    return filtered.slice(start, start + VIDEOS_PER_PAGE);
-  }, [filtered, currentPage]);
-
-  // -----------Reset page when tag changes---------------------
-  const handleTagChange = (tag) => {
-    setSelectedTag(tag);
-    setCurrentPage(1);
-  };
+    fetchVideos(currentPage);
+  }, [currentPage]);
 
   return (
     <>
@@ -79,7 +37,7 @@ const YouTubeVideos = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
                        gap-6 md:mt-2 mt-1 px-4 md:px-8"
         >
-          {paginated.map((video) => (
+          {videos.map((video) => (
             <div
               key={video._id}
               className="bg-white dark:bg-zinc-800 rounded shadow-md overflow-hidden"

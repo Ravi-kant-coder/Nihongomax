@@ -113,9 +113,12 @@ const Notes = () => {
           </h2>
         ) : (
           <>
-            <h1 className="text-center font-semibold text-3xl text-gray-700 dark:text-gray-400 mb-4">
+            <h1 className="text-center font-semibold text-3xl text-gray-700 dark:text-gray-400">
               Your saved Posts
             </h1>
+            <h2 className="text-center text-xl text-gray-600 dark:text-gray-500 mb-4">
+              Until the Creator deletes them
+            </h2>
             {savedPosts?.map((savedPost) => (
               <WallCard key={savedPost?._id} post={savedPost} />
             ))}

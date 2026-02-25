@@ -2,7 +2,6 @@ import { create } from "zustand";
 import {
   getAllStories,
   likeStory,
-  shareStory,
   createStory,
   deleteStory,
 } from "@/service/story.service";
@@ -72,7 +71,6 @@ export const useStoryStore = create((set) => ({
           : story,
       ),
     }));
-
     try {
       // Real Db update
       await likeStory(storyId);

@@ -1,15 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import FriendRequestCard from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";
 import { userFriendStore } from "@/store/userFriendsStore";
 import ScrollupBtn from "../ScrollupBtn";
-// import { handlefriendClick, handleUnfriend } from "@/lib/friendUtils";these are ideas for owner centralization
-// import { isOwner, id } from "@/lib/ownerCheck"; these are ideas for owner centralization
 
 const Page = () => {
+  const [requestPage, setRequestPage] = useState(1);
+  const [suggestionPage, setSuggestionPage] = useState(1);
   const {
     followUser,
     loading,
@@ -19,10 +18,13 @@ const Page = () => {
     fetchMutualFriends,
     friendRequest,
     friendSuggestion,
+    requestHasMore,
+    suggestionHasMore,
   } = userFriendStore();
 
   useEffect(() => {
-    (fetchFriendRequest(), fetchFriendSuggestion());
+    fetchFriendRequest(1);
+    fetchFriendSuggestion(1);
   }, []);
 
   const handleAction = async (action, userId) => {
@@ -68,22 +70,16 @@ const Page = () => {
             ))
           )}
         </div>
-        {friendRequest.length > 5 && (
+        {requestHasMore && (
           <div className="mt-2 flex justify-center">
             <p
-              className="cursor-pointer hover:bg-gray-100 rounded-md mt-10 py-1 px-50 border-white border-2 
-              dark:border-gray-500 dark:hover:bg-blackdark:text-gray-300"
-            >
-              Show more...
-            </p>
-          </div>
-        )}
-        {friendRequest.length > 5 && (
-          <div className="mt-2 flex justify-center">
-            <p
-              className="cursor-pointer hover:bg-gray-100 rounded-md mt-10
-            py-1 px-50 border-white border-2 dark:border-gray-500 dark:hover:bg-black
-            dark:text-gray-300"
+              onClick={() => {
+                const nextPage = requestPage + 1;
+                setRequestPage(nextPage);
+                fetchFriendRequest(nextPage);
+              }}
+              className="cursor-pointer hover:bg-gray-100 rounded-md mt-10 py-1 px-50 border-white border-2 dark:border-gray-500 dark:hover:bg-black
+              dark:text-gray-300"
             >
               Show more...
             </p>
@@ -107,11 +103,16 @@ const Page = () => {
             ))
           )}
         </div>
-        {friendSuggestion.length > 5 && (
+        {suggestionHasMore && (
           <div className="mt-2 flex justify-center">
             <p
-              className="cursor-pointer hover:bg-gray-100 rounded-md mt-10 py-1 px-50 border-white border-2
-              dark:border-gray-500 dark:hover:bg-black dark:text-gray-300"
+              onClick={() => {
+                const nextPage = suggestionPage + 1;
+                setSuggestionPage(nextPage);
+                fetchFriendSuggestion(nextPage);
+              }}
+              className="cursor-pointer hover:bg-gray-100 rounded-md mt-10 py-1 px-50 border-white border-2 dark:border-gray-500 dark:hover:bg-black 
+              dark:text-gray-300"
             >
               Show more...
             </p>

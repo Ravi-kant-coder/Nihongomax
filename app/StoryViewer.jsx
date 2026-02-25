@@ -6,8 +6,8 @@ import { Trash2 } from "lucide-react";
 import { useStoryStore } from "@/store/useStoryStore";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
-
-const STORY_DURATION = 7000;
+import DeleteConfModal from "./components/DeleteConfModel";
+import useT from "./hooks/useT";
 
 const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
   const [index, setIndex] = useState(0);
@@ -18,6 +18,8 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { user } = userStore();
   const { handleLikeStory } = useStoryStore();
+  const STORY_DURATION = 7000;
+  const t = useT();
 
   /* ---------- Build slides ---------- */
   const slides = [];
@@ -137,7 +139,7 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
           )}
           <button
             onClick={onClose}
-            className="absolute right-4 top-8 text-white/70 hover:text-white cursor-pointer p-2 rounded bg-black/70
+            className="absolute right-4 top-10 text-white/70 hover:text-white cursor-pointer p-2 rounded bg-black/70
             border border-gray-500 z-100"
           >
             <X size={18} />
@@ -164,10 +166,9 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
               flex justify-center items-center text-lg
                 ${
                   story?.isLiked
-                    ? "text-green-500 border-green-300 dark:border-green-900 hover:bg-white cursor-auto"
+                    ? "text-green-500 border-green-300 dark:border-green-900 hover:bg-black/90 cursor-auto"
                     : ""
                 } dark:text-gray-300`}
-            disabled={story?.isLiked}
             onClick={(e) => {
               e.stopPropagation();
               if (story?.isLiked) return;
@@ -237,37 +238,16 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
         </button>
         {/* --------------------Delete Confirmation Modal------------------- */}
         {showDeleteModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center"
-          >
-            <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-              <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-                Delete this story {user?.username?.split(" ")[0]}?
-              </h2>
-              <p className="text-sm dark:text-gray-300 text-center my-2">
-                This cannot be recovered.
-              </p>
-
-              <div className="flex justify-center gap-4 mt-6">
-                <button
-                  onClick={handleCancel}
-                  className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
-                          dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
-                    cursor-pointer text-white text-sm"
-                  onClick={handleStoryDelete}
-                >
-                  Yes, Delete
-                </button>
-              </div>
-            </div>
-          </motion.div>
+          <DeleteConfModal
+            user={user}
+            item={t("story")}
+            handleDelete={() => {
+              handleStoryDelete();
+            }}
+            handleCancel={() => {
+              setShowDeleteModal(false);
+            }}
+          />
         )}
       </motion.div>
     </AnimatePresence>

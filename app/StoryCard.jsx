@@ -10,6 +10,8 @@ import AutoLoopVideo from "./AutoLoopVideo";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Spinner from "./Spinner";
+import DeleteConfModal from "./components/DeleteConfModel";
+import useT from "./hooks/useT";
 
 const StoryCard = ({ story }) => {
   const { user } = userStore();
@@ -21,12 +23,8 @@ const StoryCard = ({ story }) => {
   const [showPreview, setShowPreview] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isPending, startTransition] = useTransition();
-
   const router = useRouter();
-
-  const handleCancel = () => {
-    setShowDeleteModal(false);
-  };
+  const t = useT();
 
   const handleClosePreview = () => {
     resetStoryState();
@@ -81,7 +79,7 @@ const StoryCard = ({ story }) => {
       <img
         src={current.url}
         alt={story?.user?.username}
-        className="w-full h-full object-cover cursor-pointer"
+        className="w-full h-full object-cover cursor-pointer hover:scale-102"
       />
     );
   } else if (current?.type === "video") {
@@ -91,9 +89,8 @@ const StoryCard = ({ story }) => {
   return (
     <>
       <Card
-        className="opacity-90 duration-200 hover:opacity-100 hover:scale-102 shadow-md shadow-gray-400 cursor-pointer
-        dark:shadow-[rgb(20,20,20)] md:w-[120px] h-[200px] w-[80px] dark:bg-[rgb(45,45,45)] rounded-lg 
-        object-cover snap-start shrink-0 relative group bg-accent md:min-w-[120px] md:h-[200px] min-w-[80px] overflow-hidden"
+        className="shadow-md shadow-gray-400 cursor-pointer  md:w-30 h-50 w-20  overflow-hidden dark:shadow-[rgb(20,20,20)]
+        dark:bg-[rgb(45,45,45)] rounded-lg object-cover snap-start shrink-0 relative group bg-accent"
         onClick={handleStoryCardClick}
       >
         <CardContent className="p-0 h-full">
@@ -130,8 +127,8 @@ const StoryCard = ({ story }) => {
               </button>
             )}
             <p
-              className="text-white text-xs capitalize bg-black/70 rounded p-1
-                truncate absolute bottom-1 left-1 max-w-[90px] hover:underline cursor-pointer"
+              className="text-white text-xs capitalize bg-black/70 rounded p-1 max-w-18
+                truncate absolute bottom-1 left-1 md:max-w-25 hover:underline cursor-pointer"
               onClick={handleStoryUsernameClick}
             >
               By{" "}
@@ -142,37 +139,16 @@ const StoryCard = ({ story }) => {
       </Card>
       {/* --------------------Delete Confirmation Modal------------------- */}
       {showDeleteModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[9999] bg-black/40 flex items-center justify-center"
-        >
-          <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-              Delete this story {user?.username?.split(" ")[0]}?
-            </h2>
-            <p className="text-sm dark:text-gray-300 text-center my-2">
-              This cannot be recovered.
-            </p>
-
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={handleCancel}
-                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
-                    dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
-              cursor-pointer text-white text-sm"
-                onClick={handleStoryDelete}
-              >
-                Yes, Delete
-              </button>
-            </div>
-          </div>
-        </motion.div>
+        <DeleteConfModal
+          user={user}
+          item={t("story")}
+          handleDelete={() => {
+            handleStoryDelete();
+          }}
+          handleCancel={() => {
+            setShowDeleteModal(false);
+          }}
+        />
       )}
       <motion.div>
         {showPreview && (
@@ -187,11 +163,7 @@ const StoryCard = ({ story }) => {
       </motion.div>
       {/* ------------------------Spinner-------------------------- */}
       {isPending && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-white/60
-                       dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
-                        duration-300 opacity-100"
-        >
+        <div className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm z-9999 transition-opacity duration-300 opacity-100">
           <Spinner />
         </div>
       )}

@@ -12,7 +12,8 @@ const DeleteConfModal = ({ user, item, handleDelete, handleCancel }) => {
         className="bg-white dark:bg-gray-800 p-10 rounded-lg"
       >
         <h2 className="text-xl font-semibold text-center text-red-600 dark:text-white dark:font-normal">
-          {t("sureDel")} {item} {t("ending")} {user?.username?.split(" ")[0]}
+          {t("sureDel")} {item} {t("ending")}{" "}
+          <span className="capitalize">{user?.username?.split(" ")[0]}</span>
         </h2>
         <p className=" dark:text-gray-300 text-center my-3 text-lg">
           {t("CntRecvr")}

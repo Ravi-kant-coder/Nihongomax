@@ -14,15 +14,19 @@ import EditSchool from "./EditSchool";
 import Spinner from "../Spinner";
 import MediaShowcase from "../components/MediaShowcase";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import useT from "../hooks/useT";
+import DeleteConfModal from "../components/DeleteConfModel";
 
 const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSchoolEditModal, setShowSchoolEditModal] = useState(false);
+  const [readyTodel, setReadyTodel] = useState(false);
   const { user } = userStore();
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
   const month = today.toLocaleString("en-US", { month: "long" });
   const year = today.getFullYear();
+  const t = useT();
 
   if (!school) return null;
 
@@ -33,10 +37,15 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
       : `https://${school.homepage}`;
 
   return (
-    <div className="md:mx-20 xl:mx-40 md:my-8 m-6">
-      <div
-        className=" bg-white rounded-xl p-6 md:space-y-4 space-y-2 border border-black
-         dark:border-gray-200 dark:bg-black"
+    <>
+      <motion.div
+        initial={{ opacity: 0, height: 0, rotate: -5 }}
+        animate={{ opacity: 1, height: "auto", rotate: readyTodel ? -5 : 0 }}
+        exit={{ opacity: 0, height: 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className={`${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(70,0,0)]" : "dark:bg-[rgb(55,55,55)] bg-white "} 
+    shadow-gray-400 md:mx-20 md:my-8 m-6  rounded-xl p-6 md:space-y-4 space-y-2 border
+          border-black dark:border-gray-200 dark:bg-black xl:mx-40`}
       >
         <div className="flex flex-col items-start justify-between">
           <div className="mb-4 w-full flex justify-between">
@@ -141,7 +150,6 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
                   hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
                   onClick={() => {
                     setShowSchoolEditModal(true);
-                    console.log("Edit school clicked");
                   }}
                 >
                   編集する
@@ -156,7 +164,10 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
             {user?._id === school?.user?._id && (
               <>
                 <button
-                  onClick={() => setShowDeleteModal(true)}
+                  onClick={() => {
+                    setShowDeleteModal(true);
+                    setReadyTodel(true);
+                  }}
                   className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500
                   hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
                 >
@@ -169,52 +180,27 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
             )}
           </div>
         </div>
-      </div>
-      {loading && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-white/30
-              dark:bg-black/60 backdrop-blur-xs z-[9999]"
-        >
-          <Spinner />
-        </div>
-      )}
-      {/*-----------------------------School Delete Confirmation-------------------------- */}
-      {showDeleteModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-          <motion.div
-            initial={{ scale: 0, rotate: -50 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="bg-white dark:bg-gray-800 p-14 rounded-lg"
-          >
-            <h2 className="text-xl font-semibold text-center text-red-600 dark:text-white dark:font-normal">
-              削除する {user?.username?.split(" ")[0]}?
-            </h2>
-            <p className=" dark:text-gray-300 text-center my-3 text-lg">
-              削除後は元に戻せません
-            </p>
+        {loading && (
+          <div className="fixed inset-0 flex items-center justify-center bg-white/30 dark:bg-black/60 backdrop-blur-xs z-9999">
+            <Spinner />
+          </div>
+        )}
+      </motion.div>
 
-            <div className="flex justify-center gap-4 mt-6 ">
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
-                dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
-              >
-                キャンセル
-              </button>
-              <button
-                onClick={() => {
-                  setShowDeleteModal(false);
-                  handleSchoolDelete(school?._id);
-                }}
-                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
-                         cursor-pointer text-white text-sm"
-              >
-                はい、削除する
-              </button>
-            </div>
-          </motion.div>
-        </div>
+      {/* --------------------Delete Confirmation Modal------------------- */}
+      {showDeleteModal && (
+        <DeleteConfModal
+          user={user}
+          item={t("school")}
+          handleDelete={() => {
+            setReadyTodel(false);
+            handleSchoolDelete(school?._id);
+          }}
+          handleCancel={() => {
+            setShowDeleteModal(false);
+            setReadyTodel(false);
+          }}
+        />
       )}
       {/*-----------------------------School Edit Modal-------------------------- */}
       {showSchoolEditModal && (
@@ -223,7 +209,7 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
           onClose={() => setShowSchoolEditModal(false)}
         />
       )}
-    </div>
+    </>
   );
 };
 

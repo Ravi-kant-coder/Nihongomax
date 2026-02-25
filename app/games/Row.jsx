@@ -41,7 +41,7 @@ const Row = ({
   const enterEnabled = isActiveRow && currentCol === WORD_LENGTH && isPlaying;
 
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex items-center justify-center gap-4 ">
       <div className="flex gap-1">
         {row.map((letter, i) => {
           const showCursor =
@@ -63,7 +63,7 @@ const Row = ({
       <button
         onClick={onEnter}
         disabled={!enterEnabled}
-        className={`px-3 py-2 border rounded transition border-black
+        className={`px-3 py-2 border rounded transition border-black 
           ${
             enterEnabled
               ? "bg-green-800 text-white cursor-pointer border-green-900 hover:bg-green-700"

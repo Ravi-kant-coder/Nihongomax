@@ -147,17 +147,16 @@ const EditBio = ({ isOpen, onClose, initialData, id, fetchProfile }) => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="phone" className="text-right">
-                Phone No.
+              <Label htmlFor="nationality" className="text-right">
+                Nationality
               </Label>
               <Input
-                id="phone"
-                {...register("phone")}
+                id="nationality"
+                {...register("nationality")}
                 className="col-span-3 border-gray-400"
                 placeholder="Optional"
               />
             </div>
-
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="address" className="text-left">
                 Any other Information about you

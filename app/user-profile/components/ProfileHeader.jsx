@@ -3,16 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import {
-  Camera,
-  PenLine,
-  Save,
-  Upload,
-  X,
-  Dot,
-  MessageCircle,
-  UserPlus,
-} from "lucide-react";
+import { Camera, PenLine, Save, Upload, X, Dot, UserPlus } from "lucide-react";
 import { useRef, useState, useEffect, useTransition } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -29,6 +20,8 @@ import ShowDpPreview from "./ShowDpPreview";
 import Spinner from "../../Spinner";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import DeleteConfModal from "@/app/components/DeleteConfModel";
+import useT from "@/app/hooks/useT";
 
 const ProfileHeader = ({
   id,
@@ -52,6 +45,7 @@ const ProfileHeader = ({
   const [showDeleteDpModal, setShowDeleteDpModal] = useState(false);
   const [showDeleteCoverModal, setShowDeleteCoverModal] = useState(false);
   const [friendsFeedback, setFriendsFeedback] = useState(null);
+  const t = useT();
   const {
     followUser,
     UnfollowUser,
@@ -249,11 +243,6 @@ const ProfileHeader = ({
     }
   }, [mutualFriends, profileData?._id]);
 
-  const canMessage = mutualFriends.some((u) => {
-    const match = String(u._id).trim() === String(user?._id).trim();
-    return match;
-  });
-
   return (
     <div className="relative">
       {/* ---------------------------- Cover Photo & Cover Button---------------------------- */}
@@ -336,12 +325,8 @@ const ProfileHeader = ({
                     fetchMutualFriends();
                     setFriendsFeedback(
                       <div className="mt-2 text-center flex items-center flex-col justify-center">
-                        <p className="text-green-900 dark:text-green-500 text-sm">
+                        <p className="text-green-900 dark:text-green-500 font-semibold">
                           Request sent to {profileData?.username?.split(" ")[0]}
-                        </p>
-                        <p className="text-xs text-red-900 dark:text-red-400">
-                          Wait for acceptance by{" "}
-                          {profileData?.username?.split(" ")[0]}
                         </p>
                       </div>,
                     );
@@ -361,7 +346,7 @@ const ProfileHeader = ({
               )}
             </div>
           )}
-          {isOwner ? (
+          {isOwner && (
             <Button
               variant="secondary"
               size="sm"
@@ -371,30 +356,6 @@ const ProfileHeader = ({
             >
               <PenLine className="w-4 h-4 mr-2" />
               {profileData?.profilePicture ? "Change DP" : "Put DP"}
-            </Button>
-          ) : (
-            <Button
-              className={`z-11 flex items-center mt-2 bg-black text-white hover:bg-black/90 dark:bg-gray-500
-                dark:text-gray-100`}
-              onClick={() => router.push("/notes")}
-              disabled={!canMessage}
-            >
-              <MessageCircle className=" ml-0 md:ml-1 h-4 w-4" />
-              {canMessage ? (
-                <span className="cursor-pointer hover:bg-black/70">
-                  Message{" "}
-                  <span className="capitalize">
-                    {profileData?.username?.split(" ")[0]}
-                  </span>
-                </span>
-              ) : (
-                <span className="truncate w-40 cursor-not-allowed">
-                  Cannot Msg{" "}
-                  <span className="capitalize">
-                    {profileData?.username?.split(" ")[0]}
-                  </span>
-                </span>
-              )}
             </Button>
           )}
         </div>
@@ -598,74 +559,29 @@ const ProfileHeader = ({
 
       {/* --------------------Delete DP Confirmation Modal------------------- */}
       {showDeleteDpModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center"
-        >
-          <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl capitalize">
-              Remove DP {user?.username?.split(" ")[0]}?
-            </h2>
-            <p className="text-sm dark:text-gray-300 text-center my-2">
-              You can put it again later
-            </p>
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => {
-                  setShowDeleteDpModal(false);
-                }}
-                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
-                          dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
-                    cursor-pointer text-white text-sm"
-                onClick={handleDpDelete}
-              >
-                Yes, Remove
-              </button>
-            </div>
-          </div>
-        </motion.div>
+        <DeleteConfModal
+          user={user}
+          item={t("dp")}
+          handleDelete={() => {
+            handleDpDelete();
+          }}
+          handleCancel={() => {
+            setShowDeleteDpModal(false);
+          }}
+        />
       )}
       {/* --------------------Delete Cover Confirmation Modal------------------- */}
       {showDeleteCoverModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center"
-        >
-          <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-            <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-              Delete Cover Photo {user?.username?.split(" ")[0]}?
-            </h2>
-            <p className="text-sm dark:text-gray-300 text-center my-2">
-              This cannot be recovered.
-            </p>
-
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => {
-                  setShowDeleteCoverModal(false);
-                }}
-                className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer 
-                          dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
-                    cursor-pointer text-white text-sm"
-                onClick={handleCoverDelete}
-              >
-                Yes, Delete
-              </button>
-            </div>
-          </div>
-        </motion.div>
+        <DeleteConfModal
+          user={user}
+          item={t("cover")}
+          handleDelete={() => {
+            handleCoverDelete();
+          }}
+          handleCancel={() => {
+            setShowDeleteCoverModal(false);
+          }}
+        />
       )}
       {/* ------------------------Spinner-------------------------- */}
       {isPending && (

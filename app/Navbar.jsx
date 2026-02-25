@@ -1,21 +1,18 @@
 "use client";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
 import { useEffect, useTransition, useRef, useState } from "react";
-import { useTheme } from "next-themes";
 import JapanGate from "../app/JapanGate";
 import { useRouter, usePathname } from "next/navigation";
-import useMsgStore from "@/store/useMsgStore";
-import useNotificationStore from "@/store/useNotificationStore";
 import useStudyStore from "@/store/useStudyStore";
 import { logout } from "@/service/auth.service";
 import { getAllUsers } from "@/service/user.service";
 import userStore from "@/store/userStore";
 import { usePostStore } from "@/store/usePostStore";
+import { userFriendStore } from "@/store/userFriendsStore";
 import {
   Home,
   Users,
   Bell,
-  MessageCircle,
   ChartNoAxesCombined,
   TvMinimalPlay,
   Handshake,
@@ -24,15 +21,14 @@ import {
   BriefcaseBusiness,
   Search,
 } from "lucide-react";
-import NotificationBox from "@/app/NotificationBox";
-import MsgBox from "./MsgBox";
 import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
 import { Input } from "@/components/ui/input";
 import LangToggleBtn from "./LangToggleBtn";
+
 const Navbar = () => {
-  const { closeStudyBox } = useStudyStore();
   const router = useRouter();
+  const { closeStudyBox } = useStudyStore();
   const [isPending, startTransition] = useTransition();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,37 +37,14 @@ const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
   const searchRef = useRef(null);
-  const { theme, setTheme } = useTheme();
   const { user, clearUser } = userStore();
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-
-  const {
-    isMsgBoxOpen,
-    toggleMsgBox,
-    incrementUnread,
-    unreadCount,
-    closeMsgBox,
-    resetUnread,
-  } = useMsgStore();
-
-  const {
-    toggleNotificationBox,
-    isNotificationBoxOpen,
-    closeNotificationBox,
-    incrementNotification,
-    unreadNotificationCount,
-  } = useNotificationStore();
+  const pathname = usePathname();
+  const { friendRequest, fetchFriendRequest } = userFriendStore();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      useMsgStore.getState().incrementUnread();
-      useNotificationStore.getState().incrementNotification();
-    }, 5000);
-    return () => clearTimeout(timer);
+    fetchFriendRequest();
   }, []);
-
-  const pathname = usePathname();
-
   const handleLogout = async () => {
     try {
       const result = await logout();
@@ -257,7 +230,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* -----------------------Institute number box---------------   */}
+          {/* -----------------------Institute website Link--------------------------   */}
 
           <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
             <div
@@ -265,54 +238,22 @@ const Navbar = () => {
             dark:bg-[rgb(55,55,55)]  hover:bg-black md:p-2 p-1 text-white 
             dark:hover:bg-[rgb(35,35,35)]"
             >
-              <h1> Nihongomax 7678461209</h1>
+              <h1>Visit Nihongomax</h1>
             </div>
           </a>
-          {/* -----------------------Notifications button (Mobile)---------------   */}
+          {/* -----------------------(Mobile)---------------   */}
 
           <div className="md:hidden flex items-center justify-center">
-            <button
-              className={`w-full cursor-pointer dark:font-normal ${
-                isNotificationBoxOpen
-                  ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
-                  : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm mx-4 font-semibold
-               flex items-center bg- justify-start rounded-md hover:shadow-lg`}
-              onClick={() => {
-                toggleNotificationBox();
-                closeMsgBox();
-                closeStudyBox();
-              }}
-            >
-              <div className="relative flex md:w-12 flex-col items-center justify-center">
-                <Bell />
-                <p className="mt-1">Notifications</p>
-
-                {unreadCount > 0 && (
-                  <span
-                    className="absolute -top-2 right-4 bg-green-700 text-white text-xs 
-                  px-2 py-0.5 rounded-full"
-                  >
-                    {unreadCount <= 99 ? unreadCount : "99+"}
-                  </span>
-                )}
-              </div>
-            </button>
-            <div className="mr-2">
-              <UserMenu />
-            </div>
+            <UserMenu />
           </div>
         </div>
 
         {/* -----------------------Main Navbar--------------- -----  */}
-
         <div className="flex justify-between items-center md:mt-0 mt-2">
           <div className="md:flex items-center justify-center hidden ">
             <button
               onClick={() => {
                 handleNavigation("/");
-                closeMsgBox();
-                closeNotificationBox();
               }}
               className={`md:p-3 w-full cursor-pointer dark:font-normal ${
                 pathname === "/"
@@ -334,67 +275,16 @@ const Navbar = () => {
               flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
               onClick={() => {
                 handleNavigation("/friends");
-                closeMsgBox();
-                closeNotificationBox();
               }}
             >
               <div className="relative flex md:w-12 flex-col items-center justify-center">
                 <Users />
-                {unreadCount > 0 && (
+                {friendRequest.length > 0 && (
                   <span
                     className="absolute -top-3 left-6 bg-green-700 text-white text-xs 
                   px-2 py-0.5 rounded-full"
                   >
-                    {unreadCount <= 99 ? unreadCount : "99+"}
-                  </span>
-                )}
-              </div>
-            </button>
-            <button
-              className={`md:p-3 w-full cursor-pointer dark:font-normal ${
-                isNotificationBoxOpen
-                  ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
-                  : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex 
-              items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
-              onClick={() => {
-                toggleNotificationBox();
-                closeMsgBox();
-              }}
-            >
-              <div className="relative flex md:w-12 flex-col items-center justify-center">
-                <Bell />
-                {unreadCount > 0 && (
-                  <span
-                    className="absolute -top-3 left-6 bg-green-700 text-white text-xs 
-                  px-2 py-0.5 rounded-full"
-                  >
-                    {unreadCount <= 99 ? unreadCount : "99+"}
-                  </span>
-                )}
-              </div>
-            </button>
-            <button
-              className={`md:p-3 w-full cursor-pointer dark:font-normal ${
-                isMsgBoxOpen
-                  ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
-                  : "bg-transparent"
-              } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold flex 
-              items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
-              onClick={() => {
-                handleNavigation(`/chat/${user?._id}`);
-                closeNotificationBox();
-                resetUnread();
-              }}
-            >
-              <div className="relative flex md:w-12 flex-col items-center justify-center">
-                <MessageCircle />
-                {unreadCount > 0 && (
-                  <span
-                    className="absolute -top-3 left-6 bg-green-700 text-white text-xs 
-                  px-2 py-0.5 rounded-full"
-                  >
-                    {unreadCount <= 99 ? unreadCount : "99+"}
+                    {friendRequest.length <= 99 ? friendRequest.length : "99+"}
                   </span>
                 )}
               </div>
@@ -421,8 +311,6 @@ const Navbar = () => {
               <button
                 onClick={() => {
                   handleNavigation(path);
-                  closeMsgBox();
-                  closeNotificationBox();
                   closeStudyBox();
                 }}
                 key={name}
@@ -448,8 +336,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {isNotificationBoxOpen && <NotificationBox />}
-      {isMsgBoxOpen && <MsgBox />}
       {isPending && (
         <div
           className="fixed inset-0 flex items-center justify-center bg-white/30

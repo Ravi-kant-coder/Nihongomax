@@ -173,17 +173,17 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
               Email:
               <span className="ml-2">
                 {profileData?.email || (
-                  <p className="text-gray-500">Undisclosed</p>
+                  <p className="text-gray-500">Not disclosed</p>
                 )}
               </span>
             </div>
             <div className="flex items-center">
               <Phone className="w-5 h-5 mr-2 shrink-0" />
-              Phone:
+              Nationality:
               <span className="ml-2">
                 {" "}
-                {profileData?.bio?.phone || (
-                  <p className="text-gray-500">Undisclosed</p>
+                {profileData?.bio?.nationality || (
+                  <p className="text-gray-500">Not disclosed</p>
                 )}
               </span>
             </div>

@@ -3,7 +3,6 @@ import useNotificationStore from "@/store/useNotificationStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import MsgNotific from "./MsgNotific";
 
 const NotificationBox = () => {
   const [friendRequestsList, setFriendRequestsList] = useState([
@@ -43,12 +42,11 @@ const NotificationBox = () => {
     }
   };
 
-  const handleDeleteNoti = (index) => {
+  const handleDeleteNotification = (index) => {
     setFriendRequestsList((prev) => prev.filter((_, i) => i !== index));
     // Optionally remove from acceptedIndices if present:
     setAcceptedIndices((prev) => prev.filter((i) => i !== index));
   };
-
   return (
     <div>
       <motion.div
@@ -121,7 +119,7 @@ const NotificationBox = () => {
                   {acceptedIndices.includes(index) ? "Accepted" : "Accept"}
                 </button>
                 <button
-                  onClick={() => handleDeleteNoti(index)}
+                  onClick={() => handleDeleteNotification(index)}
                   className="w-8 h-8 bg-[rgba(38,38,23,0.25)] dark:bg-[rgb(20,20,20)]
                  hover:bg-[rgba(38,38,23,0.5)] dark:hover:bg-black cursor-pointer
                   rounded-full flex items-center justify-center"
@@ -132,13 +130,6 @@ const NotificationBox = () => {
             </motion.div>
           ))}
         </AnimatePresence>
-        <p className="my-2 text-lg text-white bg-black dark:bg-[rgb(100,100,100)] dark:font-bold text-center dark:text-black">
-          New Messages
-        </p>
-        <MsgNotific />
-        <p className="text-sm text-white bg-black/50 text-center dark:text-gray-300 my-2">
-          No New Notification animation like in Friends page
-        </p>
       </motion.div>
     </div>
   );

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import userStore from "@/store/userStore";
 import WallCardButtons from "./WallCardButtons";
@@ -14,6 +14,7 @@ import PostContentEdit from "./PostContentEdit";
 import MediaGrid from "./MediaGrid";
 import useT from "./hooks/useT";
 import useFormatRelativeTime from "./hooks/useFormatRelativeTime";
+import DeleteConfModal from "./components/DeleteConfModel";
 
 const WallCard = ({ post }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -56,11 +57,11 @@ const WallCard = ({ post }) => {
         animate={{ opacity: 1, height: "auto", rotate: readyTodel ? -5 : 0 }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className={`rounded-lg ${readyTodel ? "bg-[rgb(255,200,200)]" : "bg-white"} dark:bg-[rgb(55,55,55)] dark:shadow-black
+        className={`rounded-lg ${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(70,0,0)]" : "bg-white dark:bg-[rgb(55,55,55)]"}  dark:shadow-black
     shadow-gray-400 dark:text-gray-300 shadow-lg dark:border-gray-500 overflow-hidden mb-6`}
       >
         {/* --------------------------Post Header (User information)-------------------------- */}
-        <div className="flex items-center justify-between p-2 dark:bg-[rgb(55,55,55)]">
+        <div className="flex items-center justify-between p-2 ">
           <div className="flex items-center ">
             <div
               className="relative mx-auto my-auto overflow-hidden rounded p-1"
@@ -99,16 +100,16 @@ const WallCard = ({ post }) => {
                 onClick={() => {
                   handleSavePost(post?._id, user);
                 }}
-                className="dark:bg-black/20 cursor-pointer pt-0.5 px-2 group rounded border border-gray-400 bg-gray-100 
-              flex flex-col items-center justify-center hover:border-red-600 mr-2"
+                className="dark:bg-black/20 cursor-pointer md:px-2 group rounded border border-gray-400 flex flex-col items-center justify-center
+                dark:hover:border-white mr-2 dark:border-gray-500 hover:border-black dark:hover:bg-black hover:bg-gray-200"
               >
                 {" "}
-                <span className="text-[10px] capitalize truncate max-w-10 group-hover:dark:text-red-500 group-hover:text-red-700">
+                <span className="text-[10px] capitalize truncate w-10 group-hover:dark:text-white group-hover:text-black">
                   {user?.username.split(" ")[0]}
                 </span>
-                <X className="h-5 w-6 group-hover:text-red-700 text-gray-600 dark:text-gray-300 group-hover:dark:text-red-500" />
-                <span className="text-[10px] group-hover:text-red-700group-hover:dark:text-red-500">
-                  {t("remove")}?
+                <X className="h-5 w-6 group-hover:text-black text-gray-500 dark:text-gray-300 group-hover:dark:text-white" />
+                <span className="text-[10px] group-hover:text-black group-hover:dark:text-white">
+                  {t("unsave")}?
                 </span>
               </button>
             )}
@@ -118,15 +119,15 @@ const WallCard = ({ post }) => {
                   setShowDeleteModal(true);
                   setReadyTodel(true);
                 }}
-                className="dark:bg-black/20 cursor-pointer pt-0.5 px-2 group rounded border border-gray-400 bg-gray-100 
+                className="dark:bg-black/20 cursor-pointer md:px-2 group rounded border border-gray-400 bg-pink-100 
               flex flex-col items-center justify-center hover:border-red-600"
               >
                 {" "}
-                <span className="text-[10px] capitalize truncate max-w-10 group-hover:dark:text-red-500 group-hover:text-red-700">
+                <span className="text-[10px] capitalize truncate w-10 group-hover:dark:text-red-500 group-hover:text-red-700">
                   {post?.user?.username.split(" ")[0]}
                 </span>
                 <Trash2 className="h-5 w-6 group-hover:text-red-700 text-gray-600 dark:text-gray-300 group-hover:dark:text-red-500" />
-                <span className="text-[10px] group-hover:text-red-700group-hover:dark:text-red-500">
+                <span className="text-[10px] group-hover:text-red-700 group-hover:dark:text-red-500">
                   {t("delete")}?
                 </span>
               </button>
@@ -135,7 +136,7 @@ const WallCard = ({ post }) => {
         </div>
 
         {/* --------------------------Actual post content----------------------- */}
-        <div className="bg-gray-200 dark:bg-[rgb(35,35,35)] p-2">
+        <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] p-2">
           {user?._id !== post?.user?._id ? (
             <p className="font-[450] p-4">{wrapEmojis(post?.content)}</p>
           ) : (
@@ -162,49 +163,22 @@ const WallCard = ({ post }) => {
       <div>
         {/* --------------------Delete Confirmation Modal------------------- */}
         {showDeleteModal && (
-          <motion.div
-            initial={{ scale: 0, rotate: -50 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center"
-          >
-            <div className="bg-white dark:bg-[rgb(50,50,50)] p-6 rounded-2xl shadow-2xl w-80">
-              <h2 className="text-center text-red-600 dark:text-white font-semibold text-xl">
-                Delete this post {user?.username.split(" ")[0]}?
-              </h2>
-              <p className="text-sm dark:text-gray-300 text-center my-2">
-                This cannot be recovered.
-              </p>
-
-              <div className="flex justify-center gap-4 mt-6">
-                <button
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setReadyTodel(false);
-                  }}
-                  className="px-4 py-2 rounded-lg bg-gray-300 cursor-pointer
-                    dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-sm"
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600
-              cursor-pointer text-white text-sm"
-                  onClick={handlePostDelete}
-                >
-                  Yes, Delete
-                </button>
-              </div>
-            </div>
-          </motion.div>
+          <DeleteConfModal
+            user={user}
+            item={t("post")}
+            handleDelete={() => {
+              setShowDeleteModal(false);
+              handlePostDelete();
+            }}
+            handleCancel={() => {
+              setShowDeleteModal(false);
+              setReadyTodel(false);
+            }}
+          />
         )}
         {/* ------------------------Spinner-------------------------- */}
         {isPending && (
-          <div
-            className="fixed inset-0 flex items-center justify-center bg-white/60
-                 dark:bg-black/60 backdrop-blur-sm z-[9999] transition-opacity
-                  duration-300 opacity-100"
-          >
+          <div className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-100 z-9999">
             <Spinner />
           </div>
         )}

@@ -70,7 +70,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                           src={friend?.profilePicture}
                           className="object-cover"
                         />
-                        <AvatarFallback className="rounded text-4xl dark:text-black w-full h-full">
+                        <AvatarFallback className="rounded text-4xl dark:bg-gray-700 w-full h-full">
                           {friend?.username?.split(" ")[0][0].toUpperCase()}
                         </AvatarFallback>
                       </Avatar>

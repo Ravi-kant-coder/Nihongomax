@@ -15,9 +15,7 @@ const Wall = () => {
 
   useEffect(() => {
     const ids = posts.map((p) => p._id);
-    console.log("POST IDS:", ids);
     const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
-    console.log("DUPLICATE IDS:", duplicates);
   }, [posts]);
 
   return (

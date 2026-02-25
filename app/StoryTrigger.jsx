@@ -167,10 +167,7 @@ const StoryTrigger = () => {
   };
 
   return (
-    <div
-      className="shadow-md shadow-gray-400 dark:shadow-[rgb(20,20,20)] md:w-[120px] h-[200px] w-[80px] 
-    dark:bg-[rgb(45,45,45)] rounded-lg"
-    >
+    <div className="shadow-md shadow-gray-400 dark:shadow-[rgb(20,20,20)] md:w-30 h-50 w-20 dark:bg-[rgb(45,45,45)] rounded-lg">
       <Dialog open={isStoryTriggerOpen} onOpenChange={setIsStoryTriggerOpen}>
         {/* -----------------------------------Story Trigger Button------------------------------------*/}
         <DialogTrigger className="w-full" asChild>
@@ -179,7 +176,7 @@ const StoryTrigger = () => {
               shadow-sm hover:shadow-md hover:scale-[1.02] transition-transform
 "
           >
-            <div className="relative h-[140px] w-full overflow-hidden">
+            <div className="relative h-[140] w-full overflow-hidden">
               <Avatar className="h-full w-full rounded-none">
                 <AvatarImage
                   src={user?.profilePicture}
@@ -192,7 +189,7 @@ const StoryTrigger = () => {
               </Avatar>
             </div>
             <div
-              className="absolute left-1/2 top-[115px] -translate-x-1/2 w-10 h-10 bg-gray-500 rounded-full 
+              className="absolute left-1/2 top-[115] -translate-x-1/2 w-10 h-10 bg-gray-500 rounded-full 
                 flex items-center justify-center border-4 border-white dark:border-[rgb(36,37,38)]"
             >
               <Plus className="text-white w-5 h-5" />
@@ -212,7 +209,7 @@ const StoryTrigger = () => {
         <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full">
           <DialogHeader>
             <DialogTitle className="text-center">
-              Status/Story visible only for 24 hours
+              Status/Story visible only for 3 days
             </DialogTitle>
           </DialogHeader>
           <div className="flex items-center space-x-3 py-4">

@@ -36,7 +36,7 @@ const WallCardButtons = ({ post }) => {
   }, [saveEffect]);
 
   return (
-    <div className="flex flex-col justify-center p-2 items-center dark:bg-[rgb(55,55,55)]">
+    <div className="flex flex-col justify-center p-2 items-center">
       <div className="w-full text-sm flex justify-between items-center dark:text-gray-400 text-gray-700 md:px-8 mb-4">
         {allLikes.length === 0 ? (
           <p>
@@ -54,7 +54,7 @@ const WallCardButtons = ({ post }) => {
                 {visibleLikes.map((user, index) => (
                   <span
                     key={user?._id}
-                    className="flex items-center gap-[2px] max-w-18"
+                    className="flex items-center gap-2px max-w-18"
                   >
                     <Avatar className="w-4 h-4">
                       <AvatarImage src={user?.profilePicture} />
@@ -69,7 +69,7 @@ const WallCardButtons = ({ post }) => {
                   </span>
                 ))}
                 {remainingLikes > 0 && (
-                  <span className="ml-[2px]">+{remainingLikes} more</span>
+                  <span className="ml-1 text-sm">+{remainingLikes} more</span>
                 )}
               </div>
             </div>
@@ -176,7 +176,7 @@ const WallCardButtons = ({ post }) => {
           <AnimatePresence>
             {saveEffect && (
               <motion.div
-                className="absolute -top-4 left-2 text-sm dark:bg-gray-500 text-green-900 dark:text-gray-300  bg-green-100 rounded-lg shadow-2xl p-2"
+                className="absolute -top-4 left-2 text-sm dark:bg-green-900 text-green-900 dark:text-white  bg-green-100 rounded-lg shadow-2xl p-2"
                 initial={{ opacity: 0, y: 0, rotate: 10 }}
                 animate={{ opacity: 1, y: -20, rotate: -10 }}
                 exit={{ opacity: 0, y: -60 }}

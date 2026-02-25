@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import ScrollupBtn from "../ScrollupBtn";
-import LeftSideBar from "../LeftSideBar";
 import Row from "./Row";
 
 const WORDS = [
