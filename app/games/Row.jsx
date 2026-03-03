@@ -1,4 +1,4 @@
-import { ArrowBigDown } from "lucide-react";
+import { CornerDownLeft } from "lucide-react";
 
 const Row = ({
   row,
@@ -51,7 +51,7 @@ const Row = ({
             <div
               key={i}
               className={`w-10 h-10 border flex items-center justify-center font-bold
-                 border-black text-xl ${isSubmitted ? colors[i] : ""}`}
+                 border-black dark:border-gray-500 text-xl ${isSubmitted ? colors[i] : ""}`}
             >
               {letter}
               {showCursor && <div className="cursor" />}
@@ -63,16 +63,18 @@ const Row = ({
       <button
         onClick={onEnter}
         disabled={!enterEnabled}
-        className={`px-3 py-2 border rounded transition border-black 
+        className={`px-3 py-2 border rounded transition border-gray-400
           ${
             enterEnabled
-              ? "bg-green-800 text-white cursor-pointer border-green-900 hover:bg-green-700"
-              : "bg-gray-300 dark:bg-gray-700 text-black cursor-not-allowed"
+              ? "bg-green-700 text-white cursor-pointer border-green-900 hover:bg-green-800 hover:text-white"
+              : "bg-gray-300 dark:bg-gray-700  text-gray-500 cursor-not-allowed"
           }`}
       >
-        Enter
+        <span className="flex items-center justify-center">
+          Enter
+          <CornerDownLeft className="h-4 w-4 ml-1" />
+        </span>
       </button>
-      <ArrowBigDown className="w-6 h-6" />
     </div>
   );
 };

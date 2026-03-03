@@ -1,7 +1,13 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Heart, MessageCircle, CornerUpRight, Check } from "lucide-react";
+import {
+  Heart,
+  MessageCircle,
+  CornerUpRight,
+  Check,
+  CornerUpLeft,
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import CommentsShown from "./CommentsShown";
@@ -113,7 +119,7 @@ const WallCardButtons = ({ post }) => {
               )}
             </span>
             <Heart
-              className=" h-4 w-4 heart-beat"
+              className="h-4 w-4 heart-beat"
               fill={post?.isLiked ? "red" : "none"}
               color={post?.isLiked ? "red" : "currentColor"}
             />
@@ -142,7 +148,7 @@ const WallCardButtons = ({ post }) => {
            dark:hover:bg-background dark:text-gray-300 border-gray-300 dark:border-gray-500"
         >
           <span>{t("comment")}</span>
-          <MessageCircle className="md:ml-1 h-4 w-4" />
+          <MessageCircle className="h-4 w-4" />
         </Button>
         <div className="relative group">
           <Button
@@ -170,13 +176,13 @@ const WallCardButtons = ({ post }) => {
             {post?.isSaved ? (
               <Check className="h-4 w-4 " />
             ) : (
-              <CornerUpRight className="md:ml-1 h-4 w-4" />
+              <CornerUpLeft className="h-4 w-4" />
             )}
           </Button>
           <AnimatePresence>
             {saveEffect && (
               <motion.div
-                className="absolute -top-4 left-2 text-sm dark:bg-green-900 text-green-900 dark:text-white  bg-green-100 rounded-lg shadow-2xl p-2"
+                className="absolute -top-4 left-2 text-sm dark:bg-green-900 text-black dark:text-white  bg-green-100 rounded-lg shadow-2xl p-2"
                 initial={{ opacity: 0, y: 0, rotate: 10 }}
                 animate={{ opacity: 1, y: -20, rotate: -10 }}
                 exit={{ opacity: 0, y: -60 }}

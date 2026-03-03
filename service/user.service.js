@@ -1,25 +1,5 @@
 import axiosInstance from "./url.service";
 
-// export const getAllFriendsRequest = async () => {
-//   try {
-//     const response = await axiosInstance.get("/users/friend-request");
-//     return response?.data;
-//   } catch (error) {
-//     console.log(error);
-//     throw error;
-//   }
-// };
-
-// export const getAllFriendsSuggestion = async () => {
-//   try {
-//     const response = await axiosInstance.get("/users/user-to-request");
-//     return response?.data;
-//   } catch (error) {
-//     console.log(error);
-//     throw error;
-//   }
-// };
-
 export const getAllFriendsRequest = async (page = 1, limit = 5) => {
   try {
     const response = await axiosInstance.get(

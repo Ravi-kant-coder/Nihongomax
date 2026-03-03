@@ -1,9 +1,7 @@
 import axios from "axios";
 
-const ApiUrl = "http://localhost:8080";
-
 const axiosInstance = axios.create({
-  baseURL: ApiUrl,
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   withCredentials: true,
 });
 

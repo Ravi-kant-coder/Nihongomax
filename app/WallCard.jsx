@@ -136,7 +136,7 @@ const WallCard = ({ post }) => {
         </div>
 
         {/* --------------------------Actual post content----------------------- */}
-        <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] p-2">
+        <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] p-2 mx-1 rounded-lg">
           {user?._id !== post?.user?._id ? (
             <p className="font-[450] p-4">{wrapEmojis(post?.content)}</p>
           ) : (

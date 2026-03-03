@@ -7,9 +7,9 @@ import { useBanner } from "../hooks/useBanner";
 import Banner from "../Banner";
 
 const StudyInJapan = () => {
-  const { schools, fetchSchoolsZust, loading } = useSchoolStore();
+  const { schools, fetchSchoolsZust, deleteSchoolZust, loading } =
+    useSchoolStore();
   const { banner, showBanner } = useBanner();
-  const { deleteSchoolZust } = useSchoolStore();
   const [isEditSchoolModel, setIsEditSchoolModel] = useState(false);
 
   useEffect(() => {

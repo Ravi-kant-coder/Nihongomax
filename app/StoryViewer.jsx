@@ -42,20 +42,6 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
     setVideoDuration(null);
   }, [index]);
 
-  /* ---------- Expiry ---------- */
-  useEffect(() => {
-    const expired =
-      Date.now() - new Date(story.createdAt).getTime() > 24 * 60 * 60 * 1000;
-
-    if (!expired) return;
-
-    const t = setTimeout(() => {
-      onClose();
-    }, 0);
-
-    return () => clearTimeout(t);
-  }, [story.createdAt, onClose]);
-
   /* ---------- Text & Image 5 sec timer ---------- */
   useEffect(() => {
     if (!current || current.type === "video") return;

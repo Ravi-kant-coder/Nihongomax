@@ -9,13 +9,23 @@ const WORDS = [
   { word: "TABAKO", hint: "Don't make it a habit" },
   { word: "HASAMI", hint: "Cuts paper or cloth" },
   { word: "HIKOKI", hint: "Flies in the sky" },
-  { word: "NOBITA", hint: "Dearest Friend of Doraemon" },
+  { word: "NOBITA", hint: "Dearest Friend of Doremon" },
   { word: "YAMADA", hint: "Very Common name of Japanese" },
+  { word: "TANAKA", hint: "Very Common name of Japanese" },
   { word: "SENSEI", hint: "A teacher or instructor" },
   { word: "ARUKOU", hint: "Short form of Arukimasho" },
   { word: "GINKOU", hint: "You save money here" },
   { word: "OKAERI", hint: "Greeting saying welcome home" },
   { word: "TAMAGO", hint: "Full of essential nutrients" },
+  { word: "KIMONO", hint: "Traditional Elegant Japanese dress for women" },
+  { word: "DENSHA", hint: "You travel long distance in it" },
+  { word: "HAYAKU", hint: "FAST in Japanese" },
+  { word: "ZENZEN", hint: "Used when we say - not at all" },
+  { word: "TAKSHI", hint: "Think what is Taxi in Katakana" },
+  {
+    word: "SHICHI",
+    hint: "Count One to Ten in Japanese. What number is it?",
+  },
 ];
 
 const WORD_LENGTH = 6;
