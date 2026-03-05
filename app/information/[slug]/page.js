@@ -1,51 +1,40 @@
-import Link from "next/link";
+import axios from "axios";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export const revalidate = 60;
+/* ---------------- FETCH BLOG ---------------- */
 
-// Optimize Cloudinary image
-function optimizeImage(url, width = 900) {
-  if (!url || !url.includes("upload/")) return url;
-  return url.replace("upload/", `upload/q_auto,f_auto,w_${width}/`);
-}
-
-// Fetch single blog
 async function getBlog(slug) {
-  if (!slug) return null;
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${slug}`,
-    { next: { revalidate: 60 } },
-  );
-
-  if (!res.ok) return null;
-
-  const json = await res.json();
-  const blog = json?.data;
-
-  if (!blog || typeof blog !== "object") return null;
-
-  return blog;
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/${slug}`,
+    );
+    console.log(res.data?.data);
+    return res.data?.data || null;
+  } catch (error) {
+    return null;
+  }
 }
 
-// Fetch all blogs
+/* ---------------- FETCH ALL BLOGS ---------------- */
+
 async function getAllBlogs() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`, {
-    next: { revalidate: 60 },
-  });
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs`,
+    );
 
-  if (!res.ok) return [];
-
-  const json = await res.json();
-  const blogs = json?.data;
-
-  if (!Array.isArray(blogs)) return [];
-
-  return blogs;
+    return res.data?.data || [];
+  } catch (error) {
+    return [];
+  }
 }
 
-// Pre-build static params
+/* ---------------- STATIC PARAMS (IMPORTANT) ---------------- */
+
 export async function generateStaticParams() {
   const blogs = await getAllBlogs();
 
@@ -54,14 +43,16 @@ export async function generateStaticParams() {
   }));
 }
 
-// Dynamic Metadata
+/* ---------------- SEO METADATA ---------------- */
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+
   const blog = await getBlog(slug);
 
   if (!blog) {
     return {
-      title: "Blog not found | NihongoMax",
+      title: "Blog not found",
     };
   }
 
@@ -72,94 +63,109 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// Page
+/* ---------------- CLOUDINARY OPTIMIZATION ---------------- */
+
+function optimizeImage(url, width = 900) {
+  if (!url || typeof url !== "string") return url;
+
+  if (!url.includes("upload/")) return url;
+
+  return url.replace("upload/", `upload/q_auto,f_auto,w_${width}/`);
+}
+
+/* ---------------- AUTO INTERNAL LINKING ---------------- */
+
+function autoLinkContent(content, blogs, currentSlug) {
+  if (!content) return content;
+
+  let updatedContent = content;
+
+  blogs.forEach((blog) => {
+    if (!blog?.title || !blog?.slug) return;
+    if (blog.slug === currentSlug) return;
+
+    const regex = new RegExp(`\\b${blog.title}\\b`, "gi");
+
+    updatedContent = updatedContent.replace(
+      regex,
+      `[${blog.title}](/information/${blog.slug})`,
+    );
+  });
+
+  return updatedContent;
+}
+
+/* ---------------- PAGE ---------------- */
+
 export default async function BlogPage({ params }) {
   const { slug } = await params;
 
   const blog = await getBlog(slug);
+  const blogs = await getAllBlogs();
+
   if (!blog) return notFound();
 
-  const allBlogs = await getAllBlogs();
-  const relatedBlogs = allBlogs.filter((b) => b.slug !== blog.slug);
+  const relatedBlogs = blogs.filter((b) => b.slug !== slug).slice(0, 5);
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: blog.title,
-    description: blog.metaDescription,
-    author: {
-      "@type": "Organization",
-      name: "NihongoMax",
-      url: "https://www.nihongomax.com",
-    },
-    datePublished: blog.createdAt,
-  };
+  const linkedContent = autoLinkContent(blog.content, blogs, slug);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-10 px-6 lg:px-10 py-10">
-      <article className="flex-1 max-w-4xl space-y-10">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData),
-          }}
-        />
+    <div className="max-w-7xl mx-auto px-4 py-10">
+      <h1 className="text-5xl font-bold mb-4 dark:text-gray-400 text-gray-700">
+        {blog.title}
+      </h1>
+      <div className="lg:grid lg:grid-cols-4 lg:gap-12">
+        <article className="lg:col-span-3">
+          {blog?.featuredImage?.url && (
+            <div className="float-left w-full sm:w-[45%] mr-6 mb-2">
+              <Image
+                src={optimizeImage(blog.featuredImage.url)}
+                alt={blog.title}
+                width={800}
+                height={500}
+                className="rounded-xl object-cover w-full h-auto"
+                priority
+              />
+            </div>
+          )}
+          <div className="prose prose-lg dark:prose-invert max-w-none">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                a: ({ node, ...props }) => (
+                  <a {...props} target="_blank" rel="noopener noreferrer" />
+                ),
+              }}
+            >
+              {linkedContent}
+            </ReactMarkdown>
+          </div>
+          <div className="clear-both"></div>
+        </article>
 
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-300 text-center">
-          {blog.title}
-        </h1>
-        {[1, 2, 3].map((num, index) => {
-          const image = blog.uploadedMedia?.[index];
-          const heading = blog[`segment${num}Heading`];
-          const text = blog[`segment${num}Text`];
-
-          if (!heading || !text || !image) return null;
-
-          return (
-            <section key={num} className="mb-10">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-300">
-                {heading}
-              </h2>
-
-              <div className="text-lg text-gray-700 dark:text-gray-400">
-                <div className="float-left w-full md:w-[30%] mr-4">
-                  <Image
-                    src={optimizeImage(image.url, 600)}
-                    alt={heading}
-                    width={600}
-                    height={400}
-                    sizes="(max-width: 640px) 100vw, 30vw"
-                    className="rounded-lg object-cover w-full h-auto"
-                    priority={num === 1}
-                  />
-                </div>
-                <p className="whitespace-pre-line">{text}</p>
-                {/* Clear float after section */}
-                <div className="clear-both" />
-              </div>
-            </section>
-          );
-        })}
-      </article>
-
-      <aside className="w-full lg:w-72">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-600 dark:text-gray-400">
-          You may also like:
-        </h2>
-
-        <div className="space-y-3">
+        <aside className="space-y-4">
+          <h3 className="text-xl font-semibold">You may also like:</h3>
           {relatedBlogs.map((item) => (
-            <Link key={item._id} href={`/information/${item.slug}`}>
-              <div
-                className="bg-gray-200 dark:bg-[rgb(60,60,60)] rounded-md p-3 hover:bg-white dark:hover:bg-[rgb(70,70,70)] cursor-pointer 
-              text-sm text-gray-800 dark:text-gray-300 mb-2"
-              >
-                {item.title}
+            <Link
+              key={item._id}
+              href={`/information/${item.slug}`}
+              className="flex justify-start items-center bg-gray-100 hover:bg-white dark:hover:bg-gray-800 rounded-lg dark:bg-black"
+            >
+              <div className="w-10 h-10 m-2 rounded-full flex-shrink-0">
+                <Image
+                  src={optimizeImage(item.featuredImage.url)}
+                  alt={blog.title}
+                  width={100}
+                  height={100}
+                  className="rounded-full object-cover w-10 h-10"
+                  priority
+                />
               </div>
+              <h4>{item.title}</h4>
             </Link>
           ))}
-        </div>
-      </aside>
+        </aside>
+      </div>
     </div>
   );
 }

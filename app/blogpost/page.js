@@ -1,4 +1,5 @@
 "use client";
+
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,34 +9,19 @@ import { useRouter } from "next/navigation";
 
 /* ---------------- VALIDATION ---------------- */
 
-const paragraphSchema = yup
-  .string()
-  .required("Required")
-  .test("min-words", "Must be btwn 200-300", (value) => {
-    if (!value) return false;
-    const wordCount = value.trim().split(/\s+/).length;
-    return wordCount >= 200;
-  })
-  .test("max-words", "Must not exceed 300 words", (value) => {
-    if (!value) return false;
-    const wordCount = value.trim().split(/\s+/).length;
-    return wordCount <= 300;
-  });
-
 const schema = yup.object().shape({
-  title: yup.string().required(),
+  title: yup.string().required("Title is required"),
   metaTitle: yup.string(),
   metaDescription: yup.string(),
   keywords: yup.string(),
-
-  segment1Heading: yup.string().required(),
-  segment1Text: paragraphSchema,
-
-  segment2Heading: yup.string().required(),
-  segment2Text: paragraphSchema,
-
-  segment3Heading: yup.string().required(),
-  segment3Text: paragraphSchema,
+  content: yup
+    .string()
+    .required("Content is required")
+    .test("word-count", "Content should be at least 500 words", (value) => {
+      if (!value) return false;
+      const words = value.trim().split(/\s+/);
+      return words.length >= 500;
+    }),
 });
 
 /* ---------------- COMPONENT ---------------- */
@@ -43,14 +29,8 @@ const schema = yup.object().shape({
 export default function CreateBlogPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
-  const [imagePreview1, setImagePreview1] = useState(null);
-  const [imagePreview2, setImagePreview2] = useState(null);
-  const [imagePreview3, setImagePreview3] = useState(null);
-
-  const [image1, setImage1] = useState(null);
-  const [image2, setImage2] = useState(null);
-  const [image3, setImage3] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [featuredImage, setFeaturedImage] = useState(null);
 
   const {
     register,
@@ -62,9 +42,19 @@ export default function CreateBlogPage() {
     mode: "onChange",
   });
 
-  const segment1Text = watch("segment1Text", "");
-  const segment2Text = watch("segment2Text", "");
-  const segment3Text = watch("segment3Text", "");
+  /* ---------------- WATCH VALUES ---------------- */
+
+  const contentValue = watch("content", "");
+  const metaTitleValue = watch("metaTitle", "");
+  const metaDescValue = watch("metaDescription", "");
+  const keywordsValue = watch("keywords", "");
+
+  /* ---------------- HELPERS ---------------- */
+
+  const countWords = (text) => {
+    if (!text) return 0;
+    return text.trim().split(/\s+/).filter(Boolean).length;
+  };
 
   const generateSlug = (text) =>
     text
@@ -73,13 +63,26 @@ export default function CreateBlogPage() {
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-");
 
-  const handleImagePreview = (e, previewSetter, fileSetter) => {
+  const handleImagePreview = (e) => {
     const file = e.target.files[0];
     if (file) {
-      previewSetter(URL.createObjectURL(file));
-      fileSetter(file);
+      setImagePreview(URL.createObjectURL(file));
+      setFeaturedImage(file);
     }
   };
+
+  const metaDescLength = metaDescValue.length;
+
+  const metaDescColor =
+    metaDescLength === 0
+      ? "text-gray-600 dark:text-gray-400"
+      : metaDescLength < 140
+        ? "text-red-600"
+        : metaDescLength <= 160
+          ? "text-green-700 dark:text-green-500"
+          : "text-red-600";
+
+  /* ---------------- SUBMIT ---------------- */
 
   const onSubmit = async (data) => {
     try {
@@ -94,12 +97,12 @@ export default function CreateBlogPage() {
 
       formData.append("slug", slug);
 
-      if (image1) formData.append("media", image1);
-      if (image2) formData.append("media", image2);
-      if (image3) formData.append("media", image3);
+      if (featuredImage) {
+        formData.append("featuredImage", featuredImage);
+      }
 
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/admin`,
         formData,
         {
           withCredentials: true,
@@ -109,7 +112,7 @@ export default function CreateBlogPage() {
         },
       );
 
-      alert("Blog is Posted!");
+      alert("Blog Published!");
       router.push("/information");
     } catch (err) {
       console.error(err);
@@ -119,137 +122,133 @@ export default function CreateBlogPage() {
     }
   };
 
+  /* ---------------- UI ---------------- */
+
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 space-y-10">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
-        <input
-          {...register("title")}
-          placeholder="Blog Title"
-          className="w-full p-2 text-2xl font-semibold border dark:border-gray-500 border-gray-400 rounded-lg"
-        />
-
-        {/* SEGMENT 1 */}
-        <section className="space-y-4 flex flex-col">
-          <div className="flex items-center justify-center">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                handleImagePreview(e, setImagePreview1, setImage1)
-              }
-              className="border dark:border-gray-500 border-gray-400 rounded p-2 w-30 h-30 cursor-pointer"
-            />
-            {imagePreview1 && (
-              <img
-                src={imagePreview1}
-                alt="preview"
-                className="w-full max-h-[400px] object-contain"
-              />
-            )}
-          </div>
-
+    <div className="max-w-6xl mx-auto px-6 py-10">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-20">
+        {/* TITLE */}
+        <div>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+            Main blog Title. Include your primary keyword naturally.
+          </p>
           <input
-            {...register("segment1Heading")}
-            placeholder="Para 1 Heading"
-            className="text-xl font-semibold border dark:border-gray-500 border-gray-400 rounded p-2"
+            {...register("title")}
+            placeholder="Blog Title"
+            className="w-full p-3 text-2xl font-semibold border border-gray-400 rounded-lg"
           />
+          <p className="text-red-600 text-sm">{errors.title?.message}</p>
+        </div>
+
+        {/* FEATURED IMAGE */}
+        <div>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+            Image Required (Recommended: High quality landscape).
+          </p>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImagePreview}
+            className="border rounded p-2 cursor-pointer border-gray-400 hover:bg-gray-400 dark:hover:bg-gray-800"
+          />
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="preview"
+              className="w-full max-h-[400px] object-contain mt-2"
+            />
+          )}
+        </div>
+
+        {/* META TITLE */}
+        <div>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+            SEO Title (50–60 characters). Put main keyword first. Example: Title
+            keyword | Nihongomax
+          </p>
+          <input
+            {...register("metaTitle")}
+            placeholder="Meta Title"
+            className="w-full p-2 border rounded border-gray-400"
+          />
+          <p className="text-xs text-gray-600 dark:text-gray-400">
+            Characters now: {metaTitleValue.length} (Ideal: 50–60)
+          </p>
+        </div>
+
+        {/* META DESCRIPTION */}
+        <div>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+            SEO Description (140–160 characters). Show clear benefit. Less
+            keyword stuffing. Natural flow.
+          </p>
+          <textarea
+            {...register("metaDescription")}
+            placeholder="Meta Description"
+            className="w-full p-2 border rounded h-20 border-gray-400"
+          />
+          <p className={`text-sm  ${metaDescColor}`}>
+            Characters: {metaDescValue.length}
+          </p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            {" "}
+            Ideal: 140–160
+          </p>
+        </div>
+
+        {/* KEYWORDS */}
+        <div>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+            4–8 related keywords. Comma separated. Think Yourself: "What would
+            someone type in Google?"
+          </p>
+          <input
+            {...register("keywords")}
+            placeholder="keyword1, keyword2, keyword3"
+            className="w-full p-2 border rounded border-gray-400"
+          />
+          <p className="text-xs text-gray-500">
+            Total Keywords:{" "}
+            {keywordsValue
+              ? keywordsValue.split(",").filter((k) => k.trim()).length
+              : 0}
+          </p>
+        </div>
+
+        {/* CONTENT */}
+        <div>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+            Write your full paragraph using these symbols in between for:
+            <br />
+            For Headings: # for Big heading, ## for sub-heading
+            <br />
+            For Bold: **text**
+            <br />
+            Make 3-4 Links like: [The target words](https://google.com)
+            <br />
+            List with round Bullets: - item
+            <br />
+            Enter starts a new paragraph
+          </p>
 
           <textarea
-            {...register("segment1Text")}
-            placeholder="Paragraph 1"
-            className="input h-40 border dark:border-gray-500 border-gray-400 rounded p-2"
+            {...register("content")}
+            placeholder="Write your full blog here using Above rules"
+            className="w-full h-[500px] p-4 border rounded-md font-mono text-sm border-gray-400"
           />
 
-          <span className="text-red-800 text-sm">
-            {segment1Text.trim().split(/\s+/).length} &nbsp;
-            {errors.segment1Text?.message}
-          </span>
-        </section>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Word Count: {countWords(contentValue)} (Required 1000 to 1400 words)
+          </p>
+        </div>
 
-        {/* SEGMENT 2 */}
-        <section className="space-y-4 flex flex-col">
-          <div className="flex items-center justify-center">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                handleImagePreview(e, setImagePreview2, setImage2)
-              }
-              className="border dark:border-gray-500 border-gray-400 rounded p-2 w-30 h-30 cursor-pointer"
-            />
-
-            {imagePreview2 && (
-              <img
-                src={imagePreview2}
-                alt="preview"
-                className="w-full max-h-[400px] object-contain"
-              />
-            )}
-          </div>
-
-          <input
-            {...register("segment2Heading")}
-            placeholder="Paragraph 2 Heading"
-            className="text-xl font-semibold border dark:border-gray-500 border-gray-400 rounded p-2"
-          />
-
-          <textarea
-            {...register("segment2Text")}
-            placeholder="Paragraph 2"
-            className="input h-40 border dark:border-gray-500 border-gray-400 rounded p-2"
-          />
-
-          <span className="text-red-800 text-sm">
-            {segment2Text.trim().split(/\s+/).length} &nbsp;
-            {errors.segment2Text?.message}
-          </span>
-        </section>
-
-        {/* SEGMENT 3 */}
-        <section className="space-y-4 flex flex-col">
-          <div className="flex items-center justify-center">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                handleImagePreview(e, setImagePreview3, setImage3)
-              }
-              className="border dark:border-gray-500 border-gray-400 rounded p-2 w-30 h-30 cursor-pointer"
-            />
-
-            {imagePreview3 && (
-              <img
-                src={imagePreview3}
-                alt="preview"
-                className="w-full max-h-[400px] object-contain"
-              />
-            )}
-          </div>
-
-          <input
-            {...register("segment3Heading")}
-            placeholder="Paragraph 3 Heading"
-            className="text-xl font-semibold border dark:border-gray-500 border-gray-400 rounded p-2"
-          />
-
-          <textarea
-            {...register("segment3Text")}
-            placeholder="Paragraph 3"
-            className="input h-40 border dark:border-gray-500 border-gray-400 rounded p-2"
-          />
-          <span className="text-red-800 text-sm">
-            {segment3Text.trim().split(/\s+/).length} &nbsp;
-            {errors.segment3Text?.message}
-          </span>
-        </section>
-
+        {/* SUBMIT */}
         <button
           type="submit"
           disabled={!isValid || loading}
-          className="bg-gray-800 text-white px-6 py-3 rounded-md disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer hover:bg-black
-           dark:bg-gray-500 hover:dark:bg-gray-300"
+          className="bg-black text-white px-6 py-3 rounded-md disabled:opacity-50"
         >
-          {loading ? "Creating..." : "Publish Blog"}
+          {loading ? "Publishing..." : "Publish Blog"}
         </button>
       </form>
     </div>
