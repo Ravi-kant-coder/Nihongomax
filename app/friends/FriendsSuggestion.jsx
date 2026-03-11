@@ -3,11 +3,13 @@ import { UserPlus } from "lucide-react";
 import Spinner from "../Spinner";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import useT from "../hooks/useT";
 
 const FriendSuggestion = ({ friend, onAction }) => {
   if (!friend) return null;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const t = useT();
 
   const handleDpClick = () => {
     startTransition(() => {
@@ -44,7 +46,7 @@ const FriendSuggestion = ({ friend, onAction }) => {
       </h3>
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">
         {friend?.followerCount}{" "}
-        {friend?.followerCount === 1 ? "Friend" : "Friends"}
+        {friend?.followerCount === 1 ? t("friend") : t("friends")}
       </p>
       <div className="w-full space-y-2">
         <button
@@ -52,7 +54,8 @@ const FriendSuggestion = ({ friend, onAction }) => {
             rounded-sm flex items-center justify-center text-white font-medium transition-colors duration-200"
           onClick={() => onAction("confirm", friend?._id)}
         >
-          <UserPlus className="h-4 w-4 mr-2" /> Send Request
+          <UserPlus className="h-4 w-4 mr-2" />
+          {t("sendReq")}
         </button>
       </div>
       {isPending && (

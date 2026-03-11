@@ -5,10 +5,12 @@ import FriendRequestCard from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";
 import { userFriendStore } from "@/store/userFriendsStore";
 import ScrollupBtn from "../ScrollupBtn";
+import useT from "../hooks/useT";
 
 const Page = () => {
   const [requestPage, setRequestPage] = useState(1);
   const [suggestionPage, setSuggestionPage] = useState(1);
+  const t = useT();
   const {
     followUser,
     loading,
@@ -81,12 +83,12 @@ const Page = () => {
               className="cursor-pointer hover:bg-gray-100 rounded-md mt-10 py-1 px-50 border-white border-2 dark:border-gray-500 dark:hover:bg-black
               dark:text-gray-300"
             >
-              Show more...
+              {t("showMore")}
             </p>
           </div>
         )}
         {/* --------------------------------Friend Suggestions----------------------------- */}
-        <h1 className="text-2xl font-semibold my-6">People you may know</h1>
+        <h1 className="text-2xl font-semibold my-6">{t("discover")}</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {loading ? (
             <FriendCardSkeleton />
@@ -111,10 +113,10 @@ const Page = () => {
                 setSuggestionPage(nextPage);
                 fetchFriendSuggestion(nextPage);
               }}
-              className="cursor-pointer hover:bg-gray-100 rounded-md mt-10 py-1 px-50 border-white border-2 dark:border-gray-500 dark:hover:bg-black 
-              dark:text-gray-300"
+              className="cursor-pointer hover:bg-gray-400 rounded-md mt-10 py-1 px-50 bg-white dark:hover:bg-black 
+              dark:text-gray-300 font-[450]"
             >
-              Show more...
+              {t("showMore")}
             </p>
           </div>
         )}

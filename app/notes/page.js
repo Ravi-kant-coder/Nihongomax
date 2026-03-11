@@ -47,7 +47,7 @@ const Notes = () => {
             id="note"
             type="text"
             className="bg-white dark:bg-[rgb(10,10,10)] "
-            placeholder="Type and Enter..."
+            placeholder={`${t("typeEnt")}`}
             disabled={isPending}
             autoFocus
             onChange={(e) => setInitialNote(e.target.value)}
@@ -92,15 +92,16 @@ const Notes = () => {
           <br />
           Start now!
           <br />
-          <p className="mt-4"> 頑張ってね。応援しています！</p>
-          <p className="text-lg"> (All the best. We are with you)</p>
+          <p className="mt-4">
+            {" "}
+            ノート作成しながら頑張りましょう。応援しています！
+          </p>
         </h2>
       ) : (
         userNotes?.map((note) => (
           <Note key={note?._id} initialNote={note.text} note={note} />
         ))
       )}
-
       {/* ----------------------Saved posts--------------------------- */}
       <div className="mt-12 mb-4 max-w-[40vw] mx-auto">
         {savedPosts.length === 0 ? (

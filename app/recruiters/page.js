@@ -136,9 +136,9 @@ const Recruiters = () => {
                   href={`https://learnjapanesedelhi.com`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-800 dark:text-blue-500 hover:underline break-all"
+                  className="text-blue-800 dark:text-blue-400 hover:underline break-all"
                 >
-                  learnjapanesedelhi.com
+                  www.learnjapanesedelhi.com
                 </a>
               </div>
               <div className="items-center text-sm">

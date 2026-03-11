@@ -20,12 +20,14 @@ import { usePostStore } from "@/store/usePostStore";
 import { FriendCardSkeleton, NoFriendsMessage } from "@/lib/Skeleten";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
 import WallCard from "../../WallCard";
+import useT from "@/app/hooks/useT";
 
 const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
   const [isEditBioModel, setIsEditBioModel] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [likePosts, setLikePosts] = useState(new Set());
+  const t = useT();
   const {
     userPosts,
     fetchUserPost,
@@ -68,7 +70,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
   };
   return (
     <div className="flex flex-col md:flex-row gap-6 mx-auto px-4 md:px-0 mt-8 justify-center lg:w-[60vw] md:w-[80vw]">
-      <div className="w-full md:w-[60%] space-x-0 space-y-6 mb-4">
+      <div className="w-full md:w-[70%] space-x-0 space-y-6 mb-4">
         {/*------------------------------Details About You-----------------------------*/}
         <Card>
           <CardContent
@@ -77,7 +79,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
           >
             <h2 className="text-xl font-semibold dark:text-gray-300 capitalize">
               {isOwner ? "Your" : `${profileData?.username?.split(" ")[0]}'s`}{" "}
-              Introduction
+              {t("intro")}
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               {profileData?.bio?.bioText}
@@ -86,77 +88,77 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <GraduationCap className="w-5 h-5 mr-1 shrink-0" />
-                  Education:
+                  {t("education")}:
                 </div>
                 <span className="ml-2">
                   {profileData?.bio?.liveIn || (
-                    <p className="text-gray-500">Not mentioned</p>
+                    <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
                 </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <Languages className="w-5 h-5 mr-1 shrink-0" />
-                  JLPT/NAT cleared:
+                  JLPT/NAT {t("cleared")}:
                 </div>
                 <span className="ml-2">
                   {profileData?.bio?.relationship || (
-                    <p className="text-gray-500">Not mentioned</p>
+                    <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
                 </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <MapPin className="w-5 h-5 mr-1 shrink-0" />
-                  Work Place:
+                  {t("workPlace")}:
                 </div>
                 <span className="ml-2">
                   {profileData?.bio?.workplace || (
-                    <p className="text-gray-500">Not mentioned</p>
+                    <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
                 </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <Briefcase className="w-5 h-5 mr-1 shrink-0" />
-                  Work Experience:
+                  {t("workEx")}:
                 </div>
                 <span className="ml-2">
                   {profileData?.bio?.education || (
-                    <p className="text-gray-500">Not mentioned</p>
+                    <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
                 </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <BookOpenCheck className="w-5 h-5 mr-1 shrink-0" />
-                  Certifications:
+                  {t("certi")}:
                 </div>
                 <span className="ml-2">
                   {profileData?.bio?.hometown || (
-                    <p className="text-gray-500">Not mentioned</p>
+                    <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
                 </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <Plane className="w-5 h-5 mr-1 shrink-0" />
-                  Japan Experience:
+                  {t("japEx")}:
                 </div>
                 <span className="ml-2">
                   {profileData?.bio?.birthday || (
-                    <p className="text-gray-500">Not mentioned</p>
+                    <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
                 </span>
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center font-semibold">
                   <BookHeart className="w-5 h-5 mr-1 shrink-0" />
-                  About Me:
+                  {t("aboutMe")}:
                 </div>
                 <span className="ml-2">
                   {profileData?.bio?.address || (
-                    <p className="text-gray-500">Not mentioned</p>
+                    <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
                 </span>
               </div>
@@ -164,34 +166,34 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             <div className="flex items-center justify-center my-4">
               <span className="w-[30%] border-t border-muted-foreground"></span>
               <span className="uppercase w-[40%] text-center text-sm text-gray-500 mx-auto">
-                personal information
+                {t("personal")}
               </span>
               <span className="w-[30%] border-t border-muted-foreground"></span>
             </div>
             <div className="flex items-center mt-2">
               <Mail className="w-5 h-5 mr-2 shrink-0" />
-              Email:
+              {t("email")}:
               <span className="ml-2">
                 {profileData?.email || (
-                  <p className="text-gray-500">Not disclosed</p>
+                  <p className="text-gray-500">{t("notMentioned")}</p>
                 )}
               </span>
             </div>
             <div className="flex items-center">
               <Phone className="w-5 h-5 mr-2 shrink-0" />
-              Nationality:
+              {t("nationality")}:
               <span className="ml-2">
                 {" "}
                 {profileData?.bio?.nationality || (
-                  <p className="text-gray-500">Not disclosed</p>
+                  <p className="text-gray-500">{t("notMentioned")}</p>
                 )}
               </span>
             </div>
             <div className="flex items-center mb-4 dark:text-gray-300">
               <Rss className="w-5 h-5 mr-2 shrink-0" />
               <span>
-                Followed by {profileData?.followerCount}{" "}
-                {profileData?.followerCount === 1 ? "person" : "people"}
+                {t("followedBy")} {profileData?.followerCount}{" "}
+                {profileData?.followerCount === 1 ? "person" : t("people")}
               </span>
             </div>
             {isOwner && (
@@ -200,7 +202,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   dark:hover:text-white hover:dark:bg-gray-800"
                 onClick={() => setIsEditBioModel(true)}
               >
-                Edit/Add
+                {t("editAdd")}
               </Button>
             )}
           </CardContent>
@@ -214,7 +216,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
               Photos by{" "}
               {isOwner ? (
-                "you"
+                t("you")
               ) : (
                 <span className="capitalize">
                   {profileData?.username?.split(" ")[0]}
@@ -225,7 +227,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
               {userPosts?.filter(
                 (post) => post?.mediaType === "image" && post?.mediaUrl,
               ).length === 0 ? (
-                <PicsSkeleton text="No Photos" />
+                <PicsSkeleton text={t("noPhoto")} />
               ) : (
                 userPosts
                   ?.filter(
@@ -252,17 +254,17 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             className="bg-white dark:bg-[rgb(55,55,55)] rounded-t-lg 
           mb-2 p-2 font-[450] text-center text-lg capitalize"
           >
-            Posts by {isOwner ? "You" : `${profileData?.username}`}
+            Posts by {isOwner ? t("you") : `${profileData?.username}`}
           </div>
         )}
         {loading ? (
           <FriendCardSkeleton />
         ) : userPosts.length === 0 ? (
           <NoFriendsMessage
-            text="No Questions or Pics"
+            text={t("noQuesPhoto")}
             description={
               <>
-                Why not put questions on{" "}
+                Why not put on{" "}
                 <HomeIcon className="inline-block w-5 h-5 align-text-top" />{" "}
                 wall?
               </>

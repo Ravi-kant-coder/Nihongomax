@@ -109,7 +109,10 @@ const SchoolsInJapan = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                www.japaneseschool.com
+                <span className="text-blue-800 dark:text-blue-400">
+                  {" "}
+                  www.japaneseschool.com
+                </span>
               </a>
             </div>
             <div className="flex items-center text-sm">

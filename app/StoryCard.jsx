@@ -131,8 +131,9 @@ const StoryCard = ({ story }) => {
                 truncate absolute bottom-1 left-1 md:max-w-25 hover:underline cursor-pointer"
               onClick={handleStoryUsernameClick}
             >
-              By{" "}
-              {user?._id === story?.user?._id ? "you" : story?.user?.username}
+              {user?._id === story?.user?._id
+                ? t("you")
+                : story?.user?.username}
             </p>
           </>
         </CardContent>
@@ -163,7 +164,10 @@ const StoryCard = ({ story }) => {
       </motion.div>
       {/* ------------------------Spinner-------------------------- */}
       {isPending && (
-        <div className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm z-9999 transition-opacity duration-300 opacity-100">
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm z-9999 transition-opacity 
+        duration-300 opacity-100"
+        >
           <Spinner />
         </div>
       )}

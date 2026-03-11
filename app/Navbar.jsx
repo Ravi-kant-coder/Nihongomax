@@ -12,7 +12,6 @@ import { userFriendStore } from "@/store/userFriendsStore";
 import {
   Home,
   Users,
-  Bell,
   ChartNoAxesCombined,
   TvMinimalPlay,
   Handshake,
@@ -20,11 +19,15 @@ import {
   Dices,
   BriefcaseBusiness,
   Search,
+  ArrowRight,
+  Send,
+  Car,
 } from "lucide-react";
 import UserMenu from "./UserMenu";
 import Spinner from "./Spinner";
 import { Input } from "@/components/ui/input";
 import LangToggleBtn from "./LangToggleBtn";
+import useT from "./hooks/useT";
 
 const Navbar = () => {
   const router = useRouter();
@@ -41,6 +44,7 @@ const Navbar = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const pathname = usePathname();
   const { friendRequest, fetchFriendRequest } = userFriendStore();
+  const t = useT();
 
   useEffect(() => {
     fetchFriendRequest();
@@ -151,10 +155,7 @@ const Navbar = () => {
   });
 
   return (
-    <header
-      className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 
-    left-0 right-0 z-50 p-2 lg:mx-auto flex items-center  justify-between"
-    >
+    <header className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center justify-between">
       <div className="hidden md:block">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
@@ -176,7 +177,7 @@ const Navbar = () => {
                   <Input
                     className="pl-8 cursor-pointer w-full dark:bg-[rgb(75,75,75)] bg-white
                     rounded-full"
-                    placeholder="Search Friends..."
+                    placeholder={`${t("search")}`}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -218,7 +219,7 @@ const Navbar = () => {
                             ))
                           ) : (
                             <div className="p-2 text-gray-700">
-                              No results found
+                              {t("noResults")}
                             </div>
                           )}
                         </div>
@@ -231,16 +232,22 @@ const Navbar = () => {
           </div>
 
           {/* -----------------------Institute website Link--------------------------   */}
+          <div>
+            <a href="https://www.learnjapanesedelhi.com/" target="_blank">
+              <div
+                className="relative overflow-hidden text-sm hidden md:flex items-center bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]
+              hover:bg-black md:p-2 p-1 text-white dark:hover:bg-[rgb(35,35,35)] rounded"
+              >
+                <Car
+                  size={20}
+                  className="absolute top-5 jet-animation"
+                  fill="green"
+                />
 
-          <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
-            <div
-              className="text-sm hidden md:block rounded bg-[rgb(60,60,60)] 
-            dark:bg-[rgb(55,55,55)]  hover:bg-black md:p-2 p-1 text-white 
-            dark:hover:bg-[rgb(35,35,35)]"
-            >
-              <h1>Visit Nihongomax</h1>
-            </div>
-          </a>
+                <h1 className="relative z-10">{t("visit")} Nihongomax</h1>
+              </div>
+            </a>
+          </div>
           {/* -----------------------(Mobile)---------------   */}
 
           <div className="md:hidden flex items-center justify-center">

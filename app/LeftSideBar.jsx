@@ -128,7 +128,7 @@ const LeftSideBar = () => {
             {
               id: 3,
               label: <p>{t("blogs")}</p>,
-              navPath: "/information",
+              navPath: "/blogs",
               icon: BriefcaseBusiness,
             },
             {

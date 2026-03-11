@@ -308,6 +308,19 @@ body {
   }
 }
 
+@keyframes jetFly {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(800%);
+  }
+}
+
+.jet-animation {
+  animation: jetFly 3s linear infinite;
+}
+
 .cursor {
   width: 2px;
   height: 24px;
@@ -357,7 +370,7 @@ body {
 
 .dark .prose h1 {
   font-size: 2rem;
-  color: #9a9a9a;
+  color: #e4e4e4;
 }
 
 .dark .prose p {

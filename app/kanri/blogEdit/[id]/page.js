@@ -4,45 +4,134 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+
+/* ---------------- HELPERS ---------------- */
+
+const countWords = (text) => {
+  if (!text) return 0;
+  return text.trim().split(/\s+/).filter(Boolean).length;
+};
 
 /* ---------------- VALIDATION ---------------- */
 
 const schema = yup.object().shape({
-  title: yup.string().required("Title is required"),
-  metaTitle: yup.string(),
-  metaDescription: yup.string(),
-  keywords: yup.string(),
+  title: yup
+    .string()
+    .required("Title is required")
+    .min(10, "Title should be at least 10 characters")
+    .max(70, "Title should not exceed 70 characters"),
+
+  metaTitle: yup
+    .string()
+    .required("Meta title required")
+    .min(50, "Meta title should be at least 50 characters")
+    .max(60, "Meta title should not exceed 60 characters"),
+
+  metaDescription: yup
+    .string()
+    .required("Meta description required")
+    .min(140, "Meta description should be at least 140 characters")
+    .max(160, "Meta description should not exceed 160 characters"),
+
+  keywords: yup.string().required("Keywords required"),
+
   content: yup
     .string()
     .required("Content is required")
-    .test("word-count", "Content should be at least 500 words", (value) => {
-      if (!value) return false;
-      const words = value.trim().split(/\s+/);
-      return words.length >= 500;
-    }),
+    .test(
+      "word-count",
+      "Content should be between 1000 and 1400 words",
+      (value) => {
+        const words = countWords(value);
+        return words >= 1000 && words <= 1400;
+      },
+    ),
 });
 
 /* ---------------- COMPONENT ---------------- */
 
-export default function CreateBlogPage() {
+export default function EditBlogPage() {
   const router = useRouter();
+  const params = useParams();
+
+  const id = params?.id ? String(params.id) : null;
+
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [featuredImage, setFeaturedImage] = useState(null);
 
+  /* ---------------- RHF ---------------- */
+
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
+    defaultValues: {
+      title: "",
+      metaTitle: "",
+      metaDescription: "",
+      keywords: "",
+      content: "",
+    },
   });
 
-  /* ---------------- WATCH VALUES ---------------- */
+  /* --------------------------- FETCH BLOG ---------------------------- */
+
+  useEffect(() => {
+    if (!id) return;
+
+    const init = async () => {
+      try {
+        /* -------- AUTH CHECK -------- */
+
+        const authRes = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/me`,
+          { withCredentials: true },
+        );
+
+        const userId = authRes?.data?.data?.userId;
+
+        if (!userId || userId !== process.env.NEXT_PUBLIC_ADMIN_ID) {
+          router.replace("/");
+          return;
+        }
+
+        /* -------- FETCH BLOG DATA -------- */
+        const blogRes = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/admin/${id}`,
+          { withCredentials: true },
+        );
+
+        const blogData = blogRes?.data?.data || blogRes?.data;
+        console.log("Blog To Edit:", blogData);
+
+        if (!blogData) return;
+
+        setImagePreview(blogData?.featuredImage?.url || null);
+
+        reset({
+          title: blogData.title || "",
+          metaTitle: blogData.metaTitle || "",
+          metaDescription: blogData.metaDescription || "",
+          keywords: blogData.keywords || "",
+          content: blogData.content || "",
+        });
+      } catch (err) {
+        console.error("Edit Blog Error:", err);
+      }
+    };
+
+    init();
+  }, [id, reset, router]);
+
+  /* ---------------- WATCH ---------------- */
 
   const contentValue = watch("content", "");
   const metaTitleValue = watch("metaTitle", "");
@@ -50,11 +139,6 @@ export default function CreateBlogPage() {
   const keywordsValue = watch("keywords", "");
 
   /* ---------------- HELPERS ---------------- */
-
-  const countWords = (text) => {
-    if (!text) return 0;
-    return text.trim().split(/\s+/).filter(Boolean).length;
-  };
 
   const generateSlug = (text) =>
     text
@@ -65,22 +149,16 @@ export default function CreateBlogPage() {
 
   const handleImagePreview = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       setImagePreview(URL.createObjectURL(file));
       setFeaturedImage(file);
     }
   };
 
-  const metaDescLength = metaDescValue.length;
+  /* ---------------- WORD COUNT ---------------- */
 
-  const metaDescColor =
-    metaDescLength === 0
-      ? "text-gray-600 dark:text-gray-400"
-      : metaDescLength < 140
-        ? "text-red-600"
-        : metaDescLength <= 160
-          ? "text-green-700 dark:text-green-500"
-          : "text-red-600";
+  const wordCount = countWords(contentValue);
 
   /* ---------------- SUBMIT ---------------- */
 
@@ -89,6 +167,7 @@ export default function CreateBlogPage() {
       setLoading(true);
 
       const formData = new FormData();
+
       const slug = generateSlug(data.title);
 
       Object.keys(data).forEach((key) => {
@@ -101,8 +180,8 @@ export default function CreateBlogPage() {
         formData.append("featuredImage", featuredImage);
       }
 
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/admin`,
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/admin/${id}`,
         formData,
         {
           withCredentials: true,
@@ -112,8 +191,9 @@ export default function CreateBlogPage() {
         },
       );
 
-      alert("Blog Published!");
-      router.push("/information");
+      alert("Blog Updated");
+
+      router.push("/");
     } catch (err) {
       console.error(err);
       alert("Something went wrong");
@@ -127,11 +207,7 @@ export default function CreateBlogPage() {
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-20">
-        {/* TITLE */}
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-            Main blog Title. Include your primary keyword naturally.
-          </p>
           <input
             {...register("title")}
             placeholder="Blog Title"
@@ -140,17 +216,14 @@ export default function CreateBlogPage() {
           <p className="text-red-600 text-sm">{errors.title?.message}</p>
         </div>
 
-        {/* FEATURED IMAGE */}
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-            Image Required (Recommended: High quality landscape).
-          </p>
           <input
             type="file"
             accept="image/*"
             onChange={handleImagePreview}
-            className="border rounded p-2 cursor-pointer border-gray-400 hover:bg-gray-400 dark:hover:bg-gray-800"
+            className="border rounded p-2 cursor-pointer border-gray-400"
           />
+
           {imagePreview && (
             <img
               src={imagePreview}
@@ -160,95 +233,69 @@ export default function CreateBlogPage() {
           )}
         </div>
 
-        {/* META TITLE */}
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-            SEO Title (50–60 characters). Put main keyword first. Example: Title
-            keyword | Nihongomax
-          </p>
           <input
             {...register("metaTitle")}
             placeholder="Meta Title"
             className="w-full p-2 border rounded border-gray-400"
           />
-          <p className="text-xs text-gray-600 dark:text-gray-400">
-            Characters now: {metaTitleValue.length} (Ideal: 50–60)
+
+          <p className="text-sm text-gray-500">
+            Characters: {metaTitleValue.length}
           </p>
+
+          <p className="text-red-600 text-sm">{errors.metaTitle?.message}</p>
         </div>
 
-        {/* META DESCRIPTION */}
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-            SEO Description (140–160 characters). Show clear benefit. Less
-            keyword stuffing. Natural flow.
-          </p>
           <textarea
             {...register("metaDescription")}
             placeholder="Meta Description"
             className="w-full p-2 border rounded h-20 border-gray-400"
           />
-          <p className={`text-sm  ${metaDescColor}`}>
+
+          <p className="text-sm text-gray-500">
             Characters: {metaDescValue.length}
           </p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            {" "}
-            Ideal: 140–160
+
+          <p className="text-red-600 text-sm">
+            {errors.metaDescription?.message}
           </p>
         </div>
 
-        {/* KEYWORDS */}
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-            4–8 related keywords. Comma separated. Think Yourself: "What would
-            someone type in Google?"
-          </p>
           <input
             {...register("keywords")}
             placeholder="keyword1, keyword2, keyword3"
             className="w-full p-2 border rounded border-gray-400"
           />
-          <p className="text-xs text-gray-500">
-            Total Keywords:{" "}
+
+          <p className="text-sm text-gray-500">
+            Keywords:{" "}
             {keywordsValue
               ? keywordsValue.split(",").filter((k) => k.trim()).length
               : 0}
           </p>
         </div>
 
-        {/* CONTENT */}
         <div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-            Write your full paragraph using these symbols in between for:
-            <br />
-            For Headings: # for Big heading, ## for sub-heading
-            <br />
-            For Bold: **text**
-            <br />
-            Make 3-4 Links like: [The target words](https://google.com)
-            <br />
-            List with round Bullets: - item
-            <br />
-            Enter starts a new paragraph
-          </p>
-
           <textarea
             {...register("content")}
-            placeholder="Write your full blog here using Above rules"
+            placeholder="Write your blog"
             className="w-full h-[500px] p-4 border rounded-md font-mono text-sm border-gray-400"
           />
 
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Word Count: {countWords(contentValue)} (Required 1000 to 1400 words)
-          </p>
+          <p className="text-sm text-gray-600">Word Count: {wordCount}</p>
+
+          <p className="text-red-600 text-sm">{errors.content?.message}</p>
         </div>
 
-        {/* SUBMIT */}
         <button
           type="submit"
           disabled={!isValid || loading}
-          className="bg-black text-white px-6 py-3 rounded-md disabled:opacity-50"
+          className="bg-black text-white px-6 py-3 rounded-md disabled:opacity-50 cursor-pointer"
         >
-          {loading ? "Publishing..." : "Publish Blog"}
+          {loading ? "Updating..." : "Update Blog"}
         </button>
       </form>
     </div>

@@ -100,14 +100,14 @@ const WallCard = ({ post }) => {
                 onClick={() => {
                   handleSavePost(post?._id, user);
                 }}
-                className="dark:bg-black/20 cursor-pointer md:px-2 group rounded border border-gray-400 flex flex-col items-center justify-center
+                className="dark:bg-black/20 cursor-pointer md:px-2 w-15 overflow-hidden group rounded border border-gray-400 flex flex-col items-center justify-center
                 dark:hover:border-white mr-2 dark:border-gray-500 hover:border-black dark:hover:bg-black hover:bg-gray-200"
               >
                 {" "}
-                <span className="text-[10px] capitalize truncate w-10 group-hover:dark:text-white group-hover:text-black">
+                <span className="text-[10px] capitalize group-hover:dark:text-white group-hover:text-black">
                   {user?.username.split(" ")[0]}
                 </span>
-                <X className="h-5 w-6 group-hover:text-black text-gray-500 dark:text-gray-300 group-hover:dark:text-white" />
+                <X className="h-5 w-5 group-hover:text-black text-gray-500 dark:text-gray-300 group-hover:dark:text-white" />
                 <span className="text-[10px] group-hover:text-black group-hover:dark:text-white">
                   {t("unsave")}?
                 </span>
@@ -136,24 +136,20 @@ const WallCard = ({ post }) => {
         </div>
 
         {/* --------------------------Actual post content----------------------- */}
-        <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] p-2 mx-1 rounded-lg">
+        <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] mx-1 rounded-lg relative">
           {user?._id !== post?.user?._id ? (
             <p className="font-[450] p-4">{wrapEmojis(post?.content)}</p>
           ) : (
-            <div className="p-2">
-              <PostContentEdit
-                post={post}
-                postId={post._id}
-                initialContent={post?.content}
-                handlePostDelete={handlePostDelete}
-              />
-            </div>
+            <PostContentEdit
+              post={post}
+              postId={post._id}
+              initialContent={post?.content}
+              handlePostDelete={handlePostDelete}
+            />
           )}
-          {post.contentUpdatedAt && (
-            <span className="text-xs text-gray-700 dark:text-gray-300 ml-4">
-              {t("edited")}
-            </span>
-          )}
+          <div className="text-xs text-gray-700 dark:text-gray-300 absolute right-5 bottom-1">
+            {post.contentUpdatedAt && <span>{t("edited")}</span>}
+          </div>
         </div>
         {post?.uploadedMedia?.length > 0 && (
           <MediaGrid media={post?.uploadedMedia} />

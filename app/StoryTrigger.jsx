@@ -198,7 +198,7 @@ const StoryTrigger = () => {
               <p className="text-sm font-[450] text-black dark:text-white">
                 {t("createStory")}
               </p>
-              <p className="text-sm font-[450] text-black dark:text-white">
+              <p className="text-sm font-[450] text-black dark:text-white capitalize">
                 {user?.username.split(" ")[0]}
               </p>
             </div>

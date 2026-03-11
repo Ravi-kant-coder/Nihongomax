@@ -1,13 +1,22 @@
-import { connectDB } from "@/lib/mongodb";
-import Blog from "@/models/Blog";
+import { getBlogs } from "@/lib/blog";
 
 export default async function sitemap() {
-  await connectDB();
+  const blogs = await getBlogs();
 
-  const blogs = await Blog.find().lean();
-
-  return blogs.map((blog) => ({
-    url: `http://localhost:3000/information/${blog.slug}`,
+  const blogUrls = blogs.map((blog) => ({
+    url: `https://nihongomax.com/information/${blog.slug}`,
     lastModified: blog.updatedAt,
   }));
+
+  return [
+    {
+      url: "https://nihongomax.com",
+      lastModified: new Date(),
+    },
+    {
+      url: "https://nihongomax.com/information",
+      lastModified: new Date(),
+    },
+    ...blogUrls,
+  ];
 }

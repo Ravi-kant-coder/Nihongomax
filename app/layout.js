@@ -28,7 +28,8 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
+      translate="no"
+      className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased scroll-smooth`}
     >
       <body className="dark:bg-[rgb(30,30,30)] bg-gray-300">
         <ClientThemeProvider>

@@ -5,9 +5,11 @@ import PostTrigger from "./PostTrigger";
 import StorySection from "./StorySection";
 import { usePostStore } from "@/store/usePostStore";
 import ScrollupBtn from "./ScrollupBtn";
+import useT from "./hooks/useT";
 
 const Wall = () => {
   const { posts, fetchPost, hasMore } = usePostStore();
+  const t = useT();
 
   useEffect(() => {
     fetchPost();
@@ -31,7 +33,7 @@ const Wall = () => {
           className="p-4 text-center bg-white dark:bg-[rgb(60,60,60)] rounded-md font-semibold w-full cursor-pointer hover:bg-gray-400
           dark:hover:bg-[rgb(70,70,70)] text-xl "
         >
-          Show More
+          {t("showMore")}
         </button>
       )}
 

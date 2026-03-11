@@ -106,7 +106,7 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
         <div className="flex-1 mr-2 relative w-full">
           <Input
             className="border-gray-400 pr-10"
-            placeholder={`Comment as ${
+            placeholder={`${t("comment")} ${
               user?.username
                 ? user.username.charAt(0).toUpperCase() + user.username.slice(1)
                 : ""

@@ -1,6 +1,12 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, MessageCircle, LogOutIcon, User2 } from "lucide-react";
+import {
+  Users,
+  MessageCircle,
+  LogOutIcon,
+  User2,
+  BookOpen,
+} from "lucide-react";
 import { useTransition } from "react";
 import userStore from "@/store/userStore";
 import {
@@ -41,7 +47,7 @@ const UserMenu = ({ handleLogout }) => {
                 src={user?.profilePicture}
                 className="object-cover"
               />
-              <AvatarFallback className="dark:bg-black text-sm">
+              <AvatarFallback className="dark:bg-black text-sm capitalize">
                 {user?.username?.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -58,15 +64,15 @@ const UserMenu = ({ handleLogout }) => {
                     className="object-cover"
                   />
 
-                  <AvatarFallback className="dark:bg-gray-500">
+                  <AvatarFallback className="dark:bg-gray-500 capitalize">
                     {user?.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <div className="w-[70%]">
-                  <p className="text-sm font-medium truncate">
+                <div className="w-[70%] truncate">
+                  <p className="text-sm font-medium capitalize">
                     {user?.username}
                   </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-300 truncate">
+                  <p className="text-xs text-gray-600 dark:text-gray-300">
                     {user?.email}
                   </p>
                 </div>
@@ -101,12 +107,12 @@ const UserMenu = ({ handleLogout }) => {
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {
-              handleNavigation("/messages");
+              handleNavigation("/notes");
             }}
           >
-            <MessageCircle />{" "}
+            <BookOpen />{" "}
             <span className="ml-2">
-              <p>{t("msgs")}</p>
+              <p>{t("notes")}</p>
             </span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

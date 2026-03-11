@@ -2,13 +2,15 @@
 import { useState, useEffect } from "react";
 import ScrollupBtn from "../ScrollupBtn";
 import useVideoStore from "@/store/useVideoStore";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RefreshCw } from "lucide-react";
+import useT from "../hooks/useT";
+import Image from "next/image";
 
 const YouTubeVideos = () => {
   const { videos, fetchVideos, syncYouTube } = useVideoStore();
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = useVideoStore((state) => state.totalPages);
+  const t = useT();
 
   useEffect(() => {
     fetchVideos(currentPage);
@@ -27,7 +29,7 @@ const YouTubeVideos = () => {
             className="px-4 py-2 bg-red-700 text-white rounded cursor-pointer dark:hover:bg-red-700 transition hover:bg-red-500 
               ml-4 md:ml-8 flex items-center dark:bg-red-800"
           >
-            Refresh Videos
+            {t("refresh")}
             <RefreshCw className="inline-block ml-2 text-white h-5 w-5 animate-spin" />
           </button>
         </div>
@@ -48,20 +50,16 @@ const YouTubeVideos = () => {
                 rel="noopener noreferrer"
                 className="block relative"
               >
-                <Avatar
-                  className="bg-white dark:bg-zinc-800 rounded w-full aspect-video 
-                    object-cover shadow-md overflow-hidden h-full"
-                >
-                  <AvatarImage
+                <div className="bg-white dark:bg-zinc-800 rounded w-full aspect-video object-cover shadow-md overflow-hidden h-full">
+                  <Image
                     src={`https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`}
-                    className="object-cover"
-                    alt={video.title}
+                    alt={"Nihongomax"}
+                    fill
+                    className="object-cover group-hover:scale-105 transition duration-500"
                   />
-                  <AvatarFallback className="bg-gray-400 dark:bg-black capitalize">
-                    Nihongomax Video
-                  </AvatarFallback>
-                </Avatar>
+                </div>
               </a>
+
               <div className="p-3">
                 <p className="text-sm font-medium line-clamp-2">
                   {video.title}

@@ -20,26 +20,17 @@ const PostContentEdit = ({
   const { inputRef, insertEmoji } = useEmojiInsert();
   const t = useT();
   const trimmed = tempContent.trim();
-  const ONE_HOUR = 60 * 60 * 1000;
-  const [canEdit, setCanEdit] = useState(true);
-
   const [minutesLeft, setMinutesLeft] = useState(0);
 
   useEffect(() => {
     const ONE_HOUR = 60 * 60 * 1000;
-
     const updateTime = () => {
       const timePassed = Date.now() - new Date(post.createdAt).getTime();
-
       const timeLeft = ONE_HOUR - timePassed;
-
       setMinutesLeft(Math.max(0, Math.floor(timeLeft / (60 * 1000))));
     };
-
     updateTime();
-
     const interval = setInterval(updateTime, 60000); // update every minute
-
     return () => clearInterval(interval);
   }, [post.createdAt]);
 
@@ -63,30 +54,22 @@ const PostContentEdit = ({
   };
 
   return (
-    <div>
+    <>
       {!isEditing ? (
         <div className="text-gray-800 font-[450] p-4 dark:text-gray-300">
           {wrapEmojis(tempContent)}
           {minutesLeft > 0 && (
-            <div>
-              <span className="text-xs text-gray-500"> {t("onlyYouCan")}</span>
+            <div className="text-gray-500 text-xs">
+              <span className=""> {t("onlyYouCan")}</span>
               <button
-                className=" items-center text-xs inline-flex cursor-pointer underline rounded 
-              p-1 hover:bg-gray-300 dark:hover:bg-black"
+                className=" items-center inline-flex cursor-pointer underline rounded p-1 hover:bg-gray-300 dark:hover:bg-black"
                 onClick={() => setIsEditing(true)}
               >
                 {t("edit")}
               </button>
-              <span className="text-xs text-gray-500">
+              <span className="">
                 {" "}
-                {t("thisComment")} for {minutesLeft} minutes
-              </span>
-            </div>
-          )}
-          {!canEdit && (
-            <div>
-              <span className="text-xs text-gray-500">
-                {t("editWindowExpired")}
+                {t("thisComment")} {t("for")} {minutesLeft} {t("minutes")}
               </span>
             </div>
           )}
@@ -122,20 +105,16 @@ const PostContentEdit = ({
           )}
           <div className="flex gap-2">
             <button
-              className="px-2 bg-white dark:text-green-400 flex items-center text-xs
-               font-[Poppins] cursor-pointer border-green-600 border rounded p-0.5
-                hover:bg-green-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)]
-                 dark:shadow-none text-green-800"
+              className="px-2 bg-white dark:text-green-400 flex items-center text-xs font-[Poppins] cursor-pointer border-green-600 border rounded p-0.5
+                hover:bg-green-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)] dark:shadow-none text-green-800"
               onClick={handleSave}
             >
               <span>{t("save")}</span>
               <SquarePen className="h-3 w-3 ml-2" />
             </button>
             <button
-              className="px-2 bg-white flex items-center text-xs dark:text-red-400
-               font-[Poppins] cursor-pointer border-red-400 border rounded p-0.5
-                hover:bg-red-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)]
-                 dark:shadow-none text-red-600"
+              className="px-2 bg-white flex items-center text-xs dark:text-red-400 font-[Poppins] cursor-pointer border-red-400 border rounded p-0.5
+                hover:bg-red-100  dark:hover:bg-black dark:bg-[rgb(36,37,38)] dark:shadow-none text-red-600"
               onClick={handleCancel}
             >
               <span>{t("cancel")}</span>
@@ -144,7 +123,7 @@ const PostContentEdit = ({
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 

@@ -5,12 +5,14 @@ import { useSchoolStore } from "@/store/useSchoolStore";
 import SchoolCard from "./SchoolCard";
 import { useBanner } from "../hooks/useBanner";
 import Banner from "../Banner";
+import useT from "../hooks/useT";
 
 const StudyInJapan = () => {
   const { schools, fetchSchoolsZust, deleteSchoolZust, loading } =
     useSchoolStore();
   const { banner, showBanner } = useBanner();
   const [isEditSchoolModel, setIsEditSchoolModel] = useState(false);
+  const t = useT();
 
   useEffect(() => {
     fetchSchoolsZust();
@@ -40,12 +42,15 @@ const StudyInJapan = () => {
         </div>
       </a>
       <h1 className="md:text-4xl text-2xl text-center font-bold">
-        Study in Japan
+        {t("studyInJapan")}
       </h1>
-      <h2 className="text-2xl text-center my-4 font-medium">
+      <h2 className="text-2xl text-center font-medium mt-4 mb-2">
         Universities, Schools, Institutions and Academies in Japan Nihongomax
         has tie-up with.
       </h2>
+      <h3 className="text-xl text-center">
+        NIHONGOMAXが提携している日本の大学・学校・アカデミ・教育機関など
+      </h3>
       {schools?.length > 0 ? (
         schools?.map((school, index) => (
           <SchoolCard

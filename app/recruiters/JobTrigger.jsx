@@ -325,7 +325,7 @@ const JobTrigger = () => {
             className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
            ${
              submitted
-               ? "bg-green-600 text-white dark:bg-green-900"
+               ? "bg-green-700 text-white dark:bg-green-900"
                : "bg-black dark:text-gray-400 hover:bg-gray-900"
            }`}
             disabled={loading}

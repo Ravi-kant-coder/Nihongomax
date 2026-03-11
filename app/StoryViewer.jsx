@@ -5,9 +5,9 @@ import userStore from "@/store/userStore";
 import { Trash2 } from "lucide-react";
 import { useStoryStore } from "@/store/useStoryStore";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/utils";
 import DeleteConfModal from "./components/DeleteConfModel";
 import useT from "./hooks/useT";
+import useFormatRelativeTime from "./hooks/useFormatRelativeTime";
 
 const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
   const [index, setIndex] = useState(0);
@@ -18,6 +18,7 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { user } = userStore();
   const { handleLikeStory } = useStoryStore();
+  const formatTime = useFormatRelativeTime();
   const STORY_DURATION = 7000;
   const t = useT();
 
@@ -119,7 +120,7 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
                 group-hover:dark:text-red-500 shrink-0"
               />
               <p className="group-hover:text-red-700 text-white/70 capitalize">
-                {story?.user?.username.split(" ")[0]} Delete?
+                {story?.user?.username.split(" ")[0]} {t("delete")}?
               </p>
             </button>
           )}
@@ -131,7 +132,7 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
             <X size={18} />
           </button>
           <div className="text-xs text-gray-300 top-4 absolute flex justify-center w-full">
-            <p>{formatDate(story?.createdAt)}</p>
+            <p>{formatTime(story?.createdAt)}</p>
           </div>
           <div className="absolute top-2 left-2 right-2 flex gap-1 z-20">
             {slides.map((_, i) => (

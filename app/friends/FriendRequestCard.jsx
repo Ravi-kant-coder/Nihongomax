@@ -3,11 +3,13 @@ import { UserMinus, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import Spinner from "../Spinner";
+import useT from "../hooks/useT";
 
 const FriendRequestCard = ({ friend, onAction }) => {
-  if (!friend) return null; // Ensure friend is defined before rendering
+  if (!friend) return null;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const t = useT();
 
   const handleDpClick = () => {
     startTransition(() => {
@@ -45,7 +47,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
       </h3>
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">
         {friend?.followerCount}{" "}
-        {friend?.followerCount === 1 ? "Friend" : "Friends"}
+        {friend?.followerCount === 1 ? t("friend") : t("friends")}
       </p>
 
       <div className="w-full space-y-2">
@@ -56,7 +58,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
           onClick={() => onAction("confirm", friend?._id)}
         >
           <UserPlus className="h-4 w-4 mr-2" />
-          Accept
+          {t("accept")}
         </button>
         <button
           className="w-full bg-gray-300 hover:bg-gray-400 cursor-pointer
@@ -66,7 +68,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
           onClick={() => onAction("delete", friend?._id)}
         >
           <UserMinus className="h-4 w-4 mr-2" />
-          Delete
+          {t("delete")}
         </button>
       </div>
       {isPending && (

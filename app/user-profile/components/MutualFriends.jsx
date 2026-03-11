@@ -56,7 +56,6 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
             {mutualFriends.length === 0 ? (
               <PicsSkeleton text="No Friends" />
             ) : (
-              // How is it different from mutualFriends.map((f) => [f._id, f])).map
               [...new Map(mutualFriends.map((f) => [f._id, f])).values()].map(
                 (friend) => (
                   <div
@@ -91,8 +90,8 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                     </div>
                     {isOwner && (
                       <div
-                        className="absolute bg-white rounded p-1 opacity-0 top-0 right-0
-                    group-hover:opacity-100 transition group-hover:text-black"
+                        className="absolute bg-orange-100 dark:bg-orange-800 rounded-md p-1 opacity-0 top-0 right-0 group-hover:opacity-100 
+                        transition group-hover:text-black dark:text-white"
                         onClick={async (e) => {
                           e.stopPropagation();
                           await handleUnfriend(friend?._id);

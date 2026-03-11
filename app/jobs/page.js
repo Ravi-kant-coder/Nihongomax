@@ -6,12 +6,14 @@ import { useJobStore } from "@/store/useJobStore";
 import JobCard from "./JobCard";
 import { useBanner } from "../hooks/useBanner";
 import Banner from "../Banner";
+import useT from "../hooks/useT";
 
 const Jobs = () => {
   const { jobs, fetchJobsZust } = useJobStore();
   const { banner, showBanner } = useBanner();
   const { deleteJobZust } = useJobStore();
   const [isEditJobModel, setIsEditJobModel] = useState(false);
+  const t = useT();
 
   useEffect(() => {
     fetchJobsZust();
@@ -28,7 +30,7 @@ const Jobs = () => {
 
   return (
     <div className="w-full">
-      <h1 className="text-4xl text-center font-bold">Apply for Jobs</h1>
+      <h1 className="text-4xl text-center font-bold">{t("jobApply")}</h1>
       {jobs?.length > 0 ? (
         jobs?.map((job, index) => (
           <JobCard

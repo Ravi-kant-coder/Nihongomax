@@ -68,14 +68,16 @@ const WallCardButtons = ({ post }) => {
                         {user?.username?.charAt(0)?.toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <span className="capitalize">
+                    <span className="capitalize truncate">
                       {user?.username?.split(" ")[0]}
                       {index < visibleLikes.length - 1 && ", "}
                     </span>
                   </span>
                 ))}
                 {remainingLikes > 0 && (
-                  <span className="ml-1 text-sm">+{remainingLikes} more</span>
+                  <span className="ml-1 text-sm">
+                    +{remainingLikes} {t("more")}
+                  </span>
                 )}
               </div>
             </div>
