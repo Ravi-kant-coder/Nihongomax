@@ -1,11 +1,12 @@
 "use client";
+import { requireAuth } from "@/lib/requireAuth";
 import { useState, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import userStore from "@/store/userStore";
 import WallCardButtons from "./WallCardButtons";
 import { wrapEmojis } from "@/lib/utils";
 import { useParams } from "next/navigation";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 import { useRouter } from "next/navigation";
 import { Trash2, X } from "lucide-react";
 import { motion } from "framer-motion";
@@ -18,7 +19,7 @@ import DeleteConfModal from "./components/DeleteConfModel";
 
 const WallCard = ({ post }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { deleteUserPost, handleSavePost } = usePostStore();
+  const { deleteUserPost, handleSavePost, loading } = usePostStore();
   const [isPending, startTransition] = useTransition();
   const [readyTodel, setReadyTodel] = useState(false);
   const { user } = userStore();
@@ -38,15 +39,13 @@ const WallCard = ({ post }) => {
 
   const handlePostDelete = async () => {
     setShowDeleteModal(false);
-    startTransition(async () => {
-      if (post?._id) {
-        try {
-          await deleteUserPost(post._id);
-        } catch (err) {
-          console.error("Delete failed", err);
-        }
+    if (post?._id) {
+      try {
+        await deleteUserPost(post._id);
+      } catch (err) {
+        console.error("Delete failed", err);
       }
-    });
+    }
   };
 
   return (
@@ -65,7 +64,7 @@ const WallCard = ({ post }) => {
           <div className="flex items-center ">
             <div
               className="relative mx-auto my-auto overflow-hidden rounded p-1"
-              onClick={handleDpClick}
+              onClick={() => requireAuth(() => handleDpClick())}
             >
               <Avatar className="cursor-pointer h-10 w-10 mr-3 hover:ring-1 ring-gray-500">
                 <AvatarImage
@@ -80,7 +79,7 @@ const WallCard = ({ post }) => {
             <div>
               <div
                 className="lg:w-70 md:w-50 truncate w-40 cursor-pointer overflow-hidden hover:underline capitalize font-[450]"
-                onClick={handleDpClick}
+                onClick={() => requireAuth(() => handleDpClick())}
               >
                 {t("by")}{" "}
                 {user?._id === post?.user?._id ? (
@@ -95,13 +94,15 @@ const WallCard = ({ post }) => {
             </div>
           </div>
           <div className="flex">
-            {post?.isSaved && (
+            {user && post?.isSaved && (
               <button
                 onClick={() => {
-                  handleSavePost(post?._id, user);
+                  requireAuth(() => {
+                    handleSavePost(post?._id, user);
+                  });
                 }}
                 className="dark:bg-black/20 cursor-pointer md:px-2 w-15 overflow-hidden group rounded border border-gray-400 flex flex-col items-center justify-center
-                dark:hover:border-white mr-2 dark:border-gray-500 hover:border-black dark:hover:bg-black hover:bg-gray-200"
+                dark:hover:border-white mr-2 dark:border-gray-500 hover:border-gray-700 dark:hover:bg-black hover:bg-gray-100"
               >
                 {" "}
                 <span className="text-[10px] capitalize group-hover:dark:text-white group-hover:text-black">
@@ -115,12 +116,13 @@ const WallCard = ({ post }) => {
             )}
             {user?._id === post?.user?._id && (
               <button
+                disabled={loading}
                 onClick={() => {
                   setShowDeleteModal(true);
                   setReadyTodel(true);
                 }}
                 className="dark:bg-black/20 cursor-pointer md:px-2 group rounded border border-gray-400 bg-pink-100 
-              flex flex-col items-center justify-center hover:border-red-600"
+              flex flex-col items-center justify-center hover:border-red-600 disabled:opacity-50"
               >
                 {" "}
                 <span className="text-[10px] capitalize truncate w-10 group-hover:dark:text-red-500 group-hover:text-red-700">
@@ -136,21 +138,25 @@ const WallCard = ({ post }) => {
         </div>
 
         {/* --------------------------Actual post content----------------------- */}
-        <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] mx-1 rounded-lg relative">
-          {user?._id !== post?.user?._id ? (
-            <p className="font-[450] p-4">{wrapEmojis(post?.content)}</p>
-          ) : (
-            <PostContentEdit
-              post={post}
-              postId={post._id}
-              initialContent={post?.content}
-              handlePostDelete={handlePostDelete}
-            />
-          )}
-          <div className="text-xs text-gray-700 dark:text-gray-300 absolute right-5 bottom-1">
-            {post.contentUpdatedAt && <span>{t("edited")}</span>}
+        {post?.content && (
+          <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] mx-1 rounded-lg relative">
+            {user?._id !== post?.user?._id ? (
+              <p className="font-[450] p-4 py-6 whitespace-pre-wrap">
+                {wrapEmojis(post?.content)}
+              </p>
+            ) : (
+              <PostContentEdit
+                post={post}
+                postId={post._id}
+                initialContent={post?.content}
+                handlePostDelete={handlePostDelete}
+              />
+            )}
+            <div className="text-xs text-gray-700 dark:text-gray-300 absolute right-5 bottom-1">
+              {post.contentUpdatedAt && <span>{t("edited")}</span>}
+            </div>
           </div>
-        </div>
+        )}
         {post?.uploadedMedia?.length > 0 && (
           <MediaGrid media={post?.uploadedMedia} />
         )}
@@ -172,12 +178,8 @@ const WallCard = ({ post }) => {
             }}
           />
         )}
-        {/* ------------------------Spinner-------------------------- */}
-        {isPending && (
-          <div className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-100 z-9999">
-            <Spinner />
-          </div>
-        )}
+        {loading && <Spinner />}
+        {isPending && <Spinner />}
       </div>
     </>
   );

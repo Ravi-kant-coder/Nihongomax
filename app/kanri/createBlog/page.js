@@ -299,39 +299,29 @@ export default function CreateBlogPage() {
         </div>
 
         <div>
-          <p>Please read this carefully before adding the content.</p>
+          <p>
+            Please read this carefully before adding the content.
+            <br /> # Main Article Heading (5–6 words)
+            <br /> Write ~200 words introduction here.
+            <br /> ## Section Heading (5–6 words)
+            <br /> Write ~200 words explaining the topic. <br />
+            ## Another Section Heading Write around 15-16 FAQs.
+            <br /> The questions should be the ###heading.
+            <br /> Also there must be 2-3 external and 2-3 interal links.
+            <br /> For example ### FAQ Question One Answer in 40–60 words.
+            <br /> ### FAQ Question Two Answer in 40–60 words.
+            <br /> External link example: [our institute to learn
+            Japanese](https://learnjapanesedelhi.com)
+            <br /> Internal link example: [for the ways to Learn Japanese
+            Fast](/blogs/how-to-learn-japanese-fast)
+            <br /> Goal: • Total ~1200 words • 1 or 2 #headings • 1 or 2
+            ##headings • 15–16 FAQs questions in ###headings <br />
+            Please ask us if anything is unclear
+          </p>
           <textarea
             {...register("content")}
-            placeholder={`# Main Article Heading (5–6 words)
-
-Write ~200 words introduction here.
-## Section Heading (5–6 words)
-
-Write ~200 words explaining the topic.
-## Another Section Heading
-
-Write around 15-16 FAQs. The questions should be the ###heading. Also there must be 2-3 external and 2-3 interal links.
-For example
-
-### FAQ Question One
-Answer in 40–60 words.
-
-### FAQ Question Two
-Answer in 40–60 words.
-
-External link example:
-[our institute to learn Japanese](https://learnjapanesedelhi.com)
-
-Internal link example:
-[for the ways to Learn Japanese Fast](/blogs/how-to-learn-japanese-fast)
-
-Goal:
-• Total ~1200 words
-• 1 or 2 #headings
-• 1 or 2 ##headings
-• 15–16 FAQs questions in ###headings
-Please ask us if anything is unclear
-`}
+            placeholder={`Please write strictly according to the guidance given above.
+Ask if anything is not clear on 9582989065`}
             className="w-full h-[500px] p-4 border rounded-md font-mono text-sm border-gray-400"
           />
 

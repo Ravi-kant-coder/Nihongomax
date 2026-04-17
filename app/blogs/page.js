@@ -11,19 +11,6 @@ export const metadata = {
 
 export const revalidate = 60;
 
-// async function getBlogs() {
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs`, {
-//     next: { revalidate: 60 },
-//   });
-
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch blogs");
-//   }
-
-//   const data = await res.json();
-//   return data?.data || [];
-// }
-
 export default async function InformationPage() {
   const blogs = await getBlogs();
 
@@ -44,7 +31,8 @@ export default async function InformationPage() {
     <>
       <div className="mx-10">
         <h1 className="text-3xl font-bold mb-10 text-center sr-only">
-          Japanese Language Learning Articles for JLPT Students
+          Get the latest Japanese learning blogs, Japanese grammar guides, JLPT
+          tips, and kanji insights to boost your language skills.
         </h1>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {blogs.map((blog) => {
@@ -54,7 +42,7 @@ export default async function InformationPage() {
             return (
               <Link
                 key={blog?._id}
-                href={`/information/${blog?.slug}`}
+                href={`/blogs/${blog?.slug}`}
                 className="group"
               >
                 <div className="bg-white dark:bg-black rounded-md overflow-hidden shadow hover:shadow-lg">

@@ -107,10 +107,7 @@ const JobTrigger = () => {
   };
 
   return (
-    <div
-      className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] mb-10 p-2 md:p-4 rounded-lg
-     bg-[rgb(170,170,170)] "
-    >
+    <div className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] mb-10 p-2 md:p-4 rounded-lg bg-[rgb(170,170,170)] ">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3 py-2">
           <Avatar>
@@ -162,7 +159,7 @@ const JobTrigger = () => {
             Company Name
             <Input
               placeholder="Enter Company's name"
-              className={` bg-white dark:bg-black dark:border-gray-700 
+              className={` bg-white dark:bg-[rgb(50,50,50)] dark:border-gray-700 
           ${
             errors.company
               ? "border-red-500 dark:border-red-900"
@@ -182,7 +179,7 @@ const JobTrigger = () => {
         Job Title
         <Input
           placeholder="Enter Job Title"
-          className={` bg-white dark:bg-black dark:border-gray-700 
+          className={` bg-white dark:bg-[rgb(50,50,50)] dark:border-gray-700 
           ${
             errors.title
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -197,7 +194,7 @@ const JobTrigger = () => {
         <Textarea
           placeholder="Write about all the requirements for candidate..."
           className={`min-h-[100px] text-lg border-1 border-white bg-white
-             dark:bg-black rounded-md dark:border-gray-700 
+             dark:bg-[rgb(50,50,50)] rounded-md dark:border-gray-700 
              ${
                errors.requirements
                  ? "border-red-500 dark:border-red-900 mb-0"
@@ -211,7 +208,7 @@ const JobTrigger = () => {
         Job Location
         <Input
           placeholder="City or State, Country"
-          className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
+          className={`md:w-[70%] bg-white dark:bg-[rgb(50,50,50)] dark:border-gray-700 
           ${
             errors.location
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -225,7 +222,7 @@ const JobTrigger = () => {
         Salary offered
         <Input
           placeholder="Rupees or Yen in rough range"
-          className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
+          className={`md:w-[70%] bg-white dark:bg-[rgb(50,50,50)] dark:border-gray-700 
           ${
             errors.salary
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -241,7 +238,7 @@ const JobTrigger = () => {
             Email
             <Input
               placeholder="For job inquiries"
-              className={`bg-white dark:bg-black dark:border-gray-700 
+              className={`bg-white dark:bg-[rgb(50,50,50)] dark:border-gray-700 
           ${
             errors.email
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -259,7 +256,7 @@ const JobTrigger = () => {
             Mobile (Optional)
             <Input
               placeholder="10 digit number"
-              className=" bg-white dark:bg-black dark:border-gray-700 "
+              className=" bg-white dark:bg-[rgb(50,50,50)] dark:border-gray-700 "
               {...register("mobile")}
             />
             {errors.mobile && (
@@ -272,7 +269,7 @@ const JobTrigger = () => {
         Company Website
         <Input
           placeholder="Enter Company Website URL"
-          className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
+          className={`md:w-[70%] bg-white dark:bg-[rgb(50,50,50)] dark:border-gray-700 
           ${
             errors.homepage
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -288,7 +285,7 @@ const JobTrigger = () => {
           <Textarea
             placeholder="Write a description/details about the job..."
             className={`min-h-[100px] text-lg border-1 border-white bg-white pr-10
-             dark:bg-black rounded-md dark:border-gray-700 
+             dark:bg-[rgb(50,50,50)] rounded-md dark:border-gray-700 
              ${
                errors.jobDescription
                  ? "border-red-500 dark:border-red-900 mb-0"
@@ -322,11 +319,11 @@ const JobTrigger = () => {
         <div>
           <Button
             type="submit"
-            className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
+            className={`mt-4 w-80 cursor-pointer
            ${
              submitted
-               ? "bg-green-700 text-white dark:bg-green-900"
-               : "bg-black dark:text-gray-400 hover:bg-gray-900"
+               ? "bg-green-700 text-white dark:bg-green-900 hover:bg-green-700 dark:hover:bg-green-900"
+               : "bg-black dark:text-gray-200 hover:bg-gray-800 dark:bg-[rgb(50,50,50)] dark:hover:bg-[rgb(60,60,60)]"
            }`}
             disabled={loading}
           >
@@ -334,7 +331,7 @@ const JobTrigger = () => {
           </Button>
 
           <p className="mb-2 mt-1 dark:text-gray-300 text-sm ml-2">
-            You can Edit/Delete it anytime
+            You can Edit/Delete this anytime
           </p>
         </div>
       </form>

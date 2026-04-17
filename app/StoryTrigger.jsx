@@ -1,3 +1,4 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useState, useRef } from "react";
@@ -183,7 +184,7 @@ const StoryTrigger = () => {
                   alt={user?.username}
                   className="object-cover"
                 />
-                <AvatarFallback className="bg-gray-300 dark:bg-black capitalize">
+                <AvatarFallback className="bg-gray-300 dark:bg-black capitalize text-4xl">
                   {user?.username.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -223,7 +224,7 @@ const StoryTrigger = () => {
               </AvatarFallback>
             </Avatar>
             <div>
-              <p>{user?.username}</p>
+              <p className="capitalize">{user?.username}</p>
             </div>
           </div>
 

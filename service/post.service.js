@@ -65,7 +65,6 @@ export const deletePost = async (postId) => {
 };
 
 export const deleteComment = async (postId, commentId) => {
-  console.log(postId, commentId);
   try {
     const result = await axiosInstance.delete(
       `/users/posts/${postId}/comments/${commentId}`,
@@ -85,7 +84,7 @@ export const getAllPosts = async (page = 1, limit = 10) => {
     const result = await axiosInstance.get(
       `/users/posts?page=${page}&limit=${limit}`,
     );
-    return result?.data?.data; // { posts, hasMore }
+    return result?.data?.data;
   } catch (error) {
     throw error;
   }

@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -110,7 +109,6 @@ export default function EditBlogPage() {
         );
 
         const blogData = blogRes?.data?.data || blogRes?.data;
-        console.log("Blog To Edit:", blogData);
 
         if (!blogData) return;
 

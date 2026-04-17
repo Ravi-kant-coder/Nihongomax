@@ -12,7 +12,7 @@ export const createStory = async (storyData) => {
 
 export const getAllStories = async () => {
   try {
-    const result = await axiosInstance.get("/users/story");
+    const result = await axiosInstance.get("/users/stories");
     return result?.data?.data;
   } catch (error) {
     console.error(error);

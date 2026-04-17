@@ -5,13 +5,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { UserX } from "lucide-react";
 import { userFriendStore } from "@/store/userFriendsStore";
 import { useRouter } from "next/navigation";
-import Spinner from "@/app/Spinner";
+import Spinner from "@/components/Spinner";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
+import useT from "@/app/hooks/useT";
 
 const MutualFriends = ({ id, isOwner, profileData }) => {
   const { fetchMutualFriends, mutualFriends, UnfriendUser } = userFriendStore();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const t = useT();
 
   const handlefriendClick = (id) => {
     startTransition(() => {
@@ -45,16 +47,18 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
           dark:shadow-black"
         >
           <h2 className="text-xl font-semibold  dark:text-gray-300 capitalize">
-            {isOwner ? "Your" : `${profileData?.username?.split(" ")[0]}'s`}{" "}
-            Friends
+            {isOwner
+              ? t("your")
+              : `${profileData?.username?.split(" ")[0]}${t("s")}`}{" "}
+            {t("friends")}
           </h2>
           <p className="text-gray-700 text-sm flex dark:text-gray-500">
             {mutualFriends.length}{" "}
-            {mutualFriends.length === 1 ? "friend" : "friends"}
+            {mutualFriends.length === 1 ? t("friend") : t("friends")}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             {mutualFriends.length === 0 ? (
-              <PicsSkeleton text="No Friends" />
+              <PicsSkeleton text={t("noFriends")} />
             ) : (
               [...new Map(mutualFriends.map((f) => [f._id, f])).values()].map(
                 (friend) => (
@@ -83,8 +87,8 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                         <p className="text-sm text-gray-500">
                           {friend?.followerCount}{" "}
                           {friend?.followerCount === 1
-                            ? "follower"
-                            : "followers"}
+                            ? t("follower")
+                            : t("followers")}
                         </p>
                       </div>
                     </div>
@@ -99,7 +103,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                         }}
                       >
                         <div className="flex text-xs items-center">
-                          <UserX className="mr-2 w-4 h-4" /> Unfriend
+                          <UserX className="mr-2 w-4 h-4" /> {t("unfriend")}
                         </div>
                       </div>
                     )}

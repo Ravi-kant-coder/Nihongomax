@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import { LogIn, Eye, EyeOff } from "lucide-react";
 import { loginUser, registerUser } from "@/service/auth.service";
 import userStore from "@/store/userStore";
-import Spinner from "../Spinner";
+import Spinner from "./Spinner";
 import ForgotPassword from "./ForgotPassword";
-import { usePostStore } from "@/store/usePostStore";
+import useAuthModalStore from "@/store/authModalStore";
 
 const Login = () => {
   const router = useRouter();
@@ -21,6 +21,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
+  const { closeModal } = useAuthModalStore();
 
   const registerSchema = yup.object().shape({
     username: yup.string().required("Name is required"),
@@ -85,15 +86,12 @@ const Login = () => {
   const onSubmitLogin = async (data) => {
     setIsLoading(true);
     setLoginError("");
-
     try {
       const result = await loginUser(data);
-
       if (result?.status === "success") {
-        usePostStore.getState().resetAll();
         setUser(result.user);
-        router.push("/");
-        usePostStore.getState().fetchPost();
+        closeModal();
+        window.location.reload();
       } else {
         setLoginError(result?.message || "Invalid email or password");
       }
@@ -108,10 +106,7 @@ const Login = () => {
 
   return (
     <>
-      <div
-        className="space-y-4 p-4 rounded-lg bg-gray-400 fixed top-5 right-5
-      dark:bg-gray-800 z-100 w-[200px] md:w-[250px]"
-      >
+      <div className="space-y-4 p-4 rounded-lg bg-gray-400 dark:bg-gray-800 z-100 w-[200px] md:w-[250px]">
         <motion.form
           onSubmit={handleSubmitLogin(onSubmitLogin)}
           className="space-y-2"

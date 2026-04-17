@@ -5,7 +5,7 @@ import { Trash2, X } from "lucide-react";
 import React from "react";
 import userStore from "@/store/userStore";
 import { useRouter } from "next/navigation";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 import { motion } from "framer-motion";
 
 const ShowStoryPreview = ({

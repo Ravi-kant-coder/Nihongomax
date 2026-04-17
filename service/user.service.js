@@ -63,7 +63,6 @@ export const deleteUserFromRequest = async (userId) => {
 export const fetchUserProfile = async (userId) => {
   try {
     const response = await axiosInstance.get(`/users/profile/${userId}`);
-    console.log(response?.data?.data);
     return response?.data?.data;
   } catch (error) {
     console.log(error);
@@ -144,7 +143,6 @@ export const deleteUserDp = async (userId) => {
 };
 
 export const deleteUserCover = async (userId) => {
-  console.log(userId);
   try {
     const result = await axiosInstance.delete(`/users/${userId}/coverPhoto`);
     return result?.data?.message;

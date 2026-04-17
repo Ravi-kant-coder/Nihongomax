@@ -1,9 +1,8 @@
-import CreateAcc from "./CreateAcc";
+import CreateAcc from "../../components/CreateAcc";
 import Login from "./Login";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TryWithoutLogin from "./TryWithoutLogin";
-import ForgotPassword from "./ForgotPassword";
 
 const Page = () => {
   return (

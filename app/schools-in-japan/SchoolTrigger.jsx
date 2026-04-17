@@ -295,7 +295,7 @@ const SchoolTrigger = () => {
           学校名
           <Input
             placeholder="貴校名を入力してください"
-            className={` bg-white dark:bg-black dark:border-gray-700 
+            className={` bg-white dark:bg-[rgb(50,50,50)] dark:border-gray-700 
           ${
             errors.schoolName
               ? "border-red-500  dark:border-red-900 mb-0"
@@ -314,8 +314,7 @@ const SchoolTrigger = () => {
         <div className="relative ">
           <Textarea
             placeholder="貴校の説明を書いてください..."
-            className={`min-h-[100px] text-lg border-1 border-white bg-whitedark:bg-black rounded-md
-          dark:border-gray-700 bg-accent pr-10
+            className={`min-h-[100px] text-lg border border-white dark:bg-[rgb(50,50,50)] rounded-md dark:border-[rgb(70,70,70)] bg-accent pr-10
     ${
       errors.intro
         ? "border-red-500 dark:border-red-900 mb-0"
@@ -348,7 +347,7 @@ const SchoolTrigger = () => {
         年間募集回数
         <Input
           placeholder="年に何回どの時期に募集を入力してください"
-          className={` bg-white dark:bg-black dark:border-gray-700 
+          className={` bg-white dark:bg-[rgb(50,50,50)] dark:border-[rgb(70,70,70)] 
           ${
             errors.intakes
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -363,7 +362,7 @@ const SchoolTrigger = () => {
         学校の場所
         <Input
           placeholder="区、市、州など"
-          className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
+          className={`md:w-[70%] bg-white dark:bg-[rgb(50,50,50)] dark:border-[rgb(70,70,70)] 
           ${
             errors.location
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -378,7 +377,7 @@ const SchoolTrigger = () => {
         ホームページ
         <Input
           placeholder="ホームページのURLを入力してください"
-          className={`md:w-[70%] bg-white dark:bg-black dark:border-gray-700 
+          className={`md:w-[70%] bg-white dark:bg-[rgb(50,50,50)] dark:border-[rgb(70,70,70)] 
           ${
             errors.homepage
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -395,7 +394,7 @@ const SchoolTrigger = () => {
             問い合わせ用メール
             <Input
               placeholder="問い合わせ用メール"
-              className={`bg-white dark:bg-black dark:border-gray-700 
+              className={`bg-white dark:bg-[rgb(50,50,50)] dark:border-[rgb(70,70,70)] 
           ${
             errors.email
               ? "border-red-500 dark:border-red-900 mb-0"
@@ -425,7 +424,7 @@ const SchoolTrigger = () => {
                 type="tel"
                 inputMode="numeric"
                 placeholder="ハイフンなし（例: 7012345678）"
-                className="bg-white dark:bg-black dark:border-gray-700"
+                className="bg-white dark:bg-[rgb(50,50,50)]"
                 {...register("mobile", {
                   setValueAs: (value) => value?.replace(/\D/g, ""), // remove dashes/spaces
                   validate: (value) => {
@@ -454,8 +453,7 @@ const SchoolTrigger = () => {
         学校詳細や入学案内など
         <Textarea
           placeholder="学校についてや入学手続きの詳細やコメント・備考などを軽く書いてください"
-          className={`min-h-[100px] text-lg border-1 border-white bg-white
-             dark:bg-black rounded-md dark:border-gray-700 
+          className={`min-h-[100px] text-lg border-1 border-white bg-white dark:bg-[rgb(50,50,50)] rounded-md dark:border-[rgb(70,70,70)] 
              ${
                errors.schoolDescription
                  ? "border-red-500 dark:border-red-900 mb-0"
@@ -465,11 +463,11 @@ const SchoolTrigger = () => {
         />
         <Button
           type="submit"
-          className={`mt-4 w-80 cursor-pointer dark:border dark:border-gray-700 
+          className={`mt-4 w-80 cursor-pointer 
            ${
              submitted
-               ? "bg-green-800 hover:bg-green-800"
-               : "bg-black dark:text-gray-400 hover:bg-gray-900"
+               ? "bg-green-800 hover:bg-green-800 dark:bg-green-900 dark:hover:bg-green-900"
+               : "bg-black dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-[rgb(70,70,70)] dark:bg-[rgb(50,50,50)]"
            }`}
           disabled={hasTooLargeFile || loading}
         >

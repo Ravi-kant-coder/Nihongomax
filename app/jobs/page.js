@@ -1,19 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
-import LeftSideBar from "@/app/LeftSideBar";
-import ScrollupBtn from "../ScrollupBtn";
 import { useJobStore } from "@/store/useJobStore";
 import JobCard from "./JobCard";
-import { useBanner } from "../hooks/useBanner";
-import Banner from "../Banner";
+import Banner from "@/components/Banner";
+import useBannerStore from "@/store/useBannerStore";
+import ScrollupBtn from "../ScrollupBtn";
 import useT from "../hooks/useT";
+import userStore from "@/store/userStore";
+import { useRouter } from "next/navigation";
 
 const Jobs = () => {
+  const showBanner = useBannerStore((state) => state.showBanner);
   const { jobs, fetchJobsZust } = useJobStore();
-  const { banner, showBanner } = useBanner();
   const { deleteJobZust } = useJobStore();
   const [isEditJobModel, setIsEditJobModel] = useState(false);
+  const { user } = userStore();
+  const router = useRouter();
   const t = useT();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchJobsZust();
@@ -22,9 +31,14 @@ const Jobs = () => {
   const handleJobDelete = async (jobId) => {
     try {
       const result = await deleteJobZust(jobId);
-      showBanner("Job-Post deleted successfully", "success");
+      if (result?.success) {
+        showBanner("Job-Post deleted successfully", "success");
+      }
     } catch (error) {
-      showBanner("Failed to delete job-post", "error");
+      showBanner(
+        error?.response?.data?.message || "Failed to delete job-post",
+        "error",
+      );
     }
   };
 
@@ -50,7 +64,7 @@ const Jobs = () => {
           <p className="text-lg"> (All the best. We are with you)</p>
         </h2>
       )}
-      <Banner banner={banner} />
+      <Banner />
       <ScrollupBtn />
     </div>
   );

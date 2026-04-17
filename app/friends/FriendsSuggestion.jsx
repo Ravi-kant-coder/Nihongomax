@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserPlus } from "lucide-react";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import useT from "../hooks/useT";

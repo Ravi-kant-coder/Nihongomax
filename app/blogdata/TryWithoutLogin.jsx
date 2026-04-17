@@ -2,7 +2,7 @@
 import { useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 import {
   Handshake,
   ChartNoAxesCombined,

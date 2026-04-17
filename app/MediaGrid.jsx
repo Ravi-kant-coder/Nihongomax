@@ -5,7 +5,7 @@ const MediaGrid = ({ media }) => {
 
   if (count === 1) {
     return (
-      <div className="w-full mb-4">
+      <div className="w-full mb-4 overflow-hidden">
         <MediaItem media={media[0]} />
       </div>
     );

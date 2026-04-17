@@ -3,7 +3,7 @@ import { useEffect, useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { BookOpen, Home, Menu } from "lucide-react";
 import useStudyStore from "@/store/useStudyStore";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 import StudyBox from "./StudyBox";
 
 const NavbarBelow = () => {

@@ -1,6 +1,6 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useTransition, useState } from "react";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 
 const UsersList = ({ user, status, handleSearchUserClick, idx }) => {
   const [isPending, startTransition] = useTransition();

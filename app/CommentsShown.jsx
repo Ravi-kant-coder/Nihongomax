@@ -1,10 +1,11 @@
+"use client";
+import { requireAuth } from "@/lib/requireAuth";
 import { ChevronDown, ChevronUp, Send } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import userStore from "@/store/userStore";
 import { motion, AnimatePresence } from "framer-motion";
-import Spinner from "./Spinner";
 import { usePostStore } from "@/store/usePostStore";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { useEmojiInsert } from "./hooks/useEmojiInsert";
@@ -15,7 +16,6 @@ import { Input } from "@/components/ui/input";
 const CommentsShown = ({ post, commentText, setCommentText }) => {
   const [showAllComments, setShowAllComments] = useState(false);
   const { user } = userStore();
-  const [isPending, startTransition] = useTransition();
   const { inputRef, insertEmoji } = useEmojiInsert();
   const { handleCommentPost } = usePostStore();
   const t = useT();
@@ -42,7 +42,7 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
           </p>
         </h3>
       )}
-      <div className="">
+      <div>
         <AnimatePresence>
           {visibleComments?.map((comment) => (
             <CommentCard
@@ -115,7 +115,9 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
             ref={inputRef}
             onChange={(e) => setCommentText(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") handleCommentSubmit();
+              if (e.key === "Enter" && commentText.trim()) {
+                requireAuth(handleCommentSubmit);
+              }
             }}
           />
           <div className="absolute -bottom-1 right-1">
@@ -134,18 +136,12 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
 
         <Button
           className="cursor-pointer  hover:bg-gray-700 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
-          onClick={handleCommentSubmit}
+          onClick={() => requireAuth(() => handleCommentSubmit())}
           disabled={loading}
         >
           {loading ? "Sending" : <Send />}
         </Button>
       </div>
-
-      {isPending && (
-        <div className="fixed inset-0 flex items-center justify-center bg-white/30 dark:bg-black/60 backdrop-blur-xs z-9999">
-          <Spinner />
-        </div>
-      )}
     </>
   );
 };

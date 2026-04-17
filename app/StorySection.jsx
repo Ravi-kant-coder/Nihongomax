@@ -4,12 +4,14 @@ import { motion } from "framer-motion";
 import { useStoryStore } from "@/store/useStoryStore";
 import StoryCard from "./StoryCard";
 import StoryTrigger from "./StoryTrigger";
+import { NoFriendsMessage } from "@/lib/Skeleten";
+import StoryTriggerPseudo from "./StoryTriggerPsuedo";
+import userStore from "@/store/userStore";
 
 const StorySection = () => {
   const { stories, fetchStories } = useStoryStore();
-
+  const { user } = userStore();
   const storyRef = useRef(null);
-
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -58,7 +60,7 @@ const StorySection = () => {
           initial={{ y: -500, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           onClick={scrollLeft}
-          className="hidden md:flex absolute left-1 top-1/2 -translate-y-1/2 z-10 h-20 w-8 bg-black/80 text-white rounded 
+          className="hidden md:flex absolute left-1 top-1/2 -translate-y-1/2 z-10 h-20 w-8 bg-black/80 text-white rounded
           shadow-md hover:scale-110 items-center justify-center cursor-pointer hover:bg-black -translate-x-1/2"
         >
           ◀
@@ -68,13 +70,18 @@ const StorySection = () => {
       {/* STORY SCROLL CONTAINER */}
       <div
         ref={storyRef}
-        className="flex overflow-x-hidden scrollbar-hide snap-x snap-mandatory
-          space-x-2 pt-2 pb-4"
+        className="flex overflow-x-hidden scrollbar-hide snap-x snap-mandatory space-x-2 py-4"
       >
         <div className="snap-start shrink-0">
-          <StoryTrigger />
+          {user ? <StoryTrigger /> : <StoryTriggerPseudo />}
         </div>
 
+        {stories.length === 0 && (
+          <NoFriendsMessage
+            text="No Story available"
+            description="Why not put a new story?"
+          />
+        )}
         {stories?.map((story) => (
           <div key={story._id} className="snap-start shrink-0">
             <StoryCard story={story} />

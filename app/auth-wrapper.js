@@ -1,76 +1,75 @@
 "use client";
-import { checkUserAuth, logout } from "@/service/auth.service";
+import { checkUserAuth } from "@/service/auth.service";
 import userStore from "@/store/userStore";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 import Navbar from "./Navbar";
 import NavbarBelow from "./NavbarBelow";
 import LeftSideBar from "./LeftSideBar";
+import AuthModal from "@/components/AuthModal";
 
 export default function AuthWrapper({ children }) {
   const { setUser, clearUser } = userStore();
-  const router = useRouter();
   const pathname = usePathname();
+
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const isResetPasswordPage = pathname.startsWith("/reset-password");
   const isLoginPage = pathname === "/user-login";
-  const isPublicPage = isLoginPage || isResetPasswordPage;
 
   useEffect(() => {
+    let isMounted = true;
+
     const checkAuth = async () => {
       try {
         const result = await checkUserAuth();
-        if (result.isAuthenticated) {
-          setUser(result?.user);
+
+        if (!isMounted) return;
+
+        if (result?.isAuthenticated) {
+          setUser(result.user);
           setIsAuthenticated(true);
         } else {
-          await handleLogout();
+          clearUser();
+          setIsAuthenticated(false);
         }
       } catch (error) {
-        console.error("Authentication fail ho gaya", error);
-        await handleLogout();
+        console.error("Auth check failed:", error);
+        if (isMounted) {
+          clearUser();
+          setIsAuthenticated(false);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
-    const handleLogout = async () => {
-      clearUser();
-      setIsAuthenticated(false);
-      try {
-        await logout();
-      } catch (error) {
-        console.log("logout failed please try again later", error);
-      }
+    checkAuth();
 
-      if (!isPublicPage) {
-        router.push("/user-login");
-      }
+    return () => {
+      isMounted = false;
     };
+  }, [setUser, clearUser]);
 
-    if (!isPublicPage) {
-      checkAuth();
-    } else {
-      setLoading(false);
-    }
-  }, [isPublicPage, router, setUser, clearUser]);
-
-  if (loading && !isPublicPage) {
+  if (loading && !isLoginPage && !isResetPasswordPage) {
     return <Spinner />;
   }
 
   return (
     <>
-      {!isLoginPage && isAuthenticated && (
+      {!isLoginPage && !isResetPasswordPage && (
         <>
-          <Navbar />
-          <LeftSideBar />
-          <NavbarBelow />
+          <Navbar isAuthenticated={isAuthenticated} />
+          <LeftSideBar isAuthenticated={isAuthenticated} />
+          <NavbarBelow isAuthenticated={isAuthenticated} />
         </>
       )}
-      {(isAuthenticated || isPublicPage) && children}
+      {children}
+      <AuthModal />
     </>
   );
 }

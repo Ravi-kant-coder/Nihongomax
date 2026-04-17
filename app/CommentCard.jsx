@@ -1,3 +1,5 @@
+"use client";
+import { requireAuth } from "@/lib/requireAuth";
 import { Trash2 } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -57,7 +59,7 @@ const CommentCard = ({ comment, post, postId, commentId }) => {
         <div className="flex w-full">
           <Avatar
             className="cursor-pointer h-8 w-8 mr-3 hover:ring-1 ring-gray-500"
-            onClick={handleDpClick}
+            onClick={() => requireAuth(handleDpClick)}
           >
             <AvatarImage
               src={comment?.user?.profilePicture || ""}
@@ -70,7 +72,7 @@ const CommentCard = ({ comment, post, postId, commentId }) => {
           <div className="w-full">
             <div
               className="lg:w-70 md:w-50 truncate cursor-pointer overflow-hidden hover:underline capitalize font-[450]"
-              onClick={handleDpClick}
+              onClick={() => requireAuth(handleDpClick)}
             >
               {user?._id === comment?.user?._id ? (
                 <span>{t("you")}</span>

@@ -1,6 +1,6 @@
 "use client";
 import { Home } from "lucide-react";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 

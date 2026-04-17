@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import {
   MapPin,
@@ -11,11 +12,10 @@ import {
 import { formatDate } from "@/lib/utils";
 import userStore from "@/store/userStore";
 import EditSchool from "./EditSchool";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 import MediaShowcase from "../components/MediaShowcase";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import useT from "../hooks/useT";
 import DeleteConfModal from "../components/DeleteConfModel";
+import useT from "../hooks/useT";
 
 const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -85,7 +85,7 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
             ))}
           </div>
         </div>
-        <div className="mb-2">
+        <div className="mb-2 whitespace-pre-wrap">
           <span>{school?.intro || "No Details given by this school."}</span>
         </div>
         <div className="dark:text-gray-400 md:space-y-3 space-y-1">
@@ -94,7 +94,7 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
             <p className="font-semibold mr-2">Location 住所 - &nbsp;</p>
             {school?.location || "Location not specified"}
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center whitespace-pre-wrap">
             <CalendarHeart size={18} strokeWidth={2} className="mr-2" />{" "}
             <p className="font-semibold mr-2">Intakes 年間募集回数 - &nbsp;</p>
             {school?.intakes || "Intake information not provided"}
@@ -136,7 +136,7 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
             )}
           </div>
 
-          <div className="items-center">
+          <div className="items-center whitespace-pre-wrap">
             {school?.schoolDescription ||
               "No other details provided by this School."}
           </div>
@@ -189,18 +189,45 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
 
       {/* --------------------Delete Confirmation Modal------------------- */}
       {showDeleteModal && (
-        <DeleteConfModal
-          user={user}
-          item={t("school")}
-          handleDelete={() => {
-            setReadyTodel(false);
-            handleSchoolDelete(school?._id);
-          }}
-          handleCancel={() => {
-            setShowDeleteModal(false);
-            setReadyTodel(false);
-          }}
-        />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+          <motion.div
+            initial={{ scale: 0, rotate: -50 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="bg-white dark:bg-gray-800 p-10 rounded-lg"
+          >
+            <h2 className="text-xl font-semibold text-center text-red-600 dark:text-white dark:font-normal capitalize">
+              {user?.username?.split(" ")[0]}
+              様、御校広告を削除してもよろしいでしょうか。
+            </h2>
+            <p className=" dark:text-gray-300 text-center my-3 text-lg">
+              削除後は元に戻れません。
+            </p>
+
+            <div className="flex justify-center gap-4 mt-6 ">
+              <button
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setReadyTodel(false);
+                }}
+                className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
+                dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
+              >
+                キャンセル
+              </button>
+              <button
+                onClick={() => {
+                  setReadyTodel(false);
+                  setShowDeleteModal(false);
+                  handleSchoolDelete(school?._id);
+                }}
+                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white text-sm"
+              >
+                はい、削除
+              </button>
+            </div>
+          </motion.div>
+        </div>
       )}
       {/*-----------------------------School Edit Modal-------------------------- */}
       {showSchoolEditModal && (

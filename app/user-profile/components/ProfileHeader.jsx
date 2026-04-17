@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Camera, PenLine, Save, Upload, X, Dot, UserPlus } from "lucide-react";
+import { Camera, Save, Upload, X, Dot, UserPlus } from "lucide-react";
 import { useRef, useState, useEffect, useTransition } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ import userStore from "@/store/userStore";
 import { userFriendStore } from "@/store/userFriendsStore";
 import { useForm } from "react-hook-form";
 import ShowDpPreview from "./ShowDpPreview";
-import Spinner from "../../Spinner";
+import Spinner from "../../../components/Spinner";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import DeleteConfModal from "@/app/components/DeleteConfModel";
@@ -279,7 +279,7 @@ const ProfileHeader = ({
             onClick={() => setIsEditCoverModel(!isEditCoverModel)}
           >
             <Camera className=" mr-0 md:mr-2 h-4 w-4" />
-            <span>Cover Photo</span>
+            <span>{t("cover")}</span>
           </Button>
         )}
       </div>
@@ -310,9 +310,9 @@ const ProfileHeader = ({
             </h1>
             <p className="text-gray-800 flex dark:text-gray-300 ">
               {mutualFriends.length}{" "}
-              {mutualFriends.length === 1 ? "friend" : "friends"}
+              {mutualFriends.length === 1 ? t("friend") : t("friends")}
               <Dot />
-              {profileData?.followingCount} following
+              {profileData?.followingCount} {t("following")}
             </p>
           </div>
           {!isOwner && (
@@ -335,7 +335,7 @@ const ProfileHeader = ({
                 hover:bg-gray-800 dark:hover:bg-gray-700 disabled:opacity-60"
                 >
                   <UserPlus className="w-4 h-4 mr-2" />
-                  Send Friend request
+                  {t("sendFrndReq")}
                 </button>
               )}
 
@@ -354,13 +354,13 @@ const ProfileHeader = ({
               dark:hover:bg-black/60 hover:bg-black/80"
               onClick={() => setIsEditProfileModel(true)}
             >
-              <PenLine className="w-4 h-4 mr-2" />
-              {profileData?.profilePicture ? "Change DP" : "Put DP"}
+              <Camera className="w-4 h-4 mr-2" />
+              {profileData?.profilePicture ? t("changeDp") : t("putDp")}
             </Button>
           )}
         </div>
       </div>
-      {/*------------------------------Edit/Delete DP modal-----------------------------*/}
+      {/*------------------------------Put/Edit/Delete DP modal-----------------------------*/}
       <AnimatePresence>
         {isEditProfileModel && (
           <motion.div
@@ -376,7 +376,7 @@ const ProfileHeader = ({
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  Put/Change/Remove DP
+                  {t("putChngeRemDp")}
                 </h2>
                 <Button
                   className="cursor-pointer hover:bg-gray-300 dark:bg-gray-900
@@ -421,7 +421,7 @@ const ProfileHeader = ({
                     className="cursor-pointer hover:bg-gray-200 mb-2 border-gray-400"
                   >
                     <Upload className="h-4 w-4 mr-2" />
-                    {profileData?.profilePicture ? "Change DP" : "Put DP"}
+                    {profileData?.profilePicture ? t("changeDp") : t("putDp")}
                   </Button>
                   {user?.profilePicture && (
                     <Button
@@ -432,12 +432,12 @@ const ProfileHeader = ({
                       className="cursor-pointer hover:bg-gray-200 border-gray-400 w-40"
                     >
                       <X className="h-4 w-4 mr-1" />
-                      Remove DP
+                      {t("remDp")}
                     </Button>
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="username">Change Username</Label>
+                  <Label htmlFor="username">{t("chngUname")}</Label>
                   <Input
                     className="border-gray-400 mt-2 dark:border-gray-700"
                     id="username"
@@ -455,7 +455,7 @@ const ProfileHeader = ({
                   cursor-pointer text-white dark:hover:bg-black"
                 >
                   <Save className="w-4 h-4 mr-2" />{" "}
-                  {loading ? "Saving..." : "Save changes"}
+                  {loading ? t("saving") : t("saveChngs")}
                 </Button>
               </form>
             </div>
@@ -469,7 +469,7 @@ const ProfileHeader = ({
           onClose={() => setShowDpPreview(false)}
         />
       )}
-      {/* ---------------------------Edit Cover photo Model------------------------ */}
+      {/* ---------------------------Edit Cover photo Modal------------------------ */}
       <AnimatePresence>
         {isEditCoverModel && (
           <motion.div
@@ -487,7 +487,7 @@ const ProfileHeader = ({
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  Edit Cover Photo
+                  {t("editCover")}
                 </h2>
                 <Button
                   variant="ghost"
@@ -524,7 +524,7 @@ const ProfileHeader = ({
                     onClick={() => coverImageInputRef.current?.click()}
                   >
                     <Upload className="h-4 w-4 mr-2" />
-                    Select New Cover Photo
+                    {t("selNewCover")}
                   </Button>
                   {profileData?.coverPhoto && (
                     <Button
@@ -536,7 +536,7 @@ const ProfileHeader = ({
                       onClick={() => setShowDeleteCoverModal(true)}
                     >
                       <X className="h-4 w-4 mr-2" />
-                      Delete Cover Photo
+                      {t("deleteCover")}
                     </Button>
                   )}
                 </div>
@@ -549,7 +549,7 @@ const ProfileHeader = ({
                   type="button"
                 >
                   <Save className="w-4 h-4 mr-2" />{" "}
-                  {loading ? "Saving..." : "Save Cover Photo"}
+                  {loading ? t("saving") : t("saveCover")}
                 </Button>
               </form>
             </motion.div>

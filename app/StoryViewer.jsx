@@ -1,3 +1,4 @@
+import { requireAuth } from "@/lib/requireAuth";
 import { useEffect, useState, useRef } from "react";
 import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,7 +10,13 @@ import DeleteConfModal from "./components/DeleteConfModel";
 import useT from "./hooks/useT";
 import useFormatRelativeTime from "./hooks/useFormatRelativeTime";
 
-const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
+const StoryViewer = ({
+  story,
+  onClose,
+  handleStoryDelete,
+  isLoading,
+  handleStoryUsernameClick,
+}) => {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [videoDuration, setVideoDuration] = useState(null);
@@ -95,8 +102,8 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
       >
         <button
           onClick={handlePrev}
-          className="hidden lg:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-[300px] cursor-pointer
-          z-10 p-6 bg-black/80 text-white rounded-full hover:scale-110 transition-all"
+          className="hidden lg:flex absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-[300px] cursor-pointer  dark:bg-gray-600
+           dark:hover:bg-gray-700 dark:text-white z-10 p-6 bg-black/80 text-white rounded-full hover:scale-110 transition-all"
         >
           <ChevronLeft />
         </button>
@@ -112,22 +119,18 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
                 e.stopPropagation();
                 setShowDeleteModal(true);
               }}
-              className="absolute flex group px-4 border border-gray-500 rounded cursor-pointer hover:border-red-700
-                justify-center items-center text-gray-300 py-1 top-10 ml-2 z-100"
+              className="absolute flex group px-4 border border-gray-500 rounded cursor-pointer hover:border-red-700 bg-black/70 
+                justify-center items-start text-gray-300 py-1 top-10 ml-2 z-100 hover:text-white"
             >
-              <Trash2
-                className=" group-hover:text-red-700 text-white/70 mr-2 w-5 h-5 dark:text-gray-300
-                group-hover:dark:text-red-500 shrink-0"
-              />
-              <p className="group-hover:text-red-700 text-white/70 capitalize">
+              <Trash2 className=" group-hover:text-red-500 text-white/70 mr-2 w-5 h-5 dark:text-gray-300 group-hover:dark:text-red-500 shrink-0" />
+              <p className="group-hover:text-red-500 text-white/70 capitalize">
                 {story?.user?.username.split(" ")[0]} {t("delete")}?
               </p>
             </button>
           )}
           <button
             onClick={onClose}
-            className="absolute right-4 top-10 text-white/70 hover:text-white cursor-pointer p-2 rounded bg-black/70
-            border border-gray-500 z-100"
+            className="absolute right-4 top-10 text-white/70 hover:text-white cursor-pointer p-2 rounded bg-black/70 border border-gray-500 z-100"
           >
             <X size={18} />
           </button>
@@ -148,8 +151,8 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
             ))}
           </div>
           <Button
-            className={`absolute bottom-20 right-10 z-1000 hover:bg-green-200 hover:text-green-800 cursor-pointer border-2 
-              disabled:opacity-100 h-15 w-15 border-green-700 dark:border-gray-500 dark:hover:bg-black rounded-full 
+            className={`absolute bottom-20 right-10 z-1000 cursor-pointer border-2 hover:bg-black/90 hover:scale-110 transition-all
+              disabled:opacity-100 h-15 w-15 border-green-700 dark:border-gray-500 rounded-full bg-black/70 text-white
               flex justify-center items-center text-lg
                 ${
                   story?.isLiked
@@ -159,7 +162,9 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
             onClick={(e) => {
               e.stopPropagation();
               if (story?.isLiked) return;
-              handleLikeStory(story?._id, user);
+              requireAuth(() => {
+                handleLikeStory(story?._id, user);
+              });
             }}
           >
             <Heart
@@ -181,7 +186,7 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
 
           <div className="w-full h-full flex items-center justify-center relative">
             {current?.type === "text" && (
-              <div className="text-white text-xl font-semibold px-6 text-center">
+              <div className="text-white text-xl font-semibold px-6 text-center whitespace-pre-wrap">
                 {current.content}
               </div>
             )}
@@ -218,8 +223,8 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
         </motion.div>
         <button
           onClick={handleNext}
-          className="hidden lg:flex absolute left-1/2 top-1/2 -translate-y-1/2 translate-x-[230px] cursor-pointer
-          z-10 p-6 bg-black/80 text-white rounded-full hover:scale-110 transition-all"
+          className="hidden lg:flex absolute left-1/2 top-1/2 -translate-y-1/2 translate-x-[230px] cursor-pointer dark:bg-gray-600
+           dark:hover:bg-gray-700 dark:text-white z-10 p-6 bg-black/80 text-white rounded-full hover:scale-110 transition-all"
         >
           <ChevronRight />
         </button>

@@ -5,12 +5,16 @@ import FriendRequestCard from "./FriendRequestCard";
 import FriendsSuggestion from "./FriendsSuggestion";
 import { userFriendStore } from "@/store/userFriendsStore";
 import ScrollupBtn from "../ScrollupBtn";
+import userStore from "@/store/userStore";
+import { useRouter } from "next/navigation";
 import useT from "../hooks/useT";
 
 const Page = () => {
   const [requestPage, setRequestPage] = useState(1);
   const [suggestionPage, setSuggestionPage] = useState(1);
   const t = useT();
+  const { user } = userStore();
+  const router = useRouter();
   const {
     followUser,
     loading,
@@ -28,6 +32,12 @@ const Page = () => {
     fetchFriendRequest(1);
     fetchFriendSuggestion(1);
   }, []);
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user]);
 
   const handleAction = async (action, userId) => {
     if (action === "confirm") {
@@ -47,19 +57,16 @@ const Page = () => {
       <div className="mb-20">
         <h1 className="text-2xl font-semibold mb-6">
           {friendRequest.length > 0
-            ? `You Received ${friendRequest.length} `
-            : "No "}
-          {friendRequest.length === 1 ? "Friend" : "Friends"}{" "}
-          {friendRequest.length === 1 ? "Request" : "Requests"}
+            ? `${t("youRecvd")} ${friendRequest.length} `
+            : t("no")}
+          {friendRequest.length === 1 ? t("friend") : t("friends")}{" "}
+          {friendRequest.length === 1 ? t("req") : t("reqs")}
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {loading ? (
             <FriendCardSkeleton />
           ) : friendRequest.length === 0 ? (
-            <NoFriendsMessage
-              text="No Friend Requests"
-              description="Why not connect with new people?"
-            />
+            <NoFriendsMessage text={t("noFrndReq")} />
           ) : (
             friendRequest.map((friend) => (
               <FriendRequestCard
@@ -93,7 +100,7 @@ const Page = () => {
           {loading ? (
             <FriendCardSkeleton />
           ) : friendSuggestion.length === 0 ? (
-            <NoFriendsMessage text="No Friends Suggestion" description="" />
+            <NoFriendsMessage text={t("noFrndSug")} />
           ) : (
             friendSuggestion.map((friend) => (
               <FriendsSuggestion

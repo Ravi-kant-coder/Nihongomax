@@ -2,14 +2,17 @@
 import { useEffect } from "react";
 import WallCard from "./WallCard";
 import PostTrigger from "./PostTrigger";
+import PostTriggerPsuedo from "./PostTriggerPsuedo";
 import StorySection from "./StorySection";
 import { usePostStore } from "@/store/usePostStore";
 import ScrollupBtn from "./ScrollupBtn";
 import useT from "./hooks/useT";
+import userStore from "@/store/userStore";
 
 const Wall = () => {
   const { posts, fetchPost, hasMore } = usePostStore();
   const t = useT();
+  const { user } = userStore();
 
   useEffect(() => {
     fetchPost();
@@ -22,7 +25,7 @@ const Wall = () => {
 
   return (
     <div className="mb-20 dark:bg-[rgb(30,30,30)] p-2 md:max-w-1/2 gap-4">
-      <PostTrigger />
+      {user ? <PostTrigger /> : <PostTriggerPsuedo />}
       <StorySection />
       {posts?.map((post) => (
         <WallCard key={post?._id} post={post} />

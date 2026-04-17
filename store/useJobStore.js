@@ -23,21 +23,30 @@ export const useJobStore = create((set) => ({
 
   deleteJobZust: async (jobId) => {
     set({ loading: true });
+
     try {
-      await deleteJobService(jobId);
+      const response = await deleteJobService(jobId);
+
       set((state) => ({
         jobs: state.jobs.filter((p) => p._id !== jobId),
         loading: false,
+        error: null,
       }));
+
+      return { success: true, data: response };
     } catch (error) {
-      set({ error, loading: false });
       console.error("Zustand job delete error", error);
+
+      set({
+        error: error?.response?.data?.message || error.message,
+        loading: false,
+      });
+
+      throw error;
     }
   },
 
   createJobZust: async (jobData) => {
-    console.log("Zustand data object:", jobData);
-
     set({ loading: true });
     try {
       const newJob = await createJobService(jobData);
@@ -56,7 +65,7 @@ export const useJobStore = create((set) => ({
       await updateJobService(jobId, newContent);
       set((state) => ({
         jobs: state.jobs.map((job) =>
-          job._id === jobId ? { ...job, ...newContent } : job
+          job._id === jobId ? { ...job, ...newContent } : job,
         ),
       }));
     } catch (error) {

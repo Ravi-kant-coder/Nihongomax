@@ -4,7 +4,7 @@ import { formatDate } from "@/lib/utils";
 import { SquarePen, Trash2 } from "lucide-react";
 import userStore from "@/store/userStore";
 import { useNoteStore } from "@/store/useNoteStore";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEmojiInsert } from "../hooks/useEmojiInsert";
 import { Textarea } from "@/components/ui/textarea";
@@ -96,7 +96,7 @@ const Note = ({ initialNote, note }) => {
 
           <div className="p-2">
             {!isEditing ? (
-              <p className="text-gray-800 dark:text-gray-200 font-[450] dark:font-normal text-[18px]">
+              <p className="text-gray-800 dark:text-gray-200 font-[450] dark:font-normal text-[18px] whitespace-pre-wrap">
                 {tempNote}
               </p>
             ) : (

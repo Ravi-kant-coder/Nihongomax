@@ -6,7 +6,7 @@ import userStore from "@/store/userStore";
 import ScrollupBtn from "@/app/ScrollupBtn";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileDetails from "../components/ProfileDetails";
-import Spinner from "@/app/Spinner";
+import Spinner from "@/components/Spinner";
 
 const Page = () => {
   const { user } = userStore();

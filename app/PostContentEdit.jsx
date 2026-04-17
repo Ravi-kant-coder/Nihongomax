@@ -56,10 +56,11 @@ const PostContentEdit = ({
   return (
     <>
       {!isEditing ? (
-        <div className="text-gray-800 font-[450] p-4 dark:text-gray-300">
+        // tempContent && (
+        <div className="text-gray-800 font-[450] p-4 dark:text-gray-300 py-6 whitespace-pre-wrap">
           {wrapEmojis(tempContent)}
           {minutesLeft > 0 && (
-            <div className="text-gray-500 text-xs">
+            <div className="text-gray-500 text-xs mt-2">
               <span className=""> {t("onlyYouCan")}</span>
               <button
                 className=" items-center inline-flex cursor-pointer underline rounded p-1 hover:bg-gray-300 dark:hover:bg-black"
@@ -75,6 +76,7 @@ const PostContentEdit = ({
           )}
         </div>
       ) : (
+        // )
         <>
           <div className="relative">
             <Textarea

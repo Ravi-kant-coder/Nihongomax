@@ -20,7 +20,7 @@ export const updateSchoolService = async (schoolId, content) => {
       `/students/schools/${schoolId}/content`,
       {
         content,
-      }
+      },
     );
     return result?.data?.data;
   } catch (error) {

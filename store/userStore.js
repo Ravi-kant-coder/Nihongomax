@@ -11,8 +11,8 @@ const userStore = create(
     {
       name: "user-storage",
       getStorage: () => localStorage,
-    }
-  )
+    },
+  ),
 );
 
 export default userStore;

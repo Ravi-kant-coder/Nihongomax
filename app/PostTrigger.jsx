@@ -143,16 +143,13 @@ const PostTrigger = () => {
     <Card className="lg:mb-2 shadow-md shadow-gray-400 dark:shadow-black w-full">
       <CardContent className="dark:bg-[rgb(45,45,45)] py-4">
         <Dialog open={isPostTriggerOpen} onOpenChange={setIsPostTriggerOpen}>
-          <DialogTrigger className="w-full flex cursor-pointer justify-between items-center">
+          <DialogTrigger className="w-full flex cursor-pointer justify-between items-center ">
             <Avatar className="h-9 w-9 mr-1">
               <AvatarImage
                 className="object-cover"
                 src={user?.profilePicture}
               />
-              <AvatarFallback
-                className="bg-gray-300 dark:bg-gray-500 hover:bg-gray-300
-             dark:text-white"
-              >
+              <AvatarFallback className="bg-gray-300 dark:bg-gray-500 hover:bg-gray-300 dark:text-white">
                 {user?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -160,27 +157,18 @@ const PostTrigger = () => {
               <Input
                 placeholder={`${t("ask")} ${user?.username.split(" ")[0]}`}
                 readOnly
-                className="rounded-xl border-1 border-gray-300 dark:border-gray-500 
-                     cursor-pointer h-10 dark:bg-[rgb(75,75,75)]"
+                className="rounded-xl border-1 border-gray-300 dark:border-gray-500 cursor-pointer h-10 dark:bg-[rgb(75,75,75)]"
               />
               <SmilePlus className=" absolute right-0 h-6 w-6 text-yellow-500 mr-2" />
             </div>
             <div className="flex justify-center items-center">
-              <div
-                className="ml-1 p-2 cursor-pointer rounded-lg flex items-center
-                   justify-center hover:bg-gray-200 dark:hover:bg-black
-                    dark:text-white"
-              >
+              <div className="ml-1 p-2 cursor-pointer rounded-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-black dark:text-white">
                 <PhotoIcon className="h-5 w-5 text-green-600 mr-1" />
                 <span className="hidden md:flex whitespace-nowrap">
                   {t("photos")}
                 </span>
               </div>
-              <div
-                className=" p-2 hover:bg-gray-200 cursor-pointer rounded-lg
-                   flex items-center justify-center dark:hover:bg-black
-                    dark:text-white"
-              >
+              <div className=" p-2 hover:bg-gray-200 cursor-pointer rounded-lg flex items-center justify-center dark:hover:bg-black dark:text-white">
                 <Clapperboard
                   className="h-5 w-5 text-red-600 mr-1"
                   shrink={0}
@@ -236,10 +224,7 @@ const PostTrigger = () => {
             </div>
 
             {/* ------------------Image/video 4 media slots---------------------*/}
-            <div
-              className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 
-                 md:space-x-4 mb-4 md:justify-start"
-            >
+            <div className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4 mb-4 md:justify-start">
               <AnimatePresence>
                 {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
                   <motion.div
@@ -253,8 +238,8 @@ const PostTrigger = () => {
                       <button
                         type="button"
                         onClick={() => handleRemoveSlot(index)}
-                        className="absolute -top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white 
-                          flex items-center justify-center text-sm hover:bg-black cursor-pointer"
+                        className="absolute -top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white flex items-center justify-center 
+                        text-sm hover:bg-black cursor-pointer"
                       >
                         <X className="h-4 w-4" />
                       </button>
@@ -283,9 +268,8 @@ const PostTrigger = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2 }}
-                  className="w-[120px] flex flex-col items-center justify-center cursor-pointer dark:text-gray-400
-                     border border-gray-500 rounded-lg text-gray-500 hover:border-gray-700 hover:text-gray-700
-                   dark:hover:border-white dark:hover:text-white dark:border-gray-400"
+                  className="w-[120px] flex flex-col items-center justify-center cursor-pointer dark:text-gray-400 border border-gray-500 rounded-lg
+                   text-gray-500 hover:border-gray-700 hover:text-gray-700 dark:hover:border-white dark:hover:text-white dark:border-gray-400"
                 >
                   <span className="text-4xl">
                     <Plus className="h-6 w-6" />

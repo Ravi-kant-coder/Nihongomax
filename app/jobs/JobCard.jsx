@@ -36,7 +36,7 @@ const JobCard = ({ job, handleJobDelete }) => {
         animate={{ opacity: 1, height: "auto", rotate: readyTodel ? -5 : 0 }}
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className={`${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(70,0,0)]" : "dark:bg-[rgb(55,55,55)] bg-white "} 
+        className={`${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(70,0,0)]" : "dark:bg-[rgb(55,55,55)] bg-white"} 
     shadow-gray-400 md:mx-20 md:my-8 m-6  rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:border-gray-200 dark:bg-black`}
       >
         <div className="flex flex-col items-start justify-between">
@@ -44,10 +44,7 @@ const JobCard = ({ job, handleJobDelete }) => {
             <div className="relative mx-auto my-auto overflow-hidden rounded p-1">
               <Avatar className="w-30 h-20 rounded mr-2">
                 <AvatarImage src={job?.mediaUrl} className="object-cover" />
-                <AvatarFallback
-                  className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
-                 font-semibold rounded mr-2 text-2xl"
-                >
+                <AvatarFallback className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl font-semibold rounded mr-2 text-2xl">
                   {job?.company?.charAt(0)?.toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -75,7 +72,7 @@ const JobCard = ({ job, handleJobDelete }) => {
             <p className="font-semibold flex items-center dark:font-normal">
               Requirements:
             </p>
-            <span>
+            <span className="whitespace-pre-wrap">
               {job?.requirements ||
                 "No specific requirements mentioned for this job post."}
             </span>
@@ -84,7 +81,7 @@ const JobCard = ({ job, handleJobDelete }) => {
             <div className="flex items-center text-sm">
               <MapPin size={18} strokeWidth={2} className="mr-2" />{" "}
               <p className="font-semibold mr-2">Location:</p>
-              {job?.location || "Please contact for Job location"}
+              {job?.location || "Contact for Job location"}
             </div>
             <div className="flex items-center text-sm">
               <IndianRupee size={16} strokeWidth={2} className="mr-2" />
@@ -126,7 +123,7 @@ const JobCard = ({ job, handleJobDelete }) => {
             </div>
             <div className="items-center text-sm">
               <p className="font-semibold">Job&nbsp;Description:</p>
-              <span>
+              <span className="whitespace-pre-wrap">
                 {job?.jobDescription ||
                   "No description provided for this job post."}
               </span>
@@ -182,6 +179,7 @@ const JobCard = ({ job, handleJobDelete }) => {
           item={t("job")}
           handleDelete={() => {
             setReadyTodel(false);
+            setShowDeleteModal(false);
             handleJobDelete(job?._id);
           }}
           handleCancel={() => {

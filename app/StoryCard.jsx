@@ -1,4 +1,5 @@
 "use client";
+import { requireAuth } from "@/lib/requireAuth";
 import { useState, useRef, useTransition } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,7 +10,7 @@ import StoryViewer from "./StoryViewer";
 import AutoLoopVideo from "./AutoLoopVideo";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 import DeleteConfModal from "./components/DeleteConfModel";
 import useT from "./hooks/useT";
 
@@ -18,8 +19,7 @@ const StoryCard = ({ story }) => {
   const [filePreview, setFilePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileType, setFileType] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { deleteUserStory, fetchStories } = useStoryStore();
+  const { deleteUserStory, fetchStories, loading } = useStoryStore();
   const [showPreview, setShowPreview] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -43,16 +43,14 @@ const StoryCard = ({ story }) => {
 
   const handleStoryDelete = async () => {
     setShowDeleteModal(false);
-    startTransition(async () => {
-      if (story?._id) {
-        try {
-          await deleteUserStory(story?._id);
-          await fetchStories();
-        } catch (err) {
-          console.error("Delete failed", err);
-        }
+    if (story?._id) {
+      try {
+        await deleteUserStory(story?._id);
+        await fetchStories();
+      } catch (err) {
+        console.error("Delete failed", err);
       }
-    });
+    }
   };
 
   const handleStoryUsernameClick = (e) => {
@@ -79,7 +77,7 @@ const StoryCard = ({ story }) => {
       <img
         src={current.url}
         alt={story?.user?.username}
-        className="w-full h-full object-cover cursor-pointer hover:scale-102"
+        className="w-full h-full object-cover cursor-pointer hover:scale-105 transition"
       />
     );
   } else if (current?.type === "video") {
@@ -89,7 +87,7 @@ const StoryCard = ({ story }) => {
   return (
     <>
       <Card
-        className="shadow-md shadow-gray-400 cursor-pointer  md:w-30 h-50 w-20  overflow-hidden dark:shadow-[rgb(20,20,20)]
+        className="shadow-md shadow-gray-400 cursor-pointer md:w-30 h-50 w-20 overflow-hidden dark:shadow-[rgb(20,20,20)]
         dark:bg-[rgb(45,45,45)] rounded-lg object-cover snap-start shrink-0 relative group bg-accent"
         onClick={handleStoryCardClick}
       >
@@ -97,15 +95,17 @@ const StoryCard = ({ story }) => {
           <>
             {mediaContent}
             <div className="absolute top-2 left-2 hover:ring-3 ring-2 ring-green-700 rounded-full transition-all">
-              <Avatar onClick={handleStoryUsernameClick}>
+              <Avatar
+                onClick={(e) => {
+                  e.stopPropagation();
+                  requireAuth(() => handleStoryUsernameClick());
+                }}
+              >
                 <AvatarImage
                   src={story?.user?.profilePicture}
                   className="object-cover"
                 />
-                <AvatarFallback
-                  className="w-full h-full flex justify-center text-xl 
-                    bg-gray-400 items-center dark:text-white dark:bg-[rgb(55,55,55)]"
-                >
+                <AvatarFallback className="w-full h-full flex justify-center text-xl bg-gray-400 items-center dark:text-white dark:bg-[rgb(55,55,55)]">
                   {story?.user?.username?.split(" ")[0][0]?.toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -120,16 +120,17 @@ const StoryCard = ({ story }) => {
                 className="group absolute top-0 right-0"
               >
                 <Trash2
-                  className=" hover:text-red-700 text-white bg-black/70
-                     hover:bg-white/70 dark:text-gray-300 rounded py-1
+                  className=" hover:text-red-700 text-white bg-black/70 hover:bg-white/70 dark:text-gray-300 rounded py-1
                      hover:dark:text-red-500 shrink-0"
                 />
               </button>
             )}
             <p
-              className="text-white text-xs capitalize bg-black/70 rounded p-1 max-w-18
-                truncate absolute bottom-1 left-1 md:max-w-25 hover:underline cursor-pointer"
-              onClick={handleStoryUsernameClick}
+              className="text-white text-xs capitalize bg-black/70 rounded p-1 max-w-18 truncate absolute bottom-1 left-1 md:max-w-25 hover:underline cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                requireAuth(() => handleStoryUsernameClick());
+              }}
             >
               {user?._id === story?.user?._id
                 ? t("you")
@@ -163,6 +164,14 @@ const StoryCard = ({ story }) => {
         )}
       </motion.div>
       {/* ------------------------Spinner-------------------------- */}
+      {loading && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm z-9999 transition-opacity 
+        duration-300 opacity-100"
+        >
+          <Spinner />
+        </div>
+      )}
       {isPending && (
         <div
           className="fixed inset-0 flex items-center justify-center bg-white/60 dark:bg-black/60 backdrop-blur-sm z-9999 transition-opacity 

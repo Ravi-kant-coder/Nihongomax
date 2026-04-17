@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserMinus, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import Spinner from "../Spinner";
+import Spinner from "../../components/Spinner";
 import useT from "../hooks/useT";
 
 const FriendRequestCard = ({ friend, onAction }) => {

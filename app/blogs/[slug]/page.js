@@ -3,9 +3,10 @@ import remarkGfm from "remark-gfm";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import AdminBlogButtons from "@/app/components/AdminBlogButtons";
+import EditBlogButton from "@/app/components/EditBlogButton";
+import { getBlogs } from "@/lib/blog";
 
-/* ---------------- FETCH BLOG ---------------- */
+/* ---------------- FETCH ONE BLOG ---------------- */
 
 async function getBlog(slug) {
   try {
@@ -26,31 +27,10 @@ async function getBlog(slug) {
   }
 }
 
-/* ---------------- FETCH ALL BLOGS ---------------- */
-
-async function getAllBlogs() {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs`,
-      {
-        next: { revalidate: 3600 },
-      },
-    );
-
-    if (!res.ok) return [];
-
-    const data = await res.json();
-
-    return data?.data || [];
-  } catch (error) {
-    return [];
-  }
-}
-
 /* ---------------- STATIC PARAMS ---------------- */
 
 export async function generateStaticParams() {
-  const blogs = await getAllBlogs();
+  const blogs = await getBlogs();
 
   return blogs.map((blog) => ({
     slug: blog.slug,
@@ -85,7 +65,7 @@ export async function generateMetadata({ params }) {
     },
 
     alternates: {
-      canonical: `/information/${slug}`,
+      canonical: `/blogs/${slug}`,
     },
   };
 }
@@ -115,7 +95,7 @@ function autoLinkContent(content, blogs, currentSlug) {
 
     updatedContent = updatedContent.replace(
       regex,
-      `[${blog.title}](/information/${blog.slug})`,
+      `[${blog.title}](/blogs/${blog.slug})`,
     );
   });
 
@@ -166,7 +146,7 @@ export default async function BlogPage({ params }) {
   const { slug } = await params;
 
   const blog = await getBlog(slug);
-  const blogs = await getAllBlogs();
+  const blogs = await getBlogs();
 
   if (!blog) return notFound();
 
@@ -181,7 +161,7 @@ export default async function BlogPage({ params }) {
 
   return (
     <div className="max-w-8xl mx-auto px-4 py-10">
-      <h1 className="text-5xl font-bold mb-8 dark:text-gray-300 text-gray-700">
+      <h1 className="text-5xl font-bold mb-4 dark:text-gray-300 text-gray-700">
         {blog.title}
       </h1>
 
@@ -210,9 +190,7 @@ export default async function BlogPage({ params }) {
           itemScope
           itemType="https://schema.org/Article"
         >
-          <p className="text-gray-700 dark:text-gray-400 mb-6">
-            {readingTime} min read
-          </p>
+          <p className="mb-2">{readingTime} min read</p>
           <div className="mb-8 rounded-xl bg-gray-200 dark:bg-[rgb(20,20,20)] sm:flex overflow-hidden">
             {blog?.featuredImage?.url && (
               <div className="w-full sm:w-[45%]">
@@ -245,7 +223,7 @@ export default async function BlogPage({ params }) {
               </div>
             )}
           </div>
-          <div className="prose prose-lg dark:prose-invert max-w-none scroll-smooth">
+          <div className="prose prose-lg dark:prose-invert max-w-none whitespace-pre-wrap">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -342,7 +320,7 @@ export default async function BlogPage({ params }) {
 
           <div className="clear-both"></div>
 
-          <AdminBlogButtons blogId={blog._id} />
+          <EditBlogButton blogId={blog._id} />
         </article>
 
         <aside className="space-y-4">
@@ -353,7 +331,7 @@ export default async function BlogPage({ params }) {
           {relatedBlogs.map((item) => (
             <Link
               key={item._id}
-              href={`/information/${item.slug}`}
+              href={`/blogs/${item.slug}`}
               className="flex justify-start items-center bg-gray-100 hover:bg-white dark:hover:bg-gray-800 rounded-lg dark:bg-black"
             >
               <div className="w-10 h-10 m-2 rounded-full flex-shrink-0">

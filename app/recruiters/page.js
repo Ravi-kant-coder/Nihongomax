@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import JobTrigger from "@/app/recruiters/JobTrigger";
-
+import userStore from "@/store/userStore";
+import { useRouter } from "next/navigation";
 import {
   MapPin,
   IndianRupee,
@@ -21,26 +22,27 @@ const Recruiters = () => {
   const year = today.getFullYear();
   const formattedDate = `${day}-${month}-${year}`;
   const [showModal, setShowModal] = useState(false);
+  const { user } = userStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user]);
 
   return (
     <div className="mx-3">
-      <h1
-        className="md:text-5xl text-xl text-gray-800 font-semibold text-center
-         dark:text-[rgb(150,150,150)]"
-      >
+      <h1 className="md:text-5xl text-xl text-gray-800 font-semibold text-center dark:text-[rgb(150,150,150)]">
         Dear Recruiters, Post JOBS for FREE
       </h1>
-      <h2
-        className=" font-semibold text-gray-600 text-center md:text-4xl text-lg md:mt-4
-        dark:text-gray-500"
-      >
-        1万人以上に求人情報をご掲載ください。完全に無料です。
+      <h2 className=" font-semibold text-gray-600 text-center md:text-4xl text-lg md:mt-4 dark:text-gray-500">
+        数人の学習者・社会人に求人情報をご掲載ください。
+        <br />
+        完全に無料です。
       </h2>
-      <h2
-        className="md:text-xl text-sm dark:text-gray-300 text-center dark:font-normal 
-          md:mt-2 font-semibold"
-      >
-        Show your Job posts to over 10,000 Japanese learners and working
+      <h2 className="md:text-2xl text-sm dark:text-gray-300 text-center dark:font-normal md:mt-2 font-semibold">
+        Show your Job posts to varoius Japanese learners and working
         professionals
       </h2>
       <div className="flex justify-center items-center mt-6">
@@ -57,34 +59,22 @@ const Recruiters = () => {
 
       {/* --------------------------Sample Job Post---------------------------- */}
       <div className="flex md:mx-20 md:my-8 flex-col mx-4 md:ml-30 mb-20 xl:mx-40">
-        <div
-          className="my-2 bg-white rounded-xl p-6 md:space-y-4 space-y-2 border
-                 border-black dark:border-gray-200 dark:bg-black"
-        >
+        <div className="my-2 bg-white rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:border-gray-200 dark:bg-black">
           <div className="flex flex-col items-start justify-between">
             <div className="flex items-center">
               <div className="relative mx-auto my-auto overflow-hidden rounded mr-4">
                 <Avatar className="w-30 h-20 rounded">
                   <AvatarImage src={"/tsukimi.png"} className="object-cover" />
-                  <AvatarFallback
-                    className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl
-                          font-semibold rounded mr-2 text-2xl"
-                  >
+                  <AvatarFallback className="bg-gray-400 dark:bg-gray-500 w-30 h-20 lg:text-4xl font-semibold rounded mr-2 text-2xl">
                     N
                   </AvatarFallback>
                 </Avatar>
               </div>
               <div>
-                <p
-                  className="font-semibold md:text-2xl text-xl text-gray-700
-                     dark:text-gray-300"
-                >
+                <p className="font-semibold md:text-2xl text-xl text-gray-700 dark:text-gray-300">
                   New Technologies xyz Pvt. Ltd.
                 </p>
-                <p
-                  className="text-xs flex flex-col md:text-sm
-                         text-gray-700 dark:text-gray-400"
-                >
+                <p className="text-xs flex flex-col md:text-sm text-gray-700 dark:text-gray-400">
                   {formattedDate}
                 </p>
               </div>
@@ -95,20 +85,22 @@ const Recruiters = () => {
             Sector
           </p>
           <div>
-            <div className="mb-2">
-              <p className="font-semibold flex items-center dark:font-normal">
+            <div className="mb-4  ">
+              <p className="font-semibold flex items-center dark:font-normal dark:text-gray-300">
                 Requirements:
               </p>
-              <span>
+              <span className="dark:text-gray-400">
                 {" "}
                 New Technologies xyz Pvt. Ltd. is the largest private provider
                 of IT services in Japan, We are looking for candidates who are
                 driven and motivated in developing next generation technologies.
                 We are excited to welcome you to our family brimming with
                 innovation and the love for UI-UX.
+                <br /> 1. These are some requiremets
+                <br /> 2. These are few other requiremets
               </span>
             </div>
-            <div className="dark:text-gray-400 md:space-y-3 space-y-1">
+            <div className="dark:text-gray-400 md:space-y-4 space-y-1">
               <div className="flex items-center text-sm">
                 <MapPin size={18} strokeWidth={2} className="mr-2" />{" "}
                 <p className="font-semibold mr-2">Location:</p>
@@ -117,7 +109,7 @@ const Recruiters = () => {
               <div className="flex items-center text-sm">
                 <IndianRupee size={16} strokeWidth={2} className="mr-2" />
                 <p className="font-semibold mr-2">Salary:</p>
-                INR 50,000 - 60,000 per month
+                INR XX0,000 - XX0,000 per annum (Some details) etc..
               </div>
               <div className="flex items-center text-sm">
                 <Mail size={16} strokeWidth={2} className="mr-2" />
@@ -150,6 +142,8 @@ const Recruiters = () => {
                   quality of the product. If you are driven and have a passion
                   for technology and a desire to inspire and share your
                   knowledge !
+                  <br /> 1. These are some more details
+                  <br /> 2. These are few more details
                 </span>
               </div>
             </div>
@@ -157,13 +151,12 @@ const Recruiters = () => {
           <div className="flex justify-start items-center">
             <div className="text-sm">
               <button
-                className="mt-4 bg-gray-400 dark:bg-red-900 cursor-pointer
-                     dark:hover:bg-red-700 hover:bg-gray-700  hover:text-white
+                className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-700  hover:text-white
                       py-2 px-4 rounded font-semibold dark:font-normal"
               >
                 Edit this Job-Post
               </button>
-              <p className="dark:text-gray-500">
+              <p className="dark:text-gray-300">
                 Only you will see this button
               </p>
             </div>
@@ -176,7 +169,7 @@ const Recruiters = () => {
               >
                 Delete this Job-Post
               </button>
-              <p className="dark:text-gray-500">
+              <p className="dark:text-gray-300">
                 Only you will see this button
               </p>
             </div>

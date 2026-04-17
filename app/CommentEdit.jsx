@@ -52,7 +52,7 @@ const CommentEdit = ({ postId, commentId, initialComment }) => {
       >
         {!isEditing ? (
           <div>
-            <p className="text-gray-800 dark:text-gray-300 text-md font-semibold ">
+            <p className="text-gray-800 dark:text-gray-300 text-md font-semibold whitespace-pre-wrap">
               {wrapEmojis(tempComment)}
             </p>
             <div className="flex items-center mt-2">

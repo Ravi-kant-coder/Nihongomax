@@ -25,7 +25,6 @@ import useT from "@/app/hooks/useT";
 const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
   const [isEditBioModel, setIsEditBioModel] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [likePosts, setLikePosts] = useState(new Set());
   const t = useT();
   const {
@@ -78,10 +77,12 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             shadow-lg dark:shadow-black"
           >
             <h2 className="text-xl font-semibold dark:text-gray-300 capitalize">
-              {isOwner ? "Your" : `${profileData?.username?.split(" ")[0]}'s`}{" "}
+              {isOwner
+                ? t("your")
+                : `${profileData?.username?.split(" ")[0]}${t("s")}`}{" "}
               {t("intro")}
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <p className="text-gray-600 dark:text-gray-300 mb-4 whitespace-pre-wrap">
               {profileData?.bio?.bioText}
             </p>
             <div className="space-y-2 mb-4 dark:text-gray-300">
@@ -90,7 +91,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   <GraduationCap className="w-5 h-5 mr-1 shrink-0" />
                   {t("education")}:
                 </div>
-                <span className="ml-2">
+                <span className="ml-2 whitespace-pre-wrap">
                   {profileData?.bio?.liveIn || (
                     <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
@@ -101,7 +102,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   <Languages className="w-5 h-5 mr-1 shrink-0" />
                   JLPT/NAT {t("cleared")}:
                 </div>
-                <span className="ml-2">
+                <span className="ml-2 whitespace-pre-wrap">
                   {profileData?.bio?.relationship || (
                     <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
@@ -112,7 +113,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   <MapPin className="w-5 h-5 mr-1 shrink-0" />
                   {t("workPlace")}:
                 </div>
-                <span className="ml-2">
+                <span className="ml-2 whitespace-pre-wrap">
                   {profileData?.bio?.workplace || (
                     <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
@@ -123,7 +124,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   <Briefcase className="w-5 h-5 mr-1 shrink-0" />
                   {t("workEx")}:
                 </div>
-                <span className="ml-2">
+                <span className="ml-2 whitespace-pre-wrap">
                   {profileData?.bio?.education || (
                     <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
@@ -134,7 +135,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   <BookOpenCheck className="w-5 h-5 mr-1 shrink-0" />
                   {t("certi")}:
                 </div>
-                <span className="ml-2">
+                <span className="ml-2 whitespace-pre-wrap">
                   {profileData?.bio?.hometown || (
                     <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
@@ -145,7 +146,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   <Plane className="w-5 h-5 mr-1 shrink-0" />
                   {t("japEx")}:
                 </div>
-                <span className="ml-2">
+                <span className="ml-2 whitespace-pre-wrap">
                   {profileData?.bio?.birthday || (
                     <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
@@ -156,7 +157,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                   <BookHeart className="w-5 h-5 mr-1 shrink-0" />
                   {t("aboutMe")}:
                 </div>
-                <span className="ml-2">
+                <span className="ml-2 whitespace-pre-wrap">
                   {profileData?.bio?.address || (
                     <p className="text-gray-500">{t("notMentioned")}</p>
                   )}
@@ -172,16 +173,16 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             </div>
             <div className="flex items-center mt-2">
               <Mail className="w-5 h-5 mr-2 shrink-0" />
-              {t("email")}:
-              <span className="ml-2">
+              <span className="whitespace-nowrap">{t("email")}:</span>
+              <span className="ml-2 whitespace-pre-wrap">
                 {profileData?.email || (
                   <p className="text-gray-500">{t("notMentioned")}</p>
                 )}
               </span>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center ">
               <Phone className="w-5 h-5 mr-2 shrink-0" />
-              {t("nationality")}:
+              <span className="whitespace-nowrap">{t("nationality")}:</span>
               <span className="ml-2">
                 {" "}
                 {profileData?.bio?.nationality || (
@@ -193,7 +194,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
               <Rss className="w-5 h-5 mr-2 shrink-0" />
               <span>
                 {t("followedBy")} {profileData?.followerCount}{" "}
-                {profileData?.followerCount === 1 ? "person" : t("people")}
+                {profileData?.followerCount === 1 ? t("person") : t("people")}
               </span>
             </div>
             {isOwner && (
@@ -214,7 +215,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             shadow-lg dark:shadow-black"
           >
             <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
-              Photos by{" "}
+              {t("photosBy")}{" "}
               {isOwner ? (
                 t("you")
               ) : (
@@ -254,7 +255,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             className="bg-white dark:bg-[rgb(55,55,55)] rounded-t-lg 
           mb-2 p-2 font-[450] text-center text-lg capitalize"
           >
-            Posts by {isOwner ? t("you") : `${profileData?.username}`}
+            {t("by")} {isOwner ? t("you") : `${profileData?.username}`}
           </div>
         )}
         {loading ? (
@@ -264,9 +265,9 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             text={t("noQuesPhoto")}
             description={
               <>
-                Why not put on{" "}
+                {t("whyNotPutOn")}{" "}
                 <HomeIcon className="inline-block w-5 h-5 align-text-top" />{" "}
-                wall?
+                {t("wall")}
               </>
             }
           />

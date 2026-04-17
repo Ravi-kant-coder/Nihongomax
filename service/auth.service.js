@@ -1,12 +1,10 @@
 import axiosInstance from "./url.service";
 
 export const registerUser = async (userData) => {
-  console.log("Service FormData:", [...userData.entries()]);
   try {
     const response = await axiosInstance.post("/auth/register", userData);
     return response.data;
   } catch (error) {
-    // forward backend error to the caller
     throw error;
   }
 };
@@ -43,14 +41,13 @@ export const logout = async () => {
 
 export const checkUserAuth = async () => {
   try {
-    const response = await axiosInstance.get("users/check-auth");
-    if (response.data.status === "success") {
-      return { isAuthenticated: true, user: response?.data?.data };
-    } else if (response.status === "error") {
-      return { isAuthenticated: false };
-    }
+    const response = await axiosInstance.get("/auth/me");
+
+    return {
+      isAuthenticated: true,
+      user: response?.data?.data,
+    };
   } catch (error) {
-    console.log(error);
     return { isAuthenticated: false };
   }
 };

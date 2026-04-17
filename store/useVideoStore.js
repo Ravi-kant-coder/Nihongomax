@@ -29,13 +29,6 @@ const useVideoStore = create((set) => ({
   syncYouTube: async () => {
     await axiosInstance.post("/youtube/sync");
   },
-
-  updateTags: async (_id, tags) => {
-    await axiosInstance.patch("/videos", { _id, tags });
-    set((state) => ({
-      videos: state.videos.map((v) => (v._id === _id ? { ...v, tags } : v)),
-    }));
-  },
 }));
 
 export default useVideoStore;

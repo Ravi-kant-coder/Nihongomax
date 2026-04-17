@@ -1,31 +1,12 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import userStore from "@/store/userStore";
 
 export default function CreateBlogButton() {
   const router = useRouter();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { user } = userStore();
 
-  useEffect(() => {
-    async function checkUser() {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/me`,
-          { withCredentials: true },
-        );
-
-        if (res.data?.data?.userId === process.env.NEXT_PUBLIC_ADMIN_ID) {
-          setIsAdmin(true);
-        }
-      } catch (error) {
-        console.log("not Admin");
-      }
-    }
-
-    checkUser();
-  }, []);
+  const isAdmin = user?._id && user._id === process.env.NEXT_PUBLIC_ADMIN_ID;
 
   if (!isAdmin) return null;
 

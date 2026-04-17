@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import userStore from "@/store/userStore";
 
 export default function AdminBlogButtons({ blogId }) {
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const { user } = userStore();
 
   useEffect(() => {
     async function checkUser() {
@@ -45,7 +47,7 @@ export default function AdminBlogButtons({ blogId }) {
         { withCredentials: true },
       );
 
-      router.push("/information");
+      router.push("/blogs");
       router.refresh();
     } catch (error) {
       alert("Failed to delete blog");

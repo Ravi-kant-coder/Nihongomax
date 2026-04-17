@@ -23,7 +23,6 @@ export const usePostStore = create((set, get) => ({
   page: 1,
   hasMore: true,
 
-  // 🔥 Reset feed (important for navigation fixes)
   resetPosts: () => {
     set({
       posts: [],
@@ -32,7 +31,6 @@ export const usePostStore = create((set, get) => ({
     });
   },
 
-  // 🔥 Safely update post in all 3 pages
   updatePostEverywhere: (postId, updater) => {
     set((state) => {
       const updateList = (list = []) =>
@@ -46,7 +44,6 @@ export const usePostStore = create((set, get) => ({
     });
   },
 
-  // 🔥 DUPLICATE-PROOF PAGINATION
   fetchPost: async () => {
     const { page, hasMore, loading } = get();
     if (!hasMore || loading) return;
@@ -115,7 +112,6 @@ export const usePostStore = create((set, get) => ({
 
   deleteUserPost: async (postId) => {
     set({ loading: true });
-
     try {
       await deletePost(postId);
 

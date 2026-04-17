@@ -16,7 +16,7 @@ export const updateJobService = async (jobId, content) => {
       `/candidates/jobs/${jobId}/content`,
       {
         content,
-      }
+      },
     );
     return result?.data?.data;
   } catch (error) {

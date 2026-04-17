@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import ThemeToggle from "@/app/ThemeToggle";
-import Spinner from "./Spinner";
+import Spinner from "../components/Spinner";
 import useT from "./hooks/useT";
 
 const UserMenu = ({ handleLogout }) => {
@@ -27,6 +27,7 @@ const UserMenu = ({ handleLogout }) => {
   const [isPending, startTransition] = useTransition();
   const t = useT();
   const router = useRouter();
+
   const handleNavigation = (path) => {
     startTransition(() => {
       router.push(path);

@@ -324,8 +324,11 @@ body {
 .cursor {
   width: 2px;
   height: 24px;
-  background: gray;
+  background: black;
   animation: blink 1s infinite;
+}
+.dark .cursor {
+  background: white;
 }
 
 .emoji-span {
@@ -344,14 +347,16 @@ body {
 
 .prose a {
   font-weight: normal;
-  background-color: #bbbbbb;
+  background-color: #a9a9a9;
   border-radius: 5px;
   padding: 5px;
   text-decoration: none;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .prose a:hover {
-  background-color: #a9a9a9;
+  background-color: #9e9e9e;
 }
 
 .dark .prose a {

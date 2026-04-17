@@ -1,4 +1,5 @@
 "use client";
+import { requireAuth } from "@/lib/requireAuth";
 import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -83,10 +84,7 @@ const WallCardButtons = ({ post }) => {
             </div>
           )
         )}
-        <span
-          className="border-gray-400 cursor-pointer "
-          onClick={() => setShowComments(!showComments)}
-        >
+        <span>
           {post?.comments?.length}{" "}
           {post?.comments?.length === 1 ? (
             <span>{t("comment")}</span>
@@ -100,8 +98,8 @@ const WallCardButtons = ({ post }) => {
           <Button
             variant="ghost"
             disabled={post?.isLiked}
-            className={`hover:bg-red-200 hover:text-red-600 cursor-pointer border disabled:opacity-80
-               border-gray-300 dark:border-gray-500 dark:hover:bg-black
+            className={`hover:bg-red-200 hover:text-red-600 cursor-pointer border disabled:opacity-80 border-gray-300 dark:border-gray-500
+               dark:hover:bg-black
               ${
                 post?.isLiked
                   ? "text-red-500 border-red-300 dark:border-red-800 hover:bg-white cursor-auto"
@@ -109,8 +107,10 @@ const WallCardButtons = ({ post }) => {
               }`}
             onClick={() => {
               if (post?.isLiked) return;
-              handleLikePost(post?._id, user);
-              setLikeEffect(true);
+              requireAuth(() => {
+                handleLikePost(post?._id, user);
+                setLikeEffect(true);
+              });
             }}
           >
             <span>
@@ -156,7 +156,7 @@ const WallCardButtons = ({ post }) => {
           <Button
             variant="ghost"
             disabled={post?.isSaved}
-            className={`" hover:bg-gray-300 cursor-pointer border flex items-center disabled:opacity-50
+            className={`" hover:bg-gray-300 cursor-pointer border flex items-center disabled:opacity-70
            dark:hover:bg-background dark:text-gray-300 border-gray-300 dark:border-gray-500"  ${
              post?.isSaved
                ? "text-green-700 border-green-500 dark:border-green-800 hover:bg-white cursor-auto"
@@ -164,8 +164,10 @@ const WallCardButtons = ({ post }) => {
            }`}
             onClick={() => {
               if (post?.isSaved) return;
-              handleSavePost(post?._id, user);
-              setSaveEffect(true);
+              requireAuth(() => {
+                handleSavePost(post?._id, user);
+                setSaveEffect(true);
+              });
             }}
           >
             <span>

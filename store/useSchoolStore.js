@@ -24,14 +24,21 @@ export const useSchoolStore = create((set) => ({
   deleteSchoolZust: async (schoolId) => {
     set({ loading: true });
     try {
-      await deleteSchoolService(schoolId);
+      const response = await deleteSchoolService(schoolId);
       set((state) => ({
         schools: state.schools.filter((school) => school._id !== schoolId),
         loading: false,
+        error: null,
       }));
+      return { success: true, data: response };
     } catch (error) {
-      set({ error, loading: false });
       console.error("Zustand School delete error", error);
+
+      set({
+        error: error?.response?.data?.message || error.message,
+        loading: false,
+      });
+      throw error;
     }
   },
 

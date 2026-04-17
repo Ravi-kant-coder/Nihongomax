@@ -1,18 +1,28 @@
 "use client";
 import { useEffect, useState } from "react";
-import ScrollupBtn from "../ScrollupBtn";
 import { useSchoolStore } from "@/store/useSchoolStore";
 import SchoolCard from "./SchoolCard";
-import { useBanner } from "../hooks/useBanner";
-import Banner from "../Banner";
+import Banner from "../../components/Banner";
+import useBannerStore from "@/store/useBannerStore";
+import ScrollupBtn from "../ScrollupBtn";
+import userStore from "@/store/userStore";
+import { useRouter } from "next/navigation";
 import useT from "../hooks/useT";
 
 const StudyInJapan = () => {
   const { schools, fetchSchoolsZust, deleteSchoolZust, loading } =
     useSchoolStore();
-  const { banner, showBanner } = useBanner();
+  const showBanner = useBannerStore((state) => state.showBanner);
   const [isEditSchoolModel, setIsEditSchoolModel] = useState(false);
   const t = useT();
+  const { user } = userStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchSchoolsZust();
@@ -21,9 +31,14 @@ const StudyInJapan = () => {
   const handleSchoolDelete = async (schoolId) => {
     try {
       const result = await deleteSchoolZust(schoolId);
-      showBanner("広告削除されました。", "success");
+      if (result?.success) {
+        showBanner("広告削除されました。", "success");
+      }
     } catch (error) {
-      showBanner("すみませんでした。またお願いします。", "error");
+      showBanner(
+        error?.response?.data?.message || "削除に失敗しました。",
+        "error",
+      );
     }
   };
 
@@ -63,10 +78,7 @@ const StudyInJapan = () => {
           />
         ))
       ) : (
-        <h2
-          className="text-center text-2xl rounded-2xl text-gray-600 border
-             border-gray-500 mx-auto p-10"
-        >
+        <h2 className="text-center text-2xl rounded-2xl text-gray-500 border border-gray-400 mx-auto p-10 mt-10">
           No Schools Available right now.
           <br />
           Plz check back later.
@@ -82,7 +94,7 @@ const StudyInJapan = () => {
           </p>
         </h2>
       )}
-      <Banner banner={banner} />
+      <Banner />
       <ScrollupBtn />
     </div>
   );

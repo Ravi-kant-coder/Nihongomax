@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SchoolTrigger from "./SchoolTrigger";
 import {
@@ -10,6 +10,8 @@ import {
   MonitorSmartphone as Mobile,
 } from "lucide-react";
 import SchoolMedia from "../components/MediaShowcase";
+import userStore from "@/store/userStore";
+import { useRouter } from "next/navigation";
 
 const SchoolsInJapan = () => {
   const today = new Date();
@@ -18,6 +20,8 @@ const SchoolsInJapan = () => {
   const year = today.getFullYear();
   const formattedDate = `${day}-${month}-${year}`;
   const [showModal, setShowModal] = useState(false);
+  const { user } = userStore();
+  const router = useRouter();
   const SCHOOL_PREVIEW_MEDIA = [
     {
       url: "/japan-buildings.jpg",
@@ -37,13 +41,19 @@ const SchoolsInJapan = () => {
     },
   ];
 
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user]);
+
   return (
     <div className="mx-3">
       <h2
         className=" font-semibold text-gray-600 text-center md:text-4xl text-lg 
-        dark:text-gray-500"
+        dark:text-gray-400"
       >
-        1万人以上に貴校情報をご掲載ください。完全に無料です。
+        数人の日本語学習者に貴校情報をご掲載ください。完全に無料です。
       </h2>
       <div className="flex justify-center items-center mt-4">
         <SchoolTrigger />
@@ -80,7 +90,7 @@ const SchoolsInJapan = () => {
             ))}
           </div>
         </div>
-        <p className="md:text-lg text-sm text-gray-800 dark:text-gray-200">
+        <p className="md:text-lg text-sm text-gray-800 dark:text-gray-300">
           模擬日本語学校 Academy
           は、2020年から日本全国での外国人向けの日本語教育を実践している学校です。模擬日本語学校
           Academy is a reputed Japanese Language school in Japan that Provides
@@ -91,17 +101,17 @@ const SchoolsInJapan = () => {
         </p>
         <div>
           <div className="mb-2">
-            <p className="font-semibold flex items-center dark:font-normal md:text-md">
+            <p className="font-semibold flex items-center dark:font-normal md:text-md dark:text-gray-400">
               年間募集回数 - &nbsp;<span> 春、秋、冬、夏、年4回です。</span>
             </p>
           </div>
           <div className="dark:text-gray-400 md:space-y-3 space-y-1">
-            <div className="flex items-center text-sm">
+            <div className="flex items-center">
               <MapPin size={18} strokeWidth={2} className="mr-2" />{" "}
               <p className="font-semibold mr-2">住所 - &nbsp;</p>T -123, Sample
               Building, Shinjuku, Tokyo, Japan
             </div>
-            <div className="flex items-center text-sm">
+            <div className="flex items-center">
               <Mobile size={16} strokeWidth={2} className="mr-2" />
               <p className="font-semibold mr-2">ホームページ - &nbsp;</p>
               <a
@@ -115,12 +125,12 @@ const SchoolsInJapan = () => {
                 </span>
               </a>
             </div>
-            <div className="flex items-center text-sm">
+            <div className="flex items-center">
               <Mail size={16} strokeWidth={2} className="mr-2" />
               <p className="font-semibold mr-2">メール - &nbsp;</p>
               marumaru@email.com
             </div>
-            <div className="flex items-center text-sm">
+            <div className="flex items-center">
               <Phone size={16} strokeWidth={2} className="mr-2" />
               <p className="font-semibold mr-2">連絡先 - &nbsp;</p>
               +81-99-999-999
@@ -138,24 +148,22 @@ const SchoolsInJapan = () => {
         <div className="flex justify-start items-center">
           <div className="text-sm">
             <button
-              className="mt-4 bg-gray-400 dark:bg-red-900 cursor-pointer
-                     dark:hover:bg-red-700 hover:bg-gray-700  hover:text-white
+              className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-700  hover:text-white
                       py-2 px-4 rounded font-semibold dark:font-normal"
             >
               編集 Edit
             </button>
-            <p className="dark:text-gray-500">このボタンはご本人のみ表示</p>
+            <p className="dark:text-gray-300">このボタンはご本人のみ表示</p>
           </div>
           <div className="text-sm md:ml-10">
             <button
               onClick={() => setShowModal(true)}
-              className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer
-                     dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
+              className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
                       px-4 rounded font-semibold dark:font-normal"
             >
               削除 Delete
             </button>
-            <p className="dark:text-gray-500">このボタンはご本人のみ表示</p>
+            <p className="dark:text-gray-300">このボタンはご本人のみ表示</p>
           </div>
         </div>
       </div>
@@ -172,10 +180,7 @@ const SchoolsInJapan = () => {
             transition={{ type: "spring", stiffness: 300 }}
             className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl "
           >
-            <h2
-              className="text-lg font-semibold text-center text-red-600
-                     dark:text-white dark:font-normal"
-            >
+            <h2 className="text-lg font-semibold text-center text-red-600 dark:text-white dark:font-normal">
               削除する?
             </h2>
             <p className="text-sm  dark:text-gray-300 text-center my-2">
@@ -192,8 +197,7 @@ const SchoolsInJapan = () => {
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700
-                         cursor-pointer text-white text-sm"
+                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 cursor-pointer text-white text-sm"
               >
                 はい、削除する
               </button>

@@ -2,7 +2,7 @@ import "./globals.css";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import AuthWrapper from "./auth-wrapper";
 import ClientThemeProvider from "./ClientThemeProvider";
-
+import Banner from "@/components/Banner";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -35,6 +35,7 @@ export default function RootLayout({ children }) {
         <ClientThemeProvider>
           <AuthWrapper>
             <main className="mt-20 mb-20 md:ml-85 lg:ml-90 xl:ml-95">
+              <Banner />
               {children}
             </main>
           </AuthWrapper>

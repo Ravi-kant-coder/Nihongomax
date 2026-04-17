@@ -1,14 +1,12 @@
 "use client";
-import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
-import { useEffect, useTransition, useRef, useState } from "react";
+import { requireAuth } from "@/lib/requireAuth";
+import { useTransition } from "react";
 import JapanGate from "../app/JapanGate";
 import { useRouter, usePathname } from "next/navigation";
 import useStudyStore from "@/store/useStudyStore";
 import { logout } from "@/service/auth.service";
-import { getAllUsers } from "@/service/user.service";
 import userStore from "@/store/userStore";
-import { usePostStore } from "@/store/usePostStore";
-import { userFriendStore } from "@/store/userFriendsStore";
+import FriendsNotification from "./FriendsNotification";
 import {
   Home,
   Users,
@@ -18,75 +16,23 @@ import {
   School,
   Dices,
   BriefcaseBusiness,
-  Search,
-  ArrowRight,
-  Send,
   Car,
 } from "lucide-react";
+import SearchBar from "@/components/SearchBar";
 import UserMenu from "./UserMenu";
-import Spinner from "./Spinner";
-import { Input } from "@/components/ui/input";
+import Spinner from "../components/Spinner";
 import LangToggleBtn from "./LangToggleBtn";
 import useT from "./hooks/useT";
+import SearchBarPseudo from "@/components/SearchBarPseudo";
 
 const Navbar = () => {
   const router = useRouter();
+  const { user } = userStore();
   const { closeStudyBox } = useStudyStore();
   const [isPending, startTransition] = useTransition();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [userList, setUserList] = useState([]);
-  const [filterUser, setFilterUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("home");
-  const searchRef = useRef(null);
-  const { user, clearUser } = userStore();
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+  const { clearUser } = userStore();
   const pathname = usePathname();
-  const { friendRequest, fetchFriendRequest } = userFriendStore();
   const t = useT();
-
-  useEffect(() => {
-    fetchFriendRequest();
-  }, []);
-  const handleLogout = async () => {
-    try {
-      const result = await logout();
-      if (result?.status == "success") {
-        usePostStore.getState().resetAll();
-        clearUser();
-        router.push("/user-login");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //For search bar
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        const result = await getAllUsers(); //from axios services
-        setUserList(result);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, []);
-
-  // for debouncing
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchTerm(searchQuery);
-    }, 500);
-    return () => {
-      clearTimeout(handler); // cancel timeout if user types again
-    };
-  }, [searchQuery]);
 
   const handleNavigation = (path) => {
     startTransition(() => {
@@ -94,65 +40,15 @@ const Navbar = () => {
     });
   };
 
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      const filterUser = userList.filter((user) => {
-        return user?.username
-          .toLowerCase()
-          .includes(debouncedSearchTerm.toLowerCase());
-      });
-      setFilterUsers(filterUser);
-      setIsSearchOpen(true);
-    } else {
-      setFilterUsers([]);
-      setIsSearchOpen(false);
-    }
-  }, [debouncedSearchTerm, userList]);
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    setIsSearchOpen(false);
-  };
-
-  //To make the alphabets highlighted
-  const highlightMatch = (text, term) => {
-    if (!term) return text;
-    const regex = new RegExp(`(${term})`, "gi");
-    return text.split(regex).map((part, i) =>
-      part.toLowerCase() === term.toLowerCase() ? (
-        <span key={i} className="dark:text-gray-500 font-bold">
-          {part}
-        </span>
-      ) : (
-        part
-      ),
-    );
-  };
-
-  //Routing to searched user profile page
-  const handleUserClick = async (userId) => {
+  const handleLogout = async () => {
     try {
-      setIsSearchOpen(false);
-      setSearchQuery("");
-      startTransition(() => router.push(`/user-profile/${userId}`));
+      const result = await logout();
+      clearUser();
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
   };
-
-  //Outside ref to close the search box
-  const handleSearchClose = (e) => {
-    if (!searchRef.current?.contains(e.target)) {
-      setIsSearchOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleSearchClose);
-    return () => {
-      document.removeEventListener("click", handleSearchClose);
-    };
-  });
 
   return (
     <header className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center justify-between">
@@ -161,77 +57,11 @@ const Navbar = () => {
           <JapanGate />
         </a>
       </div>
-
-      {/* -----------------------Search bar--------------------------   */}
-
       <div className="md:flex w-full items-center justify-between">
-        <div className="flex items-center justify-between mb-5 md:mb-0 ">
-          <div className="md:mr-5">
-            <div ref={searchRef}>
-              <form onSubmit={handleSearchSubmit}>
-                <div className="relative">
-                  <Search
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2
-                   text-gray-400"
-                  />
-                  <Input
-                    className="pl-8 cursor-pointer w-full dark:bg-[rgb(75,75,75)] bg-white
-                    rounded-full"
-                    placeholder={`${t("search")}`}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                  <div>
-                    {isSearchOpen && (
-                      <div
-                        className="absolute bg-white dark:bg-gray-800 border border-gray-200
-                         dark:border-gray-700 rounded-md shadow-lg mt-1 z-50"
-                      >
-                        <div className="p-2">
-                          {filterUser.length > 0 ? (
-                            filterUser.slice(0, 10).map((user) => (
-                              <div
-                                className="flex items-center space-x-8 p-2 hover:bg-gray-200
-                              dark:hover:bg-gray-700 rounded-md cursor-pointer"
-                                key={user?._id}
-                                onClick={() => handleUserClick(user?._id)}
-                              >
-                                <div className="flex items-center gap-2">
-                                  <Avatar className="h-8 w-8">
-                                    <AvatarImage
-                                      src={user?.profilePicture}
-                                      className="object-cover"
-                                    />
-                                    <AvatarFallback>
-                                      {user?.username
-                                        .split(" ")[0][0]
-                                        .toUpperCase()}
-                                    </AvatarFallback>
-                                  </Avatar>
-                                  <span className="truncate w-[90%]">
-                                    {highlightMatch(
-                                      user?.username,
-                                      debouncedSearchTerm,
-                                    )}
-                                  </span>
-                                </div>
-                              </div>
-                            ))
-                          ) : (
-                            <div className="p-2 text-gray-700">
-                              {t("noResults")}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+        {/* -----------------------Search Bar and Institute website Link --------------------------   */}
 
-          {/* -----------------------Institute website Link--------------------------   */}
+        <div className="flex items-center justify-between mb-5 md:mb-0 ">
+          {user ? <SearchBar /> : <SearchBarPseudo />}
           <div>
             <a href="https://www.learnjapanesedelhi.com/" target="_blank">
               <div
@@ -248,14 +78,15 @@ const Navbar = () => {
               </div>
             </a>
           </div>
-          {/* -----------------------(Mobile)---------------   */}
+
+          {/* -----------------------(On Mobile)---------------   */}
 
           <div className="md:hidden flex items-center justify-center">
             <UserMenu />
           </div>
         </div>
 
-        {/* -----------------------Main Navbar--------------- -----  */}
+        {/* -----------------------Navbar Buttons--------------- -----  */}
         <div className="flex justify-between items-center md:mt-0 mt-2">
           <div className="md:flex items-center justify-center hidden ">
             <button
@@ -280,20 +111,17 @@ const Navbar = () => {
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
               flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
-              onClick={() => {
-                handleNavigation("/friends");
-              }}
+              onClick={() =>
+                requireAuth(() => {
+                  handleNavigation("/friends");
+                })
+              }
             >
-              <div className="relative flex md:w-12 flex-col items-center justify-center">
+              <div className="relative">
                 <Users />
-                {friendRequest.length > 0 && (
-                  <span
-                    className="absolute -top-3 left-6 bg-green-700 text-white text-xs 
-                  px-2 py-0.5 rounded-full"
-                  >
-                    {friendRequest.length <= 99 ? friendRequest.length : "99+"}
-                  </span>
-                )}
+                <div className="absolute -top-6 -right-6">
+                  {user && <FriendsNotification />}
+                </div>
               </div>
             </button>
           </div>
@@ -302,23 +130,52 @@ const Navbar = () => {
               icon: ChartNoAxesCombined,
               path: "/recruiters",
               name: "Recruiters",
+              isProtected: true,
             },
             {
               icon: BriefcaseBusiness,
-              path: "/about-jobs",
+              path: "/blogs",
               name: "About",
+              isProtected: true,
             },
-            { icon: Handshake, path: "/jobs", name: "Jobs" },
-            { icon: School, path: "/study-in-japan", name: "Schools" },
-            { icon: Dices, path: "/games", name: "Games" },
-            { icon: TvMinimalPlay, path: "/videos", name: "Videos" },
-          ].map(({ icon: Icon, path, name }) => {
+            {
+              icon: Handshake,
+              path: "/jobs",
+              name: "Jobs",
+              isProtected: true,
+            },
+            {
+              icon: School,
+              path: "/study-in-japan",
+              name: "Schools",
+              isProtected: true,
+            },
+            {
+              icon: Dices,
+              path: "/games",
+              name: "Games",
+              isProtected: false,
+            },
+            {
+              icon: TvMinimalPlay,
+              path: "/videos",
+              name: "Videos",
+              isProtected: false,
+            },
+          ].map(({ icon: Icon, path, name, isProtected }) => {
             const isActive = pathname === path;
             return (
               <button
                 onClick={() => {
-                  handleNavigation(path);
-                  closeStudyBox();
+                  if (isProtected) {
+                    requireAuth(() => {
+                      handleNavigation(path);
+                      closeStudyBox();
+                    });
+                  } else {
+                    handleNavigation(path);
+                    closeStudyBox();
+                  }
                 }}
                 key={name}
                 className={`md:p-3 w-full cursor-pointer dark:font-normal ${
@@ -339,18 +196,11 @@ const Navbar = () => {
             <LangToggleBtn />
           </div>
           <div className="hidden md:block mr-2">
-            <UserMenu handleLogout={handleLogout} />
+            {user && <UserMenu handleLogout={handleLogout} />}
           </div>
         </div>
       </div>
-      {isPending && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-white/30
-        dark:bg-black/60 backdrop-blur-xs z-[9999]"
-        >
-          <Spinner />
-        </div>
-      )}
+      {isPending && <Spinner />}
     </header>
   );
 };

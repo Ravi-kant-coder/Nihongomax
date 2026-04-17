@@ -5,6 +5,7 @@ import useVideoStore from "@/store/useVideoStore";
 import { RefreshCw } from "lucide-react";
 import useT from "../hooks/useT";
 import Image from "next/image";
+import { requireAuth } from "@/lib/requireAuth";
 
 const YouTubeVideos = () => {
   const { videos, fetchVideos, syncYouTube } = useVideoStore();
@@ -22,10 +23,12 @@ const YouTubeVideos = () => {
         {/*---------------------Update button------------------ */}
         <div className="mb-2">
           <button
-            onClick={async () => {
-              await syncYouTube();
-              fetchVideos();
-            }}
+            onClick={() =>
+              requireAuth(async () => {
+                await syncYouTube();
+                fetchVideos();
+              })
+            }
             className="px-4 py-2 bg-red-700 text-white rounded cursor-pointer dark:hover:bg-red-700 transition hover:bg-red-500 
               ml-4 md:ml-8 flex items-center dark:bg-red-800"
           >
@@ -48,13 +51,14 @@ const YouTubeVideos = () => {
                 href={`https://www.youtube.com/watch?v=${video.videoId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block relative"
+                className="block"
               >
-                <div className="bg-white dark:bg-zinc-800 rounded w-full aspect-video object-cover shadow-md overflow-hidden h-full">
+                <div className="relative w-full aspect-video overflow-hidden">
                   <Image
                     src={`https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`}
-                    alt={"Nihongomax"}
+                    alt="Nihongomax"
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition duration-500"
                   />
                 </div>

@@ -1,5 +1,6 @@
 "use client";
 import { useTransition, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useNoteStore } from "@/store/useNoteStore";
@@ -21,6 +22,12 @@ const Notes = () => {
   const { user } = userStore();
   const { inputRef, insertEmoji } = useEmojiInsert();
   const t = useT();
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user]);
 
   useEffect(() => {
     fetchUserNotes();
@@ -104,6 +111,9 @@ const Notes = () => {
       )}
       {/* ----------------------Saved posts--------------------------- */}
       <div className="mt-12 mb-4 max-w-[40vw] mx-auto">
+        <h1 className="text-center font-semibold text-3xl text-gray-700 dark:text-gray-400">
+          {t("savedPosts")}
+        </h1>
         {savedPosts.length === 0 ? (
           <h2 className="text-center text-2xl mt-8 text-gray-500 p-8 border rounded-2xl mb-4 border-gray-400">
             Your saved posts will appear here{" "}
@@ -114,11 +124,8 @@ const Notes = () => {
           </h2>
         ) : (
           <>
-            <h1 className="text-center font-semibold text-3xl text-gray-700 dark:text-gray-400">
-              Your saved Posts
-            </h1>
-            <h2 className="text-center text-xl text-gray-600 dark:text-gray-500 mb-4">
-              Until the Creator deletes them
+            <h2 className="text-center text-gray-600 dark:text-gray-500 mb-4">
+              {t("untillCreatorDeletes")}
             </h2>
             {savedPosts?.map((savedPost) => (
               <WallCard key={savedPost?._id} post={savedPost} />
