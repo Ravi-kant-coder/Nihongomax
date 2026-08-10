@@ -17,6 +17,8 @@ import {
   Dices,
   BriefcaseBusiness,
   Car,
+  Building2,
+  BookOpen,
 } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
 import UserMenu from "./UserMenu";
@@ -98,7 +100,7 @@ const Navbar = () => {
                   ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
-              flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
+              flex items-center justify-start p-2 rounded-md hover:shadow-lg`}
             >
               <div className="flex md:w-12 flex-col items-center justify-center">
                 <Home />
@@ -110,14 +112,14 @@ const Navbar = () => {
                   ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
-              flex items-center bg- justify-start p-2 rounded-md hover:shadow-lg`}
+              flex items-center justify-start p-2 rounded-md hover:shadow-lg`}
               onClick={() =>
                 requireAuth(() => {
                   handleNavigation("/friends");
                 })
               }
             >
-              <div className="relative">
+              <div className="relative md:w-12 flex flex-col items-center justify-center">
                 <Users />
                 <div className="absolute -top-6 -right-6">
                   {user && <FriendsNotification />}
@@ -147,7 +149,19 @@ const Navbar = () => {
             {
               icon: School,
               path: "/study-in-japan",
+              name: "Japanese Schools",
+              isProtected: true,
+            },
+            {
+              icon: Building2,
+              path: "/schools-in-japan",
               name: "Schools",
+              isProtected: true,
+            },
+            {
+              icon: BookOpen,
+              path: "/notes",
+              name: "Notes",
               isProtected: true,
             },
             {

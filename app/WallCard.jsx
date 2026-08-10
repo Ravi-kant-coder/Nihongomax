@@ -105,7 +105,7 @@ const WallCard = ({ post }) => {
                 dark:hover:border-white mr-2 dark:border-gray-500 hover:border-gray-700 dark:hover:bg-black hover:bg-gray-100"
               >
                 {" "}
-                <span className="text-[10px] capitalize group-hover:dark:text-white group-hover:text-black">
+                <span className="text-[10px] capitalize group-hover:dark:text-white group-hover:text-black truncate w-10">
                   {user?.username.split(" ")[0]}
                 </span>
                 <X className="h-5 w-5 group-hover:text-black text-gray-500 dark:text-gray-300 group-hover:dark:text-white" />

@@ -130,14 +130,13 @@ const JobCard = ({ job, handleJobDelete }) => {
             </div>
           </div>
         </div>
-        <div className="flex justify-start items-center">
+        <div className="flex justify-start md:items-center flex-col md:flex-row">
           <div className="text-sm">
             {user?._id === job?.user?._id && (
               <>
                 <button
-                  className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer
-                     dark:hover:bg-gray-900 hover:bg-gray-700  hover:text-white py-2
-                      px-4 rounded font-semibold dark:font-normal"
+                  className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer dark:hover:bg-gray-900 hover:bg-gray-700 
+                  hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
                   onClick={() => {
                     setShowJobEditModal(true);
                   }}
@@ -158,9 +157,8 @@ const JobCard = ({ job, handleJobDelete }) => {
                     setShowDeleteModal(true);
                     setReadyTodel(true);
                   }}
-                  className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer
-                     dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
-                      px-4 rounded font-semibold dark:font-normal"
+                  className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500 
+                  hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
                 >
                   Delete this Job-Post
                 </button>

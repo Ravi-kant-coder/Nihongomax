@@ -141,7 +141,7 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
               "No other details provided by this School."}
           </div>
         </div>
-        <div className="flex justify-start items-center">
+        <div className="flex justify-start md:items-center flex-col md:flex-row">
           <div className="text-sm">
             {user?._id === school?.user?._id && (
               <>

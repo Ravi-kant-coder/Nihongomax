@@ -157,7 +157,7 @@ const LeftSideBar = () => {
             },
             {
               id: 1,
-              label: <p>{t("schools")}</p>,
+              label: <p>学校掲載投稿</p>,
               navPath: "/schools-in-japan",
               icon: Building2,
               isProtected: true,

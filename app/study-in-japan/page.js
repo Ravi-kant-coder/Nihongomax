@@ -43,18 +43,15 @@ const StudyInJapan = () => {
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col mt-35 md:mt-0">
       <a
-        href={"https://www.learnjapanesedelhi.com/study-in-japan"}
+        href="https://www.learnjapanesedelhi.com/study-in-japan"
         target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block rounded-lg bg-[rgb(60,60,60)] text-xl font-semibold dark:bg-black hover:bg-black 
+        md:p-2 p-1 mx-5 md:mx-20 text-white border border-gray-300 dark:hover:bg-[rgb(20,20,20)] mb-4 text-center"
       >
-        <div
-          className="rounded-lg bg-[rgb(60,60,60)] text-xl font-semibold
-            dark:bg-black  hover:bg-black md:p-2 p-1 text-white border
-            border-gray-300 dark:hover:bg-[rgb(20,20,20)] w-[50vw] mx-auto mb-4 text-center"
-        >
-          <h1> Click to Learn all about Study in Japan</h1>
-        </div>
+        Click to Learn all about Study in Japan
       </a>
       <h1 className="md:text-4xl text-2xl text-center font-bold">
         {t("studyInJapan")}
@@ -78,7 +75,7 @@ const StudyInJapan = () => {
           />
         ))
       ) : (
-        <h2 className="text-center text-2xl rounded-2xl text-gray-500 border border-gray-400 mx-auto p-10 mt-10">
+        <h2 className="text-center text-2xl rounded-2xl text-gray-500 border border-gray-400 p-10 mt-10 mx-2 md:mx-20">
           No Schools Available right now.
           <br />
           Plz check back later.

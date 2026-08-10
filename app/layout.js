@@ -22,6 +22,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Nihongomax",
   description: "Learn Japanese language Online",
+  icons: {
+    icon: "/sakura.png",
+  },
 };
 
 export default function RootLayout({ children }) {

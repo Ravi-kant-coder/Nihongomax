@@ -24,7 +24,7 @@ const Wall = () => {
   }, [posts]);
 
   return (
-    <div className="mb-20 dark:bg-[rgb(30,30,30)] p-2 md:max-w-1/2 gap-4">
+    <div className="mb-20 dark:bg-[rgb(30,30,30)] p-2 md:max-w-1/2 gap-4 pt-15 md:pt-0">
       {user ? <PostTrigger /> : <PostTriggerPsuedo />}
       <StorySection />
       {posts?.map((post) => (

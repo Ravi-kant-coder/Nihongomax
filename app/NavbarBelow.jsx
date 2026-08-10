@@ -34,7 +34,7 @@ const NavbarBelow = () => {
         >
           <div className="relative flex flex-col items-center justify-center">
             <Menu className="w-5 h-5" />
-            <p className="mt-1">Menu</p>
+            <p className="mt-1">Information</p>
           </div>
         </button>
 
@@ -68,7 +68,7 @@ const NavbarBelow = () => {
         >
           <div className="flex flex-col items-center justify-center">
             <BookOpen />
-            <p className="mt-1">Study Jap</p>
+            <p className="mt-1">Japanese</p>
           </div>{" "}
         </button>
       </div>{" "}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import CreateBlogButton from "../components/CreateBlogButton";
 import { getBlogs } from "@/lib/blog";
+import ScrollupBtn from "@/app/ScrollupBtn";
 
 export const metadata = {
   title: "All Japanese Learning Blogs | NihongoMax",
@@ -29,7 +30,7 @@ export default async function InformationPage() {
 
   return (
     <>
-      <div className="mx-10">
+      <div className="mx-10 mt-35 md:mt-0">
         <h1 className="text-3xl font-bold mb-10 text-center sr-only">
           Get the latest Japanese learning blogs, Japanese grammar guides, JLPT
           tips, and kanji insights to boost your language skills.
@@ -64,6 +65,7 @@ export default async function InformationPage() {
               </Link>
             );
           })}
+          <ScrollupBtn />
         </div>
         <div className="mt-10">
           <CreateBlogButton />

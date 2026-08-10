@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -32,7 +31,7 @@ const ResetPassword = () => {
 
   const onSubmit = async (data) => {
     await resetPassword(token, data.password);
-    router.push("/user-login");
+    router.push("/");
   };
 
   return (

@@ -10,13 +10,7 @@ import DeleteConfModal from "./components/DeleteConfModel";
 import useT from "./hooks/useT";
 import useFormatRelativeTime from "./hooks/useFormatRelativeTime";
 
-const StoryViewer = ({
-  story,
-  onClose,
-  handleStoryDelete,
-  isLoading,
-  handleStoryUsernameClick,
-}) => {
+const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [videoDuration, setVideoDuration] = useState(null);
@@ -28,6 +22,7 @@ const StoryViewer = ({
   const formatTime = useFormatRelativeTime();
   const STORY_DURATION = 7000;
   const t = useT();
+  const isLiked = story?.likes?.some((like) => like._id === user?._id);
 
   /* ---------- Build slides ---------- */
   const slides = [];
@@ -85,10 +80,6 @@ const StoryViewer = ({
   const handlePrev = (e) => {
     e.stopPropagation();
     if (index > 0) setIndex((i) => i - 1);
-  };
-
-  const handleCancel = () => {
-    setShowDeleteModal(false);
   };
 
   return (
@@ -155,22 +146,22 @@ const StoryViewer = ({
               disabled:opacity-100 h-15 w-15 border-green-700 dark:border-gray-500 rounded-full bg-black/70 text-white
               flex justify-center items-center text-lg
                 ${
-                  story?.isLiked
+                  isLiked
                     ? "text-green-500 border-green-300 dark:border-green-900 hover:bg-black/90 cursor-auto"
                     : ""
                 } dark:text-gray-300`}
             onClick={(e) => {
               e.stopPropagation();
-              if (story?.isLiked) return;
               requireAuth(() => {
+                if (isLiked) return;
                 handleLikeStory(story?._id, user);
               });
             }}
           >
             <Heart
               className="heart-beat"
-              fill={story?.isLiked ? "green" : "none"}
-              color={story?.isLiked ? "green" : "currentColor"}
+              fill={isLiked ? "green" : "none"}
+              color={isLiked ? "green" : "currentColor"}
             />
             {story?.likeCount > 0 && story?.likeCount}
           </Button>

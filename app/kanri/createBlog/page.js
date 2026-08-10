@@ -1,10 +1,11 @@
 "use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import userStore from "@/store/userStore";
 
 /* ---------------- HELPERS FOR VALIDATION ---------------- */
 
@@ -70,28 +71,11 @@ export default function CreateBlogPage() {
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [featuredImage, setFeaturedImage] = useState(null);
+  const { user } = userStore();
 
-  useEffect(() => {
-    async function checkUser() {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/me`,
-          { withCredentials: true },
-        );
+  const isAdmin = user?._id && user._id === process.env.NEXT_PUBLIC_ADMIN_ID;
 
-        if (
-          !res?.data?.data?.userId ||
-          res.data.data?.userId !== process.env.NEXT_PUBLIC_ADMIN_ID
-        ) {
-          router.replace("/");
-        }
-      } catch (error) {
-        router.replace("/");
-      }
-    }
-
-    checkUser();
-  }, [router]);
+  if (!isAdmin) router.replace("/");
 
   const {
     register,

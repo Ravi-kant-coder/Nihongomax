@@ -210,10 +210,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
         </Card>
         {/*------------------------------Photos by You-----------------------------*/}
         <Card>
-          <CardContent
-            className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 
-            shadow-lg dark:shadow-black"
-          >
+          <CardContent className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg dark:shadow-black">
             <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
               {t("photosBy")}{" "}
               {isOwner ? (
@@ -225,19 +222,15 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
               )}
             </h2>
             <div className="grid grid-cols-2 gap-4">
-              {userPosts?.filter(
-                (post) => post?.mediaType === "image" && post?.mediaUrl,
-              ).length === 0 ? (
+              {userPosts?.filter((post) => post?.uploadedMedia).length === 0 ? (
                 <PicsSkeleton text={t("noPhoto")} />
               ) : (
                 userPosts
-                  ?.filter(
-                    (post) => post?.mediaType === "image" && post?.mediaUrl,
-                  )
+                  ?.filter((post) => post?.uploadedMedia)
                   .map((post) => (
                     <img
                       key={post?._id}
-                      src={post?.mediaUrl}
+                      src={post?.uploadedMedia[0]?.url}
                       alt="photos"
                       className="w-[200px] h-[150px] object-cover rounded-lg"
                     />

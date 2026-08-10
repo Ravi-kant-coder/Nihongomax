@@ -12,10 +12,11 @@ import { registerUser } from "@/service/auth.service";
 import userStore from "@/store/userStore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import useAuthModalStore from "@/store/authModalStore";
+import Link from "next/link";
 
 const CreateAcc = () => {
   const { closeModal } = useAuthModalStore();
-  const [showMeme, setShowMeme] = useState(true);
+  const [memeEffect, setMemeEffect] = useState(false);
   const { setUser } = userStore();
   const [isLoading, setIsLoading] = useState(false);
   const profileImageInputRef = useRef();
@@ -80,6 +81,7 @@ const CreateAcc = () => {
         setDpCreate(null);
         setDpPreview(null);
         closeModal();
+        setMemeEffect(true);
         window.location.reload();
       } else if (result?.message === "This email already exists") {
         setError("email", {
@@ -115,9 +117,11 @@ const CreateAcc = () => {
   }, [resetSignUpForm]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowMeme(false), 5000); // 5 seconds
-    return () => clearTimeout(timer);
-  }, []);
+    if (memeEffect) {
+      const timeout = setTimeout(() => setMemeEffect(false), 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [memeEffect]);
 
   return (
     <div className="flex items-center justify-center">
@@ -247,45 +251,43 @@ const CreateAcc = () => {
             )}
           />
         </div>
-        <Button
-          className="w-full cursor-pointer dark:bg-black text-white"
-          type="submit"
-          disabled={isLoading}
-        >
-          <Upload className="mr-2 w-4 h-4" />
-          {isLoading ? "Creating..." : "Create Account"}
-        </Button>
+        <div className="relative">
+          <Button
+            className="w-full cursor-pointer dark:bg-black text-white"
+            type="submit"
+            disabled={isLoading}
+          >
+            <Upload className="mr-2 w-4 h-4" />
+            {isLoading ? "Creating..." : "Create Account"}
+          </Button>
+          <AnimatePresence>
+            {memeEffect && (
+              <motion.div
+                className="absolute -top-4 left-2 text-sm dark:bg-green-900 text-black dark:text-white  bg-green-100 rounded-lg shadow-2xl p-2"
+                initial={{ opacity: 0, y: 0, rotate: 10 }}
+                animate={{ opacity: 1, y: -20, rotate: -10 }}
+                exit={{ opacity: 0, y: -60 }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+              >
+                <div className="capitalize flex flex-col items-center">
+                  <p>Welcome to Nihongomax!😎</p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+        <div className="text-center text-xs text-gray-600 dark:text-gray-500">
+          By creating an account, <br />
+          you agree to our{" "}
+          <Link
+            href="/privacy"
+            className="text-blue-800 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
+            target="_blank"
+          >
+            Privacy Policy
+          </Link>
+        </div>
       </motion.form>
-      {isLoading && (
-        <AnimatePresence>
-          {showMeme && (
-            <motion.div
-              key="meme-popup"
-              initial={{ opacity: 1, y: 0, scale: 1 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{
-                opacity: 0,
-                y: -60,
-                scale: 0.7,
-                transition: { duration: 2, ease: "easeInOut" },
-              }}
-              transition={{
-                exit: { duration: 1.8, ease: "easeInOut" },
-              }}
-              className="fixed inset-0 flex items-center justify-center bg-white/30
-          dark:bg-black/60 backdrop-blur-xs z-[9999]"
-            >
-              <div className="rounded-xl">
-                <img
-                  src="/svgs/create_acc_meme.jpeg"
-                  alt="Welcome to Nihongomax"
-                  className="w-80 h-80 object-cover rounded-xl"
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      )}
     </div>
   );
 };

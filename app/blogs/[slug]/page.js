@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import EditBlogButton from "@/app/components/EditBlogButton";
 import { getBlogs } from "@/lib/blog";
+import ScrollupBtn from "@/app/ScrollupBtn";
 
 /* ---------------- FETCH ONE BLOG ---------------- */
 
@@ -62,6 +63,8 @@ export async function generateMetadata({ params }) {
         ? [optimizeImage(blog.featuredImage.url)]
         : [],
       type: "article",
+      // url: "https://www.yourdomain.com/japanese-course-delhi",
+      // siteName: "Your Institute Name",
     },
 
     alternates: {
@@ -160,7 +163,7 @@ export default async function BlogPage({ params }) {
   const readingTime = Math.ceil(wordCount / 200);
 
   return (
-    <div className="max-w-8xl mx-auto px-4 py-10">
+    <div className="max-w-8xl mx-auto px-4 py-10 mt-25 md:mt-0">
       <h1 className="text-5xl font-bold mb-4 dark:text-gray-300 text-gray-700">
         {blog.title}
       </h1>
@@ -317,9 +320,7 @@ export default async function BlogPage({ params }) {
               {linkedContent}
             </ReactMarkdown>
           </div>
-
           <div className="clear-both"></div>
-
           <EditBlogButton blogId={blog._id} />
         </article>
 
@@ -349,6 +350,7 @@ export default async function BlogPage({ params }) {
           ))}
         </aside>
       </div>
+      <ScrollupBtn />
     </div>
   );
 }

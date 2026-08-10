@@ -1,60 +1,33 @@
 "use client";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import userStore from "@/store/userStore";
 
-export default function AdminBlogButtons({ blogId }) {
+export default function EditBlogButton({ blogId }) {
   const router = useRouter();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [deleting, setDeleting] = useState(false);
   const { user } = userStore();
+  // const [deleting, setDeleting] = useState(false);
 
-  useEffect(() => {
-    async function checkUser() {
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/me`,
-          { withCredentials: true },
-        );
+  const isAdmin = user?._id && user._id === process.env.NEXT_PUBLIC_ADMIN_ID;
 
-        if (res.data?.data?.userId === process.env.NEXT_PUBLIC_ADMIN_ID) {
-          setIsAdmin(true);
-        }
-      } catch (error) {
-        console.log("not admin");
-      } finally {
-        setLoading(false);
-      }
-    }
+  if (!isAdmin) return null;
 
-    checkUser();
-  }, []);
-
-  if (loading || !isAdmin) return null;
-
-  // Not deleting Image from cloudinary
-  const handleDelete = async () => {
-    const confirmDelete = confirm("Delete this blog?");
-    if (!confirmDelete) return;
-
-    try {
-      setDeleting(true);
-
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/admin/${blogId}`,
-        { withCredentials: true },
-      );
-
-      router.push("/blogs");
-      router.refresh();
-    } catch (error) {
-      alert("Failed to delete blog");
-    } finally {
-      setDeleting(false);
-    }
-  };
+  // const handleDelete = async () => {
+  //   const confirmDelete = confirm("Delete this blog?");
+  //   if (!confirmDelete) return;
+  //   try {
+  //     setDeleting(true);
+  //     await axios.delete(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/admin/${blogId}`,
+  //       { withCredentials: true },
+  //     );
+  //     router.push("/blogs");
+  //     router.refresh();
+  //   } catch (error) {
+  //     alert("Failed to delete blog");
+  //   } finally {
+  //     setDeleting(false);
+  //   }
+  // };
 
   return (
     <div className="flex gap-4 mt-10">

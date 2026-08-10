@@ -49,11 +49,9 @@ const SchoolsInJapan = () => {
 
   return (
     <div className="mx-3">
-      <h2
-        className=" font-semibold text-gray-600 text-center md:text-4xl text-lg 
-        dark:text-gray-400"
-      >
-        数人の日本語学習者に貴校情報をご掲載ください。完全に無料です。
+      <h2 className=" font-semibold text-gray-600 text-center md:text-4xl text-xl mt-35 md:mt-0 dark:text-gray-400">
+        数人の日本語学習者に貴校情報をご掲載ください。
+        <br className="lg:hidden" /> 完全に無料です。
       </h2>
       <div className="flex justify-center items-center mt-4">
         <SchoolTrigger />
@@ -145,11 +143,11 @@ const SchoolsInJapan = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-start items-center">
+        <div className="flex justify-start md:items-center flex-col md:flex-row">
           <div className="text-sm">
             <button
-              className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-700  hover:text-white
-                      py-2 px-4 rounded font-semibold dark:font-normal"
+              className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-700 
+              hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
             >
               編集 Edit
             </button>
@@ -158,8 +156,8 @@ const SchoolsInJapan = () => {
           <div className="text-sm md:ml-10">
             <button
               onClick={() => setShowModal(true)}
-              className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
-                      px-4 rounded font-semibold dark:font-normal"
+              className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500 
+              hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
             >
               削除 Delete
             </button>
@@ -170,10 +168,7 @@ const SchoolsInJapan = () => {
 
       {/*-----------------------------School Delete Modal-------------------------- */}
       {showModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center
-                 bg-black/30"
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
           <motion.div
             initial={{ scale: 0, rotate: -50 }}
             animate={{ scale: 1, rotate: 0 }}
@@ -190,8 +185,8 @@ const SchoolsInJapan = () => {
             <div className="flex justify-center gap-4 mt-6 ">
               <button
                 onClick={() => setShowModal(false)}
-                className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer
-                         dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
+                className="px-4 py-2 rounded-lg bg-gray-300  cursor-pointer dark:bg-gray-700 hover:bg-gray-300
+                dark:hover:bg-gray-600 text-sm"
               >
                 キャンセル
               </button>

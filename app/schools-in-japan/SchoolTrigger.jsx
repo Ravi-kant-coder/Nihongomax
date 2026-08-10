@@ -189,7 +189,7 @@ const SchoolTrigger = () => {
       className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] mb-10 p-2 md:p-4 rounded-lg
      bg-[rgb(170,170,170)]"
     >
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex md:items-center flex-col md:flex-row md:justify-between mb-4">
         <div className="flex items-center">
           <div className="flex items-center space-x-3 py-2 mr-4">
             <Avatar>

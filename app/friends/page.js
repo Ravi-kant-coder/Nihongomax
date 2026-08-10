@@ -54,7 +54,7 @@ const Page = () => {
   return (
     <>
       {/* --------------------------------Friend Requests----------------------------- */}
-      <div className="mb-20">
+      <div className="mb-20 mt-35 md:mt-0 text-center md:text-left">
         <h1 className="text-2xl font-semibold mb-6">
           {friendRequest.length > 0
             ? `${t("youRecvd")} ${friendRequest.length} `
@@ -62,7 +62,7 @@ const Page = () => {
           {friendRequest.length === 1 ? t("friend") : t("friends")}{" "}
           {friendRequest.length === 1 ? t("req") : t("reqs")}
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center md:justify-start">
           {loading ? (
             <FriendCardSkeleton />
           ) : friendRequest.length === 0 ? (
@@ -96,7 +96,7 @@ const Page = () => {
         )}
         {/* --------------------------------Friend Suggestions----------------------------- */}
         <h1 className="text-2xl font-semibold my-6">{t("discover")}</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center md:justify-start">
           {loading ? (
             <FriendCardSkeleton />
           ) : friendSuggestion.length === 0 ? (
@@ -128,7 +128,6 @@ const Page = () => {
           </div>
         )}
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2"></div>
       <ScrollupBtn />
     </>
   );

@@ -133,36 +133,27 @@ const WordGame = () => {
   return (
     <>
       <div className="flex flex-col">
-        <div
-          className="text-center text-3xl font-semibold text-green-900 dark:text-green-600
-           my-4"
-        >
+        <div className="text-center text-3xl font-semibold text-green-900 dark:text-green-600 md:mt-0 mt-15 my-4">
           {t("gameHead")}
           <p className="text-red-900 dark:text-red-500 text-2xl">
             {t("gameAttempts")}
           </p>
-          <p
-            className="my-4 text-black dark:text-gray-400 text-xl flex
-             justify-center items-center"
-          >
+          <p className="my-4 text-black dark:text-gray-400 text-xl flex justify-center items-center ml-2">
             {t("ifGray")}
 
             <span
               className="ml-1 text-white p-1 bg-black/50 dark:bg-gray-600 border 
-              border-black w-10 h-10 flex items-center justify-center font-bold text-2xl"
+              border-black w-10 h-10 flex items-center justify-center font-bold text-2xl mr-2"
             >
               N
             </span>
           </p>
-          <p
-            className="dark:text-gray-400 text-black text-xl flex justify-center
-             items-center my-4"
-          >
+          <p className="dark:text-gray-400 text-black text-xl flex justify-center items-center my-4 ml-2">
             {t("ifBlack")}
 
             <span
-              className="ml-1 text-white p-1 bg-black border 
-              border-black w-10 h-10 flex items-center justify-center font-bold text-2xl"
+              className="ml-1 text-white p-1 bg-black border border-black w-10 h-10 flex items-center 
+            justify-center font-bold text-2xl mr-2"
             >
               N
             </span>

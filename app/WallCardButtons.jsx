@@ -2,13 +2,7 @@
 import { requireAuth } from "@/lib/requireAuth";
 import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Heart,
-  MessageCircle,
-  CornerUpRight,
-  Check,
-  CornerUpLeft,
-} from "lucide-react";
+import { Heart, MessageCircle, Check, CornerUpLeft } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import CommentsShown from "./CommentsShown";
@@ -22,11 +16,14 @@ const WallCardButtons = ({ post }) => {
   const [likeEffect, setLikeEffect] = useState(false);
   const [saveEffect, setSaveEffect] = useState(false);
   const [showComments, setShowComments] = useState(true);
-  const { handleLikePost, handleSavePost, fetchPost } = usePostStore();
+  const { handleLikePost, handleSavePost } = usePostStore();
   const t = useT();
   const allLikes = post?.likes || [];
   const visibleLikes = [...allLikes].slice(-3).reverse();
   const remainingLikes = allLikes.length > 3 ? allLikes.length - 3 : 0;
+  const isLiked = post?.likes?.some(
+    (like) => like._id.toString() === user?._id.toString(),
+  );
 
   useEffect(() => {
     if (likeEffect) {
@@ -97,46 +94,42 @@ const WallCardButtons = ({ post }) => {
         <div className="relative group">
           <Button
             variant="ghost"
-            disabled={post?.isLiked}
-            className={`hover:bg-red-200 hover:text-red-600 cursor-pointer border disabled:opacity-80 border-gray-300 dark:border-gray-500
-               dark:hover:bg-black
+            disabled={isLiked}
+            className={`hover:bg-red-200 hover:text-red-600 cursor-pointer border disabled:opacity-80 border-gray-300
+               dark:border-gray-500 dark:hover:bg-black
               ${
-                post?.isLiked
+                isLiked
                   ? "text-red-500 border-red-300 dark:border-red-800 hover:bg-white cursor-auto"
                   : "dark:text-gray-300"
               }`}
             onClick={() => {
-              if (post?.isLiked) return;
               requireAuth(() => {
+                if (isLiked) return;
                 handleLikePost(post?._id, user);
                 setLikeEffect(true);
               });
             }}
           >
             <span>
-              {post?.isLiked ? (
-                <span>{t("liked")}</span>
-              ) : (
-                <span>{t("like")}</span>
-              )}
+              {isLiked ? <span>{t("liked")}</span> : <span>{t("like")}</span>}
             </span>
             <Heart
               className="h-4 w-4 heart-beat"
-              fill={post?.isLiked ? "red" : "none"}
-              color={post?.isLiked ? "red" : "currentColor"}
+              fill={isLiked ? "red" : "none"}
+              color={isLiked ? "red" : "currentColor"}
             />
           </Button>
           <AnimatePresence>
             {likeEffect && (
               <motion.div
-                className="absolute -top-4 left-2 text-sm dark:bg-[rgb(92,30,30)]
-                 text-red-600 dark:text-red-300  bg-pink-100 rounded-lg shadow-2xl p-2"
+                className="absolute -top-4 left-2 text-sm dark:bg-[rgb(92,30,30)] text-red-600 dark:text-red-300  
+                bg-pink-100 rounded-lg shadow-2xl p-2"
                 initial={{ opacity: 0, y: 0, rotate: 10 }}
                 animate={{ opacity: 1, y: -20, rotate: -10 }}
                 exit={{ opacity: 0, y: -60 }}
                 transition={{ duration: 1, ease: "easeInOut" }}
               >
-                <div className="capitalize">
+                <div className="capitalize truncate md:max-w-[100px]">
                   <p>{t("thanks")}</p> <p>{user?.username.split(" ")[0]}!</p>
                 </div>
               </motion.div>
@@ -146,8 +139,8 @@ const WallCardButtons = ({ post }) => {
         <Button
           variant="ghost"
           onClick={() => setShowComments(!showComments)}
-          className=" hover:bg-gray-300 cursor-pointer border flex items-center
-           dark:hover:bg-background dark:text-gray-300 border-gray-300 dark:border-gray-500"
+          className=" hover:bg-gray-300 cursor-pointer border flex items-center dark:hover:bg-background dark:text-gray-300 
+          border-gray-300 dark:border-gray-500"
         >
           <span>{t("comment")}</span>
           <MessageCircle className="h-4 w-4" />
@@ -163,8 +156,8 @@ const WallCardButtons = ({ post }) => {
                : "dark:text-gray-300"
            }`}
             onClick={() => {
-              if (post?.isSaved) return;
               requireAuth(() => {
+                if (post?.isSaved) return;
                 handleSavePost(post?._id, user);
                 setSaveEffect(true);
               });
@@ -178,7 +171,7 @@ const WallCardButtons = ({ post }) => {
               )}
             </span>
             {post?.isSaved ? (
-              <Check className="h-4 w-4 " />
+              <Check className="h-4 w-4" />
             ) : (
               <CornerUpLeft className="h-4 w-4" />
             )}
@@ -186,13 +179,14 @@ const WallCardButtons = ({ post }) => {
           <AnimatePresence>
             {saveEffect && (
               <motion.div
-                className="absolute -top-4 left-2 text-sm dark:bg-green-900 text-black dark:text-white  bg-green-100 rounded-lg shadow-2xl p-2"
+                className="absolute -top-4 left-2 text-sm dark:bg-green-900 text-black dark:text-white  bg-green-100 
+                rounded-lg shadow-2xl p-2"
                 initial={{ opacity: 0, y: 0, rotate: 10 }}
                 animate={{ opacity: 1, y: -20, rotate: -10 }}
                 exit={{ opacity: 0, y: -60 }}
                 transition={{ duration: 1, ease: "easeInOut" }}
               >
-                <div className="capitalize">
+                <div className="capitalize truncate md:max-w-[120px]">
                   <p>{t("saved")}</p> <p>{user?.username.split(" ")[0]}!</p>
                 </div>
               </motion.div>

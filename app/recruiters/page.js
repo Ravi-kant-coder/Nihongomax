@@ -148,11 +148,11 @@ const Recruiters = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-start items-center">
+          <div className="flex justify-start md:items-center flex-col md:flex-row">
             <div className="text-sm">
               <button
-                className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-700  hover:text-white
-                      py-2 px-4 rounded font-semibold dark:font-normal"
+                className="mt-4 bg-gray-400 dark:bg-gray-800 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-700
+                hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
               >
                 Edit this Job-Post
               </button>
@@ -163,9 +163,8 @@ const Recruiters = () => {
             <div className="text-sm md:ml-10">
               <button
                 onClick={() => setShowModal(true)}
-                className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer
-                     dark:hover:bg-red-700 hover:bg-red-500  hover:text-white py-2
-                      px-4 rounded font-semibold dark:font-normal"
+                className="mt-4  bg-red-400 dark:bg-red-900 cursor-pointer dark:hover:bg-red-700 hover:bg-red-500 
+                hover:text-white py-2 px-4 rounded font-semibold dark:font-normal"
               >
                 Delete this Job-Post
               </button>

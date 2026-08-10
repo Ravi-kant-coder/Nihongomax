@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { sendResetLink } from "@/service/auth.service";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
 const schema = yup.object({
@@ -64,9 +64,8 @@ const ForgotPassword = () => {
         >
           <X
             onClick={() => setIsExpanded(false)}
-            className="absolute top-2 right-2 cursor-pointer dark:text-white 
-                      dark:hover:bg-gray-500 hover:text-gray-700 hover:bg-gray-100
-                      rounded p-1 dark:hover:text-black"
+            className="absolute top-2 right-2 cursor-pointer dark:text-white dark:hover:bg-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded p-1
+            dark:hover:text-black"
           />
           {!submitted && (
             <div>

@@ -256,10 +256,8 @@ const ProfileHeader = ({
            font-bold text-center capitalize"
           >
             {isOwner
-              ? `Put Cover Photo
-          ${profileData?.username?.split(" ")[0]}`
-              : `No Cover Photo of
-          ${profileData?.username?.split(" ")[0]}`}
+              ? `${t("putCover")} ${profileData?.username?.split(" ")[0]}`
+              : `${t("noCover")} ${profileData?.username?.split(" ")[0]}`}
           </div>
         ) : (
           profileData?.coverPhoto && (

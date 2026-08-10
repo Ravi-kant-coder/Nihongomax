@@ -174,24 +174,26 @@ const StoryTrigger = () => {
         <DialogTrigger className="w-full" asChild>
           <div
             className="relative w-full h-full cursor-pointer rounded-lg overflow-hidden bg-white dark:bg-[rgb(36,37,38)] 
-              shadow-sm hover:shadow-md hover:scale-[1.02] transition-transform
-"
+              shadow-sm hover:shadow-md hover:scale-[1.02] transition-transform duration-200 ease-in-out"
           >
-            <div className="relative h-[140] w-full overflow-hidden">
+            <div className="relative h-[140px] w-full overflow-hidden">
               <Avatar className="h-full w-full rounded-none">
                 <AvatarImage
                   src={user?.profilePicture}
                   alt={user?.username}
-                  className="object-cover"
+                  className="h-full w-full object-cover"
                 />
-                <AvatarFallback className="bg-gray-300 dark:bg-black capitalize text-4xl">
+                <AvatarFallback
+                  className="h-full w-full rounded-none flex items-center justify-center bg-gray-400 
+                  dark:bg-black capitalize text-4xl"
+                >
                   {user?.username.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </div>
             <div
-              className="absolute left-1/2 top-[115] -translate-x-1/2 w-10 h-10 bg-gray-500 rounded-full 
-                flex items-center justify-center border-4 border-white dark:border-[rgb(36,37,38)]"
+              className="absolute left-1/2 top-[115px] -translate-x-1/2 w-10 h-10 bg-gray-500 rounded-full flex 
+              items-center justify-center border-4 border-white dark:border-[rgb(36,37,38)]"
             >
               <Plus className="text-white w-5 h-5" />
             </div>
