@@ -116,6 +116,73 @@ export const createOrUpdateUserBio = async (userId, bioData) => {
   }
 };
 
+export const getAdminUsers = async () => {
+  try {
+    const response = await axiosInstance.get("/users/admin-list");
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Get admin users error:",
+      error.response?.data || error.message,
+    );
+
+    throw error;
+  }
+};
+
+export const giveUserAccess = async (userId, plan) => {
+  try {
+    const response = await axiosInstance.post("/users/admin/give-access", {
+      userId,
+      plan,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Give user access error:",
+      error.response?.data || error.message,
+    );
+
+    throw error;
+  }
+};
+
+export const removeUserAccess = async (userId) => {
+  try {
+    const response = await axiosInstance.post("/users/admin/remove-access", {
+      userId,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Remove user access error:",
+      error.response?.data || error.message,
+    );
+
+    throw error;
+  }
+};
+
+export const verifySpecialPagePassword = async (password) => {
+  try {
+    const response = await axiosInstance.post("/users/admin/verify-password", {
+      password,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Verify special page password error:",
+      error.response?.data || error.message,
+    );
+
+    throw error;
+  }
+};
+
 export const getAllUsers = async () => {
   try {
     const response = await axiosInstance.get("/users");

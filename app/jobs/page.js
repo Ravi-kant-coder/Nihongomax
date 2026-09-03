@@ -47,6 +47,7 @@ const Jobs = () => {
       <h1 className="text-4xl mt-35 md:mt-0 text-center font-bold">
         {t("jobApply")}
       </h1>
+
       {jobs?.length > 0 ? (
         jobs?.map((job, index) => (
           <JobCard

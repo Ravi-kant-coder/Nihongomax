@@ -51,3 +51,18 @@ export const checkUserAuth = async () => {
     return { isAuthenticated: false };
   }
 };
+
+export const getSubscriptionStatus = async () => {
+  try {
+    const response = await axiosInstance.get("/api/subscriptions/status");
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Get subscription status error:",
+      error.response?.data || error.message,
+    );
+
+    throw error;
+  }
+};
