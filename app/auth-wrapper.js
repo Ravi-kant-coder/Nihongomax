@@ -1,5 +1,5 @@
 "use client";
-import { checkUserAuth } from "@/service/auth.service";
+import { checkUserAuth, logout } from "@/service/auth.service";
 import userStore from "@/store/userStore";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,6 +31,15 @@ export default function AuthWrapper({ children }) {
         if (result?.isAuthenticated) {
           setUser(result.user);
           setIsAuthenticated(true);
+        } else if (result?.sessionReplaced) {
+          await logout();
+
+          clearUser();
+          setIsAuthenticated(false);
+
+          if (isMounted) {
+            window.location.href = "/";
+          }
         } else {
           clearUser();
           setIsAuthenticated(false);
@@ -53,7 +62,7 @@ export default function AuthWrapper({ children }) {
     return () => {
       isMounted = false;
     };
-  }, [setUser, clearUser]);
+  }, [pathname, setUser, clearUser]);
 
   if (loading && !isLoginPage && !isResetPasswordPage) {
     return <Spinner />;

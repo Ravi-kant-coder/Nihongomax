@@ -39,6 +39,19 @@ export const logout = async () => {
   }
 };
 
+// export const checkUserAuth = async () => {
+//   try {
+//     const response = await axiosInstance.get("/auth/me");
+
+//     return {
+//       isAuthenticated: true,
+//       user: response?.data?.data,
+//     };
+//   } catch (error) {
+//     return { isAuthenticated: false };
+//   }
+// };
+
 export const checkUserAuth = async () => {
   try {
     const response = await axiosInstance.get("/auth/me");
@@ -48,7 +61,18 @@ export const checkUserAuth = async () => {
       user: response?.data?.data,
     };
   } catch (error) {
-    return { isAuthenticated: false };
+    const code = error.response?.data?.data?.code;
+
+    if (code === "SESSION_REPLACED") {
+      return {
+        isAuthenticated: false,
+        sessionReplaced: true,
+      };
+    }
+
+    return {
+      isAuthenticated: false,
+    };
   }
 };
 
