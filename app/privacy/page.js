@@ -397,7 +397,7 @@ export default function PrivacyPage() {
         use of your personal information.
         <br /> Name: Nihongomax
         <br /> Email: nihongomax@gmail.com
-        <br /> Site Developed by: Nihongomax
+        <br /> Site Developed by: Nihongomax Japanese Language Institute
       </p>
     </div>
   );
