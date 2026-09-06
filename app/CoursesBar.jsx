@@ -9,13 +9,13 @@ const CoursesBar = () => {
     >
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-10">
         <Link
-          href="https://www.nihongomax.com/n5class10.php"
+          href="https://www.onlinejapaneseclasses.com/about-jlpt-lessons.php"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Image
             src="/abtjlptbtn.webp"
-            alt="About JLPT course"
+            alt="About JLPT lessons"
             width={300}
             height={80}
             className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -25,13 +25,13 @@ const CoursesBar = () => {
       <div className="flex flex-wrap gap-6 justify-center items-center">
         <div className="inline-flex hover:scale-105 transition-all duration-300">
           <Link
-            href="https://www.nihongomax.com/n5class10.php"
+            href="https://www.onlinejapaneseclasses.com/jlpt-n5-classes.php"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/JLPT-N5-button.jpg"
-              alt="JLPT N5 course"
+              alt="JLPT N5 classes"
               width={100}
               height={80}
               className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -40,13 +40,13 @@ const CoursesBar = () => {
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300">
           <Link
-            href="https://www.nihongomax.com/n5class10.php"
+            href="https://www.onlinejapaneseclasses.com/jlpt-n4-classes.php"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/JLPT-N4-button.jpg"
-              alt="JLPT N4 course"
+              alt="JLPT N4 classes"
               width={100}
               height={80}
               className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -55,13 +55,13 @@ const CoursesBar = () => {
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300">
           <Link
-            href="https://www.nihongomax.com/n5class10.php"
+            href="https://www.onlinejapaneseclasses.com/jlpt-n3-classes.php"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/JLPT-N3-button.jpg"
-              alt="JLPT N3 course"
+              alt="JLPT N3 classes"
               width={100}
               height={80}
               className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -70,13 +70,13 @@ const CoursesBar = () => {
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300">
           <Link
-            href="https://www.nihongomax.com/n5class10.php"
+            href="https://www.onlinejapaneseclasses.com/jlpt-n2-classes.php"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/JLPT-N2-button.jpg"
-              alt="JLPT N2 course"
+              alt="JLPT N2 classes"
               width={100}
               height={80}
               className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -85,13 +85,13 @@ const CoursesBar = () => {
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300">
           <Link
-            href="https://www.nihongomax.com/n5class10.php"
+            href="https://www.onlinejapaneseclasses.com/jlpt-n1-classes.php"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/JLPT-N1-button.jpg"
-              alt="JLPT N1 course"
+              alt="JLPT N1 classes"
               width={100}
               height={80}
               className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -102,13 +102,13 @@ const CoursesBar = () => {
       <div className="h-px rounded-2xl w-full bg-gray-500 dark:bg-white my-1" />
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-5">
         <Link
-          href="https://www.nihongomax.com/n5class10.php"
+          href="https://www.onlinejapaneseclasses.com/business-japanese.php"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Image
             src="/about-business-japanese.jpg"
-            alt="Business Japanese course"
+            alt="Business Japanese"
             width={400}
             height={80}
             className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -119,13 +119,13 @@ const CoursesBar = () => {
         <div className="flex flex-wrap gap-2 flex-col">
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.nihongomax.com/n5class10.php"
+              href="https://www.onlinejapaneseclasses.com/fundamental-business-japanese.php"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
                 src="/fundamental-business-japanese.jpg"
-                alt="Fundamental Business Japanese course"
+                alt="Fundamental Business Japanese"
                 width={250}
                 height={80}
                 className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -134,13 +134,13 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.nihongomax.com/n5class10.php"
+              href="https://www.onlinejapaneseclasses.com/basic-business-japanese.php"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
                 src="/basic-business-japanese.jpg"
-                alt="Basic Business Japanese course"
+                alt="Basic Business Japanese"
                 width={250}
                 height={80}
                 className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -149,13 +149,13 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.nihongomax.com/n5class10.php"
+              href="https://www.onlinejapaneseclasses.com/basic-intermediate-japanese.php"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
                 src="/basic-intermediate-japanese.jpg"
-                alt="Basic Intermediate Japanese course"
+                alt="Basic Intermediate Japanese"
                 width={250}
                 height={80}
                 className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -164,13 +164,13 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.nihongomax.com/n5class10.php"
+              href="https://www.onlinejapaneseclasses.com/intermediate-japanese.php"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
                 src="/intermediate-japanese.jpg"
-                alt="Intermediate Japanese course"
+                alt="Intermediate Japanese"
                 width={250}
                 height={80}
                 className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -181,13 +181,13 @@ const CoursesBar = () => {
         <div className="flex flex-wrap gap-2 justify-center items-center flex-col">
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.nihongomax.com/n5class10.php"
+              href="https://www.onlinejapaneseclasses.com/intermediate-advance-japanese.php"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
                 src="/intermediate-advance-japanese.jpg"
-                alt="Intermediate Advance Japanese course"
+                alt="Intermediate Advance Japanese"
                 width={250}
                 height={80}
                 className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -196,13 +196,13 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.nihongomax.com/n5class10.php"
+              href="https://www.onlinejapaneseclasses.com/advance-business-japanese.php"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
                 src="/advance-business-japanese.jpg"
-                alt="Advance Business Japanese course"
+                alt="Advance Business Japanese"
                 width={250}
                 height={80}
                 className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -211,13 +211,13 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.nihongomax.com/n5class10.php"
+              href="https://www.onlinejapaneseclasses.com/advanced-japanese.php"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
                 src="/advanced-business-japanese.jpg"
-                alt="Advanced Business Japanese course"
+                alt="Advanced Japanese"
                 width={250}
                 height={80}
                 className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -226,7 +226,7 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.nihongomax.com/n5class10.php"
+              href="https://www.onlinejapaneseclasses.com/kaiwa-course.php"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -244,13 +244,13 @@ const CoursesBar = () => {
       <div className="h-px rounded-2xl w-full bg-gray-500 dark:bg-white my-1" />
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-10">
         <Link
-          href="https://www.nihongomax.com/n5class10.php"
+          href="https://www.onlinejapaneseclasses.com/eigo-lesson.php"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Image
             src="/about-business-english.jpg"
-            alt="About Business English course"
+            alt="Eigo lesson"
             width={400}
             height={80}
             className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -260,13 +260,13 @@ const CoursesBar = () => {
       <div className="flex flex-wrap gap-6 justify-center items-center">
         <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-5">
           <Link
-            href="https://www.nihongomax.com/n5class10.php"
+            href="https://www.onlinejapaneseclasses.com/shokyu-eigo.php"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/shokyu-eikaiwa.webp"
-              alt="Shokyu Eikaiwa course"
+              alt="Shokyu Eigo course"
               width={100}
               height={80}
               className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -275,13 +275,13 @@ const CoursesBar = () => {
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-5">
           <Link
-            href="https://www.nihongomax.com/n5class10.php"
+            href="https://www.onlinejapaneseclasses.com/chukyu-eigo.php"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/chukyu-eikaiwa.webp"
-              alt="Chukyu Eikaiwa course"
+              alt="Chukyu Eigo course"
               width={100}
               height={80}
               className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -290,13 +290,13 @@ const CoursesBar = () => {
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-5">
           <Link
-            href="https://www.nihongomax.com/n5class10.php"
+            href="https://www.onlinejapaneseclasses.com/jokyu-eigo.php"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Image
               src="/jokyu-eikaiwa.webp"
-              alt="Jokyu Eikaiwa course"
+              alt="Jokyu Eigo course"
               width={100}
               height={80}
               className="rounded-md hover:scale-105 transition-transform duration-200"
@@ -306,7 +306,7 @@ const CoursesBar = () => {
       </div>
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-5">
         <Link
-          href="https://www.nihongomax.com/n5class10.php"
+          href="https://www.onlinejapaneseclasses.com/eikaiwa-course.php"
           target="_blank"
           rel="noopener noreferrer"
         >
