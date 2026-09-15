@@ -4,7 +4,7 @@ import CoursePageRenderer from "@/components/CoursePageRenderer";
 import CourseListRenderer from "@/components/CourseListRenderer";
 import Protection from "@/components/Protection";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const COURSE_LIST_PAGES = [
   "classN1",
