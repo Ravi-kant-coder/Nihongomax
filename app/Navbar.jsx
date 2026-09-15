@@ -17,7 +17,7 @@ import {
   Dices,
   BriefcaseBusiness,
   Car,
-  Building2,
+  // BowArrow,
   BookOpen,
 } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
@@ -153,10 +153,10 @@ const Navbar = () => {
               isProtected: true,
             },
             {
-              icon: Building2,
-              path: "/schools-in-japan",
-              name: "Schools",
-              isProtected: true,
+              icon: BookOpen,
+              path: "/quiz",
+              name: "Japanese Quiz",
+              isProtected: false,
             },
             {
               icon: BookOpen,

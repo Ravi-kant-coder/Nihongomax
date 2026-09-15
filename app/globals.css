@@ -124,6 +124,10 @@ body {
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+.dark .lesson-content img {
+  filter: brightness(0.85);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -380,4 +384,55 @@ body {
 
 .dark .prose p {
   color: #9a9a9a;
+}
+
+/* =========================================
+   LINK BUNDLE
+   ========================================= */
+
+/* =========================================
+   LINK BUNDLE
+   ========================================= */
+
+.course-html {
+  scroll-margin-top: 100px;
+}
+
+/* Link Bundle text links */
+.course-html a {
+  display: block;
+  width: 90%;
+  max-width: 900px;
+  margin: 2px auto;
+  padding: 18px 24px;
+  border-radius: 14px;
+  background: #dddcdc;
+  font-size: 1.05rem;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.course-html a:hover {
+  transform: translateY(-2px);
+  background: #e9e9e9;
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.dark .course-html a {
+  background: #dadada;
+  color: #222;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.18);
+}
+
+.dark .course-html a:hover {
+  background: #c7c7c7;
 }

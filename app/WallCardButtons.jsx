@@ -122,7 +122,7 @@ const WallCardButtons = ({ post }) => {
           <AnimatePresence>
             {likeEffect && (
               <motion.div
-                className="absolute -top-4 left-2 text-sm dark:bg-[rgb(92,30,30)] text-red-600 dark:text-red-300  
+                className="absolute -top-4 left-2 text-sm dark:bg-[rgb(92,30,30)] text-red-600 dark:text-red-200  
                 bg-pink-100 rounded-lg shadow-2xl p-2"
                 initial={{ opacity: 0, y: 0, rotate: 10 }}
                 animate={{ opacity: 1, y: -20, rotate: -10 }}
@@ -149,8 +149,9 @@ const WallCardButtons = ({ post }) => {
           <Button
             variant="ghost"
             disabled={post?.isSaved}
-            className={`" hover:bg-gray-300 cursor-pointer border flex items-center disabled:opacity-70
-           dark:hover:bg-background dark:text-gray-300 border-gray-300 dark:border-gray-500"  ${
+            className={` hover:bg-gray-300 cursor-pointer border flex items-center disabled:opacity-70
+           dark:hover:bg-background dark:text-gray-300 border-gray-300 dark:border-gray-500 
+           ${
              post?.isSaved
                ? "text-green-700 border-green-500 dark:border-green-800 hover:bg-white cursor-auto"
                : "dark:text-gray-300"

@@ -19,6 +19,7 @@ import {
   TvMinimalPlay,
   Building2,
   BookOpen,
+  BowArrow,
 } from "lucide-react";
 
 const LeftSideBar = () => {
@@ -142,6 +143,13 @@ const LeftSideBar = () => {
               isProtected: false,
             },
             {
+              id: 1,
+              label: <p>Japanese Quiz</p>,
+              navPath: "/quiz",
+              icon: BookOpen,
+              isProtected: false,
+            },
+            {
               id: 7,
               label: <p>{t("jobApply")}</p>,
               navPath: "/jobs",
@@ -153,13 +161,6 @@ const LeftSideBar = () => {
               label: <p>{t("recruiters")}</p>,
               navPath: "/recruiters",
               icon: ChartNoAxesCombined,
-              isProtected: true,
-            },
-            {
-              id: 1,
-              label: <p>学校掲載投稿</p>,
-              navPath: "/schools-in-japan",
-              icon: Building2,
               isProtected: true,
             },
           ].map(({ id, label, icon: Icon, navPath, isProtected }) => {

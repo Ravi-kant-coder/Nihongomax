@@ -4,17 +4,13 @@ import Image from "next/image";
 const CoursesBar = () => {
   return (
     <div
-      className="md:flex flex-wrap gap-4 fixed md:top-20 hidden md:right-20 lg:right-10 md:w-1/3 overflow-y-auto
-  scroll-smooth overscroll-contain flex-col justify-center items-center py-4"
+      className="md:flex flex-wrap gap-4 fixed md:top-18 hidden md:right-20 lg:right-10 md:w-1/3 overflow-y-auto
+  scroll-smooth overscroll-contain flex-col justify-center items-center py-4 bg-white rounded-2xl dark:bg-gray-400"
     >
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-10">
-        <Link
-          href="https://www.onlinejapaneseclasses.com/about-jlpt-lessons.php"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link href="course/aboutjlpt" target="_blank" rel="noopener noreferrer">
           <Image
-            src="/abtjlptbtn.webp"
+            src="/abtjlptbtn.png"
             alt="About JLPT lessons"
             width={300}
             height={80}
@@ -22,15 +18,12 @@ const CoursesBar = () => {
           />
         </Link>
       </div>
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%]" />
       <div className="flex flex-wrap gap-6 justify-center items-center">
         <div className="inline-flex hover:scale-105 transition-all duration-300">
-          <Link
-            href="https://www.onlinejapaneseclasses.com/jlpt-n5-classes.php"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="course/classN5" target="_blank" rel="noopener noreferrer">
             <Image
-              src="/JLPT-N5-button.jpg"
+              src="/JLPT-N5-button.png"
               alt="JLPT N5 classes"
               width={100}
               height={80}
@@ -39,13 +32,9 @@ const CoursesBar = () => {
           </Link>
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300">
-          <Link
-            href="https://www.onlinejapaneseclasses.com/jlpt-n4-classes.php"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="course/classN4" target="_blank" rel="noopener noreferrer">
             <Image
-              src="/JLPT-N4-button.jpg"
+              src="/JLPT-N4-button.png"
               alt="JLPT N4 classes"
               width={100}
               height={80}
@@ -54,13 +43,9 @@ const CoursesBar = () => {
           </Link>
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300">
-          <Link
-            href="https://www.onlinejapaneseclasses.com/jlpt-n3-classes.php"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="course/classN3" target="_blank" rel="noopener noreferrer">
             <Image
-              src="/JLPT-N3-button.jpg"
+              src="/JLPT-N3-button.png"
               alt="JLPT N3 classes"
               width={100}
               height={80}
@@ -69,13 +54,9 @@ const CoursesBar = () => {
           </Link>
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300">
-          <Link
-            href="https://www.onlinejapaneseclasses.com/jlpt-n2-classes.php"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="course/classN2" target="_blank" rel="noopener noreferrer">
             <Image
-              src="/JLPT-N2-button.jpg"
+              src="/JLPT-N2-button.png"
               alt="JLPT N2 classes"
               width={100}
               height={80}
@@ -84,13 +65,9 @@ const CoursesBar = () => {
           </Link>
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300">
-          <Link
-            href="https://www.onlinejapaneseclasses.com/jlpt-n1-classes.php"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="course/classN1" target="_blank" rel="noopener noreferrer">
             <Image
-              src="/JLPT-N1-button.jpg"
+              src="/JLPT-N1-button.png"
               alt="JLPT N1 classes"
               width={100}
               height={80}
@@ -99,15 +76,11 @@ const CoursesBar = () => {
           </Link>
         </div>
       </div>
-      <div className="h-px rounded-2xl w-full bg-gray-500 dark:bg-white my-1" />
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%]" />
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-5">
-        <Link
-          href="https://www.onlinejapaneseclasses.com/business-japanese.php"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link href="course/aboutbj" target="_blank" rel="noopener noreferrer">
           <Image
-            src="/about-business-japanese.jpg"
+            src="/about-business-japanese.png"
             alt="Business Japanese"
             width={400}
             height={80}
@@ -115,16 +88,18 @@ const CoursesBar = () => {
           />
         </Link>
       </div>
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%]" />
+
       <div className="flex gap-4">
         <div className="flex flex-wrap gap-2 flex-col">
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.onlinejapaneseclasses.com/fundamental-business-japanese.php"
+              href="course/bjfunda"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
-                src="/fundamental-business-japanese.jpg"
+                src="/fundamental-business-japanese.png"
                 alt="Fundamental Business Japanese"
                 width={250}
                 height={80}
@@ -134,12 +109,12 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.onlinejapaneseclasses.com/basic-business-japanese.php"
+              href="course/bjBasic"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
-                src="/basic-business-japanese.jpg"
+                src="/basic-business-japanese.png"
                 alt="Basic Business Japanese"
                 width={250}
                 height={80}
@@ -149,12 +124,12 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.onlinejapaneseclasses.com/basic-intermediate-japanese.php"
+              href="course/bjBasicInt"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
-                src="/basic-intermediate-japanese.jpg"
+                src="/basic-intermediate-japanese.png"
                 alt="Basic Intermediate Japanese"
                 width={250}
                 height={80}
@@ -163,13 +138,9 @@ const CoursesBar = () => {
             </Link>
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
-            <Link
-              href="https://www.onlinejapaneseclasses.com/intermediate-japanese.php"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href="course/bjInt" target="_blank" rel="noopener noreferrer">
               <Image
-                src="/intermediate-japanese.jpg"
+                src="/intermediate-japanese.png"
                 alt="Intermediate Japanese"
                 width={250}
                 height={80}
@@ -181,12 +152,12 @@ const CoursesBar = () => {
         <div className="flex flex-wrap gap-2 justify-center items-center flex-col">
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.onlinejapaneseclasses.com/intermediate-advance-japanese.php"
+              href="course/bjIntAdv"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
-                src="/intermediate-advance-japanese.jpg"
+                src="/intermediate-advance-japanese.png"
                 alt="Intermediate Advance Japanese"
                 width={250}
                 height={80}
@@ -195,13 +166,9 @@ const CoursesBar = () => {
             </Link>
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
-            <Link
-              href="https://www.onlinejapaneseclasses.com/advance-business-japanese.php"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href="course/bjAdv" target="_blank" rel="noopener noreferrer">
               <Image
-                src="/advance-business-japanese.jpg"
+                src="/advance-business-japanese.png"
                 alt="Advance Business Japanese"
                 width={250}
                 height={80}
@@ -211,12 +178,12 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.onlinejapaneseclasses.com/advanced-japanese.php"
+              href="course/bjAdvsup"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Image
-                src="/advanced-business-japanese.jpg"
+                src="/advanced-business-japanese.png"
                 alt="Advanced Japanese"
                 width={250}
                 height={80}
@@ -226,7 +193,7 @@ const CoursesBar = () => {
           </div>
           <div className="inline-flex hover:scale-105 transition-all duration-300">
             <Link
-              href="https://www.onlinejapaneseclasses.com/kaiwa-course.php"
+              href="course/kaiwa-classes"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -241,15 +208,12 @@ const CoursesBar = () => {
           </div>
         </div>
       </div>
-      <div className="h-px rounded-2xl w-full bg-gray-500 dark:bg-white my-1" />
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%]" />
+
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-10">
-        <Link
-          href="https://www.onlinejapaneseclasses.com/eigo-lesson.php"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link href="course/aboutbe" target="_blank" rel="noopener noreferrer">
           <Image
-            src="/about-business-english.jpg"
+            src="/about-business-english.png"
             alt="Eigo lesson"
             width={400}
             height={80}
@@ -257,10 +221,11 @@ const CoursesBar = () => {
           />
         </Link>
       </div>
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%]" />
       <div className="flex flex-wrap gap-6 justify-center items-center">
         <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-5">
           <Link
-            href="https://www.onlinejapaneseclasses.com/shokyu-eigo.php"
+            href="course/business-english-basic-classes"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -275,7 +240,7 @@ const CoursesBar = () => {
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-5">
           <Link
-            href="https://www.onlinejapaneseclasses.com/chukyu-eigo.php"
+            href="course/business-english-inter-classes"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -290,7 +255,7 @@ const CoursesBar = () => {
         </div>
         <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-5">
           <Link
-            href="https://www.onlinejapaneseclasses.com/jokyu-eigo.php"
+            href="course/business-english-adv-classes"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -306,7 +271,7 @@ const CoursesBar = () => {
       </div>
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-400 rounded-2xl px-5">
         <Link
-          href="https://www.onlinejapaneseclasses.com/eikaiwa-course.php"
+          href="course/eikaiwa-classes"
           target="_blank"
           rel="noopener noreferrer"
         >
