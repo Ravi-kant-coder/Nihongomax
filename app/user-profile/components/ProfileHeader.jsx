@@ -283,6 +283,7 @@ const ProfileHeader = ({
       </div>
 
       {/*------------------------- DP, Friends and Followers number----------------------- */}
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
         <div className="flex flex-col md:flex-row items-center md:items-end md:space-x-5">
           <Avatar
@@ -368,10 +369,7 @@ const ProfileHeader = ({
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center
              justify-center z-50"
           >
-            <div
-              className=" bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full 
-            max-w-md"
-            >
+            <div className=" bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                   {t("putChngeRemDp")}

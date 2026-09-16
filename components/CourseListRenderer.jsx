@@ -2,6 +2,110 @@
 
 import { coursePageUrl } from "../lib/coursePageUrl";
 import { sanitizeHtml } from "../lib/sanitizeHtml";
+import { requireAuth } from "@/lib/requireAuth";
+
+const FREE_PAGES = new Set([
+  "aboutjlpt",
+  "aboutbj",
+  "aboutbe",
+
+  "classN1",
+  "classN2",
+  "classN3",
+  "classN4",
+  "classN5",
+
+  "bjfunda",
+  "bjBasic",
+  "bjBasicInt",
+  "bjInt",
+  "bjIntAdv",
+  "bjAdv",
+  "bjAdvsup",
+
+  "kaiwa-classes",
+  "business-english-basic-classes",
+  "business-english-inter-classes",
+  "business-english-adv-classes",
+  "eikaiwa-classes",
+
+  "n5howtostudy",
+  "n5overview",
+  "n5class1",
+  "n5class2",
+
+  "n4howtostudy",
+  "n4overview",
+  "n4class1",
+  "n4class2",
+
+  "n3howtostudy",
+  "n3overview",
+  "n3class1",
+  "n3class2",
+
+  "n2howtostudy",
+  "n2overview",
+  "n2class1",
+  "n2class2",
+
+  "n1howtostudy",
+  "n1overview",
+  "n1class1",
+  "n1class2",
+
+  "howtostudybj",
+  "funda_overview",
+
+  "bjclass1",
+  "bjclass2",
+  "bjclass11",
+  "bjclass12",
+  "bjclass21",
+  "bjclass22",
+  "bjclass31",
+  "bjclass32",
+  "bjclass41",
+  "bjclass42",
+  "bjclass51",
+  "bjclass52",
+  "bjclass61",
+  "bjclass62",
+
+  "basic_overview",
+  "basic_inter_overview",
+  "inter_overview",
+  "inter_adv_overview",
+  "adv_overview",
+  "super_adv_overview",
+
+  "kaiwa_overview",
+  "be_sho_overview",
+  "be_chu_overview",
+  "be_jou_overview",
+
+  "bizengc1",
+  "bizengc2",
+  "bizengc21",
+  "bizengc22",
+  "bizengc41",
+  "bizengc42",
+
+  "eikaiwa_overview",
+  "eikaiwac1",
+  "eikaiwac2",
+]);
+
+function getCoursePageName(href) {
+  if (!href || !href.startsWith("/course/")) {
+    return null;
+  }
+
+  return href
+    .replace(/^\/course\//, "")
+    .split(/[?#]/)[0]
+    .trim();
+}
 
 export default function CourseListRenderer({ page }) {
   if (!page || !Array.isArray(page.content)) {
@@ -36,6 +140,56 @@ export default function CourseListRenderer({ page }) {
    */
   const howToStudy = linkItems[0];
   const courseButtons = linkItems.slice(1);
+
+  /*
+   * Course navigation rules:
+   *
+   * FREE_PAGES:
+   *   Anyone can open them.
+   *
+   * Paid pages:
+   *   Logged-out users -> existing AuthModal
+   *   Logged-in users -> navigate normally
+   *
+   * The backend remains the final authority for
+   * subscription access.
+   */
+  const handleCourseClick = (event, legacyHref) => {
+    const href = coursePageUrl(legacyHref);
+
+    if (!href || href === "#") {
+      return;
+    }
+
+    // Only intercept internal course pages.
+    if (!href.startsWith("/course/")) {
+      return;
+    }
+
+    const pageName = getCoursePageName(href);
+
+    /*
+     * FREE PAGE
+     *
+     * Do not call requireAuth().
+     * Anyone can access it.
+     */
+    if (pageName && FREE_PAGES.has(pageName)) {
+      return;
+    }
+
+    /*
+     * PAID PAGE
+     *
+     * Stop normal navigation and use the existing
+     * authentication popup for logged-out users.
+     */
+    event.preventDefault();
+
+    requireAuth(() => {
+      window.location.href = href;
+    });
+  };
 
   return (
     <article className="w-full bg-white py-8 rounded-4xl dark:bg-[#cfcfcf]">
@@ -111,6 +265,12 @@ export default function CourseListRenderer({ page }) {
             <div className="mb-8 flex w-full justify-center">
               <a
                 href={coursePageUrl(howToStudy.legacyHref || howToStudy.href)}
+                onClick={(event) =>
+                  handleCourseClick(
+                    event,
+                    howToStudy.legacyHref || howToStudy.href,
+                  )
+                }
                 className="block"
               >
                 <img
@@ -160,6 +320,9 @@ export default function CourseListRenderer({ page }) {
               >
                 <a
                   href={href}
+                  onClick={(event) =>
+                    handleCourseClick(event, item.legacyHref || item.href)
+                  }
                   className="
                     block
                     w-full
