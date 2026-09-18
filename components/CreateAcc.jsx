@@ -279,7 +279,7 @@ const CreateAcc = () => {
           By creating an account, <br />
           you agree to our{" "}
           <Link
-            href="/privacy"
+            href="/privacy-policy"
             className="text-blue-800 hover:underline dark:text-gray-400 dark:hover:text-gray-300"
             target="_blank"
           >
