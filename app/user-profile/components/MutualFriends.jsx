@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
 import { PicsSkeleton } from "@/lib/PicsSkeleten";
 import useT from "@/app/hooks/useT";
+import SubscriptionDetails from "@/components/SubscriptionDetails";
 
 const MutualFriends = ({ id, isOwner, profileData }) => {
   const { fetchMutualFriends, mutualFriends, UnfriendUser } = userFriendStore();
@@ -29,7 +30,6 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
     }
   }, [id, fetchMutualFriends]);
 
-  // Why useEffect is not in handleundfriend?
   const handleUnfriend = async (userId) => {
     await UnfriendUser(userId);
   };
@@ -42,10 +42,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
       className="mb-6"
     >
       <Card>
-        <CardContent
-          className="p-4 shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg
-          dark:shadow-black"
-        >
+        <CardContent className="p-4 shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg dark:shadow-black">
           <h2 className="text-xl font-semibold  dark:text-gray-300 capitalize">
             {isOwner
               ? t("your")
@@ -114,6 +111,7 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
           </div>
         </CardContent>
       </Card>
+      {isOwner && <SubscriptionDetails profileData={profileData} />}
       {/* ------------------------Spinner-------------------------- */}
       {isPending && (
         <div

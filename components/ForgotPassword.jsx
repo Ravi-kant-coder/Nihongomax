@@ -71,7 +71,7 @@ const ForgotPassword = () => {
             <div>
               <p className="text-center mb-2 font-semibold">Forgot Password?</p>
               <p className="mb-2 text-sm dark:text-white">
-                Enter mail address you are registered with Nihongomax.
+                Enter mail ID you are registered with us.
               </p>
             </div>
           )}

@@ -154,7 +154,7 @@ const Navbar = () => {
             },
             {
               icon: BookOpen,
-              path: "/quiz",
+              path: "/jlpt-quiz",
               name: "Japanese Quiz",
               isProtected: false,
             },

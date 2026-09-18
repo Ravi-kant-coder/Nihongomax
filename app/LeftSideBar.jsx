@@ -145,7 +145,7 @@ const LeftSideBar = () => {
             {
               id: 1,
               label: <p>Japanese Quiz</p>,
-              navPath: "/quiz",
+              navPath: "/jlpt-quiz",
               icon: BookOpen,
               isProtected: false,
             },

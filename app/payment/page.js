@@ -1,5 +1,5 @@
 "use client";
-
+import Comparison from "./Comparison";
 import Script from "next/script";
 import { useState } from "react";
 
@@ -117,88 +117,78 @@ export default function PaymentPage() {
         strategy="afterInteractive"
       />
 
-      <main className="min-h-screen px-6 py-16">
+      <main className="min-h-screen">
         <div className="mx-auto max-w-6xl">
-          {/* Header */}
-
-          <div className="mx-auto max-w-2xl text-center">
-            <div className="mb-4 inline-flex rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
-              Learn Japanese with NihongoMax
-            </div>
-
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-              Choose your learning plan
-            </h1>
-
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Get full access to our Japanese learning courses and learn at your
-              own pace.
-            </p>
-          </div>
-
-          {/* Pricing Cards */}
-
+          <p className="mt-8 text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold">
+            Unlock the full{" "}
+            <span className="text-red-700 dark:text-red-400">Nihongomax</span>{" "}
+            experience <br />
+            and start mastering{" "}
+            <span className="text-red-700 dark:text-red-400">Japanese </span>
+            today!
+          </p>
           <div className="mt-14 grid gap-8 md:grid-cols-3">
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-xl ${
-                  plan.popular
-                    ? "border-blue-500 ring-2 ring-blue-100"
-                    : "border-slate-200"
-                }`}
+                className={`relative flex flex-col rounded-2xl border bg-white p-8 shadow-sm transition duration-200 
+                  hover:-translate-y-1 hover:shadow-xl dark:bg-black ${
+                    plan.popular
+                      ? "border-teal-500 ring ring-teal-500"
+                      : "border-slate-200"
+                  }`}
               >
                 {/* Popular badge */}
 
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-blue-600 px-5 py-2 text-sm font-bold text-white shadow-md">
+                  <div
+                    className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-teal-800 px-5 py-2 text-sm
+                   font-bold text-white shadow-md"
+                  >
                     MOST POPULAR
                   </div>
                 )}
 
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">
-                    {plan.title}
-                  </h2>
+                  <h2 className="text-xl font-semibold ">{plan.title}</h2>
 
-                  <p className="mt-3 min-h-[48px] text-sm leading-6 text-slate-600">
+                  <p className="mt-3 min-h-[48px] text-sm leading-6 dark:text-gray-300">
                     {plan.description}
                   </p>
                 </div>
 
                 {/* Price */}
 
-                <div className="mt-8">
-                  <span className="text-4xl font-bold text-slate-900">
+                <div className="mt-4">
+                  <span className="text-4xl font-semibold ">
                     ₹{plan.price.toLocaleString("en-IN")}
                   </span>
 
-                  <span className="ml-2 text-sm text-slate-500">
-                    / {plan.duration}
-                  </span>
+                  <span className="ml-2 text-lg ">/ {plan.duration}</span>
                 </div>
 
                 {/* Features */}
 
                 <div className="mt-8 flex-1">
-                  <ul className="space-y-4 text-sm text-slate-700">
+                  <ul className="space-y-4 text-sm">
                     <li className="flex gap-3">
-                      <span className="text-green-600">✓</span>
-                      Full Japanese course access
+                      <span className="text-[#008b18] dark:text-[#00ff00] font-extrabold">
+                        ✓
+                      </span>
+                      Full Japanese courses access
                     </li>
 
                     <li className="flex gap-3">
-                      <span className="text-green-600">✓</span>
-                      JLPT-focused learning
-                    </li>
-
-                    <li className="flex gap-3">
-                      <span className="text-green-600">✓</span>
+                      <span className="text-[#008b18] dark:text-[#00ff00] font-extrabold">
+                        ✓
+                      </span>
                       Learn at your own pace
                     </li>
 
                     <li className="flex gap-3">
-                      <span className="text-green-600">✓</span>
+                      <span className="text-[#008b18] dark:text-[#00ff00] font-extrabold">
+                        ✓
+                      </span>
                       Secure online payment
                     </li>
                   </ul>
@@ -209,33 +199,28 @@ export default function PaymentPage() {
                 <button
                   onClick={() => handlePayment(plan)}
                   disabled={loadingPlan !== null}
-                  className={`mt-10 w-full rounded-xl px-5 py-4 text-base font-bold transition ${
+                  className={`mt-10 w-full rounded-xl px-5 py-4 text-base font-bold transition cursor-pointer ${
                     plan.popular
-                      ? "bg-blue-600 text-white hover:bg-blue-700"
-                      : "bg-slate-900 text-white hover:bg-slate-800"
+                      ? "bg-teal-800 text-white hover:bg-teal-700"
+                      : "bg-slate-700 text-white hover:bg-slate-800"
                   } disabled:cursor-not-allowed disabled:opacity-60`}
                 >
                   {loadingPlan === plan.id
                     ? "Opening payment..."
-                    : `Subscribe for ₹${plan.price.toLocaleString("en-IN")}`}
+                    : `Buy for ₹${plan.price.toLocaleString("en-IN")}`}
                 </button>
               </div>
             ))}
           </div>
-
           {/* Security message */}
-
-          <div className="mt-12 text-center">
-            <p className="text-sm text-slate-500">
-              🔒 Secure payments powered by Razorpay
-            </p>
-
-            <p className="mt-2 text-xs text-slate-400">
+          <div className="mt-2 text-center">
+            <p className="text-sm">
               Your payment information is securely processed by Razorpay.
-              NihongoMax does not store your card details.
+              Nihongomax does not store your card or UPI details.
             </p>
           </div>
         </div>
+        <Comparison />
       </main>
     </>
   );

@@ -37,3 +37,18 @@ export const verifyRazorpayPayment = async (paymentResponse) => {
     throw error;
   }
 };
+
+export const getSubscriptionStatus = async () => {
+  try {
+    const response = await axiosInstance.get("/api/subscriptions/status");
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Get subscription status error:",
+      error.response?.data || error.message,
+    );
+
+    throw error;
+  }
+};

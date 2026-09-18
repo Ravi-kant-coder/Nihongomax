@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ScrollupBtn from "../ScrollupBtn";
 import useVideoStore from "@/store/useVideoStore";
 import { RefreshCw } from "lucide-react";
@@ -7,11 +7,26 @@ import useT from "../hooks/useT";
 import Image from "next/image";
 import { requireAuth } from "@/lib/requireAuth";
 
+function shuffleVideos(array) {
+  const shuffled = [...array];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
 const YouTubeVideos = () => {
   const { videos, fetchVideos, syncYouTube } = useVideoStore();
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = useVideoStore((state) => state.totalPages);
   const t = useT();
+
+  const shuffledVideos = useMemo(() => {
+    return shuffleVideos(videos);
+  }, [videos]);
 
   useEffect(() => {
     fetchVideos(currentPage);
@@ -42,7 +57,7 @@ const YouTubeVideos = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
                        gap-6 md:mt-2 mt-1 px-4 md:px-8"
         >
-          {videos.map((video) => (
+          {shuffledVideos.map((video) => (
             <div
               key={video._id}
               className="bg-white dark:bg-zinc-800 rounded shadow-md overflow-hidden"
