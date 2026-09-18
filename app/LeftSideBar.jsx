@@ -17,9 +17,8 @@ import {
   Handshake,
   ChartNoAxesCombined,
   TvMinimalPlay,
-  Building2,
   BookOpen,
-  BowArrow,
+  Orbit,
 } from "lucide-react";
 
 const LeftSideBar = () => {
@@ -144,9 +143,9 @@ const LeftSideBar = () => {
             },
             {
               id: 1,
-              label: <p>Japanese Quiz</p>,
+              label: <p>JLPT Quiz</p>,
               navPath: "/jlpt-quiz",
-              icon: BookOpen,
+              icon: Orbit,
               isProtected: false,
             },
             {

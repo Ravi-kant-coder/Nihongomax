@@ -17,7 +17,7 @@ import {
   Dices,
   BriefcaseBusiness,
   Car,
-  // BowArrow,
+  Orbit,
   BookOpen,
 } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
@@ -153,7 +153,7 @@ const Navbar = () => {
               isProtected: true,
             },
             {
-              icon: BookOpen,
+              icon: Orbit,
               path: "/jlpt-quiz",
               name: "Japanese Quiz",
               isProtected: false,
