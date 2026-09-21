@@ -1,8 +1,9 @@
 "use client";
-
+import { useState } from "react";
 import { coursePageUrl } from "../lib/coursePageUrl";
 import { sanitizeHtml } from "../lib/sanitizeHtml";
 import { requireAuth } from "@/lib/requireAuth";
+import Spinner from "@/components/Spinner";
 
 const FREE_PAGES = new Set([
   "aboutjlpt",
@@ -108,6 +109,7 @@ function getCoursePageName(href) {
 }
 
 export default function CourseListRenderer({ page }) {
+  const [isNavigating, setIsNavigating] = useState(false);
   if (!page || !Array.isArray(page.content)) {
     return null;
   }
@@ -175,6 +177,7 @@ export default function CourseListRenderer({ page }) {
      * Anyone can access it.
      */
     if (pageName && FREE_PAGES.has(pageName)) {
+      setIsNavigating(true);
       return;
     }
 
@@ -262,7 +265,7 @@ export default function CourseListRenderer({ page }) {
               HOW TO STUDY
           ========================== */}
           {howToStudy && (
-            <div className="mb-8 flex w-full justify-center">
+            <div className="mb-8 flex w-full justify-center px-2">
               <a
                 href={coursePageUrl(howToStudy.legacyHref || howToStudy.href)}
                 onClick={(event) =>
@@ -271,22 +274,23 @@ export default function CourseListRenderer({ page }) {
                     howToStudy.legacyHref || howToStudy.href,
                   )
                 }
-                className="block"
+                className="block max-w-full"
               >
                 <img
                   src={howToStudy.src}
                   alt="How to Study"
                   className="
-                    h-auto
-                    w-auto
-                    max-w-[500px]
-                    max-h-[180px]
-                    object-contain
-                    transition-transform
-                    duration-200
-                    hover:scale-[1.03]
-                    dark:brightness-[0.8]
-                  "
+        h-auto
+        w-auto
+        max-w-full
+        md:max-w-[500px]
+        max-h-[180px]
+        object-contain
+        transition-transform
+        duration-200
+        hover:scale-[1.03]
+        dark:brightness-[0.8]
+      "
                 />
               </a>
             </div>
@@ -349,6 +353,11 @@ export default function CourseListRenderer({ page }) {
           })}
         </div>
       </div>
+      {isNavigating && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/40 dark:bg-black/40 backdrop-blur-sm">
+          <Spinner />
+        </div>
+      )}
     </article>
   );
 }
