@@ -12,8 +12,8 @@ const StudyBox = () => {
     <>
       {isStudyBoxOpen && (
         <div
-          className={`fixed top-30 mx-5 z-900 bg-white dark:bg-gray-400 rounded flex flex-wrap md:top-18 md:w-1/3 
-            overflow-y-auto scroll-smooth overscroll-contain flex-col justify-center items-center py-4 
+          className={`fixed top-10 mx-5 z-900 bg-white dark:bg-gray-400 rounded flex flex-wrap md:top-18 md:w-1/3 
+            overflow-y-auto scroll-smooth overscroll-contain flex-col justify-center items-center 
              dark:text-white bottom-20 left-2 right-2 ${
                isStudyBoxOpen ? "visible" : "invisible"
              }`}
@@ -21,7 +21,7 @@ const StudyBox = () => {
           <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-10">
             <Link href="/course/aboutjlpt" onClick={closeStudyBox}>
               <Image
-                src="/abtjlptbtn.png"
+                src="/abtjlptBtn.png"
                 alt="About JLPT lessons"
                 width={250}
                 height={80}

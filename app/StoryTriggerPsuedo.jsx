@@ -11,7 +11,7 @@ const StoryTriggerPseudo = () => {
 
   return (
     <div
-      className="shadow-md shadow-gray-400 dark:shadow-[rgb(20,20,20)] md:w-30 h-50 w-20 dark:bg-[rgb(45,45,45)] rounded-lg"
+      className="shadow-md shadow-gray-400 dark:shadow-[rgb(20,20,20)] w-30 h-50 dark:bg-[rgb(45,45,45)] rounded-lg"
       onClick={() =>
         requireAuth(() => {
           router.push("/");

@@ -122,7 +122,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div ref={searchRef} className="md:mr-5">
+    <div ref={searchRef} className="md:mr-5 w-[50%]">
       <form onSubmit={handleSearchSubmit}>
         <div className="relative">
           <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />

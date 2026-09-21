@@ -196,7 +196,7 @@ const CoursesBar = () => {
         </Link>
       </div>
       <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%]" />
-      <div className="flex flex-wrap gap-6 justify-center items-center">
+      <div className="flex flex-wrap gap-10 justify-center items-center mb-4">
         <div className="inline-flex hover:scale-110 transition-all duration-300">
           <Link href="/course/business-english-basic-classes">
             <Image
