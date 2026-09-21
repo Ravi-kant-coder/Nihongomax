@@ -43,7 +43,7 @@ const StudyInJapan = () => {
   };
 
   return (
-    <div className="w-full flex flex-col mt-35 md:mt-0">
+    <div className="w-full flex flex-col">
       <a
         href="https://www.learnjapanesedelhi.com/study-in-japan"
         target="_blank"

@@ -143,7 +143,7 @@ const LeftSideBar = () => {
             },
             {
               id: 1,
-              label: <p>JLPT Quiz</p>,
+              label: <p>JLPT {t("quiz")}</p>,
               navPath: "/jlpt-quiz",
               icon: Orbit,
               isProtected: false,

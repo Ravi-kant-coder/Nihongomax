@@ -16,26 +16,21 @@ export const JLPT_LEVELS = [
   {
     id: "n5",
     title: "JLPT N5",
-    description: "Beginner",
   },
   {
     id: "n4",
     title: "JLPT N4",
-    description: "Elementary",
   },
   {
     id: "n3",
     title: "JLPT N3",
-    description: "Intermediate",
   },
   {
     id: "n2",
     title: "JLPT N2",
-    description: "Upper Intermediate",
   },
   {
     id: "n1",
     title: "JLPT N1",
-    description: "Advanced",
   },
 ];

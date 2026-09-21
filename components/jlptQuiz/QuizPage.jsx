@@ -1,8 +1,8 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import useT from "@/app/hooks/useT";
 
 import { JLPT_QUESTIONS } from "@/data/jlptQuiz";
 
@@ -83,6 +83,7 @@ export default function QuizPage({ level }) {
   const attemptedCount = Object.keys(answers).length;
 
   const levelTitle = normalizedLevel.toUpperCase();
+  const t = useT();
 
   if (!originalQuestions) {
     return (
@@ -93,9 +94,9 @@ export default function QuizPage({ level }) {
           <button
             type="button"
             onClick={() => router.push("/jlpt-quiz")}
-            className="mt-6 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white"
+            className="mt-6 rounded-xl bg-gray-600 px-6 py-3 font-semibold text-white"
           >
-            Back to JLPT Quiz
+            Back to JLPT {t("quiz")}
           </button>
         </div>
       </main>
@@ -145,7 +146,7 @@ export default function QuizPage({ level }) {
   };
 
   return (
-    <main className="min-h-screen px-4 py-8 pb-24">
+    <main className="min-h-screen px-4 pb-24">
       {/* =========================
           FIXED SCORE PANEL
       ========================== */}
@@ -154,7 +155,7 @@ export default function QuizPage({ level }) {
         className="
           fixed
           right-3
-          top-24
+          top-20
           z-40
           w-[145px]
           rounded-2xl
@@ -173,7 +174,7 @@ export default function QuizPage({ level }) {
       >
         <div className="text-center">
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-black">
-            Ques attempted
+            {t("quesAtt")}
           </p>
 
           <p className="mt-1 text-2xl font-bold text-gray-900">
@@ -188,7 +189,7 @@ export default function QuizPage({ level }) {
         {scoreChecked && (
           <div className="mt-3 border-t border-gray-200 pt-3 text-center">
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-600 dark:text-black">
-              Total Correct
+              {t("totCorr")}
             </p>
 
             <motion.p
@@ -224,7 +225,7 @@ export default function QuizPage({ level }) {
               cursor-pointer
             "
           >
-            Check Score
+            {t("chkScr")}
           </button>
         )}
 
@@ -246,7 +247,7 @@ export default function QuizPage({ level }) {
               hover:bg-gray-800
             "
           >
-            Try Again
+            {t("tryAg")}
           </button>
         )}
       </div>
@@ -262,16 +263,12 @@ export default function QuizPage({ level }) {
           className="mb-4 text-lg font-semibold hover:bg-white p-2 rounded-lg transition cursor-pointer border border-white
           hover:shadow-md dark:hover:bg-gray-700"
         >
-          ← All JLPT Levels
+          ← {t("alljlptlevels")}
         </button>
         <div className="mb-10 text-center">
           <h1 className="text-4xl font-bold text-gray-700 dark:text-gray-200">
-            JLPT {levelTitle} Quiz
+            JLPT {levelTitle} {t("quiz")}
           </h1>
-
-          <p className="mt-3 text-gray-600 dark:text-gray-400">
-            Choose the best answer for each question.
-          </p>
         </div>
 
         {/* =========================
@@ -343,7 +340,7 @@ export default function QuizPage({ level }) {
                       </span>
                     </div>
 
-                    <p className="text-lg font-semibold leading-8 text-gray-800 dark:text-black">
+                    <p className="text-xl font-[450] leading-8 text-gray-800 dark:text-black">
                       {question.question}
                     </p>
                   </div>
@@ -493,7 +490,6 @@ export default function QuizPage({ level }) {
               <p className="text-sm font-semibold uppercase tracking-wide text-green-700">
                 Your Result
               </p>
-
               <p className="mt-2 text-5xl font-black text-green-700">
                 {score} / {questions.length}
               </p>
@@ -518,7 +514,7 @@ export default function QuizPage({ level }) {
                   hover:bg-gray-800
                 "
               >
-                Try Again
+                {t("tryAg")}
               </button>
             </motion.div>
           </div>

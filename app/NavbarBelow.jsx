@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useTransition } from "react";
+import { useTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { BookOpen, Home, Menu } from "lucide-react";
 import useStudyStore from "@/store/useStudyStore";
 import Spinner from "../components/Spinner";
 import StudyBox from "./StudyBox";
+import MobileUserMenu from "./MobileUserMenu";
 
 const NavbarBelow = () => {
   const router = useRouter();
@@ -32,9 +33,13 @@ const NavbarBelow = () => {
             closeStudyBox();
           }}
         >
-          <div className="relative flex flex-col items-center justify-center">
-            <Menu className="w-5 h-5" />
-            <p className="mt-1">Information</p>
+          <div className="flex flex-col items-center justify-center">
+            <MobileUserMenu
+              onClick={(e) => {
+                e.stopPropagation();
+                closeStudyBox();
+              }}
+            />
           </div>
         </button>
 

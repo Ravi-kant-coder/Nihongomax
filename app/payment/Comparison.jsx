@@ -15,9 +15,9 @@ const benefits = [
 
 const comparisonRows = [
   {
-    title: "Cost/year",
-    nihongo: "Around $80",
-    institute: "$500 ~ $700",
+    title: "Cost/6m",
+    nihongo: "Around $50",
+    institute: "$250 ~ $300",
     bg: "bg-[#dcecf3] dark:bg-[#3d474b]",
   },
   {
@@ -27,12 +27,12 @@ const comparisonRows = [
     bg: "bg-[#f4dddd] dark:bg-[#493d40]",
   },
   {
-    title: "Teachers Quality",
+    title: "Teacher's Quality",
     nihongo: (
       <>
-        JLPT N1, 7 Years Japan
-        <br />
-        exp, 10 years work-ex
+        JLPT N5, N4, N3, N2, N1 clear,
+        <br /> 7 Years Japan exp,
+        <br /> 10 years work-ex
       </>
     ),
     institute: (
@@ -65,13 +65,7 @@ const comparisonRows = [
         length as you wish
       </>
     ),
-    institute: (
-      <>
-        Fixed duration and No
-        <br />
-        flexible timing
-      </>
-    ),
+    institute: <>Fixed duration and timing</>,
     bg: "bg-[#dce8f3] dark:bg-[#3d454d]",
   },
   {
@@ -96,7 +90,7 @@ const comparisonRows = [
 
 export default function Comparison() {
   return (
-    <section className="w-full px-3 py-8 sm:px-5 md:px-6">
+    <section className="w-full px-6 py-8">
       <div className="mx-auto w-full max-w-[1000px] flex flex-col items-center justify-center">
         <div>
           <h2
@@ -161,54 +155,61 @@ export default function Comparison() {
         {/* Comparison Heading */}
         <div
           className="mt-8 flex items-center justify-center bg-[#edf5df] text-center font-bold text-green-800 py-4
-        px-8 rounded-2xl dark:bg-green-900 dark:text-white sm:mt-10 sm:px-10 md:mt-12 md:px-12
+        px-10 rounded-2xl dark:bg-green-900 dark:text-white sm:mt-10 md:mt-12 md:px-12
         lg:mt-14 lg:px-14"
         >
-          <p className="sm:text-lg md:text-2xl lg:text-4xl">
+          <p className="text-xl md:text-2xl lg:text-4xl">
             Let’s compare main 7 differences
           </p>
         </div>
 
         {/* Comparison Table */}
-        <div className="w-full overflow-hidden border">
+        <div className="w-full">
           <table className="w-full text-center">
             <thead>
               <tr>
                 {/* Empty top-left cell */}
-                <th className="w-[21%] border border-black bg-[#f8e6d9] dark:bg-[rgb(74,64,59)]" />
+                <th
+                  className="
+            w-[21%]
+            border border-black
+            bg-[#f8e6d9] dark:bg-[rgb(74,64,59)]
+            rounded-tl-2xl
+          "
+                />
 
                 <th
                   className="
-                    w-[38%]
-                    border
-                    border-black
-                    bg-[#f8e6d9] dark:bg-[#4a403b]
-                    px-1
-                    py-2
-                    text-[19px]
-                    font-semibold
-                    leading-tight
-                    sm:text-[25px]
-                    text-black dark:text-gray-300
-                  "
+            w-[38%]
+            border
+            border-black
+            bg-[#f8e6d9] dark:bg-[#4a403b]
+            px-1
+            py-2
+            text-[19px]
+            font-semibold
+            leading-tight
+            sm:text-[25px]
+            text-black dark:text-gray-300
+          "
                 >
                   NIHONGOMAX.COM
                 </th>
 
                 <th
                   className="
-                    w-[41%]
-                    border
-                    border-black
-                    bg-[#f8e6d9] dark:bg-[#4a403b]
-                    px-1
-                    py-2
-                    text-[19px]
-                    font-bold
-                    leading-tight
-                    sm:text-[25px]
-                    text-black dark:text-gray-300
-                  "
+            w-[41%]
+            border border-black
+            bg-[#f8e6d9] dark:bg-[#4a403b]
+            px-1
+            py-2
+            text-[19px]
+            font-bold
+            leading-tight
+            sm:text-[25px]
+            text-black dark:text-gray-300
+            rounded-tr-2xl
+          "
                 >
                   Any Institute
                 </th>
@@ -220,49 +221,52 @@ export default function Comparison() {
                 <tr key={index} className={row.bg}>
                   {/* Row title */}
                   <th
-                    className="
-                      border
-                      border-black
-                      px-1
-                      py-2
-                      text-[17px]
-                      font-semibold
-                      leading-tight
-                      sm:text-[22px]
-                      text-black dark:text-gray-300
-                    "
+                    className={`
+              border
+              border-black
+              px-1
+              py-2
+              text-[17px]
+              font-semibold
+              leading-tight
+              sm:text-[22px]
+              text-black dark:text-gray-300
+              ${index === comparisonRows.length - 1 ? "rounded-bl-2xl" : ""}
+            `}
                   >
                     {row.title}
                   </th>
 
                   {/* NihongoMax */}
                   <td
-                    className="
-                      border
-                      border-black
-                      px-1
-                      py-2
-                      text-[16px]
-                      leading-[1.2]
-                      sm:text-[20px]
-                     text-black dark:text-gray-400
-                    "
+                    className={`
+              border
+              border-black
+              px-1
+              py-2
+              text-[16px]
+              leading-[1.2]
+              sm:text-[20px]
+              text-black dark:text-gray-400
+              ${index === comparisonRows.length - 1 ? "rounded-br-none" : ""}
+            `}
                   >
                     {row.nihongo}
                   </td>
 
                   {/* Institute */}
                   <td
-                    className="
-                      border
-                      border-black
-                      px-1
-                      py-2
-                      text-[16px]
-                      leading-[1.2]
-                      sm:text-[20px]
-                      text-black dark:text-gray-400
-                    "
+                    className={`
+              border
+              border-black
+              px-1
+              py-2
+              text-[16px]
+              leading-[1.2]
+              sm:text-[20px]
+              text-black dark:text-gray-400
+              ${index === comparisonRows.length - 1 ? "rounded-br-2xl" : ""}
+            `}
                   >
                     {row.institute}
                   </td>

@@ -1,12 +1,6 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Users,
-  MessageCircle,
-  LogOutIcon,
-  User2,
-  BookOpen,
-} from "lucide-react";
+import { LogOutIcon, User2, Settings } from "lucide-react";
 import { useTransition } from "react";
 import userStore from "@/store/userStore";
 import {
@@ -41,7 +35,7 @@ const UserMenu = ({ handleLogout }) => {
           asChild
           className="font-semibold md:ml-20 cursor-pointer border border-gray-400 rounded-full"
         >
-          <div className="relative cursor-pointer md:scale-150">
+          <div className="relative cursor-pointer scale-150">
             <Avatar>
               <AvatarImage
                 src={user?.profilePicture}
@@ -80,47 +74,23 @@ const UserMenu = ({ handleLogout }) => {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <DropdownMenuItem className="cursor-pointer">
+            <ThemeToggle />
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {
               handleNavigation(`/user-profile/${user?._id}`);
             }}
           >
-            <User2 />{" "}
+            <Settings />{" "}
             <span className="ml-2">
-              <p>{t("dpSettings")}</p>
-            </span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => {
-              handleNavigation("/friends");
-            }}
-          >
-            <Users />{" "}
-            <span className="ml-2">
-              <p>{t("friends")}</p>
-            </span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => {
-              handleNavigation("/notes");
-            }}
-          >
-            <BookOpen />{" "}
-            <span className="ml-2">
-              <p>{t("notes")}</p>
+              <p>{t("settings")}</p>
             </span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="cursor-pointer">
-            <ThemeToggle />
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {

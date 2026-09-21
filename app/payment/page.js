@@ -119,7 +119,7 @@ export default function PaymentPage() {
 
       <main className="min-h-screen">
         <div className="mx-auto max-w-6xl">
-          <p className="mt-8 text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold">
+          <p className="text-center text-lg md:text-2xl lg:text-3xl font-semibold">
             Unlock the full{" "}
             <span className="text-red-700 dark:text-red-400">Nihongomax</span>{" "}
             experience <br />
@@ -127,11 +127,11 @@ export default function PaymentPage() {
             <span className="text-red-700 dark:text-red-400">Japanese </span>
             today!
           </p>
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
+          <div className="mt-2 md:mt-8 grid gap-8 md:grid-cols-3">
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative flex flex-col rounded-2xl border bg-white p-8 shadow-sm transition duration-200 
+                className={`relative flex flex-col mx-10 md:mx-0 rounded-2xl border bg-white p-8 shadow-sm transition duration-200 
                   hover:-translate-y-1 hover:shadow-xl dark:bg-black ${
                     plan.popular
                       ? "border-teal-500 ring ring-teal-500"

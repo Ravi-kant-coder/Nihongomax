@@ -21,7 +21,7 @@ export default function CoursePageRenderer({ page }) {
                 <img
                   src={item.src}
                   alt=""
-                  className="lesson-image mx-auto h-auto w-[80%] dark:brightness-[0.8]"
+                  className="lesson-image mx-auto h-auto dark:brightness-[0.8]"
                 />
               </div>
             );
@@ -68,7 +68,7 @@ export default function CoursePageRenderer({ page }) {
                   <img
                     src={item.image}
                     alt=""
-                    className="lesson-image mx-auto h-auto w-[80%] dark:brightness-[0.8]"
+                    className="lesson-image mx-auto h-auto dark:brightness-[0.8]"
                   />
                 )}
 
@@ -106,7 +106,7 @@ export default function CoursePageRenderer({ page }) {
                   <img
                     src={item.src}
                     alt=""
-                    className="lesson-image mx-auto h-auto w-[80%] dark:brightness-[0.8]"
+                    className="lesson-image mx-auto h-auto dark:brightness-[0.8]"
                   />
                 </a>
               </div>
@@ -125,13 +125,13 @@ export default function CoursePageRenderer({ page }) {
             return (
               <div
                 key={index}
-                className="postblock w-full text-center course-html"
+                className="postblock w-full text-center course-html "
               >
                 <a
                   href={href}
                   target={isInternal ? undefined : "_blank"}
                   rel={isInternal ? undefined : "noopener noreferrer"}
-                  className="inline-block py-2 text-base"
+                  className="inline-block md:py-2"
                 >
                   {item.text}
                 </a>

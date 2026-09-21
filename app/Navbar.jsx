@@ -53,21 +53,23 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto flex items-center justify-between">
+    <header
+      className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto 
+    flex items-center justify-between"
+    >
       <div className="hidden md:block">
         <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
           <JapanGate />
         </a>
       </div>
-      <div className="md:flex w-full items-center justify-between">
-        {/* -----------------------Search Bar and Institute website Link --------------------------   */}
-
-        <div className="flex items-center justify-between mb-5 md:mb-0 ">
+      <div className="flex w-full items-center justify-between">
+        {/* -----------------------Search Bar and Institute Link --------------------------   */}
+        <div className="flex items-center justify-between my-2">
           {user ? <SearchBar /> : <SearchBarPseudo />}
-          <div>
+          <div className="hidden md:block">
             <a href="https://www.learnjapanesedelhi.com/" target="_blank">
               <div
-                className="relative overflow-hidden text-sm hidden md:flex items-center bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]
+                className="relative overflow-hidden text-sm flex items-center bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]
               hover:bg-black md:p-2 p-1 text-white dark:hover:bg-[rgb(35,35,35)] rounded"
               >
                 <Car
@@ -75,21 +77,14 @@ const Navbar = () => {
                   className="absolute top-5 jet-animation"
                   fill="green"
                 />
-
                 <h1 className="relative z-10">{t("visit")} Nihongomax</h1>
               </div>
             </a>
           </div>
-
-          {/* -----------------------(On Mobile)---------------   */}
-
-          <div className="md:hidden flex items-center justify-center">
-            <UserMenu />
-          </div>
         </div>
 
         {/* -----------------------Navbar Buttons--------------- -----  */}
-        <div className="flex justify-between items-center md:mt-0 mt-2">
+        <div className="justify-between items-center md:mt-0 mt-2 hidden md:flex">
           <div className="md:flex items-center justify-center hidden ">
             <button
               onClick={() => {
@@ -206,12 +201,12 @@ const Navbar = () => {
               </button>
             );
           })}
-          <div className="hidden md:block ml-2">
-            <LangToggleBtn />
-          </div>
-          <div className="hidden md:block mr-2">
-            {user && <UserMenu handleLogout={handleLogout} />}
-          </div>
+        </div>
+        <div className="">
+          <LangToggleBtn />
+        </div>
+        <div className="mr-2">
+          {user && <UserMenu handleLogout={handleLogout} />}
         </div>
       </div>
       {isPending && <Spinner />}

@@ -90,14 +90,14 @@ const YouTubeVideos = () => {
 
         {/* --------------PAGINATION Buttons---------------- */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-10">
+          <div className="flex flex-wrap justify-center items-center gap-2 mt-10 px-2">
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
-              className="px-3 py-1 border rounded disabled:opacity-40 cursor-pointer 
-                disabled:cursor-not-allowed hover:bg-gray-200 dark:hover:bg-zinc-800
-                border-white dark:border-zinc-700 disabled:hover:bg-transparent
-                disabled:dark:hover:bg-transparent"
+              className="px-3 py-1 border rounded disabled:opacity-40 cursor-pointer
+        disabled:cursor-not-allowed hover:bg-gray-200 dark:hover:bg-zinc-800
+        border-white dark:border-zinc-700 disabled:hover:bg-transparent
+        disabled:dark:hover:bg-transparent"
             >
               Prev
             </button>
@@ -107,11 +107,11 @@ const YouTubeVideos = () => {
                 key={i}
                 onClick={() => setCurrentPage(i + 1)}
                 className={`px-3 py-1 border rounded
-                    ${
-                      currentPage === i + 1
-                        ? "bg-red-600 text-white cursor-pointer"
-                        : "bg-white dark:bg-zinc-800 cursor-pointer"
-                    }`}
+          ${
+            currentPage === i + 1
+              ? "bg-red-600 text-white cursor-pointer"
+              : "bg-white dark:bg-zinc-800 cursor-pointer"
+          }`}
               >
                 {i + 1}
               </button>
@@ -120,10 +120,10 @@ const YouTubeVideos = () => {
             <button
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
-              className="px-3 py-1 border rounded disabled:opacity-40 cursor-pointer 
-                disabled:cursor-not-allowed hover:bg-gray-200 dark:hover:bg-zinc-800
-                border-white dark:border-zinc-700 disabled:hover:bg-transparent
-                disabled:dark:hover:bg-transparent"
+              className="px-3 py-1 border rounded disabled:opacity-40 cursor-pointer
+        disabled:cursor-not-allowed hover:bg-gray-200 dark:hover:bg-zinc-800
+        border-white dark:border-zinc-700 disabled:hover:bg-transparent
+        disabled:dark:hover:bg-transparent"
             >
               Next
             </button>

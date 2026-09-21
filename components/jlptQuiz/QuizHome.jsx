@@ -1,14 +1,15 @@
 "use client";
-
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { JLPT_LEVELS } from "@/data/jlptQuiz";
+import useT from "@/app/hooks/useT";
 
 export default function QuizHome() {
   const router = useRouter();
+  const t = useT();
 
   return (
-    <main className="min-h-screen px-4 py-12">
+    <main className="min-h-screen px-4 md:py-12">
       <div className="mx-auto max-w-5xl">
         <div className="text-center">
           <motion.div
@@ -17,16 +18,12 @@ export default function QuizHome() {
             transition={{ duration: 0.4 }}
           >
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-              JLPT Quiz
+              JLPT {t("quiz")}
             </h1>
-
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600 dark:text-gray-300">
-              Test your Japanese knowledge from JLPT N5 to N1.
-            </p>
           </motion.div>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-6 md:mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {JLPT_LEVELS.map((level, index) => (
             <motion.button
               key={level.id}
@@ -68,13 +65,11 @@ export default function QuizHome() {
                 {level.title}
               </h2>
 
-              <p className="mt-2 text-sm text-gray-600">{level.description}</p>
-
               <div
-                className="mt-5 text-sm font-semibold text-black transition group-hover:translate-x-1 
+                className="mt-2 font-semibold text-black transition  
               group-hover:bg-gray-300 py-1 rounded dark:group-hover:bg-gray-400"
               >
-                Start Quiz →
+                {t("quiz")} →
               </div>
             </motion.button>
           ))}

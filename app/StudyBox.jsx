@@ -12,71 +12,251 @@ const StudyBox = () => {
     <>
       {isStudyBoxOpen && (
         <div
-          className={`fixed top-30 mx-5 z-900 bg-white dark:bg-[rgb(30,30,30)]
-             dark:text-white rounded-md bottom-20 left-2 right-2 ${
+          className={`fixed top-30 mx-5 z-900 bg-white dark:bg-gray-400 rounded flex flex-wrap md:top-18 md:w-1/3 
+            overflow-y-auto scroll-smooth overscroll-contain flex-col justify-center items-center py-4 
+             dark:text-white bottom-20 left-2 right-2 ${
                isStudyBoxOpen ? "visible" : "invisible"
              }`}
         >
-          <div className="z-500 rounded ">
-            <button
-              onClick={closeStudyBox}
-              className="dark:hover:bg-[rgb(20,20,20)] hover:bg-gray-400 hover:text-white dark:hover:text-white text-gray-500 dark:text-[rgb(150,150,150)] cursor-pointer border-2 border-gray-400 dark:border-[rgb(150,150,150)] rounded-full absolute top-2 right-2 z-50"
-            >
-              <X className="w-7 h-7" />
-            </button>
-            <div className="fixed flex flex-wrap gap-4">
-              <div className="relative text-3xl text-gray-700 font-semibold p-2 rounded-xl bg-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_10px_rgba(0,0,0,0.2)] border border-gray-300 hover:scale-102 transition-all duration-300 flex justify-between items-center">
-                <Link target="_blank" href={"/friends"}>
-                  <p className="w-90 h-10 rounded-md text-center duration-300">
-                    About JLPT Study
-                  </p>
-                </Link>
-              </div>
-              <div className="n4-animate relative text-lg text-black font-semibold p-2 rounded-xl bg-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_10px_rgba(0,0,0,0.2)] border border-gray-300 hover:scale-105 transition-all duration-300 flex justify-between items-center">
-                <Link target="_blank" href={"/friends"}>
+          <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-10">
+            <Link href="/course/aboutjlpt" onClick={closeStudyBox}>
+              <Image
+                src="/abtjlptbtn.png"
+                alt="About JLPT lessons"
+                width={250}
+                height={80}
+                className="rounded-md hover:scale-105 transition-transform duration-200"
+              />
+            </Link>
+          </div>
+          <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%] my-2" />
+          <div className="flex flex-wrap justify-center items-center">
+            <div className="inline-flex hover:scale-105 transition-all duration-300">
+              <Link href="/course/classN5" onClick={closeStudyBox}>
+                <Image
+                  src="/JLPT-N5-button.png"
+                  alt="JLPT N5 classes"
+                  width={80}
+                  height={60}
+                  className="rounded-md hover:scale-105 transition-transform duration-200"
+                />
+              </Link>
+            </div>
+            <div className="inline-flex hover:scale-105 transition-all duration-300">
+              <Link href="/course/classN4" onClick={closeStudyBox}>
+                <Image
+                  src="/JLPT-N4-button.png"
+                  alt="JLPT N4 classes"
+                  width={80}
+                  height={60}
+                  className="rounded-md hover:scale-105 transition-transform duration-200"
+                />
+              </Link>
+            </div>
+            <div className="inline-flex hover:scale-105 transition-all duration-300">
+              <Link href="/course/classN3" onClick={closeStudyBox}>
+                <Image
+                  src="/JLPT-N3-button.png"
+                  alt="JLPT N3 classes"
+                  width={80}
+                  height={60}
+                  className="rounded-md hover:scale-105 transition-transform duration-200"
+                />
+              </Link>
+            </div>
+            <div className="inline-flex hover:scale-105 transition-all duration-300">
+              <Link href="/course/classN2" onClick={closeStudyBox}>
+                <Image
+                  src="/JLPT-N2-button.png"
+                  alt="JLPT N2 classes"
+                  width={80}
+                  height={60}
+                  className="rounded-md hover:scale-105 transition-transform duration-200"
+                />
+              </Link>
+            </div>
+            <div className="inline-flex hover:scale-105 transition-all duration-300">
+              <Link href="/course/classN1" onClick={closeStudyBox}>
+                <Image
+                  src="/JLPT-N1-button.png"
+                  alt="JLPT N1 classes"
+                  width={80}
+                  height={60}
+                  className="rounded-md hover:scale-105 transition-transform duration-200"
+                />
+              </Link>
+            </div>
+          </div>
+          <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%] my-2" />
+          <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-5">
+            <Link href="/course/aboutbj" onClick={closeStudyBox}>
+              <Image
+                src="/about-business-japanese.png"
+                alt="Business Japanese"
+                width={400}
+                height={80}
+                className="rounded-md hover:scale-105 transition-transform duration-200"
+              />
+            </Link>
+          </div>
+          <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%] my-2" />
+          <div className="flex gap-4">
+            <div className="flex flex-wrap gap-2 flex-col">
+              <div className="inline-flex hover:scale-105 transition-all duration-300">
+                <Link href="/course/bjfunda" onClick={closeStudyBox}>
                   <Image
-                    src={"/transp.png"}
-                    alt="N5"
-                    width={80}
-                    height={60}
-                    className="rounded-md hover:scale-110 duration-200 transform"
+                    src="/fundamental-business-japanese.png"
+                    alt="Fundamental Business Japanese"
+                    width={250}
+                    height={80}
+                    className="rounded-md hover:scale-105 transition-transform duration-200"
                   />
                 </Link>
               </div>
-              <div className="n3-animate relative text-lg text-black font-semibold p-2 rounded-xl bg-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_10px_rgba(0,0,0,0.2)] border border-gray-300 hover:scale-105 transition-all duration-300 flex justify-between items-center">
-                <Link target="_blank" href={"/friends"}>
+              <div className="inline-flex hover:scale-105 transition-all duration-300">
+                <Link href="/course/bjBasic" onClick={closeStudyBox}>
                   <Image
-                    src={"/transp.png"}
-                    alt="N5"
-                    width={80}
-                    height={60}
-                    className="rounded-md hover:scale-110 duration-200 transform"
+                    src="/basic-business-japanese.png"
+                    alt="Basic Business Japanese"
+                    width={250}
+                    height={80}
+                    className="rounded-md hover:scale-105 transition-transform duration-200"
                   />
                 </Link>
               </div>
-              <div className="n5-animate  relative text-lg text-black font-semibold p-2 rounded-xl bg-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_10px_rgba(0,0,0,0.2)] border border-gray-300 hover:scale-105 transition-all duration-300 flex justify-between items-center">
-                <Link target="_blank" href={"/friends-list"}>
+              <div className="inline-flex hover:scale-105 transition-all duration-300">
+                <Link href="/course/bjBasicInt" onClick={closeStudyBox}>
                   <Image
-                    src={"/transp.png"}
-                    alt="N5"
-                    width={80}
-                    height={60}
-                    className="rounded-md hover:scale-110 duration-200 transform"
+                    src="/basic-intermediate-japanese.png"
+                    alt="Basic Intermediate Japanese"
+                    width={250}
+                    height={80}
+                    className="rounded-md hover:scale-105 transition-transform duration-200"
                   />
                 </Link>
               </div>
-              <div className=" relative text-lg text-black font-semibold p-2 rounded-xl bg-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_10px_rgba(0,0,0,0.2)] border border-gray-300 hover:scale-105 transition-all duration-300 flex justify-between items-center">
-                <Link target="_blank" href={"/friends-list"}>
+              <div className="inline-flex hover:scale-105 transition-all duration-300">
+                <Link href="/course/bjInt" onClick={closeStudyBox}>
                   <Image
-                    src={"/transp.png"}
-                    alt="N5"
-                    width={80}
-                    height={60}
-                    className="rounded-md hover:scale-110 duration-200 transform"
+                    src="/intermediate-japanese.png"
+                    alt="Intermediate Japanese"
+                    width={250}
+                    height={80}
+                    className="rounded-md hover:scale-105 transition-transform duration-200"
                   />
                 </Link>
               </div>
             </div>
+            <div className="flex flex-wrap gap-2 justify-center items-center flex-col">
+              <div className="inline-flex hover:scale-105 transition-all duration-300">
+                <Link href="/course/bjIntAdv" onClick={closeStudyBox}>
+                  <Image
+                    src="/intermediate-advance-japanese.png"
+                    alt="Intermediate Advance Japanese"
+                    width={250}
+                    height={80}
+                    className="rounded-md hover:scale-105 transition-transform duration-200"
+                  />
+                </Link>
+              </div>
+              <div className="inline-flex hover:scale-105 transition-all duration-300">
+                <Link href="/course/bjAdv" onClick={closeStudyBox}>
+                  <Image
+                    src="/advance-business-japanese.png"
+                    alt="Advance Business Japanese"
+                    width={250}
+                    height={80}
+                    className="rounded-md hover:scale-105 transition-transform duration-200"
+                  />
+                </Link>
+              </div>
+              <div className="inline-flex hover:scale-105 transition-all duration-300">
+                <Link href="/course/bjAdvsup" onClick={closeStudyBox}>
+                  <Image
+                    src="/advanced-business-japanese.png"
+                    alt="Advanced Japanese"
+                    width={250}
+                    height={80}
+                    className="rounded-md hover:scale-105 transition-transform duration-200"
+                  />
+                </Link>
+              </div>
+              <div className="inline-flex hover:scale-105 transition-all duration-300">
+                <Link href="/course/kaiwa-classes" onClick={closeStudyBox}>
+                  <Image
+                    src="/kaiwa.jpg"
+                    alt="Kaiwa course"
+                    width={250}
+                    height={80}
+                    className="rounded-md hover:scale-105 transition-transform duration-200"
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%] my-2" />
+          <div className="inline-flex hover:scale-105 transition-all duration-300">
+            <Link href="/course/aboutbe" onClick={closeStudyBox}>
+              <Image
+                src="/about-be.png"
+                alt="Eigo lesson"
+                width={400}
+                height={80}
+                className="rounded-md hover:scale-105 transition-transform duration-200"
+              />
+            </Link>
+          </div>
+          <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%]" />
+          <div className="flex flex-wrap gap-6 justify-center items-center">
+            <div className="inline-flex hover:scale-110 transition-all duration-300">
+              <Link
+                href="/course/business-english-basic-classes"
+                onClick={closeStudyBox}
+              >
+                <Image
+                  src="/shokyuu.png"
+                  alt="Shokyu Eigo course"
+                  width={100}
+                  height={80}
+                />
+              </Link>
+            </div>
+            <div className="inline-flex hover:scale-110 transition-all duration-300">
+              <Link
+                href="/course/business-english-inter-classes"
+                onClick={closeStudyBox}
+              >
+                <Image
+                  src="/chuukyuu.png"
+                  alt="Chukyu Eigo course"
+                  width={100}
+                  height={80}
+                />
+              </Link>
+            </div>
+            <div className="inline-flex hover:scale-110 transition-all duration-300">
+              <Link
+                href="/course/business-english-adv-classes"
+                onClick={closeStudyBox}
+              >
+                <Image
+                  src="/joukyuu.png"
+                  alt="Jokyu Eigo course"
+                  width={100}
+                  height={80}
+                />
+              </Link>
+            </div>
+          </div>
+          <div className="inline-flex hover:scale-110 transition-all duration-300">
+            <Link href="/course/eikaiwa-classes" onClick={closeStudyBox}>
+              <Image
+                src="/eikaiwa.png"
+                alt="Eikaiwa course"
+                width={150}
+                height={60}
+              />
+            </Link>
           </div>
         </div>
       )}{" "}

@@ -133,7 +133,7 @@ const WordGame = () => {
   return (
     <>
       <div className="flex flex-col">
-        <div className="text-center text-3xl font-semibold text-green-900 dark:text-green-600 md:mt-0 mt-15 my-4">
+        <div className="text-center text-3xl font-semibold text-green-900 dark:text-green-600 my-4">
           {t("gameHead")}
           <p className="text-red-900 dark:text-red-500 text-2xl">
             {t("gameAttempts")}

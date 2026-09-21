@@ -57,7 +57,7 @@ export default function SubscriptionDetails({ profileData }) {
         <div className="p-4 bg-green-100 dark:bg-green-950 rounded-md space-y-2 mt-4 shadow-lg dark:shadow-black">
           <p className="font-semibold text-lg">Your Course Plan</p>
           <p>{planName}</p>
-          <p>By {profileData?.email}</p>
+          <p>{profileData?.email}</p>
           <p>Valid until {formatDate(subscription.expiryDate)}</p>
         </div>
       )}

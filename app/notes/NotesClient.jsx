@@ -56,7 +56,7 @@ const NotesClient = () => {
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
+    <div className="w-full px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto">
         {/* ---------------- Note Input ---------------- */}
 

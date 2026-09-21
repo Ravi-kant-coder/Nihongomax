@@ -58,7 +58,7 @@ const SavedPosts = ({ savedPosts, username, t }) => {
 
           {/* Saved Posts */}
 
-          <div className="space-y-6">
+          <div className="space-y-6 md:mx-40 lg:mx-50">
             {savedPosts.map((savedPost) => (
               <WallCard key={savedPost?._id} post={savedPost} />
             ))}
