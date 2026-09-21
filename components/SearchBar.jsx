@@ -1,4 +1,5 @@
 "use client";
+
 import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
 import { useEffect, useTransition, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -34,16 +35,18 @@ const SearchBar = () => {
         setLoading(false);
       }
     };
+
     fetchUsers();
   }, []);
 
-  // for debouncing
+  // Debouncing
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchQuery);
     }, 500);
+
     return () => {
-      clearTimeout(handler); // cancel timeout if user types again
+      clearTimeout(handler);
     };
   }, [searchQuery]);
 
@@ -60,6 +63,7 @@ const SearchBar = () => {
           .toLowerCase()
           .includes(debouncedSearchTerm.toLowerCase());
       });
+
       setFilterUsers(filterUser);
       setIsSearchOpen(true);
     } else {
@@ -73,10 +77,12 @@ const SearchBar = () => {
     setIsSearchOpen(false);
   };
 
-  //To make the alphabets highlighted
+  // Highlight matching alphabets
   const highlightMatch = (text, term) => {
     if (!term) return text;
+
     const regex = new RegExp(`(${term})`, "gi");
+
     return text.split(regex).map((part, i) =>
       part.toLowerCase() === term.toLowerCase() ? (
         <span key={i} className="dark:text-gray-500 font-bold">
@@ -88,18 +94,19 @@ const SearchBar = () => {
     );
   };
 
-  //Routing to searched user profile page
+  // Routing to searched user profile
   const handleUserClick = async (userId) => {
     try {
       setIsSearchOpen(false);
       setSearchQuery("");
+
       startTransition(() => router.push(`/user-profile/${userId}`));
     } catch (error) {
       console.log(error);
     }
   };
 
-  //Outside ref to close the search box
+  // Outside click
   const handleSearchClose = (e) => {
     if (!searchRef.current?.contains(e.target)) {
       setIsSearchOpen(false);
@@ -108,6 +115,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     document.addEventListener("click", handleSearchClose);
+
     return () => {
       document.removeEventListener("click", handleSearchClose);
     };
@@ -122,39 +130,87 @@ const SearchBar = () => {
   };
 
   return (
-    <div ref={searchRef} className="md:mr-5 w-[50%]">
+    <div
+      ref={searchRef}
+      className="
+        w-full
+        md:mr-5
+        min-w-0
+      "
+    >
       <form onSubmit={handleSearchSubmit}>
-        <div className="relative">
-          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <div className="relative w-full">
+          <Search
+            className="
+              absolute left-2 top-1/2
+              -translate-y-1/2
+              text-gray-400
+              w-5 h-5
+            "
+          />
+
           <Input
-            className="pl-8 cursor-pointer w-full dark:bg-[rgb(75,75,75)] bg-white rounded-full"
+            className="
+              pl-8
+              cursor-pointer
+              w-full
+              dark:bg-[rgb(75,75,75)]
+              bg-white
+              rounded-full
+            "
             placeholder={`${t("search")}`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onClick={handleInputClick}
           />
+
           <div>
             {isSearchOpen && (
-              <div className="absolute bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg mt-1 z-50">
+              <div
+                className="
+                  absolute
+                  left-0
+                  right-0
+                  bg-white
+                  dark:bg-gray-800
+                  border
+                  border-gray-200
+                  dark:border-gray-700
+                  rounded-md
+                  shadow-lg
+                  mt-1
+                  z-50
+                "
+              >
                 <div className="p-2">
                   {filterUser.length > 0 ? (
                     filterUser.slice(0, 10).map((user) => (
                       <div
-                        className="flex items-center space-x-8 p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md cursor-pointer"
+                        className="
+                          flex items-center
+                          space-x-8
+                          p-2
+                          hover:bg-gray-200
+                          dark:hover:bg-gray-700
+                          rounded-md
+                          cursor-pointer
+                        "
                         key={user?._id}
                         onClick={() => handleUserClick(user?._id)}
                       >
-                        <div className="flex items-center gap-2">
-                          <Avatar className="h-8 w-8">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Avatar className="h-8 w-8 shrink-0">
                             <AvatarImage
                               src={user?.profilePicture}
                               className="object-cover"
                             />
+
                             <AvatarFallback>
                               {user?.username.split(" ")[0][0].toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <span className="truncate w-[90%]">
+
+                          <span className="truncate">
                             {highlightMatch(
                               user?.username,
                               debouncedSearchTerm,

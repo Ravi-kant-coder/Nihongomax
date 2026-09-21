@@ -110,14 +110,14 @@ const AuthModal = () => {
                   duration: 0.45,
                   ease: "easeInOut",
                 }}
-                className="overflow-hidden"
+                className="overflow-hidden flex flex-col items-center"
               >
                 <div className="mb-2">
                   <Button
                     type="button"
                     variant="ghost"
                     onClick={handleBack}
-                    className="text-white cursor-pointer hover:bg-white/10 border border-white"
+                    className="cursor-pointer bg-white hover:bg-white/70 dark:bg-black"
                   >
                     <ArrowLeft className="w-4 h-4 mr-1" />
                     Back
@@ -157,7 +157,7 @@ const AuthModal = () => {
                     type="button"
                     variant="ghost"
                     onClick={handleBack}
-                    className="text-white cursor-pointer hover:bg-white/10 border border-white"
+                    className="cursor-pointer hover:bg-white/70 bg-white dark:bg-black"
                   >
                     <ArrowLeft className="w-4 h-4 mr-1" />
                     Back
@@ -196,7 +196,7 @@ const AuthModal = () => {
                   type="button"
                   variant="ghost"
                   onClick={handleBack}
-                  className="text-white cursor-pointer hover:bg-white/10 mb-2 border border-white"
+                  className="cursor-pointer hover:bg-white/70 bg-white mb-2 dark:bg-black"
                 >
                   <ArrowLeft className="w-4 h-4 mr-1" />
                   Back

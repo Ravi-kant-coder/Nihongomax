@@ -1,4 +1,5 @@
 "use client";
+
 import { requireAuth } from "@/lib/requireAuth";
 import { useTransition } from "react";
 import JapanGate from "../app/JapanGate";
@@ -16,7 +17,6 @@ import {
   School,
   Dices,
   BriefcaseBusiness,
-  Car,
   Orbit,
   BookOpen,
 } from "lucide-react";
@@ -54,74 +54,117 @@ const Navbar = () => {
 
   return (
     <header
-      className="fixed dark:bg-black md:py-2 py-1 bg-gray-200 md:shadow-lg top-0 left-0 right-0 z-50 p-2 lg:mx-auto 
-    flex items-center justify-between"
+      className="
+        fixed top-0 left-0 right-0 z-50
+        flex items-center
+        bg-gray-200 dark:bg-black
+        p-2
+        md:py-2
+        md:shadow-lg
+      "
     >
-      <div className="hidden md:block">
-        <a href={"https://www.learnjapanesedelhi.com/"} target="_blank">
+      {/* ===================== */}
+      {/* JAPAN GATE - DESKTOP */}
+      {/* ===================== */}
+
+      <div className="hidden md:block shrink-0">
+        <a href="https://www.learnjapanesedelhi.com/" target="_blank">
           <JapanGate />
         </a>
       </div>
-      <div className="flex w-full items-center justify-between">
-        {/* -----------------------Search Bar and Institute Link --------------------------   */}
-        <div className="flex items-center justify-between my-2">
-          {user ? <SearchBar /> : <SearchBarPseudo />}
-          <div className="hidden md:block">
+
+      {/* ===================== */}
+      {/* MAIN NAVBAR CONTENT */}
+      {/* ===================== */}
+
+      <div className="flex min-w-0 flex-1 items-center justify-between">
+        {/* ===================== */}
+        {/* SEARCH + INSTITUTE */}
+        {/* ===================== */}
+
+        <div
+          className="
+            flex min-w-0 flex-1 items-center
+            gap-2
+            my-1 md:my-2
+            md:gap-0
+          "
+        >
+          {/* Search */}
+          <div className="min-w-0 flex-1 md:flex-none md:w-auto">
+            {user ? <SearchBar /> : <SearchBarPseudo />}
+          </div>
+
+          {/* Institute Link - Desktop */}
+          <div className="hidden md:block shrink-0">
             <a href="https://www.learnjapanesedelhi.com/" target="_blank">
               <div
-                className="relative overflow-hidden text-sm flex items-center bg-[rgb(60,60,60)] dark:bg-[rgb(55,55,55)]
-              hover:bg-black md:p-2 p-1 text-white dark:hover:bg-[rgb(35,35,35)] rounded"
+                className="
+                  relative overflow-hidden
+                  flex items-center
+                  text-sm text-white
+                  bg-[rgb(60,60,60)]
+                  dark:bg-[rgb(55,55,55)]
+                  hover:bg-black
+                  dark:hover:bg-[rgb(35,35,35)]
+                  md:p-2
+                  rounded
+                  whitespace-nowrap
+                "
               >
-                <Car
-                  size={20}
-                  className="absolute top-5 jet-animation"
-                  fill="green"
-                />
                 <h1 className="relative z-10">{t("visit")} Nihongomax</h1>
               </div>
             </a>
           </div>
         </div>
 
-        {/* -----------------------Navbar Buttons--------------- -----  */}
-        <div className="justify-between items-center md:mt-0 mt-2 hidden md:flex">
-          <div className="md:flex items-center justify-center hidden ">
+        {/* ===================== */}
+        {/* DESKTOP NAV BUTTONS */}
+        {/* ===================== */}
+
+        <div className="hidden md:flex shrink-0 items-center justify-center ml-2">
+          {/* Home + Friends */}
+          <div className="flex items-center justify-center">
             <button
               onClick={() => {
                 handleNavigation("/");
               }}
-              className={`md:p-3 w-full cursor-pointer dark:font-normal ${
+              className={`p-3 w-16 cursor-pointer dark:font-normal ${
                 pathname === "/"
                   ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
-              flex items-center justify-start p-2 rounded-md hover:shadow-lg`}
+              flex items-center justify-center rounded-md hover:shadow-lg`}
             >
-              <div className="flex md:w-12 flex-col items-center justify-center">
+              <div className="flex flex-col items-center justify-center">
                 <Home />
               </div>
             </button>
+
             <button
-              className={`md:p-3 w-full cursor-pointer dark:font-normal ${
+              className={`p-3 w-16 cursor-pointer dark:font-normal ${
                 pathname === "/friends"
                   ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                   : "bg-transparent"
               } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
-              flex items-center justify-start p-2 rounded-md hover:shadow-lg`}
+              flex items-center justify-center rounded-md hover:shadow-lg`}
               onClick={() =>
                 requireAuth(() => {
                   handleNavigation("/friends");
                 })
               }
             >
-              <div className="relative md:w-12 flex flex-col items-center justify-center">
+              <div className="relative flex flex-col items-center justify-center">
                 <Users />
+
                 <div className="absolute -top-6 -right-6">
                   {user && <FriendsNotification />}
                 </div>
               </div>
             </button>
           </div>
+
+          {/* Other Desktop Buttons */}
           {[
             {
               icon: ChartNoAxesCombined,
@@ -173,6 +216,7 @@ const Navbar = () => {
             },
           ].map(({ icon: Icon, path, name, isProtected }) => {
             const isActive = pathname === path;
+
             return (
               <button
                 onClick={() => {
@@ -187,28 +231,38 @@ const Navbar = () => {
                   }
                 }}
                 key={name}
-                className={`md:p-3 w-full cursor-pointer dark:font-normal ${
+                className={`p-3 w-16 cursor-pointer dark:font-normal ${
                   isActive
                     ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                     : "bg-transparent"
                 } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold 
                 flex items-center justify-center rounded-md hover:shadow-lg`}
               >
-                <div className="flex md:w-12 flex-col items-center justify-center">
+                <div className="flex flex-col items-center justify-center">
                   <Icon />
-                  <p className="md:hidden block text-xs mt-1">{name}</p>
                 </div>
               </button>
             );
           })}
         </div>
-        <div className="">
+
+        {/* ===================== */}
+        {/* LANGUAGE */}
+        {/* ===================== */}
+
+        <div className="shrink-0 mx-4 md:ml-2">
           <LangToggleBtn />
         </div>
-        <div className="mr-2">
+
+        {/* ===================== */}
+        {/* MOBILE MENU */}
+        {/* ===================== */}
+
+        <div className="shrink-0 mx-2">
           {user && <UserMenu handleLogout={handleLogout} />}
         </div>
       </div>
+
       {isPending && <Spinner />}
     </header>
   );

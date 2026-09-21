@@ -71,13 +71,13 @@ const ForgotPassword = () => {
             <div>
               <p className="text-center mb-2 font-semibold">Forgot Password?</p>
               <p className="mb-2 text-sm dark:text-white">
-                Enter mail ID you are registered with us.
+                Enter mail Id you are registered with us.
               </p>
             </div>
           )}
           <Input
             {...register("email")}
-            placeholder="Enter your registered Email"
+            placeholder="Enter registered mail"
             className="bg-white"
             disabled={submitted || loading}
           />

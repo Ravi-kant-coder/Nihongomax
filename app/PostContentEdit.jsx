@@ -63,7 +63,8 @@ const PostContentEdit = ({
             <div className="text-gray-500 text-xs mt-2">
               <span className=""> {t("onlyYouCan")}</span>
               <button
-                className=" items-center inline-flex cursor-pointer underline rounded p-1 hover:bg-gray-300 dark:hover:bg-black"
+                className=" items-center inline-flex cursor-pointer underline rounded p-1 hover:bg-gray-300 dark:hover:bg-black
+                 text-black text-sm dark:text-gray-400"
                 onClick={() => setIsEditing(true)}
               >
                 {t("edit")}
