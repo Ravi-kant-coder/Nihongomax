@@ -9,7 +9,7 @@ const GoogleBtn = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-2 pt-2">
       <div className="relative flex justify-center  uppercase">
-        <span className=" px-2 text-white">Or continue with</span>
+        <span className="px-2 text-white">Continue with</span>
       </div>
       <div className="w-full gap-4">
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

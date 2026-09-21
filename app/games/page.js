@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ScrollupBtn from "../ScrollupBtn";
 import Row from "./Row";
 import useT from "@/app/hooks/useT";
@@ -33,6 +33,7 @@ const WORD_LENGTH = 6;
 const MAX_ATTEMPTS = 6;
 
 const WordGame = () => {
+  const inputRef = useRef(null);
   const [solution, setSolution] = useState("");
   const [hint, setHint] = useState("");
   const [grid, setGrid] = useState(
@@ -85,6 +86,25 @@ const WordGame = () => {
     newGrid[currentRow][currentCol - 1] = "";
     setGrid(newGrid);
     setCurrentCol(currentCol - 1);
+  };
+
+  const handleMobileInput = (e) => {
+    const value = e.target.value;
+
+    if (status !== "playing") {
+      e.target.value = "";
+      return;
+    }
+
+    if (value.length > 0) {
+      const letter = value.slice(-1).toUpperCase();
+
+      if (/^[A-Z]$/.test(letter)) {
+        handleLetter(letter);
+      }
+    }
+
+    e.target.value = "";
   };
 
   const submitGuess = () => {
@@ -171,7 +191,37 @@ const WordGame = () => {
               {t("hint")}: {hint}
             </p>
 
-            <div className="space-y-3">
+            <div
+              className="space-y-3"
+              onClick={() => {
+                if (status === "playing") {
+                  inputRef.current?.focus();
+                }
+              }}
+            >
+              <input
+                ref={inputRef}
+                type="text"
+                inputMode="text"
+                autoCapitalize="characters"
+                autoCorrect="off"
+                autoComplete="off"
+                spellCheck={false}
+                className="absolute opacity-0 pointer-events-none w-0 h-0"
+                onInput={handleMobileInput}
+                onKeyDown={(e) => {
+                  if (e.key === "Backspace") {
+                    e.preventDefault();
+                    handleBackspace();
+                  }
+
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    submitGuess();
+                  }
+                }}
+                aria-hidden="true"
+              />
               {grid.map((row, rowIndex) => (
                 <Row
                   key={rowIndex}
