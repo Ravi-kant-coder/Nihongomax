@@ -39,19 +39,6 @@ export const logout = async () => {
   }
 };
 
-// export const checkUserAuth = async () => {
-//   try {
-//     const response = await axiosInstance.get("/auth/me");
-
-//     return {
-//       isAuthenticated: true,
-//       user: response?.data?.data,
-//     };
-//   } catch (error) {
-//     return { isAuthenticated: false };
-//   }
-// };
-
 export const checkUserAuth = async () => {
   try {
     const response = await axiosInstance.get("/auth/me");
