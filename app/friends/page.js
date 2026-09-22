@@ -54,7 +54,7 @@ const Page = () => {
   return (
     <>
       {/* --------------------------------Friend Requests----------------------------- */}
-      <div className="mb-20 mt-35 md:mt-0 text-center md:text-left">
+      <div className="mb-20 text-center md:text-left">
         <h1 className="text-2xl font-semibold mb-6">
           {friendRequest.length > 0
             ? `${t("youRecvd")} ${friendRequest.length} `

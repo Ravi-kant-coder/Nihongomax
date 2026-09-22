@@ -30,7 +30,7 @@ export default async function InformationPage() {
 
   return (
     <>
-      <div className="mx-10 mt-35 md:mt-0">
+      <div className="mx-10 ">
         <h1 className="text-3xl font-bold mb-10 text-center sr-only">
           Get the latest Japanese learning blogs, Japanese grammar guides, JLPT
           tips, and kanji insights to boost your language skills.
