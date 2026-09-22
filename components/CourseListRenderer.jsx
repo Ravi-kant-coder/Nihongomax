@@ -6,29 +6,14 @@ import { requireAuth } from "@/lib/requireAuth";
 import Spinner from "@/components/Spinner";
 
 const FREE_PAGES = new Set([
+  // JLPT
   "aboutjlpt",
-  "aboutbj",
-  "aboutbe",
 
   "classN1",
   "classN2",
   "classN3",
   "classN4",
   "classN5",
-
-  "bjfunda",
-  "bjBasic",
-  "bjBasicInt",
-  "bjInt",
-  "bjIntAdv",
-  "bjAdv",
-  "bjAdvsup",
-
-  "kaiwa-classes",
-  "business-english-basic-classes",
-  "business-english-inter-classes",
-  "business-english-adv-classes",
-  "eikaiwa-classes",
 
   "n5howtostudy",
   "n5overview",
@@ -55,8 +40,27 @@ const FREE_PAGES = new Set([
   "n1class1",
   "n1class2",
 
+  "hiragana",
+
+  // Business Japanese
+  "aboutbj",
+
+  "bjfunda",
+  "bjBasic",
+  "bjBasicInt",
+  "bjInt",
+  "bjIntAdv",
+  "bjAdv",
+  "bjAdvsup",
   "howtostudybj",
+
   "funda_overview",
+  "basic_overview",
+  "basic_inter_overview",
+  "inter_overview",
+  "inter_adv_overview",
+  "adv_overview",
+  "super_adv_overview",
 
   "bjclass1",
   "bjclass2",
@@ -73,14 +77,21 @@ const FREE_PAGES = new Set([
   "bjclass61",
   "bjclass62",
 
-  "basic_overview",
-  "basic_inter_overview",
-  "inter_overview",
-  "inter_adv_overview",
-  "adv_overview",
-  "super_adv_overview",
-
+  // Kaiwa
+  "kaiwa-classes",
   "kaiwa_overview",
+  "howtostudykaiwa",
+  "kaiwac1",
+  "kaiwac2",
+
+  // Eigo
+  "aboutbe",
+
+  "business-english-basic-classes",
+  "business-english-inter-classes",
+  "business-english-adv-classes",
+  "hwtostdyeikawa",
+
   "be_sho_overview",
   "be_chu_overview",
   "be_jou_overview",
@@ -92,9 +103,13 @@ const FREE_PAGES = new Set([
   "bizengc41",
   "bizengc42",
 
+  "eikaiwa-classes",
   "eikaiwa_overview",
   "eikaiwac1",
   "eikaiwac2",
+
+  "linkbundle",
+  "linkbundlejap",
 ]);
 
 function getCoursePageName(href) {
