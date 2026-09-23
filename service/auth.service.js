@@ -44,8 +44,8 @@ export const checkUserAuth = async () => {
     const response = await axiosInstance.get("/auth/me");
 
     return {
-      isAuthenticated: true,
-      user: response?.data?.data,
+      isAuthenticated: response?.data?.data?.isAuthenticated === true,
+      user: response?.data?.data?.user || null,
     };
   } catch (error) {
     const code = error.response?.data?.data?.code;

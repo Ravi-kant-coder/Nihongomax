@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { coursePageUrl } from "../lib/coursePageUrl";
 import { sanitizeHtml } from "../lib/sanitizeHtml";
@@ -91,6 +92,7 @@ const FREE_PAGES = new Set([
   "business-english-inter-classes",
   "business-english-adv-classes",
   "hwtostdyeikawa",
+  "hwtostdybe",
 
   "be_sho_overview",
   "be_chu_overview",
@@ -123,8 +125,22 @@ function getCoursePageName(href) {
     .trim();
 }
 
+/*
+ * These are the ONLY two course-list pages where
+ * the "How to Study" link is text instead of an image.
+ *
+ * Everything else continues using the existing
+ * first link-image behavior.
+ */
+function isTextHowToStudy(item) {
+  const href = item?.legacyHref || item?.href || "";
+
+  return href.includes("hwtostdyeikawa") || href.includes("hwtostdybe");
+}
+
 export default function CourseListRenderer({ page }) {
   const [isNavigating, setIsNavigating] = useState(false);
+
   if (!page || !Array.isArray(page.content)) {
     return null;
   }
@@ -135,12 +151,32 @@ export default function CourseListRenderer({ page }) {
    * 1. Main course heading/banner image
    * 2. How-to-study image/link
    * 3. Overview + class buttons as link-image items
+   *
+   * Special case:
+   * Some Eigo pages use a text link for How-to-Study.
    */
+
+  const textHowToStudy = page.content.find(
+    (item) => item.type === "link-text" && isTextHowToStudy(item),
+  );
+
+  const hasTextHowToStudy = Boolean(textHowToStudy);
 
   const headerItems = [];
   const linkItems = [];
 
   page.content.forEach((item) => {
+    /*
+     * If this is one of our two special text-based
+     * How-to-Study links, don't put it in headerItems.
+     *
+     * It will be rendered separately in the
+     * HOW TO STUDY section below.
+     */
+    if (hasTextHowToStudy && item === textHowToStudy) {
+      return;
+    }
+
     if (item.type === "link-image") {
       linkItems.push(item);
     } else {
@@ -149,14 +185,19 @@ export default function CourseListRenderer({ page }) {
   });
 
   /*
-   * The first link-image is normally the
-   * "How to Study" button.
+   * Normal pages:
    *
-   * Everything after that belongs to
-   * the course/class grid.
+   * First link-image = How to Study
+   * Remaining link-images = Overview + Classes
+   *
+   * Special text pages:
+   *
+   * Text link = How to Study
+   * ALL link-images = Overview + Classes
    */
-  const howToStudy = linkItems[0];
-  const courseButtons = linkItems.slice(1);
+  const howToStudy = hasTextHowToStudy ? textHowToStudy : linkItems[0];
+
+  const courseButtons = hasTextHowToStudy ? linkItems : linkItems.slice(1);
 
   /*
    * Course navigation rules:
@@ -215,6 +256,7 @@ export default function CourseListRenderer({ page }) {
         {/* =========================
             COURSE HEADER
         ========================== */}
+
         <div className="flex flex-col items-center">
           {headerItems.map((item, index) => {
             if (item.type === "image") {
@@ -273,48 +315,93 @@ export default function CourseListRenderer({ page }) {
               );
             }
 
+            /*
+             * Other link-text items are intentionally not
+             * rendered here.
+             *
+             * Our two special How-to-Study text links are
+             * removed from headerItems above and rendered
+             * in the dedicated HOW TO STUDY section.
+             */
             return null;
           })}
 
           {/* =========================
               HOW TO STUDY
           ========================== */}
+
           {howToStudy && (
-            <div className="mb-8 flex w-full justify-center px-2">
-              <a
-                href={coursePageUrl(howToStudy.legacyHref || howToStudy.href)}
-                onClick={(event) =>
-                  handleCourseClick(
-                    event,
-                    howToStudy.legacyHref || howToStudy.href,
-                  )
-                }
-                className="block max-w-full"
-              >
-                <img
-                  src={howToStudy.src}
-                  alt="How to Study"
-                  className="
-        h-auto
-        w-auto
-        max-w-full
-        md:max-w-[500px]
-        max-h-[180px]
-        object-contain
-        transition-transform
-        duration-200
-        hover:scale-[1.03]
-        dark:brightness-[0.8]
-      "
-                />
-              </a>
-            </div>
+            <>
+              {howToStudy.type === "link-image" && (
+                <div className="mb-8 flex w-full justify-center px-2">
+                  <a
+                    href={coursePageUrl(
+                      howToStudy.legacyHref || howToStudy.href,
+                    )}
+                    onClick={(event) =>
+                      handleCourseClick(
+                        event,
+                        howToStudy.legacyHref || howToStudy.href,
+                      )
+                    }
+                    className="block max-w-full"
+                  >
+                    <img
+                      src={howToStudy.src}
+                      alt="How to Study"
+                      className="
+                        h-auto
+                        w-auto
+                        max-w-full
+                        md:max-w-[500px]
+                        max-h-[180px]
+                        object-contain
+                        transition-transform
+                        duration-200
+                        hover:scale-[1.03]
+                        dark:brightness-[0.8]
+                      "
+                    />
+                  </a>
+                </div>
+              )}
+
+              {howToStudy.type === "link-text" && (
+                <div className="mb-8 flex w-full justify-center px-2">
+                  <a
+                    href={coursePageUrl(
+                      howToStudy.legacyHref || howToStudy.href,
+                    )}
+                    onClick={(event) =>
+                      handleCourseClick(
+                        event,
+                        howToStudy.legacyHref || howToStudy.href,
+                      )
+                    }
+                    className="
+                      inline-block
+                      text-4xl
+                      font-bold
+                      text-red-600
+                      no-underline
+                      transition-opacity
+                      duration-200
+                      hover:opacity-80
+                      sm:text-5xl
+                    "
+                  >
+                    {howToStudy.text}
+                  </a>
+                </div>
+              )}
+            </>
           )}
         </div>
 
         {/* =========================
             COURSE BUTTON GRID
         ========================== */}
+
         <div
           className="
             grid
@@ -368,8 +455,9 @@ export default function CourseListRenderer({ page }) {
           })}
         </div>
       </div>
+
       {isNavigating && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/40 dark:bg-black/40 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/40 backdrop-blur-sm dark:bg-black/40">
           <Spinner />
         </div>
       )}
