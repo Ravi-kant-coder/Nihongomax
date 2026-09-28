@@ -36,8 +36,11 @@ const LeftSideBar = () => {
 
   return (
     <>
-      <aside className="fixed h-full hidden md:p-1 md:flex flex-col z-50 md:z-0 md:mt-20 p-2 md:w-1/6 overflow-y-auto scroll-smooth overscroll-contain md:ml-2">
-        <nav className="space-y-3 h-full flex flex-col overflow-y-auto">
+      <aside
+        className="fixed h-full hidden md:p-1 md:flex flex-col z-50 md:z-0 md:mt-20 p-2 md:w-1/6 overflow-y-auto scroll-smooth 
+      overscroll-contain md:ml-2"
+      >
+        <nav className="space-y-2 h-full flex flex-col overflow-y-auto">
           <div
             onClick={() =>
               requireAuth(() => {

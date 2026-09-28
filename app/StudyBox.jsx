@@ -1,5 +1,4 @@
 "use client";
-
 import { X } from "lucide-react";
 import useStudyStore from "@/store/useStudyStore";
 import Link from "next/link";
@@ -31,6 +30,12 @@ const StudyBox = () => {
             box-border
             ${isStudyBoxOpen ? "visible" : "invisible"}`}
         >
+          <div
+            className="border rounded p-1 border-gray-400 text-gray-400 hover:text-black hover:border-black
+           hover:bg-gray-300 fixed right-4 top-12 cursor-pointer dark:border-black dark:text-black"
+          >
+            <X onClick={closeStudyBox} />
+          </div>
           {/* ABOUT JLPT */}
           <div className="inline-flex max-w-full hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-4 sm:px-10">
             <Link href="/course/aboutjlpt" onClick={closeStudyBox}>
