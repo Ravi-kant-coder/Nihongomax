@@ -14,7 +14,7 @@ const PostTriggerPsuedo = () => {
   return (
     <div
       className="lg:mb-2 shadow-md shadow-gray-400 dark:shadow-black w-full p-4 flex cursor-pointer justify-between items-center
-      bg-white dark:bg-[rgb(45,45,45)] rounded-xl md:bg-pink-200 lg:bg-yellow-200 xl:bg-green-200"
+      bg-white dark:bg-[rgb(45,45,45)] rounded-xl"
       onClick={() =>
         requireAuth(() => {
           router.push("/");

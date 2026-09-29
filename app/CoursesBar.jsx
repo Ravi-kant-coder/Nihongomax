@@ -27,7 +27,7 @@ const CoursesBar = () => {
               alt="JLPT N5 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
             />
           </Link>
         </div>
@@ -38,7 +38,7 @@ const CoursesBar = () => {
               alt="JLPT N4 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
             />
           </Link>
         </div>
@@ -49,7 +49,7 @@ const CoursesBar = () => {
               alt="JLPT N3 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
             />
           </Link>
         </div>
@@ -60,7 +60,7 @@ const CoursesBar = () => {
               alt="JLPT N2 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
             />
           </Link>
         </div>
@@ -71,7 +71,7 @@ const CoursesBar = () => {
               alt="JLPT N1 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
             />
           </Link>
         </div>

@@ -130,34 +130,12 @@ const SearchBar = () => {
   };
 
   return (
-    <div
-      ref={searchRef}
-      className="
-        w-full
-        md:mr-5
-        min-w-0
-      "
-    >
+    <div ref={searchRef} className="w-full md:mr-5 min-w-0">
       <form onSubmit={handleSearchSubmit}>
         <div className="relative w-full">
-          <Search
-            className="
-              absolute left-2 top-1/2
-              -translate-y-1/2
-              text-gray-400
-              w-5 h-5
-            "
-          />
-
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
           <Input
-            className="
-              pl-8
-              cursor-pointer
-              w-full
-              dark:bg-[rgb(75,75,75)]
-              bg-white
-              rounded-full
-            "
+            className="pl-8 cursor-pointer w-full dark:bg-[rgb(75,75,75)] bg-white rounded-full"
             placeholder={`${t("search")}`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
