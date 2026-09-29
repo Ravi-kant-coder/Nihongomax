@@ -196,7 +196,7 @@ const Navbar = () => {
                   isActive
                     ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
                     : "bg-transparent"
-                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold  ${hideOnTab ? " hidden lg:block" : ""}
+                } dark:hover:bg-[rgb(55,55,55)] hover:bg-white text-sm font-semibold  ${hideOnTab ? "md:hidden xl:block" : ""}
                 flex items-center justify-center rounded-md hover:shadow-lg`}
               >
                 <div className="flex flex-col items-center justify-center">
