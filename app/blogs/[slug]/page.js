@@ -163,7 +163,7 @@ export default async function BlogPage({ params }) {
   const readingTime = Math.ceil(wordCount / 200);
 
   return (
-    <div className="max-w-8xl mx-auto px-4 py-10 mt-25 md:mt-0">
+    <div className="max-w-8xl mx-auto p-4 mt-15 md:mt-0">
       <h1 className="text-5xl font-bold mb-4 dark:text-gray-300 text-gray-700">
         {blog.title}
       </h1>
