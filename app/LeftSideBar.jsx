@@ -40,7 +40,7 @@ const LeftSideBar = () => {
         className="fixed h-full hidden md:p-1 md:flex flex-col z-50 md:z-0 md:mt-20 p-2 md:w-1/6 overflow-y-auto scroll-smooth 
       overscroll-contain md:ml-2"
       >
-        <nav className="space-y-2 h-full flex flex-col overflow-y-auto">
+        <nav className="md:space-y-2 lg:space-y-3 h-full flex flex-col overflow-y-auto">
           <div
             onClick={() =>
               requireAuth(() => {
@@ -158,13 +158,13 @@ const LeftSideBar = () => {
               icon: Handshake,
               isProtected: true,
             },
-            {
-              id: 8,
-              label: <p>{t("recruiters")}</p>,
-              navPath: "/recruiters",
-              icon: ChartNoAxesCombined,
-              isProtected: true,
-            },
+            // {
+            //   id: 8,
+            //   label: <p>{t("recruiters")}</p>,
+            //   navPath: "/recruiters",
+            //   icon: ChartNoAxesCombined,
+            //   isProtected: true,
+            // },
           ].map(({ id, label, icon: Icon, navPath, isProtected }) => {
             const isActive = pathname === navPath;
             return (

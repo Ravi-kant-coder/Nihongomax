@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
       <body className="dark:bg-[rgb(30,30,30)] bg-gray-300">
         <ClientThemeProvider>
           <AuthWrapper>
-            <main className="mt-20 mb-20 md:ml-85 lg:ml-90 xl:ml-95">
+            <main className="mt-20 mb-20 md:ml-72 lg:ml-80 xl:ml-90">
               <Banner />
               {children}
             </main>

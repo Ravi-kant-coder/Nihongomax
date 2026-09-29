@@ -44,18 +44,20 @@ const StudyInJapan = () => {
 
   return (
     <div className="w-full flex flex-col">
-      <a
-        href="https://www.learnjapanesedelhi.com/study-in-japan"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-block rounded-lg bg-[rgb(60,60,60)] text-xl font-semibold dark:bg-black hover:bg-black 
-        md:p-2 p-1 mx-5 md:mx-20 text-white border border-gray-300 dark:hover:bg-[rgb(20,20,20)] mb-4 text-center"
-      >
-        Click to Learn all about Study in Japan
-      </a>
-      <h1 className="md:text-4xl text-2xl text-center font-bold">
+      <h1 className="md:text-4xl text-2xl text-center font-bold mt-4">
         {t("studyInJapan")}
       </h1>
+      <div className="my-4 flex items-center justify-center">
+        <a
+          href="https://www.learnjapanesedelhi.com/study-in-japan"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block rounded-lg bg-[rgb(60,60,60)] text-xl font-semibold dark:bg-black hover:bg-black w-[50%]
+        md:p-2 p-1 mx-5 md:mx-20 text-white border border-gray-300 dark:hover:bg-[rgb(20,20,20)] text-center"
+        >
+          Click to Learn all about Study in Japan
+        </a>
+      </div>
       <h2 className="text-2xl text-center font-medium mt-4 mb-2">
         Universities, Schools, Institutions and Academies in Japan Nihongomax
         has tie-up with.

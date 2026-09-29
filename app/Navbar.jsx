@@ -19,6 +19,7 @@ import {
   BriefcaseBusiness,
   Orbit,
   BookOpen,
+  Car,
 } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
 import UserMenu from "./UserMenu";
@@ -53,77 +54,39 @@ const Navbar = () => {
   };
 
   return (
-    <header
-      className="
-        fixed top-0 left-0 right-0 z-50
-        flex items-center
-        bg-gray-200 dark:bg-black
-        p-2
-        md:py-2
-        md:shadow-lg
-      "
-    >
-      {/* ===================== */}
-      {/* JAPAN GATE - DESKTOP */}
-      {/* ===================== */}
-
+    <header className="fixed top-0 left-0 right-0 z-50 flex items-center bg-gray-200 dark:bg-black p-2 md:py-2 md:shadow-lg">
       <div className="hidden md:block shrink-0">
         <a href="https://www.learnjapanesedelhi.com/" target="_blank">
           <JapanGate />
         </a>
       </div>
 
-      {/* ===================== */}
-      {/* MAIN NAVBAR CONTENT */}
-      {/* ===================== */}
-
       <div className="flex min-w-0 flex-1 items-center justify-between">
-        {/* ===================== */}
-        {/* SEARCH + INSTITUTE */}
-        {/* ===================== */}
-
-        <div
-          className="
-            flex min-w-0 flex-1 items-center
-            gap-2
-            my-1 md:my-2
-            md:gap-0
-          "
-        >
-          {/* Search */}
+        <div className="flex min-w-0 flex-1 items-center gap-2 my-1 md:my-2">
           <div className="min-w-0 flex-1 md:flex-none md:w-auto">
             {user ? <SearchBar /> : <SearchBarPseudo />}
           </div>
-
-          {/* Institute Link - Desktop */}
           <div className="hidden md:block shrink-0">
-            <a href="https://www.learnjapanesedelhi.com/" target="_blank">
+            <a
+              href="https://www.learnjapanesedelhi.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div
-                className="
-                  relative overflow-hidden
-                  flex items-center
-                  text-sm text-white
-                  bg-[rgb(60,60,60)]
-                  dark:bg-[rgb(55,55,55)]
-                  hover:bg-black
-                  dark:hover:bg-[rgb(35,35,35)]
-                  md:p-2
-                  rounded
-                  whitespace-nowrap
-                "
+                className="relative overflow-hidden flex items-center text-sm text-white bg-[rgb(60,60,60)]
+                 dark:bg-[rgb(55,55,55)] hover:bg-black dark:hover:bg-[rgb(35,35,35)] md:p-2 rounded whitespace-nowrap"
               >
+                <span className="absolute left-0 -bottom-1 pointer-events-none jet-animation">
+                  <Car fill="green" size={18} />
+                </span>
+
                 <h1 className="relative z-10">{t("visit")} Nihongomax</h1>
               </div>
             </a>
           </div>
         </div>
 
-        {/* ===================== */}
-        {/* DESKTOP NAV BUTTONS */}
-        {/* ===================== */}
-
-        <div className="hidden md:flex shrink-0 items-center justify-center ml-2">
-          {/* Home + Friends */}
+        <div className="hidden md:flex shrink-0 items-center justify-center">
           <div className="flex items-center justify-center">
             <button
               onClick={() => {
@@ -164,14 +127,13 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Other Desktop Buttons */}
           {[
-            {
-              icon: ChartNoAxesCombined,
-              path: "/recruiters",
-              name: "Recruiters",
-              isProtected: true,
-            },
+            // {
+            //   icon: ChartNoAxesCombined,
+            //   path: "/recruiters",
+            //   name: "Recruiters",
+            //   isProtected: true,
+            // },
             {
               icon: BriefcaseBusiness,
               path: "/blogs",

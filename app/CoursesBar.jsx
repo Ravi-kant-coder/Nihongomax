@@ -19,7 +19,7 @@ const CoursesBar = () => {
         </Link>
       </div>
       <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%] my-2" />
-      <div className="flex flex-wrap gap-6 justify-center items-center">
+      <div className="flex flex-wrap justify-center items-center">
         <div className="inline-flex hover:scale-105 transition-all duration-300">
           <Link href="/course/classN5">
             <Image
