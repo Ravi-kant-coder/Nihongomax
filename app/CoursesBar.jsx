@@ -4,8 +4,8 @@ import Image from "next/image";
 const CoursesBar = () => {
   return (
     <div
-      className="md:flex flex-wrap fixed md:top-20 hidden md:right-20 lg:right-10 md:w-1/3 
-  scroll-smooth overscroll-contain flex-col justify-center items-center py-4 bg-white rounded-2xl dark:bg-gray-400"
+      className="md:flex flex-wrap fixed md:top-20 hidden md:right-20 lg:right-10 md:w-1/3  
+  scroll-smooth overscroll-contain flex-col justify-center items-center md:py-2 xl:py-4 bg-white rounded-2xl dark:bg-gray-400"
     >
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-10">
         <Link href="/course/aboutjlpt">
@@ -14,7 +14,7 @@ const CoursesBar = () => {
             alt="About JLPT lessons"
             width={300}
             height={80}
-            className="rounded-md hover:scale-105 transition-transform duration-200"
+            className="rounded-md hover:scale-105 transition-transform duration-200 md:w-50 xl:w-60 2xl:w-70 h-auto"
           />
         </Link>
       </div>
@@ -84,7 +84,7 @@ const CoursesBar = () => {
             alt="Business Japanese"
             width={400}
             height={80}
-            className="rounded-md hover:scale-105 transition-transform duration-200"
+            className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
           />
         </Link>
       </div>
