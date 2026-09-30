@@ -81,10 +81,7 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
               >
                 {t("showMore")} <ChevronDown className="ml-1 h-4 w-4" />
                 {post?.comments?.length > 0 && (
-                  <span
-                    className="absolute -top-3 right-6 bg-green-700 text-white text-xs 
-                  px-2 py-0.5 rounded-full "
-                  >
+                  <span className="absolute -top-3 right-6 bg-green-700 text-white text-xs px-2 py-0.5 rounded-full ">
                     {post?.comments?.length - 2}
                   </span>
                 )}
@@ -95,14 +92,15 @@ const CommentsShown = ({ post, commentText, setCommentText }) => {
       </div>
 
       {/* ------------------------------------Comment Input------------------------------------ */}
-
       <div className="flex items-center px-4 p-2 mb-6">
-        <Avatar className="h-8 w-8 rounded-full mr-3">
-          <AvatarImage src={user?.profilePicture} className="object-cover" />
-          <AvatarFallback className="dark:bg-gray-800 bg-gray-300 capitalize">
-            {user?.username.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        {user && (
+          <Avatar className="h-8 w-8 rounded-full mr-3">
+            <AvatarImage src={user?.profilePicture} className="object-cover" />
+            <AvatarFallback className="dark:bg-gray-800 bg-gray-300 capitalize">
+              {user?.username.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        )}
         <div className="flex-1 mr-2 relative w-full">
           <Input
             className="border-gray-400 pr-10"

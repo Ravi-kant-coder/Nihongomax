@@ -36,13 +36,19 @@ const PostTriggerPsuedo = () => {
         <SmilePlus className=" absolute right-0 h-6 w-6 text-yellow-500 mr-2" />
       </div>
       <div className="flex justify-center items-center">
-        <div className="ml-1 p-2 cursor-pointer rounded-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-black dark:text-white">
+        <div
+          className="ml-1 p-2 cursor-pointer rounded-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-black
+         dark:text-white"
+        >
           <PhotoIcon className="h-5 w-5 text-green-600 mr-1" />
           <span className="hidden md:flex whitespace-nowrap">
             {t("photos")}
           </span>
         </div>
-        <div className=" p-2 hover:bg-gray-200 cursor-pointer rounded-lg flex items-center justify-center dark:hover:bg-black dark:text-white">
+        <div
+          className=" p-2 hover:bg-gray-200 cursor-pointer rounded-lg flex items-center justify-center dark:hover:bg-black
+         dark:text-white"
+        >
           <Clapperboard className="h-5 w-5 text-red-600 mr-1" shrink={0} />
           <span className="hidden md:flex whitespace-nowrap">
             {t("videos")}
