@@ -90,17 +90,25 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
         </div>
         <div className="dark:text-gray-400 md:space-y-3 space-y-1">
           <div className="flex items-center">
-            <MapPin size={18} strokeWidth={2} className="mr-2" />{" "}
+            <MapPin size={18} strokeWidth={2} className="mr-2 shrink-0" />{" "}
             <p className="font-semibold mr-2">Location 住所 - &nbsp;</p>
             {school?.location || "Location not specified"}
           </div>
-          <div className="flex items-center whitespace-pre-wrap">
-            <CalendarHeart size={18} strokeWidth={2} className="mr-2" />{" "}
+          <div className="flex items-center whitespace-pre-wrap ">
+            <CalendarHeart
+              size={18}
+              strokeWidth={2}
+              className="mr-2 shrink-0"
+            />{" "}
             <p className="font-semibold mr-2">Intakes 年間募集回数 - &nbsp;</p>
             {school?.intakes || "Intake information not provided"}
           </div>
           <div className="font-semibold flex items-center dark:font-normal">
-            <MonitorSmartphone size={18} strokeWidth={2} className="mr-2" />{" "}
+            <MonitorSmartphone
+              size={18}
+              strokeWidth={2}
+              className="mr-2 shrink-0"
+            />{" "}
             Website ホームページ - &nbsp;
             <span className="ml-2 font-normal text-blue-800 dark:text-blue-500 hover:underline">
               {school?.homepage && (
@@ -117,12 +125,12 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
             </span>
           </div>
           <div className="flex items-center ">
-            <Mail size={16} strokeWidth={2} className="mr-2" />
+            <Mail size={16} strokeWidth={2} className="mr-2 shrink-0" />
             <p className="font-semibold mr-2">Email メール - &nbsp;</p>
             {school?.email || "Not Provided"}
           </div>
           <div className="flex items-center">
-            <Phone size={16} strokeWidth={2} className="mr-2" />
+            <Phone size={16} strokeWidth={2} className="mr-2 shrink-0" />
             <p className="font-semibold mr-2">Contact 連絡先 </p>&nbsp;
             {school?.mobile ? (
               <span>

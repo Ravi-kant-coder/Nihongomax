@@ -62,26 +62,26 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                   <div
                     key={friend?._id}
                     onClick={() => handlefriendClick(friend?._id)}
-                    className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg relative group p-2"
+                    className="cursor-pointer relative group rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800
+                    w-25 sm:w-22 md:w-24 lg:w-26 xl:w-30 2xl:w-36"
                   >
-                    <div className="flex flex-col justify-center items-center mt-8">
-                      <Avatar className="w-30 h-30 rounded">
+                    <div className="flex flex-col justify-center items-center mt-4 sm:mt-6 lg:mt-8">
+                      <Avatar className="rounded w-18 h-18 sm:w-18 sm:h-18 md:w-21 md:h-21 lg:w-24 lg:h-24 xl:w-27 xl:h-27 2xl:w-30 2xl:h-30">
                         <AvatarImage
                           src={friend?.profilePicture}
                           className="object-cover"
                         />
-                        <AvatarFallback className="rounded text-4xl dark:bg-gray-700 w-full h-full">
+
+                        <AvatarFallback className="rounded text-2xl sm:text-3xl lg:text-4xl dark:bg-gray-700 w-full h-full">
                           {friend?.username?.split(" ")[0][0].toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
-                      <div>
-                        <p
-                          className="font-[450] text-sm dark:text-gray-100 truncate w-30
-                         capitalize"
-                        >
+                      <div className="w-full text-center mt-2">
+                        <p className="font-[450] text-xs sm:text-sm dark:text-gray-100 truncate w-full capitalize">
                           {friend?.username}
                         </p>
-                        <p className="text-sm text-gray-500">
+
+                        <p className="text-xs sm:text-sm text-gray-500">
                           {friend?.followerCount}{" "}
                           {friend?.followerCount === 1
                             ? t("follower")
@@ -89,10 +89,11 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                         </p>
                       </div>
                     </div>
+
                     {isOwner && (
                       <div
-                        className="absolute bg-orange-100 dark:bg-orange-800 rounded-md p-1 opacity-0 top-0 right-0 group-hover:opacity-100 
-                        transition group-hover:text-black dark:text-white"
+                        className="absolute bg-orange-100 dark:bg-orange-800 rounded-md p-1 opacity-0 top-0 right-0 
+                        group-hover:opacity-100 transitiongroup-hover:text-black dark:text-white"
                         onClick={async (e) => {
                           e.stopPropagation();
                           await handleUnfriend(friend?._id);
@@ -100,7 +101,8 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                         }}
                       >
                         <div className="flex text-xs items-center">
-                          <UserX className="mr-2 w-4 h-4" /> {t("unfriend")}
+                          <UserX className="mr-2 w-4 h-4" />
+                          {t("unfriend")}
                         </div>
                       </div>
                     )}
