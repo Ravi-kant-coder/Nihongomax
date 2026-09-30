@@ -1,6 +1,13 @@
 import { requireAuth } from "@/lib/requireAuth";
 import { useEffect, useState, useRef } from "react";
-import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  X,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import userStore from "@/store/userStore";
 import { Trash2 } from "lucide-react";
@@ -14,8 +21,9 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [videoDuration, setVideoDuration] = useState(null);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef(null);
-  const advancingRef = useRef(false); // critical lock
+  const advancingRef = useRef(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { user } = userStore();
   const { handleLikeStory } = useStoryStore();
@@ -43,6 +51,7 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
     advancingRef.current = false;
     setProgress(0);
     setVideoDuration(null);
+    setIsMuted(true);
   }, [index]);
 
   /* ---------- Text & Image 5 sec timer ---------- */
@@ -165,7 +174,35 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
             />
             {story?.likeCount > 0 && story?.likeCount}
           </Button>
+          {current?.type === "video" && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
 
+                setIsMuted((prev) => {
+                  const newMuted = !prev;
+
+                  if (videoRef.current) {
+                    videoRef.current.muted = newMuted;
+
+                    if (!newMuted) {
+                      videoRef.current.play().catch((err) => {
+                        console.log("Could not play video with sound:", err);
+                      });
+                    }
+                  }
+
+                  return newMuted;
+                });
+              }}
+              className="absolute bottom-20 left-4 z-[1000] w-12 h-12 rounded-full
+      bg-black/70 border border-gray-500 text-white
+      flex items-center justify-center
+      hover:bg-black/90 hover:scale-110 transition-all"
+            >
+              {isMuted ? <VolumeX size={22} /> : <Volume2 size={22} />}
+            </button>
+          )}
           <div
             onClick={handlePrev}
             className="absolute left-0 top-0 w-1/3 h-full z-10"
@@ -190,7 +227,7 @@ const StoryViewer = ({ story, onClose, handleStoryDelete }) => {
                 ref={videoRef}
                 src={current.url}
                 autoPlay
-                muted
+                muted={isMuted}
                 playsInline
                 className="w-full h-full object-contain"
                 onLoadedMetadata={(e) => setVideoDuration(e.target.duration)}

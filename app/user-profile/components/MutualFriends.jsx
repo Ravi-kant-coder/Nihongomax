@@ -63,10 +63,10 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
                     key={friend?._id}
                     onClick={() => handlefriendClick(friend?._id)}
                     className="cursor-pointer relative group rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800
-                    w-25 sm:w-22 md:w-24 lg:w-26 xl:w-30 2xl:w-36"
+                    w-30 sm:w-22 md:w-24 lg:w-26 xl:w-30 2xl:w-36"
                   >
                     <div className="flex flex-col justify-center items-center mt-4 sm:mt-6 lg:mt-8">
-                      <Avatar className="rounded w-18 h-18 sm:w-18 sm:h-18 md:w-21 md:h-21 lg:w-24 lg:h-24 xl:w-27 xl:h-27 2xl:w-30 2xl:h-30">
+                      <Avatar className="rounded w-20 h-20 sm:w-18 sm:h-18 md:w-21 md:h-21 lg:w-24 lg:h-24 xl:w-27 xl:h-27 2xl:w-30 2xl:h-30">
                         <AvatarImage
                           src={friend?.profilePicture}
                           className="object-cover"
