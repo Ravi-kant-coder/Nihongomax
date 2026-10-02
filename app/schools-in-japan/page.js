@@ -49,17 +49,14 @@ const SchoolsInJapan = () => {
 
   return (
     <div className="mx-3">
-      <h2 className=" font-semibold text-gray-600 text-center md:text-4xl text-xl mt-35 md:mt-0 dark:text-gray-400">
+      <h2 className="font-semibold text-gray-600 text-center md:text-4xl text-xl dark:text-gray-400">
         数人の日本語学習者に貴校情報をご掲載ください。
         <br className="lg:hidden" /> 完全に無料です。
       </h2>
       <div className="flex justify-center items-center mt-4">
         <SchoolTrigger />
       </div>
-      <h2
-        className="md:text-2xl font-semibold flex justify-center
-        items-center dark:text-gray-400"
-      >
+      <h2 className="md:text-2xl font-semibold flex justify-center items-center dark:text-gray-400">
         貴校募集情報は下記のようになります。
         <ArrowBigDown fill="black" size={40} className="mx-2 shrink-0" />
         (または、nihongomax@gmail.com まで、ご連絡)

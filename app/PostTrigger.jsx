@@ -224,7 +224,7 @@ const PostTrigger = () => {
             </div>
 
             {/* ------------------Image/video 4 media slots---------------------*/}
-            <div className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4 mb-4 md:justify-start">
+            <div className="flex flex-col items-center md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4 mb-4 justify-start">
               <AnimatePresence>
                 {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
                   <motion.div
@@ -238,8 +238,8 @@ const PostTrigger = () => {
                       <button
                         type="button"
                         onClick={() => handleRemoveSlot(index)}
-                        className="absolute -top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white flex items-center justify-center 
-                        text-sm hover:bg-black cursor-pointer"
+                        className="absolute -top-2 right-0 z-10 w-6 h-6 rounded bg-black/70 text-white flex items-center 
+                        justify-center text-sm hover:bg-black cursor-pointer"
                       >
                         <X className="h-4 w-4" />
                       </button>

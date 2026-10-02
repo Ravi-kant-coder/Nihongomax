@@ -185,10 +185,7 @@ const SchoolTrigger = () => {
   };
 
   return (
-    <div
-      className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] mb-10 p-2 md:p-4 rounded-lg
-     bg-[rgb(170,170,170)]"
-    >
+    <div className="w-8/9 md:w-2/3 dark:bg-[rgb(10,10,10)] mb-10 p-2 md:p-4 rounded-lg bg-[rgb(170,170,170)]">
       <div className="flex md:items-center flex-col md:flex-row md:justify-between mb-4">
         <div className="flex items-center">
           <div className="flex items-center space-x-3 py-2 mr-4">
@@ -225,10 +222,7 @@ const SchoolTrigger = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* ------------------School Image/video 4 Upload media slots---------------------*/}
-        <div
-          className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 
-        md:space-x-4 mb-4 md:justify-start"
-        >
+        <div className="flex flex-col items-center md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4 mb-4 justify-start">
           <AnimatePresence>
             {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
               <motion.div
@@ -242,7 +236,7 @@ const SchoolTrigger = () => {
                   <button
                     type="button"
                     onClick={() => handleRemoveSlot(index)}
-                    className="absolute -top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white 
+                    className="absolute -top-2 right-0 z-10 w-6 h-6 rounded bg-black/70 text-white 
                      flex items-center justify-center text-sm hover:bg-black cursor-pointer"
                   >
                     ✕

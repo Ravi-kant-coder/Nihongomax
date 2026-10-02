@@ -127,17 +127,32 @@ const JobTrigger = () => {
         {/* -----------------------Company Image Upload ---------------------*/}
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
           <div
-            className="relative md:w-50 cursor-pointer border-2 border-dashed border-gray-700
-                    rounded-lg flex items-center justify-center hover:bg-gray-300 group
-                    dark:hover:bg-[rgb(36,37,38)] dark:border-gray-400 p-1 mb-4"
+            className="relative w-50 cursor-pointer border-2 border-dashed border-gray-700
+             rounded-lg flex items-center justify-center hover:bg-gray-300 group
+             dark:hover:bg-[rgb(36,37,38)] dark:border-gray-400 p-1 mb-4"
             onClick={() => fileInputRef.current.click()}
           >
             {filePreview ? (
-              <img
-                src={filePreview}
-                alt="Can't Upload"
-                className="w-full h-auto max-h-[200px] object-cover rounded"
-              />
+              <>
+                <img
+                  src={filePreview}
+                  alt="Can't Upload"
+                  className="w-full h-auto max-h-[200px] object-cover rounded"
+                />
+
+                {/* X Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setFilePreview(null);
+                  }}
+                  className="absolute -top-2 -right-2 bg-black/70 text-white cursor-pointer dark:bg-gray-700 rounded 
+                   w-7 h-7 flex items-center justify-center hover:bg-black transition hover:scale-110 dark:hover:bg-gray-800"
+                >
+                  ✕
+                </button>
+              </>
             ) : (
               <div className="flex flex-col items-center">
                 <p className="text-center dark:text-gray-400">Click to</p>
@@ -145,6 +160,7 @@ const JobTrigger = () => {
                 <p className="text-center dark:text-gray-400">Add Photo</p>
               </div>
             )}
+
             <input
               type="file"
               accept="image/*"

@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { Input } from "@/components/ui/input";
 import { useEmojiInsert } from "./hooks/useEmojiInsert";
@@ -13,6 +13,7 @@ const StoryMediaSlot = ({
   fileSize,
   formatFileSize,
   onChange,
+  onRemove,
 }) => {
   const { inputRef, insertEmoji } = useEmojiInsert();
 
@@ -54,6 +55,19 @@ const StoryMediaSlot = ({
         dark:hover:bg-[rgb(36,37,38)] dark:border-gray-400 md:w-40 md:h-40 w-32 h-28`}
         onClick={onClick}
       >
+        {filePreview && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove();
+            }}
+            className="absolute top-0 right-0 z-10 w-7 h-7 rounded bg-black/70 text-white 
+                      flex items-center justify-center text-sm hover:bg-black cursor-pointer"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
         {filePreview ? (
           fileType.startsWith("image") ? (
             <img

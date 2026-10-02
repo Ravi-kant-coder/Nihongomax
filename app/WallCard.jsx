@@ -101,8 +101,9 @@ const WallCard = ({ post }) => {
                     handleSavePost(post?._id, user);
                   });
                 }}
-                className="dark:bg-black/20 cursor-pointer md:px-2 w-15 overflow-hidden group rounded border border-gray-400 flex flex-col items-center justify-center
-                dark:hover:border-white mr-2 dark:border-gray-500 hover:border-gray-700 dark:hover:bg-black hover:bg-gray-100"
+                className="dark:bg-black/20 cursor-pointer w-15 overflow-hidden group rounded border border-gray-400 
+                flex flex-col items-center justify-center dark:hover:border-white mr-2 dark:border-gray-500 
+                hover:border-gray-700 dark:hover:bg-black hover:bg-gray-100"
               >
                 {" "}
                 <span className="text-[10px] capitalize group-hover:dark:text-white group-hover:text-black truncate w-10">
@@ -121,7 +122,7 @@ const WallCard = ({ post }) => {
                   setShowDeleteModal(true);
                   setReadyTodel(true);
                 }}
-                className="dark:bg-black/20 cursor-pointer md:px-2 group rounded border border-gray-400 bg-pink-100 
+                className="dark:bg-black/20 cursor-pointer px-2 group rounded border border-gray-400 bg-pink-100 
               flex flex-col items-center justify-center hover:border-red-600 disabled:opacity-50"
               >
                 {" "}

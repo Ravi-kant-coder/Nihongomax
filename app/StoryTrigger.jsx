@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { AnimatePresence, motion } from "framer-motion";
-import { Send, Plus, X } from "lucide-react";
+import { Send, Plus } from "lucide-react";
 import userStore from "@/store/userStore";
 import { useStoryStore } from "@/store/useStoryStore";
 import StoryMediaSlot from "./StoryMediaSlot";
@@ -254,10 +254,7 @@ const StoryTrigger = () => {
           </div>
 
           {/* ------------------Image/video 4 media slots---------------------*/}
-          <div
-            className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 
-                 md:space-x-4 mb-4 md:justify-start"
-          >
+          <div className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 items-center md:space-x-4 mb-4 justify-start">
             <AnimatePresence>
               {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
                 <motion.div
@@ -265,20 +262,8 @@ const StoryTrigger = () => {
                   initial={{ opacity: 0, scale: 0.7 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="relative"
                 >
-                  {slot && (
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveSlot(index)}
-                      className="absolute top-2 right-0 z-10 w-6 h-6 rounded-full bg-black/70 text-white 
-                      flex items-center justify-center text-sm hover:bg-black cursor-pointer"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
                   <StoryMediaSlot
-                    key={index}
                     slot={slot}
                     filePreview={slot ? slot.preview : null}
                     fileName={slot?.file ? slot.file.name : null}
@@ -286,6 +271,7 @@ const StoryTrigger = () => {
                     formatFileSize={formatFileSize}
                     fileSize={slot?.file ? slot.file.size : null}
                     handleFileChange={handleFileChange}
+                    onRemove={() => handleRemoveSlot(index)}
                     fileInputRef={fileInputRef}
                     onClick={() => handleSlotClick(index)}
                     onChange={(e) => handleCaptionChange(index, e.target.value)}
@@ -326,8 +312,7 @@ const StoryTrigger = () => {
           </div>
           <div className="flex justify-end mt-4 ">
             <Button
-              className="bg-gray-700 w-1/3 text-white dark:bg-black
-                 dark:hover:bg-gray-900 cursor-pointer hover:bg-black"
+              className="bg-gray-700 w-1/3 text-white dark:bg-black dark:hover:bg-gray-900 cursor-pointer hover:bg-black"
               onClick={submitStory}
               disabled={hasTooLargeFile || loading}
             >
