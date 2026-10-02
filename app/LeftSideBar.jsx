@@ -37,7 +37,7 @@ const LeftSideBar = () => {
   return (
     <>
       <aside
-        className="fixed h-full hidden md:p-1 md:flex flex-col z-50 md:z-0 md:mt-20 p-2 xl:w-1/6 md:w-1/5 overflow-y-auto scroll-smooth 
+        className="fixed h-full hidden md:p-1 md:flex flex-col z-50 md:z-0 mt-17 p-2 xl:w-1/6 md:w-1/5 overflow-y-auto scroll-smooth 
       overscroll-contain md:ml-2"
       >
         <nav className="md:space-y-0 xl:space-y-1 2xl:space-y-2 h-full flex flex-col overflow-y-auto">

@@ -6,8 +6,10 @@ import useStudyStore from "@/store/useStudyStore";
 import Spinner from "../components/Spinner";
 import StudyBox from "./StudyBox";
 import MobileUserMenu from "./MobileUserMenu";
+import useT from "./hooks/useT";
 
 const NavbarBelow = () => {
+  const t = useT();
   const router = useRouter();
   const { isStudyBoxOpen, toggleStudyBox, closeStudyBox } = useStudyStore();
   const [isPending, startTransition] = useTransition();
@@ -23,12 +25,8 @@ const NavbarBelow = () => {
       {isStudyBoxOpen && <StudyBox />}
       <div className="bg-gray-300 h-15 dark:bg-black flex justify-between items-center px-4">
         <button
-          className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md ${
-            pathname === "/friends"
-              ? "bg-white dark:bg-[rgb(55,55,55)] shadow-lg"
-              : "bg-transparent"
-          } dark:hover:bg-[rgb(55,55,55)] font-semibold flex items-center justify-center 
-          py-1 px-2 rounded-md hover:shadow-lg`}
+          className={`w-25 cursor-pointer text-xs hover:bg-white rounded-md dark:hover:bg-[rgb(55,55,55)] 
+            font-semibold flex items-center justify-center py-1 px-2 hover:shadow-lg`}
           onClick={() => {
             closeStudyBox();
           }}
@@ -57,7 +55,7 @@ const NavbarBelow = () => {
         >
           <div className="flex flex-col items-center justify-center">
             <Home />
-            <p className="mt-1">Home</p>
+            <p className="mt-1">{t("home")}</p>
           </div>
         </button>
         <button
@@ -73,7 +71,7 @@ const NavbarBelow = () => {
         >
           <div className="flex flex-col items-center justify-center">
             <BookOpen />
-            <p className="mt-1">Japanese</p>
+            <p className="mt-1">{t("japanese")}</p>
           </div>{" "}
         </button>
       </div>{" "}

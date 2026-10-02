@@ -140,8 +140,8 @@ const PostTrigger = () => {
   };
 
   return (
-    <Card className="lg:mb-2 shadow-md shadow-gray-400 dark:shadow-black w-full">
-      <CardContent className="dark:bg-[rgb(45,45,45)] py-4">
+    <Card className="shadow-md shadow-gray-400 dark:shadow-black w-full">
+      <CardContent className="dark:bg-[rgb(45,45,45)] py-2 md:py-3">
         <Dialog open={isPostTriggerOpen} onOpenChange={setIsPostTriggerOpen}>
           <DialogTrigger className="w-full flex cursor-pointer justify-between items-center ">
             <Avatar className="h-9 w-9 mr-1">

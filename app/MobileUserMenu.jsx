@@ -48,7 +48,7 @@ const UserMenu = ({ handleLogout }) => {
         <DropdownMenuTrigger asChild className="font-semibold cursor-pointer">
           <div className="relative flex flex-col items-center justify-center">
             <Menu className="w-5 h-5" />
-            <p className="mt-1">Menu</p>
+            <p className="mt-1">{t("menu")}</p>
           </div>
         </DropdownMenuTrigger>
 
