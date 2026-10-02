@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { coursePageUrl } from "../lib/coursePageUrl";
 import { sanitizeHtml } from "../lib/sanitizeHtml";
 import { requireAuth } from "@/lib/requireAuth";
@@ -140,6 +140,18 @@ function isTextHowToStudy(item) {
 
 export default function CourseListRenderer({ page }) {
   const [isNavigating, setIsNavigating] = useState(false);
+
+  useEffect(() => {
+    const handlePageShow = () => {
+      setIsNavigating(false);
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, []);
 
   if (!page || !Array.isArray(page.content)) {
     return null;

@@ -38,7 +38,7 @@ const ResetPassword = () => {
     <div className="flex items-center justify-center min-h-screen">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="border w-[350px] p-6 rounded bg-gray-200 dark:bg-gray-800 space-y-4"
+        className="border w-[350px] p-6 rounded bg-gray-200 dark:bg-gray-700 space-y-4 2xl:mr-40 2xl:mb-20"
       >
         <h2 className="text-lg font-semibold mb-4 dark:text-white">
           Create new Password
@@ -53,8 +53,8 @@ const ResetPassword = () => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-600
-               hover:text-gray-800 cursor-pointer"
+            className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400
+               hover:text-gray-800 dark:hover:text-white cursor-pointer"
           >
             {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
           </button>
@@ -69,8 +69,8 @@ const ResetPassword = () => {
           <button
             type="button"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-600
-               hover:text-gray-800 cursor-pointer"
+            className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400
+               hover:text-gray-800 dark:hover:text-white cursor-pointer"
           >
             {showConfirmPassword ? <Eye size={18} /> : <EyeOff size={18} />}
           </button>
@@ -82,7 +82,8 @@ const ResetPassword = () => {
         )}
         <Button
           type="submit"
-          className="cursor-pointer w-full flex items-center justify-center"
+          className="cursor-pointer w-full flex items-center justify-center dark:bg-black dark:hover:bg-gray-900
+           dark:focus:ring-blue-800 dark:text-white"
         >
           Reset Password
         </Button>

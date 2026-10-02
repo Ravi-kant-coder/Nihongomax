@@ -19,7 +19,7 @@ const GoogleBtn = () => {
           <Button
             type="button"
             variant="outline"
-            className="w-full dark:hover:bg-gray-800 text-black dark:text-white cursor-pointer py-6 text-lg"
+            className="w-full dark:hover:bg-gray-800 text-black dark:text-white cursor-pointer py-6 text-lg dark:bg-gray-700"
             onClick={handleGoogleLogin}
           >
             <svg className="mr-2 h-7 w-7" viewBox="0 0 24 24">
