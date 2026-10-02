@@ -251,10 +251,7 @@ const ProfileHeader = ({
       overflow-hidden"
       >
         {!profileData?.coverPhoto ? (
-          <div
-            className="lg:text-6xl md:text-4xl text-2xl mt-20 text-gray-500
-           font-bold text-center capitalize"
-          >
+          <div className="md:text-4xl text-2xl mt-20 text-gray-500 2xl:text-6xl xl:text-5xl font-bold text-center capitalize">
             {isOwner
               ? `${t("putCover")} ${profileData?.username?.split(" ")[0]}`
               : `${t("noCover")} ${profileData?.username?.split(" ")[0]}`}
@@ -288,7 +285,7 @@ const ProfileHeader = ({
         <div className="flex flex-col md:flex-row items-center md:items-end md:space-x-5">
           <Avatar
             onClick={handleDpClick}
-            className={`w-32 h-32 border-4 border-white dark:border-gray-700
+            className={`2xl:w-32 2xl:h-32 xl:w-28 xl:h-28 w-32 h-32  border-4 border-white dark:border-gray-700
              ${
                !isOwner && !profileData.profilePicture
                  ? "cursor-normal"
@@ -303,7 +300,7 @@ const ProfileHeader = ({
               {profileData?.username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="mt-4 md:mt-0 flex flex-col items-center md:items-start text-center md:text-left flex-grow">
+          <div className="mt-4 flex flex-col items-center md:items-start text-center md:text-left flex-grow">
             <h1 className="text-3xl font-semibold capitalize truncate max-w-120">
               {profileData?.username}
             </h1>
