@@ -84,7 +84,7 @@ const CoursesBar = () => {
             alt="Business Japanese"
             width={400}
             height={80}
-            className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+            className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-95 h-auto"
           />
         </Link>
       </div>
@@ -191,7 +191,7 @@ const CoursesBar = () => {
             alt="Eigo lesson"
             width={400}
             height={80}
-            className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-80 2xl:w-90 h-auto"
+            className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-80 2xl:w-100 h-auto"
           />
         </Link>
       </div>

@@ -70,7 +70,7 @@ const StorySection = () => {
       {/* STORY SCROLL CONTAINER */}
       <div
         ref={storyRef}
-        className="flex overflow-x-auto touch-pan-x scrollbar-hide snap-x snap-mandatory space-x-2 2xl:py-4 md:py-3 py-2"
+        className="flex overflow-x-auto touch-pan-x scrollbar-hide snap-x snap-mandatory space-x-2 py-2"
       >
         <div className="snap-start shrink-0">
           {user ? <StoryTrigger /> : <StoryTriggerPseudo />}

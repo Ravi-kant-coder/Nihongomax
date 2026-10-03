@@ -55,7 +55,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center bg-gray-200 dark:bg-black py-1 md:shadow-lg">
-      <div className="hidden md:block shrink-0">
+      <div className="hidden md:block shrink-0 ml-2">
         <a href="https://www.learnjapanesedelhi.com/" target="_blank">
           <JapanGate />
         </a>

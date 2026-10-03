@@ -87,8 +87,8 @@ const StoryCard = ({ story }) => {
   return (
     <>
       <Card
-        className="shadow-md shadow-gray-400 cursor-pointer 2xl:w-30 2xl:h-50 md:w-25 md:h-45 w-20 h-40 overflow-hidden dark:shadow-[rgb(20,20,20)]
-        dark:bg-[rgb(45,45,45)] rounded-lg object-cover snap-start shrink-0 relative group bg-accent"
+        className="shadow-md shadow-gray-400 cursor-pointer 2xl:w-28 2xl:h-50 md:w-25 md:h-45 w-20 h-40 overflow-hidden
+         dark:shadow-[rgb(20,20,20)] dark:bg-[rgb(45,45,45)] rounded-lg object-cover snap-start shrink-0 relative group bg-accent"
         onClick={handleStoryCardClick}
       >
         <CardContent className="p-0 h-full">
