@@ -63,7 +63,7 @@ const Note = ({ initialNote, note }) => {
           }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`relative text-xl my-8 md:mx-20 lg:mx-30 mx-10 p-8 border rounded-lg dark:border-gray-600 shadow-lg
+          className={`relative text-xl my-8 lg:mx-15 xl:mx-10 mx-10 p-8 border rounded-lg dark:border-gray-600 shadow-lg
                 ${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(100,0,0)]" : "bg-accent dark:bg-[rgb(50,50,50)]"}`}
         >
           {/* --------------------Above Edit and Delete buttons------------------- */}

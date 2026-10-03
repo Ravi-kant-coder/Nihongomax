@@ -4,7 +4,7 @@ const SavedPosts = ({ savedPosts, username, t }) => {
   const firstName = username?.split(" ")[0];
 
   return (
-    <div className="mt-14">
+    <div className="mt-4">
       {/* Heading */}
 
       <h1
@@ -58,7 +58,7 @@ const SavedPosts = ({ savedPosts, username, t }) => {
 
           {/* Saved Posts */}
 
-          <div className="space-y-6 md:mx-30 2xl:mx-50">
+          <div className="space-y-6 md:mx-25 xl:mx-30 2xl:mx-50">
             {savedPosts.map((savedPost) => (
               <WallCard key={savedPost?._id} post={savedPost} />
             ))}
