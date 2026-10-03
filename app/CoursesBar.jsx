@@ -98,7 +98,7 @@ const CoursesBar = () => {
                 alt="Fundamental Business Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-60 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -109,7 +109,7 @@ const CoursesBar = () => {
                 alt="Basic Business Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-60 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -120,7 +120,7 @@ const CoursesBar = () => {
                 alt="Basic Intermediate Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-60 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -131,7 +131,7 @@ const CoursesBar = () => {
                 alt="Intermediate Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-60 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -144,7 +144,7 @@ const CoursesBar = () => {
                 alt="Intermediate Advance Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-60 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -155,7 +155,7 @@ const CoursesBar = () => {
                 alt="Advance Business Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-60 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -166,7 +166,7 @@ const CoursesBar = () => {
                 alt="Advanced Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-60 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -177,7 +177,7 @@ const CoursesBar = () => {
                 alt="Kaiwa course"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-60 2xl:w-75 h-auto"
               />
             </Link>
           </div>
