@@ -99,7 +99,7 @@ const YouTubeVideos = () => {
         border-white dark:border-zinc-700 disabled:hover:bg-transparent
         disabled:dark:hover:bg-transparent"
             >
-              Prev
+              {t("prev")}
             </button>
 
             {Array.from({ length: totalPages }).map((_, i) => (
@@ -125,7 +125,7 @@ const YouTubeVideos = () => {
         border-white dark:border-zinc-700 disabled:hover:bg-transparent
         disabled:dark:hover:bg-transparent"
             >
-              Next
+              {t("next")}
             </button>
           </div>
         )}

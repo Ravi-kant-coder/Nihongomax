@@ -201,10 +201,10 @@ const StoryTrigger = () => {
               <Plus className="text-white w-5 h-5" />
             </div>
             <div className="py-4 text-center border-t border-gray-200 dark:border-[rgb(58,59,60)]">
-              <p className="font-[450] text-black dark:text-white text-xs md:text-sm capitalize 2xl:text-sm">
+              <p className="font-[450] text-black dark:text-white text-[10px] md:text-sm capitalize 2xl:text-sm">
                 {t("createStory")}
               </p>
-              <p className="text-xs font-[450] text-black dark:text-white capitalize 2xl:text-sm">
+              <p className="text-[10px] font-[450] text-black dark:text-white capitalize 2xl:text-sm">
                 {user?.username.split(" ")[0]}
               </p>
             </div>
@@ -212,13 +212,13 @@ const StoryTrigger = () => {
         </DialogTrigger>
 
         {/* -----------------------Story Upload Panel--------------------------*/}
-        <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full">
+        <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full max-h-[90vh]">
           <DialogHeader>
-            <DialogTitle className="text-center">
-              Status/Story visible only for 3 days
+            <DialogTitle className="text-center text-sm md:text-lg font-[500]">
+              {t("status")}
             </DialogTitle>
           </DialogHeader>
-          <div className="flex items-center space-x-3 py-4">
+          <div className="flex items-center space-x-3 2xl:py-4 md:py-2">
             <Avatar>
               <AvatarImage
                 className="object-cover"
@@ -257,7 +257,7 @@ const StoryTrigger = () => {
           </div>
 
           {/* ------------------Image/video 4 media slots---------------------*/}
-          <div className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 items-center md:space-x-4 mb-4 justify-start">
+          <div className="flex flex-col md:flex-row md:items-start items-center md:space-x-4 md:mb-4 justify-start">
             <AnimatePresence>
               {mediaSlots.slice(0, visibleSlots).map((slot, index) => (
                 <motion.div
@@ -319,7 +319,7 @@ const StoryTrigger = () => {
               onClick={submitStory}
               disabled={hasTooLargeFile || loading}
             >
-              {loading ? "Sending..." : "SEND"}
+              {loading ? t("sending") : t("send")}
               <Send className="h-4 w-4" />
             </Button>
           </div>

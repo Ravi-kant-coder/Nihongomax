@@ -168,7 +168,10 @@ const PostTrigger = () => {
                   {t("photos")}
                 </span>
               </div>
-              <div className=" p-2 hover:bg-gray-200 cursor-pointer rounded-lg flex items-center justify-center dark:hover:bg-black dark:text-white">
+              <div
+                className=" p-2 hover:bg-gray-200 cursor-pointer rounded-lg flex items-center justify-center dark:hover:bg-black
+               dark:text-white"
+              >
                 <Clapperboard
                   className="h-5 w-5 text-red-600 mr-1"
                   shrink={0}
@@ -179,10 +182,10 @@ const PostTrigger = () => {
               </div>
             </div>
           </DialogTrigger>
-          <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full">
+          <DialogContent className="overflow-y-auto mt-1 dark:bg-[rgb(60,60,60)] md:max-w-3xl w-full max-h-[90vh]">
             <DialogHeader>
               <DialogTitle className="text-center">
-                Create a Public Post
+                {t("createPost")}
               </DialogTitle>
             </DialogHeader>
             <div className="flex items-center space-x-3 py-4">
@@ -268,8 +271,9 @@ const PostTrigger = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.2 }}
-                  className="w-[120px] flex flex-col items-center justify-center cursor-pointer dark:text-gray-400 border border-gray-500 rounded-lg
-                   text-gray-500 hover:border-gray-700 hover:text-gray-700 dark:hover:border-white dark:hover:text-white dark:border-gray-400"
+                  className="w-[120px] flex flex-col items-center justify-center cursor-pointer dark:text-gray-400 border
+                  border-gray-500 rounded-lg text-gray-500 hover:border-gray-700 hover:text-gray-700 
+                  dark:hover:border-white dark:hover:text-white dark:border-gray-400"
                 >
                   <span className="text-4xl">
                     <Plus className="h-6 w-6" />
@@ -293,7 +297,7 @@ const PostTrigger = () => {
                 onClick={submitPost}
                 disabled={hasTooLargeFile || loading}
               >
-                {loading ? "Sending..." : "SEND"}
+                {loading ? t("sending") : t("send")}
                 <Send className="h-4 w-4" />
               </Button>
             </div>

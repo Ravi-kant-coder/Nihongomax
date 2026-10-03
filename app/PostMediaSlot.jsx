@@ -1,4 +1,5 @@
 import { Plus } from "lucide-react";
+import useT from "./hooks/useT";
 
 const PostMediaSlot = ({
   slot,
@@ -18,7 +19,7 @@ const PostMediaSlot = ({
     if (sizeInMB > 4) return "large";
     return "ok";
   };
-
+  const t = useT();
   const sizeStatus = getFileSizeStatus(slot?.file);
 
   const borderColor = {
@@ -57,10 +58,7 @@ const PostMediaSlot = ({
         ) : (
           <div className="flex flex-col items-center">
             <Plus className="md:h-10 md:w-10 dark:text-gray-400 text-gray-500 mb-2" />
-            <p className="text-center dark:text-gray-400">
-              Add
-              <br /> Photos/Videos
-            </p>
+            <p className="text-center dark:text-gray-400">{t("addPhoto")}</p>
           </div>
         )}
       </div>

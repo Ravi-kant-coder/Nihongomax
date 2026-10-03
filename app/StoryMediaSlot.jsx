@@ -2,6 +2,7 @@ import { Plus, X } from "lucide-react";
 import EmojiPickerButton from "./components/EmojiPickerButton";
 import { Input } from "@/components/ui/input";
 import { useEmojiInsert } from "./hooks/useEmojiInsert";
+import useT from "./hooks/useT";
 
 const StoryMediaSlot = ({
   slot,
@@ -16,6 +17,7 @@ const StoryMediaSlot = ({
   onRemove,
 }) => {
   const { inputRef, insertEmoji } = useEmojiInsert();
+  const t = useT();
 
   const getFileSizeStatus = (file) => {
     if (!file) return "empty";
@@ -89,10 +91,7 @@ const StoryMediaSlot = ({
         ) : (
           <div className="flex flex-col items-center">
             <Plus className="md:h-10 md:w-10 dark:text-gray-400 text-gray-500 mb-2" />
-            <p className="text-center dark:text-gray-400">
-              Add
-              <br /> Photos/Videos
-            </p>
+            <p className="text-center dark:text-gray-400">{t("addPhoto")}</p>
           </div>
         )}
       </div>

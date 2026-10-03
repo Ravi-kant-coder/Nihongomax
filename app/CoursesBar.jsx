@@ -4,8 +4,8 @@ import Image from "next/image";
 const CoursesBar = () => {
   return (
     <div
-      className="md:flex flex-wrap fixed md:top-20 hidden md:right-20 lg:right-10 md:w-1/3  
-  scroll-smooth overscroll-contain flex-col justify-center items-center md:py-2 xl:py-4 bg-white rounded-2xl dark:bg-gray-400"
+      className="md:flex flex-wrap fixed md:top-18 hidden md:right-20 lg:right-10 md:w-1/3  
+  scroll-smooth overscroll-contain flex-col justify-center items-center md:py-2 2xl:py-4 bg-white rounded-2xl dark:bg-gray-400"
     >
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-10">
         <Link href="/course/aboutjlpt">
