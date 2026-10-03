@@ -14,11 +14,11 @@ const CoursesBar = () => {
             alt="About JLPT lessons"
             width={300}
             height={80}
-            className="rounded-md hover:scale-105 transition-transform duration-200 md:w-50 xl:w-60 2xl:w-70 h-auto"
+            className="rounded-md hover:scale-105 transition-transform duration-200 md:w-50 xl:w-55 2xl:w-70 h-auto"
           />
         </Link>
       </div>
-      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%] my-2" />
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%] 2xl:my-2 md:my-1" />
       <div className="flex flex-wrap justify-center items-center">
         <div className="inline-flex hover:scale-105 transition-all duration-300">
           <Link href="/course/classN5">
@@ -27,7 +27,7 @@ const CoursesBar = () => {
               alt="JLPT N5 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 2xl:w-24 h-auto"
             />
           </Link>
         </div>
@@ -38,7 +38,7 @@ const CoursesBar = () => {
               alt="JLPT N4 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 2xl:w-24 h-auto"
             />
           </Link>
         </div>
@@ -49,7 +49,7 @@ const CoursesBar = () => {
               alt="JLPT N3 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 2xl:w-24 h-auto"
             />
           </Link>
         </div>
@@ -60,7 +60,7 @@ const CoursesBar = () => {
               alt="JLPT N2 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 2xl:w-24 h-auto"
             />
           </Link>
         </div>
@@ -71,12 +71,12 @@ const CoursesBar = () => {
               alt="JLPT N1 classes"
               width={100}
               height={80}
-              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 xl:w-20 2xl:w-24 h-auto"
+              className="rounded-md hover:scale-105 transition-transform duration-200 md:w-18 2xl:w-24 h-auto"
             />
           </Link>
         </div>
       </div>
-      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%] my-2" />
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%] 2xl:my-2 md:my-1" />
       <div className="inline-flex hover:scale-105 transition-all duration-300 bg-white rounded-2xl px-5">
         <Link href="/course/aboutbj">
           <Image
@@ -88,7 +88,7 @@ const CoursesBar = () => {
           />
         </Link>
       </div>
-      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%] my-2" />
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%] 2xl:my-2 md:my-1" />
       <div className="flex gap-4">
         <div className="flex flex-wrap gap-2 flex-col">
           <div className="inline-flex hover:scale-105 transition-all duration-300">
@@ -98,7 +98,7 @@ const CoursesBar = () => {
                 alt="Fundamental Business Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -109,7 +109,7 @@ const CoursesBar = () => {
                 alt="Basic Business Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -120,7 +120,7 @@ const CoursesBar = () => {
                 alt="Basic Intermediate Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -131,7 +131,7 @@ const CoursesBar = () => {
                 alt="Intermediate Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -144,7 +144,7 @@ const CoursesBar = () => {
                 alt="Intermediate Advance Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -155,7 +155,7 @@ const CoursesBar = () => {
                 alt="Advance Business Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -166,7 +166,7 @@ const CoursesBar = () => {
                 alt="Advanced Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
               />
             </Link>
           </div>
@@ -177,13 +177,13 @@ const CoursesBar = () => {
                 alt="Kaiwa course"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-55 xl:w-65 2xl:w-75 h-auto"
               />
             </Link>
           </div>
         </div>
       </div>
-      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%] my-2" />
+      <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%] 2xl:my-2 md:my-1" />
       <div className="inline-flex hover:scale-105 transition-all duration-300">
         <Link href="/course/aboutbe">
           <Image
