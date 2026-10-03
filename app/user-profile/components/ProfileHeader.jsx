@@ -247,8 +247,8 @@ const ProfileHeader = ({
     <div className="relative">
       {/* ---------------------------- Cover Photo & Cover Button---------------------------- */}
       <div
-        className="relative md:h-80 lg:w-[70vw] md:w-[80vw] mx-auto md:rounded-lg h-50 bg-gray-400 dark:bg-gray-900 
-      overflow-hidden"
+        className="relative 2xl:h-80 lg:w-[70vw] md:w-[80vw] mx-auto md:rounded-lg h-50 bg-gray-400 dark:bg-gray-900 
+      overflow-hidden xl:h-80 md:h-60"
       >
         {!profileData?.coverPhoto ? (
           <div className="md:text-4xl text-2xl mt-20 text-gray-500 2xl:text-6xl xl:text-5xl font-bold text-center capitalize">

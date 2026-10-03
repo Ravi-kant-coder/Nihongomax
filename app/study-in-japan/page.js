@@ -44,25 +44,25 @@ const StudyInJapan = () => {
 
   return (
     <div className="w-full flex flex-col">
-      <h1 className="md:text-4xl text-2xl text-center font-bold mt-4">
+      <h1 className="text-4xl text-center font-bold 2xl:mt-4 xl:mt-2 mb-2 md:mb-0">
         {t("studyInJapan")}
       </h1>
-      <div className="my-4 flex items-center justify-center">
+      <div className="2xl:my-4 xl:my-2 md:my-1 flex items-center justify-center">
         <a
           href="https://www.learnjapanesedelhi.com/study-in-japan"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block rounded-lg bg-[rgb(60,60,60)] text-xl font-semibold dark:bg-black hover:bg-black w-[50%]
-        md:p-2 p-1 mx-5 md:mx-20 text-white border border-gray-300 dark:hover:bg-[rgb(20,20,20)] text-center"
+          className="inline-block md:rounded-lg bg-[rgb(60,60,60)] md:text-xl font-semibold dark:bg-black hover:bg-black md:w-[50%]
+        md:p-2 p-1 px-2 mx-5 md:mx-20 text-white border border-gray-300 dark:hover:bg-[rgb(20,20,20)] text-center rounded"
         >
           Click to Learn all about Study in Japan
         </a>
       </div>
-      <h2 className="text-2xl text-center font-medium mt-4 mb-2">
+      <h2 className="text-sm 2xl:text-2xl xl:text-xl md:text-lg text-center font-medium 2xl:mt-4 xl:mt-2 my-2">
         Universities, Schools, Institutions and Academies in Japan Nihongomax
         has tie-up with.
       </h2>
-      <h3 className="text-xl text-center">
+      <h3 className="text-sm 2xl:text-2xl xl:text-xl md:text-lg text-center">
         NIHONGOMAXが提携している日本の大学・学校・アカデミ・教育機関など
       </h3>
       {schools?.length > 0 ? (

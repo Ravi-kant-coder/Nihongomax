@@ -53,7 +53,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
       <div className="w-full space-y-2">
         <button
           className="w-full bg-green-600 hover:bg-green-700 cursor-pointer
-      dark:bg-green-950 dark:hover:bg-green-800 py-2
+      dark:bg-green-950 dark:hover:bg-green-800 py-2 text-sm 2xl:text-base
       rounded-sm flex items-center justify-center hover:text-white"
           onClick={() => onAction("confirm", friend?._id)}
         >
@@ -62,7 +62,7 @@ const FriendRequestCard = ({ friend, onAction }) => {
         </button>
         <button
           className="w-full bg-gray-300 hover:bg-gray-400 cursor-pointer
-      dark:bg-red-950 dark:hover:bg-red-900
+      dark:bg-red-950 dark:hover:bg-red-900 2xl:text-base
       text-black dark:text-white text-sm py-2 rounded-sm 
       flex items-center justify-center"
           onClick={() => onAction("delete", friend?._id)}

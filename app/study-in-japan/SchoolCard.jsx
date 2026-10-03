@@ -44,8 +44,8 @@ const SchoolCard = ({ school, handleSchoolDelete, loading }) => {
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className={`${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(70,0,0)]" : "dark:bg-[rgb(55,55,55)] bg-white "} 
-    shadow-gray-400 2xl:mx-30 md:my-8 m-6  rounded-xl p-6 md:space-y-4 space-y-2 border
-          border-black dark:border-gray-200 dark:bg-black md:mx-20`}
+      shadow-gray-400 2xl:mx-30 xl:mx-20 md:mx-10 my-6 rounded-xl p-6 md:space-y-4 space-y-2 border mx-2
+          border-black dark:border-gray-200 dark:bg-black`}
       >
         <div className="flex flex-col items-start justify-between">
           <div className="mb-4 w-full flex justify-between">

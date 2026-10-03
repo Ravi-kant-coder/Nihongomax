@@ -37,8 +37,8 @@ const JobCard = ({ job, handleJobDelete }) => {
         exit={{ opacity: 0, height: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className={`${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(70,0,0)]" : "dark:bg-[rgb(55,55,55)] bg-white"} 
-    shadow-gray-400 md:mx-20 md:my-8 m-6  rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:border-gray-200
-     dark:bg-black 2xl:mx-30`}
+    shadow-gray-400 2xl:mx-30 xl:mx-20 md:mx-10 m-6 rounded-xl p-6 md:space-y-4 space-y-2 border border-black dark:border-gray-200 mx-2
+     dark:bg-black`}
       >
         <div className="flex flex-col items-start justify-between">
           <div className="flex items-center">

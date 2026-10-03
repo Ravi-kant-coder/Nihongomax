@@ -51,7 +51,7 @@ const FriendSuggestion = ({ friend, onAction }) => {
       <div className="w-full space-y-2">
         <button
           className="w-full bg-gray-600 hover:bg-black cursor-pointer dark:bg-gray-700 dark:hover:bg-gray-600 py-2
-            rounded-sm flex items-center justify-center text-white font-medium transition-colors duration-200"
+            rounded-sm flex items-center justify-center text-white font-medium transition-colors duration-200 text-sm 2xl:text-base"
           onClick={() => onAction("confirm", friend?._id)}
         >
           <UserPlus className="h-4 w-4 mr-2" />
