@@ -63,8 +63,8 @@ export async function generateMetadata({ params }) {
         ? [optimizeImage(blog.featuredImage.url)]
         : [],
       type: "article",
-      // url: "https://www.yourdomain.com/japanese-course-delhi",
-      // siteName: "Your Institute Name",
+      // url: "https://www.nihongomax.com/blogs/" + slug,
+      // siteName: "Nihongomax",
     },
 
     alternates: {
@@ -189,7 +189,7 @@ export default async function BlogPage({ params }) {
 
       <div className="lg:grid lg:grid-cols-4 lg:gap-12">
         <article
-          className="lg:col-span-3"
+          className="lg:col-span-3 mb-20"
           itemScope
           itemType="https://schema.org/Article"
         >
