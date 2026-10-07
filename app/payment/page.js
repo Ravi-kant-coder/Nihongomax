@@ -119,7 +119,7 @@ export default function PaymentPage() {
 
       <main className="min-h-screen">
         <div className="mx-auto max-w-6xl">
-          <p className="text-center text-lg md:text-2xl lg:text-3xl font-semibold">
+          <p className="text-center md:text-2xl lg:text-3xl font-semibold">
             Unlock the full{" "}
             <span className="text-red-700 dark:text-red-400">Nihongomax</span>{" "}
             experience <br />
@@ -131,8 +131,8 @@ export default function PaymentPage() {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`relative flex flex-col mx-10 md:mx-0 rounded-2xl border bg-white p-8 shadow-sm transition duration-200 
-                  hover:-translate-y-1 hover:shadow-xl dark:bg-black ${
+                className={`relative flex flex-col mx-10 md:mx-0 rounded-2xl border bg-white p-4 md:p-8 shadow-sm 
+                  transition duration-200 hover:-translate-y-1 hover:shadow-xl dark:bg-black ${
                     plan.popular
                       ? "border-teal-500 ring ring-teal-500"
                       : "border-slate-200"
@@ -150,9 +150,10 @@ export default function PaymentPage() {
                 )}
 
                 <div>
-                  <h2 className="text-xl font-semibold ">{plan.title}</h2>
-
-                  <p className="mt-3 min-h-[48px] text-sm leading-6 dark:text-gray-300">
+                  <h2 className="hidden md:block text-xl font-semibold ">
+                    {plan.title}
+                  </h2>
+                  <p className="hidden md:block md:mt-3 min-h-[48px] text-xs md:text-sm leading-6 dark:text-gray-300">
                     {plan.description}
                   </p>
                 </div>
@@ -160,17 +161,17 @@ export default function PaymentPage() {
                 {/* Price */}
 
                 <div className="mt-4">
-                  <span className="text-4xl font-semibold ">
+                  <span className="text-2xl md:text-4xl font-semibold ">
                     ₹{plan.price.toLocaleString("en-IN")}
                   </span>
-
-                  <span className="ml-2 text-lg ">/ {plan.duration}</span>
+                  <span className="ml-1 md:ml-2 md:text-lg ">
+                    / {plan.duration}
+                  </span>
                 </div>
 
                 {/* Features */}
-
-                <div className="mt-8 flex-1">
-                  <ul className="space-y-4 text-sm">
+                <div className="mt-2 md:mt-8 flex-1">
+                  <ul className="md:space-y-4 text-sm">
                     <li className="flex gap-3">
                       <span className="text-[#008b18] dark:text-[#00ff00] font-extrabold">
                         ✓
@@ -199,7 +200,7 @@ export default function PaymentPage() {
                 <button
                   onClick={() => handlePayment(plan)}
                   disabled={loadingPlan !== null}
-                  className={`mt-10 w-full rounded-xl px-5 py-4 text-base font-bold transition cursor-pointer ${
+                  className={`mt-4 md:mt-10 w-full rounded-lg md:rounded-xl px-5 py-3 md:py-4 font-semibold transition cursor-pointer ${
                     plan.popular
                       ? "bg-teal-800 text-white hover:bg-teal-700"
                       : "bg-slate-700 text-white hover:bg-slate-800"
@@ -214,7 +215,7 @@ export default function PaymentPage() {
           </div>
           {/* Security message */}
           <div className="mt-2 text-center">
-            <p className="text-sm">
+            <p className="text-xs md:text-sm">
               Your payment information is securely processed by Razorpay.
               Nihongomax does not store your card or UPI details.
             </p>

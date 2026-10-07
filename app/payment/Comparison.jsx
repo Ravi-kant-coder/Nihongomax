@@ -169,29 +169,10 @@ export default function Comparison() {
             <thead>
               <tr>
                 {/* Empty top-left cell */}
+                <th className="w-[21%] border border-black bg-[#f8e6d9] dark:bg-[rgb(74,64,59)] rounded-tl-2xl" />
                 <th
-                  className="
-            w-[21%]
-            border border-black
-            bg-[#f8e6d9] dark:bg-[rgb(74,64,59)]
-            rounded-tl-2xl
-          "
-                />
-
-                <th
-                  className="
-            w-[38%]
-            border
-            border-black
-            bg-[#f8e6d9] dark:bg-[#4a403b]
-            px-1
-            py-2
-            text-[19px]
-            font-semibold
-            leading-tight
-            sm:text-[25px]
-            text-black dark:text-gray-300
-          "
+                  className="w-[38%] border border-black bg-[#f8e6d9] dark:bg-[#4a403b] px-1 py-2 text-[19px] 
+                  font-semibold leading-tight sm:text-[25px] text-black dark:text-gray-300"
                 >
                   NIHONGOMAX.COM
                 </th>
