@@ -1,10 +1,37 @@
 "use client";
-
 import { coursePageUrl } from "../lib/coursePageUrl";
 import { sanitizeHtml } from "../lib/sanitizeHtml";
+import CustomAudioPlayer from "@/components/CustomAudioPlayer";
+
 export default function CoursePageRenderer({ page }) {
   if (!page || !Array.isArray(page.content)) {
     return null;
+  }
+
+  function getAudioLabel(imageUrl) {
+    if (!imageUrl) {
+      return null;
+    }
+
+    const filename = imageUrl.split("/").pop()?.split("?")[0]?.toLowerCase();
+
+    const labels = {
+      "hinditab.jpg": "Listen to Explanation in Hindi",
+      "engtab.jpg": "Listen to Explanation in English",
+      "listentojap.jpg": "Listen to Japanese",
+      "listentodd.jpg": "Listen to Days and Dates",
+      "listentomon.jpg": "Listen to Months",
+      "listoconv.jpg": "Listen to this Conversation",
+      "bunseki.jpg": "日本語での分析・説明",
+      "shosai.jpg": "日本語での詳細を聞く",
+      "renshu1.jpg": "英会話練習1",
+      "renshu2.jpg": "英会話練習２",
+      "practicekaiwa.jpg": "Practice Kaiwa",
+      "overviewjap.jpg": "日本語での説明",
+      "america.jpg": "発音（アメリカ）を聞く",
+    };
+
+    return labels[filename] || null;
   }
 
   return (
@@ -21,7 +48,7 @@ export default function CoursePageRenderer({ page }) {
                 <img
                   src={item.src}
                   alt=""
-                  className="lesson-image mx-auto h-auto dark:brightness-[0.8]"
+                  className="lesson-image mx-auto h-auto w-[95%] md:w-[80%] dark:brightness-[0.8]"
                 />
               </div>
             );
@@ -32,26 +59,24 @@ export default function CoursePageRenderer({ page }) {
           // ==========================================
 
           if (item.type === "audio") {
+            const audioLabel = getAudioLabel(item.image);
+
             return (
               <div key={index} className="postblock w-full text-center">
-                {item.image && (
+                {/* Show original image when it is NOT a label image */}
+                {item.image && !audioLabel && (
                   <img
                     src={item.image}
                     alt=""
-                    className="lesson-image mx-auto h-auto w-[80%] dark:brightness-[0.8]"
+                    className="lesson-image mx-auto h-auto w-[95%] md:w-[80%] dark:brightness-[0.8]"
                   />
                 )}
 
                 {item.src && (
-                  <audio
-                    controls
-                    controlsList="nodownload"
-                    preload="metadata"
-                    className="mx-auto my-3 w-[60%] max-w-[1000px]"
-                  >
-                    <source src={item.src} />
-                    Your browser does not support audio.
-                  </audio>
+                  <CustomAudioPlayer
+                    src={item.src}
+                    title={audioLabel || "Listen to audio"}
+                  />
                 )}
               </div>
             );
@@ -68,7 +93,7 @@ export default function CoursePageRenderer({ page }) {
                   <img
                     src={item.image}
                     alt=""
-                    className="lesson-image mx-auto h-auto dark:brightness-[0.8]"
+                    className="lesson-image mx-auto h-auto dark:brightness-[0.8] w-[95%] md:w-[80%]"
                   />
                 )}
 
@@ -77,7 +102,7 @@ export default function CoursePageRenderer({ page }) {
                     controls
                     controlsList="nodownload"
                     preload="metadata"
-                    className="mx-auto my-3 w-[60%] max-w-[1000px]"
+                    className="mx-auto mb-3 2xl:w-[40%] xl:w-[50%] md:w-[60%] w-[80%] max-w-[1000px]"
                   >
                     <source src={item.audio} />
                     Your browser does not support audio.
@@ -88,7 +113,7 @@ export default function CoursePageRenderer({ page }) {
           }
 
           // ==========================================
-          // LINKED IMAGE
+          // LINKED IMAGE (Get Ans)
           // ==========================================
 
           if (item.type === "link-image") {
@@ -114,7 +139,7 @@ export default function CoursePageRenderer({ page }) {
           }
 
           // ==========================================
-          // TEXT LINK
+          // TEXT LINK (Linkbundle)
           // ==========================================
 
           if (item.type === "link-text") {

@@ -13,7 +13,8 @@ export default function CreateBlogButton() {
   return (
     <button
       onClick={() => router.push("/kanri/createBlog")}
-      className="px-5 py-2 rounded bg-gray-600 text-white hover:bg-gray-700 dark:bg-gray-400 cursor-pointer"
+      className="px-5 py-2 rounded bg-gray-600 text-white hover:bg-gray-700 dark:bg-black cursor-pointer
+      dark:hover:bg-gray-700"
     >
       Create Blog
     </button>
