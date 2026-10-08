@@ -75,10 +75,7 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div
-      className="mx-auto w-[80%] mb-5 2xl:w-[90%] xl:w-[80%] lg:w-[70%] md:w-[60%] max-w-[700px] rounded-4xl 
-    border border-gray-300 bg-gray-200 px-4 2xl:py-3 py-2"
-    >
+    <div className="mx-auto w-[80%] mb-2 2xl:w-[90%] xl:w-[80%] lg:w-[70%] md:w-[60%] max-w-[700px]">
       <audio
         ref={audioRef}
         src={src}
@@ -88,20 +85,20 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
 
       {/* Player Title */}
       <div className="flex justify-center items-center gap-2 text-gray-600 2xl:text-2xl xl:text-xl md:text-lg text-sm">
-        <span>
+        {/* <span className="hidden md:inline-flex">
           <Mic />
-        </span>
+        </span> */}
         <span className="font-semibold">{title}</span>
       </div>
 
       {/* Controls */}
-      <div className="flex items-center">
+      <div className="flex items-center bg-gray-200 md:rounded-4xl rounded-lg p-1 md:p-2">
         <button
           type="button"
           onClick={togglePlay}
           aria-label={isPlaying ? "Pause audio" : "Play audio"}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-900 text-white transition 
-          hover:scale-105 hover:bg-gray-700"
+          className="flex h-8 w-8 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-full bg-gray-900
+           text-white transition hover:scale-105 hover:bg-gray-700"
         >
           {isPlaying ? (
             <span className="font-bold">l l</span>

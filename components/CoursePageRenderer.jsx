@@ -38,10 +38,6 @@ export default function CoursePageRenderer({ page }) {
     <article className="w-full bg-white py-8 rounded-4xl dark:bg-[#cfcfcf]">
       <div className="flex w-full flex-col items-center">
         {page.content.map((item, index) => {
-          // ==========================================
-          // IMAGE
-          // ==========================================
-
           if (item.type === "image") {
             return (
               <div key={index} className="postblock w-full text-center">
@@ -53,11 +49,6 @@ export default function CoursePageRenderer({ page }) {
               </div>
             );
           }
-
-          // ==========================================
-          // AUDIO
-          // ==========================================
-
           if (item.type === "audio") {
             const audioLabel = getAudioLabel(item.image);
 
@@ -81,11 +72,6 @@ export default function CoursePageRenderer({ page }) {
               </div>
             );
           }
-
-          // ==========================================
-          // IMAGE + AUDIO
-          // ==========================================
-
           if (item.type === "image-audio") {
             return (
               <div key={index} className="postblock w-full text-center">
@@ -96,7 +82,6 @@ export default function CoursePageRenderer({ page }) {
                     className="lesson-image mx-auto h-auto dark:brightness-[0.8] w-[95%] md:w-[80%]"
                   />
                 )}
-
                 {item.audio && (
                   <audio
                     controls
