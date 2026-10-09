@@ -29,6 +29,7 @@ export default function CoursePageRenderer({ page }) {
       "practicekaiwa.jpg": "Practice Kaiwa",
       "overviewjap.jpg": "日本語での説明",
       "america.jpg": "発音（アメリカ）を聞く",
+      "firstsolve.jpg": "Listening (First Solve by Yourself)",
     };
 
     return labels[filename] || null;

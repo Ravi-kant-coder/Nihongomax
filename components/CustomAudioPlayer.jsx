@@ -88,7 +88,9 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
         {/* <span className="hidden md:inline-flex">
           <Mic />
         </span> */}
-        <span className="font-semibold">{title}</span>
+        <span className="font-semibold bg-gray-200 rounded-tr-lg rounded-tl-lg px-2 pt-1">
+          {title}
+        </span>
       </div>
 
       {/* Controls */}
