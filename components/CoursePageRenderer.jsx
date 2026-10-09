@@ -2,6 +2,7 @@
 import { coursePageUrl } from "../lib/coursePageUrl";
 import { sanitizeHtml } from "../lib/sanitizeHtml";
 import CustomAudioPlayer from "@/components/CustomAudioPlayer";
+import LessonImage from "@/components/LessonImage";
 
 export default function CoursePageRenderer({ page }) {
   if (!page || !Array.isArray(page.content)) {
@@ -42,7 +43,7 @@ export default function CoursePageRenderer({ page }) {
           if (item.type === "image") {
             return (
               <div key={index} className="postblock w-full text-center">
-                <img
+                <LessonImage
                   src={item.src}
                   alt=""
                   className="lesson-image mx-auto h-auto w-[95%] md:w-[80%] dark:brightness-[0.8]"
@@ -57,7 +58,7 @@ export default function CoursePageRenderer({ page }) {
               <div key={index} className="postblock w-full text-center">
                 {/* Show original image when it is NOT a label image */}
                 {item.image && !audioLabel && (
-                  <img
+                  <LessonImage
                     src={item.image}
                     alt=""
                     className="lesson-image mx-auto h-auto w-[95%] md:w-[80%] dark:brightness-[0.8]"
@@ -77,7 +78,7 @@ export default function CoursePageRenderer({ page }) {
             return (
               <div key={index} className="postblock w-full text-center">
                 {item.image && (
-                  <img
+                  <LessonImage
                     src={item.image}
                     alt=""
                     className="lesson-image mx-auto h-auto dark:brightness-[0.8] w-[95%] md:w-[80%]"
