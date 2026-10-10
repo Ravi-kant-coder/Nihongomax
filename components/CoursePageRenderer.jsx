@@ -3,6 +3,7 @@ import { coursePageUrl } from "../lib/coursePageUrl";
 import { sanitizeHtml } from "../lib/sanitizeHtml";
 import CustomAudioPlayer from "@/components/CustomAudioPlayer";
 import LessonImage from "@/components/LessonImage";
+import CourseFooter from "@/components/CourseFooter";
 
 export default function CoursePageRenderer({ page }) {
   if (!page || !Array.isArray(page.content)) {
@@ -13,9 +14,7 @@ export default function CoursePageRenderer({ page }) {
     if (!imageUrl) {
       return null;
     }
-
     const filename = imageUrl.split("/").pop()?.split("?")[0]?.toLowerCase();
-
     const labels = {
       "hinditab.jpg": "Listen to Explanation in Hindi",
       "engtab.jpg": "Listen to Explanation in English",
@@ -32,7 +31,6 @@ export default function CoursePageRenderer({ page }) {
       "america.jpg": "発音（アメリカ）を聞く",
       "firstsolve.jpg": "Listening (First Solve by Yourself)",
     };
-
     return labels[filename] || null;
   }
 
@@ -53,7 +51,6 @@ export default function CoursePageRenderer({ page }) {
           }
           if (item.type === "audio") {
             const audioLabel = getAudioLabel(item.image);
-
             return (
               <div key={index} className="postblock w-full text-center">
                 {/* Show original image when it is NOT a label image */}
@@ -64,7 +61,6 @@ export default function CoursePageRenderer({ page }) {
                     className="lesson-image mx-auto h-auto w-[95%] md:w-[80%] dark:brightness-[0.8]"
                   />
                 )}
-
                 {item.src && (
                   <CustomAudioPlayer
                     src={item.src}
@@ -89,7 +85,7 @@ export default function CoursePageRenderer({ page }) {
                     controls
                     controlsList="nodownload"
                     preload="metadata"
-                    className="mx-auto mb-3 2xl:w-[40%] xl:w-[50%] md:w-[60%] w-[80%] max-w-[1000px]"
+                    className="mx-auto mb-3 2xl:w-[10%] xl:w-[50%] md:w-[60%] w-[80%] max-w-[1000px]"
                   >
                     <source src={item.audio} />
                     Your browser does not support audio.
@@ -115,7 +111,7 @@ export default function CoursePageRenderer({ page }) {
                   target={isInternal ? undefined : "_blank"}
                   rel={isInternal ? undefined : "noopener noreferrer"}
                 >
-                  <img
+                  <LessonImage
                     src={item.src}
                     alt=""
                     className="lesson-image mx-auto h-auto dark:brightness-[0.8]"
@@ -170,6 +166,7 @@ export default function CoursePageRenderer({ page }) {
           return null;
         })}
       </div>
+      <CourseFooter />
     </article>
   );
 }

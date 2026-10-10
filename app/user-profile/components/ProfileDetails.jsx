@@ -73,8 +73,8 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
         {/*------------------------------Details About You-----------------------------*/}
         <Card>
           <CardContent
-            className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 
-            shadow-lg dark:shadow-black"
+            className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg dark:shadow-black
+           dark:bg-[rgb(55,55,55)]"
           >
             <h2 className="text-xl font-semibold dark:text-gray-300 capitalize">
               {isOwner
@@ -164,9 +164,29 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                 </span>
               </div>
             </div>
-            <div className="flex items-center justify-center my-4">
+
+            {/*------------------------------Message to all-----------------------------*/}
+
+            <div className="flex items-center justify-center mt-4 mb-2">
               <span className="w-[30%] border-t border-muted-foreground"></span>
-              <span className="uppercase w-[40%] text-center text-sm text-gray-500 mx-auto">
+              <span className="uppercase w-[40%] text-center text-sm text-gray-600 dark:text-gray-300 mx-auto">
+                {t("msgToAll")}
+              </span>
+              <span className="w-[30%] border-t border-muted-foreground"></span>
+            </div>
+            <div className="flex items-center mb-4">
+              <span className="font-medium text-lg bg-pink-200 dark:bg-pink-950 rounded-md px-3 py-2 -rotate-3">
+                {profileData?.bio?.messageToAll || (
+                  <p className="text-gray-500">{t("notMentioned")}</p>
+                )}
+              </span>
+            </div>
+
+            {/*------------------------------Personal Information-----------------------------*/}
+
+            <div className="flex items-center justify-center mt-4 mb-2">
+              <span className="w-[30%] border-t border-muted-foreground"></span>
+              <span className="uppercase w-[40%] text-center text-sm text-gray-600 dark:text-gray-300 mx-auto">
                 {t("personal")}
               </span>
               <span className="w-[30%] border-t border-muted-foreground"></span>
@@ -190,7 +210,7 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
                 )}
               </span>
             </div>
-            <div className="flex items-center mb-4 dark:text-gray-300">
+            <div className="flex items-center dark:text-gray-300">
               <Rss className="w-5 h-5 mr-2 shrink-0" />
               <span>
                 {t("followedBy")} {profileData?.followerCount}{" "}
@@ -199,8 +219,8 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
             </div>
             {isOwner && (
               <Button
-                className="w-full cursor-pointer dark:bg-black dark:text-white
-                  dark:hover:text-white hover:dark:bg-gray-800"
+                className="w-full cursor-pointer dark:bg-black dark:text-white dark:hover:text-white
+                 hover:dark:bg-gray-800 mt-8"
                 onClick={() => setIsEditBioModel(true)}
               >
                 {t("editAdd")}
@@ -210,7 +230,10 @@ const ProfileDetails = ({ id, profileData, isOwner, fetchProfile }) => {
         </Card>
         {/*------------------------------Photos by You-----------------------------*/}
         <Card>
-          <CardContent className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg dark:shadow-black">
+          <CardContent
+            className="p-6 shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg
+           dark:shadow-black dark:bg-[rgb(55,55,55)]"
+          >
             <h2 className="text-xl font-semibold mb-4 dark:text-gray-300">
               {t("photosBy")}{" "}
               {isOwner ? (

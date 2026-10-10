@@ -42,7 +42,10 @@ const MutualFriends = ({ id, isOwner, profileData }) => {
       className="mb-6"
     >
       <Card>
-        <CardContent className="p-4 shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg dark:shadow-black">
+        <CardContent
+          className="p-4 shadow-gray-400 rounded-md dark:text-gray-300 shadow-lg dark:shadow-black
+         dark:bg-[rgb(55,55,55)]"
+        >
           <h2 className="text-xl font-semibold  dark:text-gray-300 capitalize">
             {isOwner
               ? t("your")

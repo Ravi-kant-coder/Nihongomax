@@ -12,18 +12,20 @@ export default function LessonImage({ src, alt = "", className = "" }) {
     <div className={`relative mx-auto overflow-hidden ${className}`}>
       {status !== "loaded" && (
         <div
-          className="absolute inset-0 flex min-h-24 items-center justify-center bg-gray-100"
+          className="absolute inset-0 flex max-h-24 items-center justify-center bg-gray-100"
           role="status"
           aria-live="polite"
         >
           {status === "loading" ? (
             <div className="flex flex-col items-center gap-2 text-gray-500">
               <span className="h-7 w-7 animate-spin rounded-full border-4 border-gray-300 border-t-teal-600" />
-              <span className="text-xs">Loading image...</span>
+              <span>Loading...読み込み中...</span>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2 p-4 text-gray-600">
-              <span className="text-sm">Image could not be loaded.</span>
+              <span className="text-sm">
+                Could not load. 読み込みに失敗しました。
+              </span>
               <button
                 type="button"
                 onClick={() => {
@@ -32,7 +34,7 @@ export default function LessonImage({ src, alt = "", className = "" }) {
                 }}
                 className="rounded-md bg-teal-700 px-3 py-1.5 text-sm text-white hover:bg-teal-800"
               >
-                Retry
+                Retry 再ロード
               </button>
             </div>
           )}
