@@ -140,9 +140,9 @@ const WallCard = ({ post }) => {
 
         {/* --------------------------Actual post content----------------------- */}
         {post?.content && (
-          <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] m-1 rounded-lg relative">
+          <div className="bg-gray-200 dark:bg-[rgb(40,40,40)] rounded-t-4xl relative">
             {user?._id !== post?.user?._id ? (
-              <p className="font-[450] p-4 py-6 whitespace-pre-wrap">
+              <p className="font-[450] p-4 whitespace-pre-wrap">
                 {wrapEmojis(post?.content)}
               </p>
             ) : (
