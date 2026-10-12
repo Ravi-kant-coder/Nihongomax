@@ -56,7 +56,7 @@ const CommentCard = ({ comment, post, postId, commentId }) => {
                 ${readyTodel ? "bg-[rgb(255,200,200)] dark:bg-[rgb(120,0,0)]" : "bg-gray-200 dark:bg-[rgb(35,35,35)]"}`}
       >
         {/* --------------------------Comment user info-------------------------- */}
-        <div className="flex w-full">
+        <div className="flex w-full relative">
           <Avatar
             className="cursor-pointer h-8 w-8 mr-3 hover:ring-1 ring-gray-500"
             onClick={() => requireAuth(handleDpClick)}
@@ -70,18 +70,44 @@ const CommentCard = ({ comment, post, postId, commentId }) => {
             </AvatarFallback>
           </Avatar>
           <div className="w-full">
-            <div
-              className="lg:w-70 md:w-50 truncate cursor-pointer overflow-hidden hover:underline capitalize font-[450]"
-              onClick={() => requireAuth(handleDpClick)}
-            >
-              {user?._id === comment?.user?._id ? (
-                <span>{t("you")}</span>
-              ) : (
-                comment?.user?.username
+            <div className="flex items-center justify-between">
+              <div>
+                <div
+                  className="lg:w-70 md:w-50 truncate cursor-pointer overflow-hidden hover:underline capitalize font-[450]"
+                  onClick={() => requireAuth(handleDpClick)}
+                >
+                  {user?._id === comment?.user?._id ? (
+                    <span>{t("you")}</span>
+                  ) : (
+                    comment?.user?.username
+                  )}
+                </div>
+                <div className="text-gray-600 dark:text-gray-400 text-xs normal-case">
+                  {formatTime(comment?.createdAt)}
+                </div>
+              </div>
+              {user?._id === comment?.user?._id && (
+                <button
+                  className="rounded px-1 flex items-center justify-center text-xs cursor-pointer dark:border-gray-500
+               hover:border-red-600 group
+              group border border-gray-400 dark:hover:border-red-600 h-8"
+                  onClick={() => {
+                    setShowDeleteModal(true);
+                    setReadyTodel(true);
+                  }}
+                >
+                  <p
+                    className="whitespace-nowrap group-hover:text-red-700 group-hover:dark:text-red-500 text-gray-600
+               dark:text-gray-400 text-xs"
+                  >
+                    {t("delete")}?
+                  </p>
+                  <Trash2
+                    className="h-4 w-4 group-hover:text-red-700 text-gray-600 dark:text-gray-400
+               group-hover:dark:text-red-500 ml-1"
+                  />
+                </button>
               )}
-            </div>
-            <div className="text-gray-600 dark:text-gray-400 text-xs normal-case">
-              {formatTime(comment?.createdAt)}
             </div>
             {/* --------------------------Comment text-------------------------- */}
 
@@ -99,21 +125,6 @@ const CommentCard = ({ comment, post, postId, commentId }) => {
               />
             )}
           </div>
-          {user?._id === comment?.user?._id && (
-            <button
-              className="rounded px-1 flex items-center justify-center text-xs cursor-pointer dark:border-gray-500 hover:border-red-600 group
-              group border border-gray-400 dark:hover:border-red-600 h-8"
-              onClick={() => {
-                setShowDeleteModal(true);
-                setReadyTodel(true);
-              }}
-            >
-              <p className="whitespace-nowrap group-hover:text-red-700 group-hover:dark:text-red-500 text-gray-600 dark:text-gray-400 text-xs">
-                {t("delete")}?
-              </p>
-              <Trash2 className="h-4 w-4 group-hover:text-red-700 text-gray-600 dark:text-gray-400 group-hover:dark:text-red-500 ml-1" />
-            </button>
-          )}
         </div>
       </motion.div>
 

@@ -91,14 +91,14 @@ const CoursesBar = () => {
       <div className="h-px bg-gray-300 dark:bg-gray-500 w-[80%] 2xl:my-2 md:my-1" />
       <div className="flex gap-4">
         <div className="flex flex-wrap gap-2 flex-col">
-          <div className="inline-flex hover:scale-105 transition-all duration-300">
+          <div className="inline-flex hover:scale-105 transition-all duration-300  mx-auto">
             <Link href="/course/bjfunda">
               <Image
                 src="/fundamental-business-japanese.png"
                 alt="Fundamental Business Japanese"
                 width={250}
                 height={80}
-                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-45 2xl:w-65 h-auto"
+                className="rounded-md hover:scale-105 transition-transform duration-200 md:w-20 2xl:w-32 h-auto"
               />
             </Link>
           </div>

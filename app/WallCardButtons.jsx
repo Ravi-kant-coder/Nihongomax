@@ -81,7 +81,10 @@ const WallCardButtons = ({ post }) => {
             </div>
           )
         )}
-        <span>
+        <span
+          className="text-xs md:text-sm cursor-pointer hover:bg-gray-200 dark:hover:bg-black p-2 rounded"
+          onClick={() => setShowComments(!showComments)}
+        >
           {post?.comments?.length}{" "}
           {post?.comments?.length === 1 ? (
             <span>{t("comment")}</span>
