@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Mic } from "lucide-react";
 
 export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
   const audioRef = useRef(null);
@@ -11,8 +10,34 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
 
   useEffect(() => {
     const audio = audioRef.current;
-
     if (!audio) return;
+
+    // Detect English files by their "eng" filename prefix
+    const cleanSrc = (src || "").split(/[?#]/)[0];
+    let filename = cleanSrc.split("/").pop() || "";
+
+    try {
+      filename = decodeURIComponent(filename);
+    } catch {
+      // Keep the original filename if decoding fails
+    }
+
+    const isEnglish = filename.toLowerCase().startsWith("eng");
+
+    // Apply volume whenever the audio source changes
+    audio.volume = isEnglish ? 0.1 : 1.0;
+
+    // Temporary diagnostic: check detection in the browser console
+    console.log("Audio volume check:", {
+      filename,
+      isEnglish,
+      requestedVolume: isEnglish ? 0.7 : 1.0,
+      actualVolume: audio.volume,
+    });
+
+    // Keep React state synchronized with actual playback
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
 
     const handleLoadedMetadata = () => {
       setDuration(audio.duration || 0);
@@ -27,11 +52,20 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
       setCurrentTime(0);
     };
 
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
     audio.addEventListener("loadedmetadata", handleLoadedMetadata);
     audio.addEventListener("timeupdate", handleTimeUpdate);
     audio.addEventListener("ended", handleEnded);
 
+    // Handle an already-loaded source
+    if (audio.readyState >= 1) {
+      handleLoadedMetadata();
+    }
+
     return () => {
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
       audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
       audio.removeEventListener("timeupdate", handleTimeUpdate);
       audio.removeEventListener("ended", handleEnded);
@@ -40,25 +74,29 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
 
   const togglePlay = () => {
     const audio = audioRef.current;
-
     if (!audio) return;
 
     if (audio.paused) {
-      audio.play();
-      setIsPlaying(true);
+      // Pause all other audio players on this page
+      document.querySelectorAll("audio").forEach((otherAudio) => {
+        if (otherAudio !== audio && !otherAudio.paused) {
+          otherAudio.pause();
+        }
+      });
+
+      audio.play().catch((error) => {
+        console.error("Audio playback failed:", error);
+      });
     } else {
       audio.pause();
-      setIsPlaying(false);
     }
   };
 
   const handleSeek = (event) => {
     const audio = audioRef.current;
-
     if (!audio || !duration) return;
 
     const newTime = Number(event.target.value);
-
     audio.currentTime = newTime;
     setCurrentTime(newTime);
   };
@@ -83,24 +121,19 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
         controlsList="nodownload"
       />
 
-      {/* Player Title */}
       <div className="flex justify-center items-center gap-2 text-gray-600 2xl:text-2xl xl:text-xl md:text-lg text-sm">
-        {/* <span className="hidden md:inline-flex">
-          <Mic />
-        </span> */}
         <span className="font-semibold bg-gray-200 rounded-tr-lg rounded-tl-lg px-2 pt-1">
           {title}
         </span>
       </div>
 
-      {/* Controls */}
       <div className="flex items-center bg-gray-200 md:rounded-4xl rounded-lg p-1 md:p-2">
         <button
           type="button"
           onClick={togglePlay}
           aria-label={isPlaying ? "Pause audio" : "Play audio"}
-          className="flex h-8 w-8 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-full bg-gray-900
-           text-white transition hover:scale-105 hover:bg-gray-700"
+          className="flex h-8 w-8 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-full bg-gray-900 text-white 
+          transition hover:scale-105 hover:bg-gray-700"
         >
           {isPlaying ? (
             <span className="font-bold">l l</span>
@@ -109,7 +142,6 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
           )}
         </button>
 
-        {/* Progress Bar*/}
         <div className="flex min-w-0 flex-1 items-center gap-2">
           <span className="w-10 text-right text-xs text-black">
             {formatTime(currentTime)}
@@ -123,23 +155,12 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
             value={currentTime}
             onChange={handleSeek}
             style={{
-              background: `linear-gradient(
-                to right,
-                #111827 ${progress}%,
-                #d1d5db ${progress}%
-              )`,
+              background: `linear-gradient(to right, #111827 ${progress}%, #d1d5db ${progress}%)`,
             }}
-            className="h-1.5 w-full cursor-pointer appearance-none rounded-full
-            [&::-webkit-slider-thumb]:appearance-none
-              [&::-webkit-slider-thumb]:h-3
-              [&::-webkit-slider-thumb]:w-3
-              [&::-webkit-slider-thumb]:rounded-full
-              [&::-webkit-slider-thumb]:bg-gray-900
-              [&::-moz-range-thumb]:h-3
-              [&::-moz-range-thumb]:w-3
-              [&::-moz-range-thumb]:rounded-full
-              [&::-moz-range-thumb]:border-0
-              [&::-moz-range-thumb]:bg-gray-900"
+            className="h-1.5 w-full cursor-pointer appearance-none rounded-full [&::-webkit-slider-thumb]:appearance-none 
+            [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full 
+            [&::-webkit-slider-thumb]:bg-gray-900 [&::-moz-range-thumb]:h-3 [&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:rounded-full 
+            [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-gray-900"
           />
 
           <span className="w-10 text-xs text-black">
