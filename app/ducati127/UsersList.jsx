@@ -89,18 +89,18 @@ const UsersList = ({ user, handleSearchUserClick, onAccessChanged, idx }) => {
               isPurchased ? "text-green-700" : "text-red-600"
             }`}
           >
-            {isPurchased ? "Purchased" : "Not Purchased"}
+            {isPurchased ? "購入" : "未購入"}
           </div>
         </div>
 
         <div className="flex flex-col text-xs md:w-50">
-          <div>Starting on</div>
+          <div>Start</div>
 
           <div className="text-sm">{formatDate(subscription?.startDate)}</div>
         </div>
 
         <div className="flex flex-col text-xs md:w-50">
-          <div>Ending on</div>
+          <div>End</div>
 
           <div className="text-sm">{formatDate(subscription?.expiryDate)}</div>
         </div>

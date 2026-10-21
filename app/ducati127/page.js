@@ -137,19 +137,16 @@ const Admin = () => {
     <>
       <div className="w-[80%] mx-auto mb-6 flex justify-center gap-4">
         <div className="bg-gray-100 dark:bg-gray-800 rounded-md px-6 py-3 text-center">
-          <div className="text-xs text-gray-500">Total Customers</div>
           <div className="text-2xl font-semibold">{totalUsers}</div>
         </div>
 
         <div className="bg-green-50 dark:bg-green-900/30 rounded-md px-6 py-3 text-center">
-          <div className="text-xs text-gray-500">Purchased</div>
           <div className="text-2xl font-semibold text-green-600">
             {purchasedUsers}
           </div>
         </div>
 
         <div className="bg-red-50 dark:bg-red-900/30 rounded-md px-6 py-3 text-center">
-          <div className="text-xs text-gray-500">Not Purchased</div>
           <div className="text-2xl font-semibold text-red-600">
             {notPurchasedUsers}
           </div>

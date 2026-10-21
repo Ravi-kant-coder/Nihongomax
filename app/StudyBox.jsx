@@ -31,7 +31,7 @@ const StudyBox = () => {
             ${isStudyBoxOpen ? "visible" : "invisible"}`}
         >
           <div
-            className="border rounded p-1 border-gray-400 text-gray-400 hover:text-black hover:border-black
+            className="border rounded p-1 border-gray-500 text-gray-500 hover:text-black hover:border-black
            hover:bg-gray-300 fixed right-4 top-12 cursor-pointer dark:border-black dark:text-black"
           >
             <X onClick={closeStudyBox} />
@@ -58,7 +58,7 @@ const StudyBox = () => {
                 <Image
                   src="/JLPT-N5-button.png"
                   alt="JLPT N5 classes"
-                  width={80}
+                  width={75}
                   height={60}
                   className="rounded-md hover:scale-105 transition-transform duration-200 max-w-full h-auto"
                 />
@@ -70,7 +70,7 @@ const StudyBox = () => {
                 <Image
                   src="/JLPT-N4-button.png"
                   alt="JLPT N4 classes"
-                  width={80}
+                  width={75}
                   height={60}
                   className="rounded-md hover:scale-105 transition-transform duration-200 max-w-full h-auto"
                 />
@@ -82,7 +82,7 @@ const StudyBox = () => {
                 <Image
                   src="/JLPT-N3-button.png"
                   alt="JLPT N3 classes"
-                  width={80}
+                  width={75}
                   height={60}
                   className="rounded-md hover:scale-105 transition-transform duration-200 max-w-full h-auto"
                 />
@@ -94,7 +94,7 @@ const StudyBox = () => {
                 <Image
                   src="/JLPT-N2-button.png"
                   alt="JLPT N2 classes"
-                  width={80}
+                  width={75}
                   height={60}
                   className="rounded-md hover:scale-105 transition-transform duration-200 max-w-full h-auto"
                 />
@@ -106,7 +106,7 @@ const StudyBox = () => {
                 <Image
                   src="/JLPT-N1-button.png"
                   alt="JLPT N1 classes"
-                  width={80}
+                  width={75}
                   height={60}
                   className="rounded-md hover:scale-105 transition-transform duration-200 max-w-full h-auto"
                 />
@@ -140,7 +140,7 @@ const StudyBox = () => {
                   <Image
                     src="/fundamental-business-japanese.png"
                     alt="Fundamental Business Japanese"
-                    width={250}
+                    width={150}
                     height={80}
                     className="rounded-md hover:scale-105 transition-transform duration-200 max-w-full h-auto"
                   />
