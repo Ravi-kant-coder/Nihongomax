@@ -25,15 +25,7 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
     const isEnglish = filename.toLowerCase().startsWith("eng");
 
     // Apply volume whenever the audio source changes
-    audio.volume = isEnglish ? 0.1 : 1.0;
-
-    // Temporary diagnostic: check detection in the browser console
-    console.log("Audio volume check:", {
-      filename,
-      isEnglish,
-      requestedVolume: isEnglish ? 0.7 : 1.0,
-      actualVolume: audio.volume,
-    });
+    audio.volume = isEnglish ? 0.7 : 1.0;
 
     // Keep React state synchronized with actual playback
     const handlePlay = () => setIsPlaying(true);

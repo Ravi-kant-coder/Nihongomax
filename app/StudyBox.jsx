@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import useStudyStore from "@/store/useStudyStore";
 import Link from "next/link";
 import Image from "next/image";
+import BasicToAdvArrow from "@/components/BasicToAdvArrow";
 
 const StudyBox = () => {
   const { isStudyBoxOpen, closeStudyBox } = useStudyStore();
@@ -113,7 +114,7 @@ const StudyBox = () => {
               </Link>
             </div>
           </div>
-
+          <BasicToAdvArrow />
           <div className="h-px bg-gray-300 dark:bg-gray-500 w-[70%] my-2 shrink-0" />
 
           {/* BUSINESS JAPANESE */}
