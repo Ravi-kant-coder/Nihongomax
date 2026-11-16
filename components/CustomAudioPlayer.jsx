@@ -112,13 +112,11 @@ export default function CustomAudioPlayer({ src, title = "Listen to audio" }) {
         preload="metadata"
         controlsList="nodownload"
       />
-
       <div className="flex justify-center items-center gap-2 text-gray-600 2xl:text-2xl xl:text-xl md:text-lg text-sm">
         <span className="font-semibold bg-gray-200 rounded-tr-lg rounded-tl-lg px-2 pt-1">
           {title}
         </span>
       </div>
-
       <div className="flex items-center bg-gray-200 md:rounded-4xl rounded-lg p-1 md:p-2">
         <button
           type="button"
