@@ -53,24 +53,6 @@ const WordGame = () => {
   }, []);
 
   // Keyboard handling
-  // useEffect(() => {
-  //   const handleKeyDown = (e) => {
-  //     if (status !== "playing") return;
-
-  //     if (e.key === "Backspace") {
-  //       handleBackspace();
-  //     } else if (e.key === "Enter") {
-  //       submitGuess();
-  //     } else if (/^[a-zA-Z]$/.test(e.key)) {
-  //       handleLetter(e.key.toUpperCase());
-  //     }
-  //   };
-
-  //   window.addEventListener("keydown", handleKeyDown);
-  //   return () => window.removeEventListener("keydown", handleKeyDown);
-  // }, [currentRow, currentCol, grid, status]);
-
-  // Keyboard handling
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (status !== "playing") return;
@@ -96,7 +78,6 @@ const WordGame = () => {
   }, [currentRow, currentCol, grid, status]);
 
   const handleLetter = (letter) => {
-    console.log("LETTER HANDLER CALLED:", letter);
     if (currentCol >= WORD_LENGTH) return;
 
     const newGrid = grid.map((row) => [...row]);
@@ -179,14 +160,13 @@ const WordGame = () => {
   return (
     <>
       <div className="flex flex-col">
-        <div className="text-center text-3xl font-semibold text-green-900 dark:text-green-600 my-4">
+        <div className="text-center text-xl lg:text-3xl font-semibold text-green-900 dark:text-green-600 my-2">
           {t("gameHead")}
-          <p className="text-red-900 dark:text-red-500 text-2xl">
+          <p className="text-red-900 dark:text-red-500 text-xl lg:text-2xl">
             {t("gameAttempts")}
           </p>
-          <p className="my-4 text-black dark:text-gray-400 text-xl flex justify-center items-center ml-2">
+          <p className="my-2 text-black dark:text-gray-400 text-xl flex justify-center items-center ml-2">
             {t("ifGray")}
-
             <span
               className="ml-1 text-white p-1 bg-black/50 dark:bg-gray-600 border 
               border-black w-10 h-10 flex items-center justify-center font-bold text-2xl mr-2"
@@ -194,9 +174,8 @@ const WordGame = () => {
               N
             </span>
           </p>
-          <p className="dark:text-gray-400 text-black text-xl flex justify-center items-center my-4 ml-2">
+          <p className="dark:text-gray-400 text-black text-xl flex justify-center items-center my-2 ml-2">
             {t("ifBlack")}
-
             <span
               className="ml-1 text-white p-1 bg-black border border-black w-10 h-10 flex items-center 
             justify-center font-bold text-2xl mr-2"
