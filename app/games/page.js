@@ -53,9 +53,31 @@ const WordGame = () => {
   }, []);
 
   // Keyboard handling
+  // useEffect(() => {
+  //   const handleKeyDown = (e) => {
+  //     if (status !== "playing") return;
+
+  //     if (e.key === "Backspace") {
+  //       handleBackspace();
+  //     } else if (e.key === "Enter") {
+  //       submitGuess();
+  //     } else if (/^[a-zA-Z]$/.test(e.key)) {
+  //       handleLetter(e.key.toUpperCase());
+  //     }
+  //   };
+
+  //   window.addEventListener("keydown", handleKeyDown);
+  //   return () => window.removeEventListener("keydown", handleKeyDown);
+  // }, [currentRow, currentCol, grid, status]);
+
+  // Keyboard handling
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (status !== "playing") return;
+
+      // Ignore events originating from the hidden mobile input.
+      // Its own input handler will process them.
+      if (e.target === inputRef.current) return;
 
       if (e.key === "Backspace") {
         handleBackspace();
@@ -67,10 +89,14 @@ const WordGame = () => {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [currentRow, currentCol, grid, status]);
 
   const handleLetter = (letter) => {
+    console.log("LETTER HANDLER CALLED:", letter);
     if (currentCol >= WORD_LENGTH) return;
 
     const newGrid = grid.map((row) => [...row]);
