@@ -186,7 +186,7 @@ const WordGame = () => {
         </div>
         <div
           className="dark:bg-[rgb(50,50,50)] border dark:border-[rgb(100,100,100)] lg:mx-10 xl:mx-12
-          md:mx-8 mx-2 border-black h-[80vh] rounded-xl p-4 bg-gray-100"
+          md:mx-8 mx-2 border-black min-h-[80vh] h-auto rounded-xl p-4 bg-gray-100"
         >
           <div className="max-w-xl mx-auto p-6 text-center">
             <p className="text-2xl font-semibold">
@@ -246,7 +246,7 @@ const WordGame = () => {
 
             {status === "win" && (
               <div className="mt-5">
-                <p className="text-xl text-green-800 dark:text-green-600">
+                <p className="text-lg md:text-xl text-green-800 dark:text-green-600">
                   <b>Yayy!! Correct!! 当たりました</b>
                 </p>
                 <button
@@ -261,7 +261,7 @@ const WordGame = () => {
 
             {status === "lose" && (
               <div className="mt-5">
-                <p className="text-xl text-red-600 dark:text-red-400">
+                <p className="text-lg md:text-xl text-red-600 dark:text-red-400">
                   {t("correctWord")} <b>{solution}</b>
                 </p>
                 <button
